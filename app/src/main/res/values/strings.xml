@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">物管家</string>
+
+
+    <!--login or register-->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tv_login">管家登录</string>
+    <string name="tv_login_guide">物管家欢迎您！</string>
+    <string name="tv_keep_password">记住密码</string>
+    <string name="tv_forget_password">忘记密码</string>
+    <string name="btn_login">登录</string>
+    <string name="tv_register_new">新用户注册</string>
+    <string name="hint_phone_number">请输入手机号</string>
+    <string name="hint_password">请输入6&#8211;12位密码</string>
+    <string name="tv_resetting_password">重置密码</string>
+    
+    
+    
+    <string name="tv_message">消息</string>
+    <string name="tv_my">我的</string>
+    <string name="tv_apply">应用</string>
+    <string name="tv_contact">通讯录</string>
+    <string name="tv_home">首页</string>
+    
+    <!--home_pager-->
+    <string name="tv_title">苏宁天宇</string>
+    <string name="tv_search">搜索</string>
+    <string name="tv_news">这个是新闻的标题</string>
+    <string name="tv_test_content">测公告内容</string>
+    <string name="tv_notice">公告</string>
+    <string name="item_tv">巡检</string>
+    <string name="work_attendance">考勤</string>
+    <string name="work_attendance_statistics">考勤统计</string>
+    <string name="routing_inspection">巡检</string>
+    <string name="routing_inspection_statistics">巡检统计</string>
+    <string name="project_setting">项目设置</string>
+    <string name="train">培训</string>
+    <string name="work_show">工作秀</string>
+    <string name="report_job">报岗</string>
+    <string name="report_job_statistics">报岗统计</string>
+    <string name="personable_photo">随手拍</string>
+    <string name="train_statistics">培训统计</string>
+    <string name="form_upload">表单上传</string>
+    <string name="guest_pass">访客通行</string>
+    <string name="meting">会议</string>
+
+    
+
+</resources>

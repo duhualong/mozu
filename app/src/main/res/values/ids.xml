@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--login or register-->
+    <item name="progress_bar" type="id"/>
+    <item name="splash_image" type="id"/>
+    <item name="fragment_login_container" type="id"/>
+    <item name="img_phone" type="id"/>
+    <item name="login_edit_input_phone" type="id"/>
+    <item name="root_view" type="id"/>
+    <item name="img_password" type="id"/>
+    <item name="login_edit_input_password" type="id"/>
+    <item name="checkbox_password_show_state" type="id"/>
+    <item name="checkbox_password_remember" type="id"/>
+    <item name="tv_forget_password" type="id"/>
+    <item name="btn_login" type="id"/>
+    <item name="btn_register" type="id"/>
+    <item name="img_back" type="id"/>
+
+
+    <!--main-->
+    <item name="main_container" type="id"/>
+    <item name="ll_home_pager" type="id"/>
+    <item name="tv_home_pager" type="id"/>
+    <item name="ll_contact_pager" type="id"/>
+    <item name="tv_contact_pager" type="id"/>
+    <item name="ll_apply_pager" type="id"/>
+    <item name="tv_apply_pager" type="id"/>
+    <item name="ll_mine_pager" type="id"/>
+    <item name="tv_mine_pager" type="id"/>
+    <item name="ll_message_pager" type="id"/>
+    <item name="tv_message_pager" type="id"/>
+    <item name="toolbar" type="id"/>
+    <item name="page_title" type="id"/>
+    <item name="img_message" type="id"/>
+    <item name="img_scan" type="id"/>
+    <item name="tv_search" type="id"/>
+    <item name="banner" type="id"/>
+    <item name="gradView" type="id"/>
+    <item name="tv_message" type="id"/>
+    <item name="tv_information" type="id"/>
+    <item name="banner_top" type="id"/>
+    <item name="banner_bottom" type="id"/>
+    <item name="views" type="id"/>
+    <item name="item_grid_img" type="id"/>
+    <item name="item_grid_tv" type="id"/>
+    <item name="item_contacts" type="id"/>
+    <item name="tv_surname" type="id"/>
+    <item name="tv_name" type="id"/>
+    <item name="tv_index" type="id"/>
+    <item name="rv_contacts" type="id"/>
+    <item name="side_bar" type="id"/>
+</resources>
