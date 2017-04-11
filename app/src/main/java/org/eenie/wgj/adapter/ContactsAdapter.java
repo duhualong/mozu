@@ -26,6 +26,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public ContactsAdapter(List<Contacts> contacts, int layoutId) {
         this.contacts = contacts;
         this.layoutId = layoutId;
+
     }
 
     @Override
