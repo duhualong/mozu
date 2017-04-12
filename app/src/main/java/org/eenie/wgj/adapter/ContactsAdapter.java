@@ -39,13 +39,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     @Override
     public void onBindViewHolder(ContactsViewHolder holder, int position) {
         Contacts contact = contacts.get(position);
-        if (position == 0 || contacts.get(position-1).getId()!=(contact.getId())) {
+        if (position == 0 || !contacts.get(position-1).getFirstAlphabet().equals(contact.getFirstAlphabet())) {
             holder.tvIndex.setVisibility(View.VISIBLE);
-           // holder.tvIndex.setText(contact.getIndex());
+            holder.tvIndex.setText(contact.getFirstAlphabet());
         } else {
             holder.tvIndex.setVisibility(View.GONE);
         }
-       // holder.tvName.setText(contact.getName());
+        holder.name.setText(contact.getName());
+        holder.surname.setText(contact.getName().substring(0,1));
     }
 
     @Override
@@ -58,7 +59,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         private RelativeLayout contacts;
         private TextView surname;
         private TextView name;
-
 
         public ContactsViewHolder(View itemView) {
             super(itemView);

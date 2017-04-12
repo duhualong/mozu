@@ -6,23 +6,24 @@
 android:background="@color/white_light">
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="match_parent">
-        <LinearLayout android:layout_width="match_parent"
+        <RelativeLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <android.support.v7.widget.RecyclerView
-        android:id="@id/rv_contacts"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+       >
 
-    <com.gjiazhe.wavesidebar.WaveSideBar
-        android:id="@id/side_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
-        app:sidebar_position="right"
-        app:sidebar_text_color="#8D6E63"/>
-        </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.gjiazhe.wavesidebar.WaveSideBar
+                android:id="@+id/side_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                app:sidebar_text_color="#8D6E63"/>
+        </RelativeLayout>
     </ScrollView>
 
 </LinearLayout>

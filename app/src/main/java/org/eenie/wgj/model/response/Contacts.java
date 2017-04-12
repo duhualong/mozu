@@ -1,5 +1,7 @@
 package org.eenie.wgj.model.response;
 
+import org.eenie.wgj.util.PinYin4jUtil;
+
 /**
  * Created by Eenie on 2017/4/11 at 14:15
  * Des:
@@ -14,12 +16,14 @@ public class Contacts {
      * id_card_head_image : /images/user/20170320/20170320154553YC996510108.jpg
      * duties : 项目经理
      */
-
+    private String firstAlphabet;
     private int id;
     private String name;
     private String phone;
     private String id_card_head_image;
     private String duties;
+
+
 
     public int getId() {
         return id;
@@ -35,6 +39,7 @@ public class Contacts {
 
     public void setName(String name) {
         this.name = name;
+        firstAlphabet = PinYin4jUtil.getFirstAlphabet(name);
     }
 
     public String getPhone() {
@@ -60,4 +65,13 @@ public class Contacts {
     public void setDuties(String duties) {
         this.duties = duties;
     }
+
+    public String getFirstAlphabet() {
+        return firstAlphabet;
+    }
+
+    public void setFirstAlphabet(String firstAlphabet) {
+        this.firstAlphabet = firstAlphabet;
+    }
+
 }
