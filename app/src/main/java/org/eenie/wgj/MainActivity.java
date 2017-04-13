@@ -4,26 +4,34 @@ package org.eenie.wgj;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.model.ApiRes;
+import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.ui.fragment.ApplyPagerFragment;
-import org.eenie.wgj.ui.fragment.ContactsPagerFragment;
+import org.eenie.wgj.ui.fragment.FragmentTest;
 import org.eenie.wgj.ui.fragment.HomePagerFragment;
 import org.eenie.wgj.ui.fragment.MessagePagerFragment;
 import org.eenie.wgj.ui.fragment.PersonalCenterFragment;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
     private static final String[] titles = {"苏宁天御", "通讯录", "消息中心", "应用", "我的"};
     private static final int NAVIGATOR_COUNT = 5;
+    private static final String TAG ="MainActivity" ;
     int[] navigatorMipmapNormal = {R.mipmap.ic_home_bottom_tab_main,
             R.mipmap.ic_home_bottom_tab_contact, R.mipmap.ic_home_bottom_tab_unselected_msg,
             R.mipmap.ic_home_bottom_tab_app, R.mipmap.ic_home_bottom_tab_me};
@@ -65,7 +73,7 @@ public class MainActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_container, new HomePagerFragment()).commit();
 
-
+        initDatas();
     }
 
 
@@ -124,7 +132,7 @@ public class MainActivity extends BaseActivity {
                 fragment = new HomePagerFragment();
                 break;
             case 1:
-                fragment = new ContactsPagerFragment();
+                fragment = new FragmentTest();
 
                 break;
             case 2:
@@ -176,4 +184,33 @@ public class MainActivity extends BaseActivity {
         setCurrentPager(pageIndex);
         setCurrentNavigator(pageIndex);
     }
+
+    private void initDatas() {
+        mSubscription = mRemoteService.getContacts().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ApiRes<List<Contacts>>>() {
+                    @Override
+                    public void onSuccess(ApiRes<List<Contacts>> value) {
+                        Log.d(TAG, "onSuccess: " + value.getResultCode());
+                        System.out.println("打印：" + value.getResultCode());
+                        List<Contacts> datas = value.getResultMessage();
+                        System.out.println("打印gson数据："+datas);
+
+                        for (Contacts contacts:datas){
+                            System.out.println("contacts数据："+contacts);
+                        }
+                        Collections.sort(datas);
+                        // SortAdapter adapter = new SortAdapter(datas, context);
+                        // listView.setAdapter(adapter);
+
+
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+
+                    }
+                });
+    }
+
 }

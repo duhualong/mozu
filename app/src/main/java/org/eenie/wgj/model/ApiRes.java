@@ -1,12 +1,12 @@
-package org.eenie.wgj.model.requset;
+package org.eenie.wgj.model;
 
 /**
- * Created by Eenie on 2017/4/11 at 14:15
+ * Created by Eenie on 2017/4/13 at 12:53
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class ContactsData<T> {
+public class ApiRes<T> {
     private int resultCode;
     private T resultMessage;
 

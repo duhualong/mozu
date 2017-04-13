@@ -68,11 +68,11 @@ public class LoginFragment extends BaseFragment {
 
         }
 
-        if (mPrefsHelper.getPrefs().getBoolean(Constants.IS_LOGIN, false)) {
-            //自动登录（已保存账号密码）
-            startActivity(new Intent(context, MainActivity.class));
-            getActivity().finish();
-        }
+//        if (mPrefsHelper.getPrefs().getBoolean(Constants.IS_LOGIN, false)) {
+//            //自动登录（已保存账号密码）
+//            startActivity(new Intent(context, MainActivity.class));
+//            getActivity().finish();
+//        }
 
 
     }
@@ -202,6 +202,7 @@ public class LoginFragment extends BaseFragment {
                     public void onSuccess(ApiResponse<Login> data) {
                         if (data.getResultCode() == 0&&data.getData()!= null) {
                             Login login = data.getData();
+                            System.out.println("打印：login"+login);
 //                            mUserDao.initUserData(login);
                             Realm mRealm=Realm.getDefaultInstance();
                             mRealm.executeTransaction(realm -> realm.copyToRealm(login));

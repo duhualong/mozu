@@ -2,7 +2,6 @@ package org.eenie.wgj.data.remote;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
-import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.RxUtils;
 
 import java.io.IOException;
@@ -68,7 +67,7 @@ import rx.Single;
       }
     })).compose(RxUtils.applySchedulers());
   }
-  public Single<Response> getDatas(String url) {
+  public Single<Response> getDatas(String url,String token) {
     return Single.create((Single.OnSubscribe<Response>) subscriber -> getDatas(url, new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
@@ -78,6 +77,6 @@ import rx.Single;
       public void onResponse(Call call, Response response) throws IOException {
         subscriber.onSuccess(response);
       }
-    }, Constant.TOKEN)).compose(RxUtils.applySchedulers());
+    },token )).compose(RxUtils.applySchedulers());
   }
 }
