@@ -3,7 +3,6 @@ package org.eenie.wgj.ui.fragment;
 
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,19 +15,17 @@ import org.eenie.wgj.ui.news.Cheeses;
 import org.eenie.wgj.ui.news.FancyIndexer;
 import org.eenie.wgj.ui.news.GoodMan;
 import org.eenie.wgj.ui.news.MyAdapter;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static android.content.ContentValues.TAG;
 import static org.eenie.wgj.R.id.lv_content;
 import static org.eenie.wgj.R.id.tv_index_center;
 
@@ -39,11 +36,16 @@ import static org.eenie.wgj.R.id.tv_index_center;
  */
 
 public class FragmentTest extends BaseSupportFragment {
-     ArrayList<GoodMan> persons = new ArrayList<>();
+    ArrayList<GoodMan> persons = new ArrayList<>();
     private Handler mHandler = new Handler();
-    @BindView(R.id.bar)FancyIndexer mFancyIndexer;
-    @BindView(tv_index_center)TextView mTextView;
-    @BindView(lv_content)ListView mListView;
+    @BindView(R.id.bar)
+    FancyIndexer mFancyIndexer;
+    @BindView(tv_index_center)
+    TextView mTextView;
+    @BindView(lv_content)
+    ListView mListView;
+    public List<Contacts> mContacts;
+    public String[] mSData;
 
 
     @Override
@@ -54,8 +56,9 @@ public class FragmentTest extends BaseSupportFragment {
     @Override
     protected void updateUI() {
         // 填充数据, 并排序
-       // fillAndSortData(persons);
-        initDatas(persons);
+        initData();
+        fillAndSortData(persons, mSData);
+        //initDatas();
         initUi();
 
     }
@@ -74,7 +77,7 @@ public class FragmentTest extends BaseSupportFragment {
             for (int i = 0; i < persons.size(); i++) {
                 GoodMan goodMan = persons.get(i);
                 String s = goodMan.getPinyin().charAt(0) + "";
-                if(TextUtils.equals(s, letter)){
+                if (TextUtils.equals(s, letter)) {
                     // 匹配成功, 中断循环, 跳转到i位置
                     mListView.setSelection(i);
                     break;
@@ -86,6 +89,7 @@ public class FragmentTest extends BaseSupportFragment {
 
     /**
      * 显示字母提示
+     *
      * @param letter
      */
     protected void showLetter(String letter) {
@@ -105,11 +109,12 @@ public class FragmentTest extends BaseSupportFragment {
     }
 
 
+    private void fillAndSortData(ArrayList<GoodMan> persons, String[] str) {
 
-    private void fillAndSortData(ArrayList<GoodMan> persons) {
-        String[] datas = null;
+
+        String[] datas;
         boolean china = getResources().getConfiguration().locale.getCountry().equals("CN");
-        datas = china ? Cheeses.NAMES : Cheeses.sCheeseStrings;
+        datas = china ? Cheeses.NAMES: Cheeses.sCheeseStrings;
         for (int i = 0; i < datas.length; i++) {
             persons.add(new GoodMan(datas[i]));
         }
@@ -117,36 +122,32 @@ public class FragmentTest extends BaseSupportFragment {
         Collections.sort(persons);
     }
 
-    private void initDatas(ArrayList<GoodMan> persons) {
+    private void initData() {
         mSubscription = mRemoteService.getContacts().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ApiRes<List<Contacts>>>() {
+
+
+
                     @Override
                     public void onSuccess(ApiRes<List<Contacts>> value) {
-                        JSONObject jsonObject=new JSONObject((Map) value.getResultMessage());
-                        String name=jsonObject.optString("name");
-                        System.out.println("name:"+name);
-                        Log.d(TAG, "onSuccess: " + value.getResultCode());
-                        System.out.println("打印：" + value.getResultCode());
-                        if (value.getResultCode()==0) {
-                            List<Contacts> datas = value.getResultMessage();
-                            String[] dataes = null;
-                            String[] mString = new String[datas.size() - 1];
-                            for (int i = 0; i < datas.size(); i++) {
-                                mString[i] = datas.get(i).getName();
-                                System.out.println("mString:" + mString);
 
-                            }
-                            boolean china = getResources().getConfiguration().locale.getCountry().equals("CN");
-                            dataes = china ? mString : Cheeses.sCheeseStrings;
-                            for (int i = 0; i < dataes.length; i++) {
-                                persons.add(new GoodMan(dataes[i]));
-                            }
+                        System.out.println("打印code：" + value.getResultCode());
+                        mContacts = value.getResultMessage();
+                        System.out.println("打印ListSize:" + mContacts.size());
+                        mSData = new String[mContacts.size()];
 
-                            Collections.sort(persons);
-                            // SortAdapter adapter = new SortAdapter(datas, context);
-                            // listView.setAdapter(adapter);
+                        for (int i = 0; i < mSData.length; i++) {
+                            String str = mContacts.get(i).getName();
+                            mSData[i] = str;
+                            System.out.println("str:" + str);
+                            System.out.println("str[i]:" + mSData[i]);
+
                         }
+
+
+                        System.out.println("str[]:" + Arrays.toString(mSData));
+
 
                     }
 

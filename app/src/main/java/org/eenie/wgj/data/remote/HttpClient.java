@@ -42,6 +42,7 @@ import rx.Single;
       client.newCall(request).enqueue(callback);
     }
   }
+
   public void getDatas(String url, Callback callback,String token) {
 
     Request request = new Request.Builder()

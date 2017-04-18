@@ -4,29 +4,22 @@ package org.eenie.wgj;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.eenie.wgj.base.BaseActivity;
-import org.eenie.wgj.model.ApiRes;
-import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.ui.fragment.ApplyPagerFragment;
 import org.eenie.wgj.ui.fragment.FragmentTest;
 import org.eenie.wgj.ui.fragment.HomePagerFragment;
 import org.eenie.wgj.ui.fragment.MessagePagerFragment;
 import org.eenie.wgj.ui.fragment.PersonalCenterFragment;
 
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
-import rx.SingleSubscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
     private static final String[] titles = {"苏宁天御", "通讯录", "消息中心", "应用", "我的"};
@@ -73,7 +66,7 @@ public class MainActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_container, new HomePagerFragment()).commit();
 
-        initDatas();
+
     }
 
 
@@ -185,32 +178,6 @@ public class MainActivity extends BaseActivity {
         setCurrentNavigator(pageIndex);
     }
 
-    private void initDatas() {
-        mSubscription = mRemoteService.getContacts().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiRes<List<Contacts>>>() {
-                    @Override
-                    public void onSuccess(ApiRes<List<Contacts>> value) {
-                        Log.d(TAG, "onSuccess: " + value.getResultCode());
-                        System.out.println("打印：" + value.getResultCode());
-                        List<Contacts> datas = value.getResultMessage();
-                        System.out.println("打印gson数据："+datas);
 
-                        for (Contacts contacts:datas){
-                            System.out.println("contacts数据："+contacts);
-                        }
-                        Collections.sort(datas);
-                        // SortAdapter adapter = new SortAdapter(datas, context);
-                        // listView.setAdapter(adapter);
-
-
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-
-                    }
-                });
-    }
 
 }

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@id/personal_sdv_avatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="@dimen/space.medium"
+        android:src="@mipmap/handover_edit_bg"
+    />
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="10dp"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@mipmap/ic_property_name"
+                  android:drawablePadding="3dp"
+                  android:drawableStart="@mipmap/ic_property_name"
+                  android:gravity="center"
+                  android:text="姓名"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textColor="@color/titleColor"
+        />
+        <TextView
+            android:id="@id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="测试"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginStart="10dp"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@mipmap/ic_xingbie"
+                  android:drawablePadding="3dp"
+                  android:drawableStart="@mipmap/ic_xingbie"
+                  android:gravity="center"
+                  android:text="性别"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textColor="@color/titleColor"
+        />
+        <TextView
+            android:id="@id/tv_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="女"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginTop="10dp"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@mipmap/ic_qizhi"
+                  android:drawablePadding="3dp"
+                  android:drawableStart="@mipmap/ic_qizhi"
+                  android:gravity="center"
+                  android:text="民族"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textColor="@color/titleColor"
+        />
+        <TextView
+            android:id="@id/tv_nation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="汉"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginTop="10dp"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@mipmap/ic_riqi"
+                  android:drawablePadding="3dp"
+                  android:drawableStart="@mipmap/ic_riqi"
+                  android:gravity="center"
+                  android:text="出生"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textColor="@color/titleColor"
+        />
+        <TextView
+            android:id="@id/tv_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="1993-03-01"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+    >
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/ic_dizhi"
+            android:drawablePadding="3dp"
+            android:drawableStart="@mipmap/ic_dizhi"
+            android:gravity="center"
+            android:text="住址"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/titleColor"
+        />
+        <TextView
+            android:id="@id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/address"
+            android:layout_toRightOf="@+id/address"
+            android:text="上海市浦东新区浦东国际机场"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginTop="10dp"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@mipmap/ic_idcard"
+                  android:drawablePadding="3dp"
+                  android:drawableStart="@mipmap/ic_idcard"
+                  android:gravity="center"
+                  android:text="公民身份证号码"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textColor="@color/titleColor"
+        />
+        <TextView
+            android:id="@id/tv_identity_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="412721195203053010"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginTop="10dp"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@mipmap/ic_jiguanshiyedanwei"
+                  android:drawablePadding="3dp"
+                  android:drawableStart="@mipmap/ic_jiguanshiyedanwei"
+                  android:gravity="center"
+                  android:text="签证机关"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textColor="@color/titleColor"
+        />
+        <TextView
+            android:id="@id/tv_sign_office"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="浦东公安局"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginTop="10dp"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@mipmap/ic_jiguanshiyedanwei"
+                  android:drawablePadding="3dp"
+                  android:drawableStart="@mipmap/ic_jiguanshiyedanwei"
+                  android:gravity="center"
+                  android:text="有效期限"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textColor="@color/titleColor"
+        />
+        <TextView
+            android:id="@id/tv_date_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="2014.08.02—2024.08.02"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/height_btn_nor"
+                  android:layout_margin="10dp">
+        <Button android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@id/btn_cancel"
+                android:background="@mipmap/bg_submit_button"
+                android:text="取消"/>
+        <Button
+            android:id="@id/btn_next"
+            android:layout_width="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@mipmap/bg_submit_button"
+            android:text="下一步"/>
+
+    </LinearLayout>
+</LinearLayout>

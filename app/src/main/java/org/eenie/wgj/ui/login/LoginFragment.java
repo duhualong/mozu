@@ -94,6 +94,11 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.btn_register:
 
+                fragmentMgr.beginTransaction()
+                        .addToBackStack(TAG)
+                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
+                        .commit();
+
 
 
                 break;
@@ -200,7 +205,7 @@ public class LoginFragment extends BaseFragment {
                 .subscribe(new SingleSubscriber<ApiResponse<Login>>() {
                     @Override
                     public void onSuccess(ApiResponse<Login> data) {
-                        if (data.getResultCode() == 0&&data.getData()!= null) {
+                        if (data.getResultCode() ==200&&data.getData()!= null) {
                             Login login = data.getData();
                             System.out.println("打印：login"+login);
 //                            mUserDao.initUserData(login);

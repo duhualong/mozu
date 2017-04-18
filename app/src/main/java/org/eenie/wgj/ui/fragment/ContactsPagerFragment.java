@@ -2,7 +2,6 @@ package org.eenie.wgj.ui.fragment;
 
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -11,23 +10,16 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
 import org.eenie.wgj.data.remote.HttpClient;
 import org.eenie.wgj.data.remote.RemoteService;
-import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiUrl;
 import org.eenie.wgj.model.requset.ContactsData;
 import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.util.Constants;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import rx.Single;
-import rx.SingleSubscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Eenie on 2017/4/10 at 11:14
@@ -55,44 +47,18 @@ public class ContactsPagerFragment extends BaseSupportFragment {
 
 
         // initData();
-        initDatas();
+       // initDatas();
 
 
     }
 
-    private void initDatas() {
-        mSubscription = mRemoteService.getContacts().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiRes<List<Contacts>>>() {
-                    @Override
-                    public void onSuccess(ApiRes<List<Contacts>> value) {
-                        Log.d(TAG, "onSuccess: " + value.getResultCode());
-                        System.out.println("打印：" + value.getResultCode());
-                        List<Contacts> datas = value.getResultMessage();
-
-                        datas.remove(0);
-                        for (Contacts contacts:datas){
-                            System.out.println("contacts数据："+contacts);
-                        }
-                      Collections.sort(datas);
-                       // SortAdapter adapter = new SortAdapter(datas, context);
-                       // listView.setAdapter(adapter);
-
-
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-
-                    }
-                });
-    }
 
     //初始化数据
     private void initData() {
         String tokenUrl = RemoteService.DOMAIN + ApiUrl.CONTACTS_LIST;
         HttpClient client = new HttpClient();
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+
         if (!TextUtils.isEmpty(token)) {
 
             client.getDatas(tokenUrl, token).flatMap(response -> {

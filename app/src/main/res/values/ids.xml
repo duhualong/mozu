@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--login or register-->
+    <!--login -->
     <item name="progress_bar" type="id"/>
     <item name="splash_image" type="id"/>
     <item name="fragment_login_container" type="id"/>
@@ -50,4 +50,44 @@
     <item name="tv_index" type="id"/>
     <item name="rv_contacts" type="id"/>
     <item name="side_bar" type="id"/>
+    <item name="security_register_button" type="id"/>
+    <item name="property_register_button" type="id"/>
+    <item name="user_register_tab_bar_container" type="id"/>
+    <item name="register_fetch_code_button" type="id"/>
+    <item name="register_code_edit_text" type="id"/>
+    <item name="login_edit_input_password_twice" type="id"/>
+    <item name="checkbox_password_show_state_twice" type="id"/>
+    <item name="checkbox_register" type="id"/>
+    <item name="register_submit_button" type="id"/>
+    <item name="improve_info_submit_button" type="id"/>
+    <item name="take_photo_of_id_card_negative_button" type="id"/>
+    <item name="take_photo_of_id_card_positive_button" type="id"/>
+    <item name="id_card_negative_image_view" type="id"/>
+    <item name="id_card_positive_image_view" type="id"/>
+    <!--register-->
+    <item name="img_positive" type="id"/>
+    <item name="btn_positive" type="id"/>
+    <item name="img_negative" type="id"/>
+    <item name="btn_negative" type="id"/>
+    <item name="btn_submitbtn" type="id"/>
+    <item name="personal_sdv_avatar" type="id"/>
+    <item name="tv_sex" type="id"/>
+    <item name="tv_nation" type="id"/>
+    <item name="tv_identity_card" type="id"/>
+    <item name="tv_address" type="id"/>
+    <item name="tv_sign_office" type="id"/>
+    <item name="tv_date_deadline" type="id"/>
+    <item name="btn_cancel" type="id"/>
+    <item name="btn_next" type="id"/>
+    <item name="tv_birthday" type="id"/>
+    <item name="tv_height" type="id"/>
+    <item name="tv_qualifications" type="id"/>
+    <item name="img" type="id"/>
+    <item name="tv_marry_state" type="id"/>
+    <item name="tv_contacts" type="id"/>
+    <item name="tv_work_name" type="id"/>
+    <item name="tv_industry" type="id"/>
+    <item name="tv_skill" type="id"/>
+    <item name="tv_employment" type="id"/>
+    <item name="btn_apply" type="id"/>
 </resources>
