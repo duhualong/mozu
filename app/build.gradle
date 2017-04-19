@@ -64,7 +64,6 @@ dependencies {
     compile 'com.google.zxing:core:3.2.1'
     compile 'com.yalantis:ucrop:2.0.0@aar'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-
-
+ 
 
 }

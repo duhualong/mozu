@@ -90,4 +90,15 @@
     <item name="tv_skill" type="id"/>
     <item name="tv_employment" type="id"/>
     <item name="btn_apply" type="id"/>
+    <item name="edit_height" type="id"/>
+    <item name="tv_primary" type="id"/>
+    <item name="tv_middle" type="id"/>
+    <item name="tv_university" type="id"/>
+    <item name="tv_junior_college" type="id"/>
+    <item name="tv_graduate" type="id"/>
+    <item name="tv_doctor" type="id"/>
+    <item name="tv_height_school" type="id"/>
+    <item name="tv_single" type="id"/>
+    <item name="tv_married" type="id"/>
+    <item name="edit_address" type="id"/>
 </resources>

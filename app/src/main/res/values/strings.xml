@@ -61,7 +61,7 @@
     <string name="tv_height">身高</string>
     <string name="tv_qualifications">学历</string>
     <string name="tv_empty">未填写</string>
-    <string name="tv_marry_state">婚姻状态</string>
+    <string name="tv_marry_state">婚姻状况</string>
     <string name="height_value">175cm</string>
     <string name="address_now">现居住地址</string>
     <string name="contacts_tv">紧急联系人</string>
@@ -70,6 +70,19 @@
     <string name="tv_skill">技能</string>
     <string name="tv_employment">应聘渠道</string>
     <string name="tv_commite">提交</string>
+    <string name="hint_height">请输入你的身高 例如175cm</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_ok">确定</string>
+    <string name="primary">小学</string>
+    <string name="middle">中学</string>
+    <string name="tv_height_school">高中</string>
+    <string name="university">本科</string>
+    <string name="junior_college">专科</string>
+    <string name="graduate">研究生</string>
+    <string name="doctor">博士</string>
+    <string name="married">已婚</string>
+    <string name="single">未婚</string>
+    <string name="hint_address">请输入您的现居住地址</string>
 
 
 </resources>

@@ -195,6 +195,7 @@ public class RegisterFirstFragment extends BaseFragment {
                             TimeDown();
                             mPrefsHelper.getPrefs().edit().
                                     putString(Constants.TOKEN, value.getData().getToken()).apply();
+
                         }else {
                             Snackbar.make(rootView,"获取验证码失败,请检查手机状态！",Snackbar.LENGTH_LONG).show();
                         }

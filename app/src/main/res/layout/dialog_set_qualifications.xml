@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/tv_qualifications"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                  android:textColor="@color/white"
+        />
+
+
+    </RelativeLayout>
+    <ScrollView android:layout_width="match_parent" android:layout_height="150dp">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    <TextView
+        android:id="@id/tv_primary"
+        android:layout_width="match_parent"
+              android:layout_height="48dp"
+              android:textColor="@color/gray"
+              android:text="@string/primary"
+              android:gravity="center"
+              android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    />
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+    android:background="@color/white_light"/>
+    <TextView
+        android:id="@id/tv_middle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@color/gray"
+        android:text="@string/middle"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    />
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView
+        android:id="@id/tv_height_school"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@color/gray"
+        android:text="@string/tv_height_school"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    />
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView
+        android:id="@id/tv_junior_college"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@color/gray"
+        android:text="@string/junior_college"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    />
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView
+        android:id="@id/tv_university"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@color/gray"
+        android:text="@string/university"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    />
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView
+        android:id="@id/tv_graduate"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@color/gray"
+        android:text="@string/graduate"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    />
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView
+        android:id="@id/tv_doctor"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@color/gray"
+        android:text="@string/doctor"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    />
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/height_btn_nor"
+                  android:layout_margin="18dp">
+        <Button android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@id/btn_cancel"
+                android:background="@mipmap/bg_submit_button"
+                android:text="@string/btn_cancel"/>
+        <Button
+            android:id="@id/btn_next"
+            android:layout_width="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@mipmap/bg_submit_button"
+            android:text="@string/btn_ok"/>
+
+    </LinearLayout>
+</LinearLayout>

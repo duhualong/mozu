@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
@@ -33,8 +34,9 @@ import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.EmergencyContactMod;
+import org.eenie.wgj.model.requset.Muser;
 import org.eenie.wgj.model.response.Infomation;
-import org.eenie.wgj.model.response.Token;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.PermissionManager;
@@ -70,7 +72,7 @@ import static android.content.ContentValues.TAG;
  * Des:
  */
 
-public class RegisterSecondFragment extends BaseFragment  {
+public class RegisterSecondFragment extends BaseFragment {
 
     private static final String PHONE = "phone";
     private static final String PWD = "pwd";
@@ -105,8 +107,7 @@ public class RegisterSecondFragment extends BaseFragment  {
         System.out.println("base64:" + base64);
 
         try {
-            File file= base64ToFile(base64);
-            getData(file, file,file);
+            File file = base64ToFile(base64);
 
 
         } catch (IOException e) {
@@ -164,10 +165,10 @@ public class RegisterSecondFragment extends BaseFragment  {
 
         }
     }
-//dialog弹窗
+
+    //dialog弹窗
     private void showDialog() {
         View view = View.inflate(context, R.layout.dialog_personal_identity_infomation, null);
-
 
 
         CircleImageView avatar = (CircleImageView) view.findViewById(R.id.personal_sdv_avatar);
@@ -184,7 +185,7 @@ public class RegisterSecondFragment extends BaseFragment  {
         String base64 = mPrefsHelper.getPrefs().getString(Constants.AVATAR, "");
         System.out.println("base64:" + base64);
         try {
-           File file= base64ToFile(base64);
+            File file = base64ToFile(base64);
 
             Glide.with(context)
                     .load(file)
@@ -201,8 +202,8 @@ public class RegisterSecondFragment extends BaseFragment  {
         mAddress.setText(getValues(Constants.ADDRESS));
         mIdentity.setText(getValues(Constants.CARD_IDENTITY));
         mSignOffice.setText(getValues(Constants.SIGN_OFFICE));
-        mDeadline.setText(getValues(Constants.START_DATE).replaceAll("-",":")+"—"+
-                getValues(Constants.END_DATE).replaceAll("-",":"));
+        mDeadline.setText(getValues(Constants.START_DATE).replaceAll("-", ":") + "—" +
+                getValues(Constants.END_DATE).replaceAll("-", ":"));
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
                 .setView(view) //自定义的布局文件
@@ -210,6 +211,7 @@ public class RegisterSecondFragment extends BaseFragment  {
         dialog.show();
 
         dialog.getWindow().findViewById(R.id.btn_next).setOnClickListener(v -> {
+            dialog.dismiss();
 
             fragmentMgr.beginTransaction()
                     .addToBackStack(TAG)
@@ -225,15 +227,11 @@ public class RegisterSecondFragment extends BaseFragment  {
         });
 
 
-
-
-
-
     }
 
-    public String getValues(String key){
+    public String getValues(String key) {
 
-        return mPrefsHelper.getPrefs().getString(key,"");
+        return mPrefsHelper.getPrefs().getString(key, "");
     }
 
     /**
@@ -364,9 +362,11 @@ public class RegisterSecondFragment extends BaseFragment  {
 
                     Snackbar.make(rootView, "身份证正面上传成功！", Snackbar.LENGTH_LONG).show();
                     File fileNew = new File(mImgUrls);
+
                     new Thread() {
                         public void run() {
-                            initData(fileNew, "2");
+                            getData(fileNew, fileNew, fileNew);
+                            // initData(fileNew, "2");
 
                         }
                     }.start();
@@ -577,6 +577,7 @@ public class RegisterSecondFragment extends BaseFragment  {
         Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
         return uri;
     }
+
     public Bitmap onDecodeClicked(String key) {
         byte[] decode = Base64.decode(key, Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(decode, 0, decode.length);
@@ -597,46 +598,66 @@ public class RegisterSecondFragment extends BaseFragment  {
         bufferedOutputStream.close();
         return image;
     }
-    private void getData(File file1,File file2,File file3) {
+
+    public void registerInformation(File file) {
+
+
+    }
+
+    public void getData(File file1, File file2, File file3) {
+        System.out.println("token" + mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://118.178.88.132:8000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        EmergencyContactMod mdata = new EmergencyContactMod();
+        mdata.setName("张三");
+        mdata.setPhone("18817772486");
+        mdata.setRelation("父亲");
+        Muser muser = new Muser();
+        muser.setEmergencyContact(mdata);
+        Gson gson = new Gson();
+
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("username", "1881772456")
+                .addFormDataPart("username", "18817772486")
                 .addFormDataPart("password", "123456")
-                .addFormDataPart("name", "杜华龙")
+                .addFormDataPart("name", "测试")
                 .addFormDataPart("gender", "男")
+                .addFormDataPart("people", "汉")
                 .addFormDataPart("birthday", "1992-03-05")
                 .addFormDataPart("address", "上海市浦东新区")
-                .addFormDataPart("number","411721199203053436")
-                .addFormDataPart("publisher","上海市公安局")
-                .addFormDataPart("validate","2013:02:20—2023:02:20")
-                .addFormDataPart("id_card_positive","b.jpg", RequestBody.create(MediaType.parse("image/jpg"), file1))
-                .addFormDataPart("id_card_negative","c.jpg", RequestBody.create(MediaType.parse("image/jpg"), file2))
-                .addFormDataPart("id_card_head_image","d.jpg", RequestBody.create(MediaType.parse("image/jpg"), file3))
-                .addFormDataPart("height","170cm")
-                .addFormDataPart("graduate","本科")
-                .addFormDataPart("telephone","18817772456")
-                .addFormDataPart("emergency_contact","sssssddd")
-                .addFormDataPart("industry","ssss")
-                .addFormDataPart("skill","ssss")
-                .addFormDataPart("channel","sss")
+                .addFormDataPart("number", "411721199203053436")
+                .addFormDataPart("publisher", "上海市公安局")
+                .addFormDataPart("validate", "2013:02:20—2023:02:20")
+                .addFormDataPart("id_card_positive", file1.getName(), RequestBody.create(MediaType.parse("image/jpg"), file1))
+                .addFormDataPart("id_card_negative", file2.getName(), RequestBody.create(MediaType.parse("image/jpg"), file2))
+                .addFormDataPart("id_card_head_image", file3.getName(), RequestBody.create(MediaType.parse("image/jpg"), file3))
+                .addFormDataPart("height", "170")
+                .addFormDataPart("graduate", "本科")
+                .addFormDataPart("telephone", "1")
+                .addFormDataPart("living_address", "上海市长宁区")
+                .addFormDataPart("emergency_contact", gson.toJson(mdata), RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), gson.toJson(mdata)))
+                .addFormDataPart("industry", "sss", RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), "sss"))
+                .addFormDataPart("skill", "ssss", RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),"sss"))
+                .addFormDataPart("channel", "sss")
                 .build();
-        Call<ApiResponse<Token>> call = userBiz.applyInformation(requestBody);
-        call.enqueue(new Callback<ApiResponse<Token>>() {
+        Call<ApiResponse> call = userBiz.applyInformation(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), requestBody);
+        call.enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse<Token>> call, Response<ApiResponse<Token>> response) {
-                System.out.println("code"+response.body().getResultCode());
-                if (response.body().getResultCode()==200){
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                System.out.println("code" + response.body().getResultCode()+response.body().getResultMessage());
+                if (response.body().getResultCode() == 200) {
                     System.out.println("测试注册:");
+                }else {
+                    Snackbar.make(rootView,response.body().getResultMessage(),Snackbar.LENGTH_LONG).show();
                 }
 
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<Token>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+
 
             }
         });

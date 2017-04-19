@@ -36,7 +36,7 @@
     >
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
@@ -62,8 +62,9 @@
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
-                android:text="@string/height_value"
-                android:textColor="@color/titleColor"/>
+                android:text="@string/tv_empty"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
         <View android:layout_width="match_parent"
@@ -71,7 +72,7 @@
               android:background="@color/gray_light"/>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
@@ -108,7 +109,7 @@
               android:background="@color/gray_light"/>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
@@ -144,7 +145,7 @@
               android:background="@color/gray_light"/>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
@@ -180,7 +181,7 @@
               android:background="@color/gray_light"/>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
@@ -216,7 +217,7 @@
               android:background="@color/gray_light"/>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
@@ -252,7 +253,7 @@
               android:background="@color/gray_light"/>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
@@ -288,7 +289,7 @@
               android:background="@color/gray_light"/>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
@@ -324,7 +325,7 @@
               android:background="@color/gray_light"/>
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="8dp">
             <ImageView
                 android:id="@id/img"
                 android:layout_width="24dp"
