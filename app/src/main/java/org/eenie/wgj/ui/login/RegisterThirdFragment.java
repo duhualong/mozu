@@ -4,13 +4,19 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
+import org.eenie.wgj.model.requset.EmergencyContactMod;
+import org.eenie.wgj.util.Utils;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -26,10 +32,18 @@ import butterknife.OnClick;
  */
 
 public class RegisterThirdFragment extends BaseFragment {
+    private EmergencyContactMod mContactEmergency;
+    private String mContactName;
+    private String mContactPhone;
+    private String mRelation;
+    private int mPosition;
     private String height;
     private String qualifications;
     private String marryState;
     private String addressNow;
+    private String workNow;
+
+
     @BindView(R.id.tv_height)
     TextView mHeight;
     @BindView(R.id.tv_qualifications)
@@ -108,10 +122,12 @@ public class RegisterThirdFragment extends BaseFragment {
 
                 break;
             case R.id.tv_contacts:
+                showContactsDialog();
 
 
                 break;
             case R.id.tv_work_name:
+                showWorkDialog();
 
 
                 break;
@@ -128,6 +144,120 @@ public class RegisterThirdFragment extends BaseFragment {
                 break;
         }
     }
+
+    //现单位名称
+    private void showWorkDialog() {
+        View view = View.inflate(context, R.layout.dialog_work_now, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .create();
+        dialog.show();
+        EditText work= (EditText) dialog.getWindow().findViewById(R.id.et_work_now);
+
+        dialog.getWindow().findViewById(R.id.btn_next).setOnClickListener(v -> {
+            String inputWork = work.getText().toString();
+            if (TextUtils.isEmpty(inputWork)) {
+                work.setError("现单位名称不能为空！");
+            } else {
+                dialog.dismiss();
+                workNow = inputWork;
+                mWorkName.setText(inputWork);
+                mWorkName.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
+            }
+        });
+        dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> {
+            dialog.dismiss(); //取消对话框
+
+        });
+
+    }
+
+    //紧急联系人
+    private void showContactsDialog() {
+        View view = View.inflate(context, R.layout.dialog_contacts, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .create();
+        dialog.show();
+        //资源转[]
+        String[] spinner = getResources().getStringArray(R.array.spingcontacts);
+
+        Spinner mSpinner = (Spinner) dialog.getWindow().findViewById(R.id.spinner_contacts);
+        EditText contactName = (EditText) dialog.getWindow().findViewById(R.id.emergency_contact_name);
+        EditText contactPhone = (EditText) dialog.getWindow().findViewById(R.id.emergency_contact_telephone);
+        if (TextUtils.isEmpty(mContactName)) {
+            contactName.setText(mContactName);
+        }
+        if (!TextUtils.isEmpty(mContactPhone)) {
+            contactPhone.setText(mContactPhone);
+        }
+
+        //构造ArrayAdapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
+                R.layout.simple_spinner_item, spinner);
+        //设置下拉样式以后显示的样式
+        adapter.setDropDownViewResource(R.layout.my_drop_down_item);
+        mSpinner.setAdapter(adapter);
+        mSpinner.setSelection(mPosition);
+        new Thread() {
+            public void run() {
+                mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (position != 0) {
+                            mRelation = spinner[position];
+                            mPosition = position;
+
+                        } else {
+
+                        }
+
+                        Log.d("qianfeng:", spinner[position]);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        Log.d("qianfeng:", "NothingSelected");
+
+                    }
+                });
+
+            }
+        }.start();
+        dialog.getWindow().findViewById(R.id.btn_save).setOnClickListener(v -> {
+            if (TextUtils.isEmpty(contactName.getText().toString())) {
+                contactName.setError("输入的联系人姓名不能为空！");
+            } else {
+                mContactName = contactName.getText().toString();
+            }
+
+
+            if (TextUtils.isEmpty(contactPhone.getText().toString())) {
+                contactPhone.setError("输入的手机号不能为空！");
+            } else if (!Utils.isMobile(contactPhone.getText().toString())) {
+                contactPhone.setError("输入的手机号格式不正确！");
+
+            } else {
+                mContactPhone = contactPhone.getText().toString();
+            }
+
+            if (TextUtils.isEmpty(mRelation)) {
+                Toast.makeText(context, "请选择关系！", Toast.LENGTH_LONG).show();
+            }
+
+            mContacts.setText("已填写");
+            mContacts.setTextColor(ContextCompat.getColor
+                    (context, R.color.titleColor));
+
+
+        });
+
+
+    }
+
 
     //现居住地址
     private void showNowAddressDialog() {

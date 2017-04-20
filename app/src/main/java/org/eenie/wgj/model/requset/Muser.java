@@ -25,34 +25,5 @@ public class Muser  {
         this.emergencyContact = emergencyContact;
     }
 
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//
-//        dest.writeParcelable(this.emergencyContact, flags);
-//
-//    }
-//
-//    public Muser(Parcel in) {
-//
-//        this.emergencyContact = in.readParcelable(EmergencyContactMod.class.getClassLoader());
-//
-//    }
-//
-//    public static final Parcelable.Creator<Muser> CREATOR = new Parcelable.Creator<Muser>() {
-//        @Override
-//        public Muser createFromParcel(Parcel source) {
-//            return new Muser(source);
-//        }
-//
-//        @Override
-//        public Muser[] newArray(int size) {
-//            return new Muser[size];
-//        }
-//    };
+
 }

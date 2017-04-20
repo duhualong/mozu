@@ -7,5 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="spinner_style">
+        <item name="android:background">@mipmap/bg_edit_text_light</item>
+    </style>
 </resources>

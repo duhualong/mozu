@@ -101,4 +101,16 @@
     <item name="tv_single" type="id"/>
     <item name="tv_married" type="id"/>
     <item name="edit_address" type="id"/>
+    <item name="emergency_contact_name" type="id"/>
+    <item name="emergency_contact_telephone" type="id"/>
+    <item name="spinner_contacts" type="id"/>
+    <item name="btn_save" type="id"/>
+    <item name="et_work_now" type="id"/>
+    <item name="text" type="id"/>
+    <item name="checkbox_first" type="id"/>
+    <item name="checkbox_second" type="id"/>
+    <item name="checkbox_third" type="id"/>
+    <item name="checkbox_fourth" type="id"/>
+    <item name="checkbox_fifth" type="id"/>
+    <item name="checkbox_sixth" type="id"/>
 </resources>

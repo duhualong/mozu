@@ -83,6 +83,16 @@
     <string name="married">已婚</string>
     <string name="single">未婚</string>
     <string name="hint_address">请输入您的现居住地址</string>
+    <string name="relation_tv">联系人与本人的关系</string>
+    <string name="hint_contact_phone">请输入紧急联系人的电话</string>
+    <string name="tv_save">保存</string>
+    <string name="hint_now_work">请输入您的现单位名称</string>
+    <string name="tv_security">保安</string>
+    <string name="fire_protection">消防</string>
+    <string name="project">工程</string>
+    <string name="clean">保洁</string>
+    <string name="customer">客服</string>
+    <string name="other">其它</string>
 
 
 </resources>
