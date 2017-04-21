@@ -45,6 +45,7 @@
                   android:layout_marginLeft="18dp"
                   android:layout_marginRight="18dp"
                   android:layout_marginStart="18dp"
+                  android:layout_marginBottom="30dp"
                   android:layout_marginTop="30dp">
         <Button android:id="@id/btn_cancel"
                 android:layout_width="0dp"

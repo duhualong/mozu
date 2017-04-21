@@ -93,6 +93,16 @@
     <string name="clean">保洁</string>
     <string name="customer">客服</string>
     <string name="other">其它</string>
+    <string name="tip_skill">＊最多可以选择3个技能！</string>
+    <string name="tv_driving">驾照</string>
+    <string name="channel_first">赶集网</string>
+    <string name="channel_second">58同城</string>
+    <string name="channel_third">朋友介绍</string>
+    <string name="channel_fourth">劳务介绍所</string>
+    <string name="labour_service">请输入劳务介绍所名称</string>
+    <string name="phone_hint">请输入劳务介绍所的电话号码</string>
+    <string name="friend_name">请输入朋友的姓名</string>
+    <string name="friend_phone">请输入朋友的电话号码</string>
 
 
 </resources>

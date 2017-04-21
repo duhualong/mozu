@@ -94,12 +94,15 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.btn_register:
 
+//                fragmentMgr.beginTransaction()
+//                        .addToBackStack(TAG)
+//                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
+//                        .commit();
+
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
+                        .replace(R.id.fragment_login_container, new RegisterThirdFragment())
                         .commit();
-
-
 
                 break;
             case R.id.checkbox_password_show_state:

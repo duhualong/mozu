@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/tv_employment"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@id/linear_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@id/tv_first"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/channel_first"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"
+        />
+
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/white_light"/>
+        <TextView
+            android:id="@id/tv_second"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/channel_second"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"
+        />
+
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/white_light"/>
+        <TextView
+            android:id="@id/tv_third"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/channel_third"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/white_light"/>
+        <TextView
+            android:id="@id/tv_fourth"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/channel_fourth"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/gray"
+        />
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/white_light"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/linear_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <TextView
+            android:id="@id/title_dialog"
+            android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/font_size_18sp"
+                  android:layout_marginStart="@dimen/font_size_18sp"
+                  android:text="@string/channel_fourth"
+            android:layout_marginTop="10dp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:textColor="@color/titleColor"/>
+
+        <EditText
+        android:id="@id/labour_work"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginEnd="@dimen/font_size_18sp"
+        android:layout_marginLeft="@dimen/font_size_18sp"
+        android:layout_marginRight="@dimen/font_size_18sp"
+        android:layout_marginStart="@dimen/font_size_18sp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/bg_edit_text_light"
+        android:hint="@string/labour_service"
+        android:maxLength="20"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/titleColor"
+        android:textColorHint="@color/textHintColor"/>
+        <EditText
+            android:id="@id/labour_phone"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginEnd="@dimen/font_size_18sp"
+            android:layout_marginLeft="@dimen/font_size_18sp"
+            android:layout_marginRight="@dimen/font_size_18sp"
+            android:layout_marginStart="@dimen/font_size_18sp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/bg_edit_text_light"
+            android:hint="@string/phone_hint"
+            android:maxLength="11"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:inputType="phone"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/titleColor"
+            android:textColorHint="@color/textHintColor"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/height_btn_nor"
+                  android:layout_marginEnd="18dp"
+                  android:layout_marginLeft="18dp"
+                  android:layout_marginRight="18dp"
+                  android:layout_marginStart="18dp"
+                  android:layout_marginBottom="30dp"
+                  android:layout_marginTop="30dp">
+        <Button android:id="@id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@mipmap/bg_submit_button"
+                android:text="@string/btn_cancel"/>
+        <Button
+            android:id="@id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@mipmap/bg_submit_button"
+            android:text="@string/btn_ok"/>
+
+    </LinearLayout>
+</LinearLayout>

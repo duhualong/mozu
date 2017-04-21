@@ -113,4 +113,14 @@
     <item name="checkbox_fourth" type="id"/>
     <item name="checkbox_fifth" type="id"/>
     <item name="checkbox_sixth" type="id"/>
+    <item name="checkbox_seventh" type="id"/>
+    <item name="tv_first" type="id"/>
+    <item name="tv_second" type="id"/>
+    <item name="tv_third" type="id"/>
+    <item name="tv_fourth" type="id"/>
+    <item name="linear_one" type="id"/>
+    <item name="linear_two" type="id"/>
+    <item name="labour_work" type="id"/>
+    <item name="title_dialog" type="id"/>
+    <item name="labour_phone" type="id"/>
 </resources>

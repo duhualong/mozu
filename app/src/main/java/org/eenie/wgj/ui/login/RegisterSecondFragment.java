@@ -6,19 +6,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +36,10 @@ import org.eenie.wgj.model.response.Infomation;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.PermissionManager;
+import org.eenie.wgj.util.Utils;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,7 +66,13 @@ import static android.content.ContentValues.TAG;
  */
 
 public class RegisterSecondFragment extends BaseFragment {
-
+    private boolean checkFront;
+    private boolean checkBack;
+    private File fileCardFront;
+    private File fileCardBack;
+    private String frontUrl;
+    private String backUrl;
+    private File fileAvatarCard;
     private static final String PHONE = "phone";
     private static final String PWD = "pwd";
     private String mPhone;
@@ -95,6 +94,7 @@ public class RegisterSecondFragment extends BaseFragment {
 
     private Uri imageUri;
     private AlertDialog.Builder mBuilder;
+    private File mFileNews;
 
     @Override
     protected int getContentView() {
@@ -103,16 +103,6 @@ public class RegisterSecondFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
-        String base64 = mPrefsHelper.getPrefs().getString(Constants.AVATAR, "");
-        System.out.println("base64:" + base64);
-
-        try {
-            File file = base64ToFile(base64);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
     }
@@ -158,9 +148,11 @@ public class RegisterSecondFragment extends BaseFragment {
 
                 break;
             case R.id.btn_submitbtn:
-                showDialog();
-
-
+                if (checkBack && checkFront) {
+                    showDialog();
+                } else {
+                    Snackbar.make(rootView, "请上传身份证的正反面！", Snackbar.LENGTH_LONG).show();
+                }
                 break;
 
         }
@@ -185,7 +177,7 @@ public class RegisterSecondFragment extends BaseFragment {
         String base64 = mPrefsHelper.getPrefs().getString(Constants.AVATAR, "");
         System.out.println("base64:" + base64);
         try {
-            File file = base64ToFile(base64);
+            File file = Utils.base64ToFile(base64,context);
 
             Glide.with(context)
                     .load(file)
@@ -206,7 +198,8 @@ public class RegisterSecondFragment extends BaseFragment {
                 getValues(Constants.END_DATE).replaceAll("-", ":"));
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
-                .setView(view) //自定义的布局文件
+                .setView(view)                //自定义的布局文件
+                .setCancelable(false)
                 .create();
         dialog.show();
 
@@ -215,7 +208,8 @@ public class RegisterSecondFragment extends BaseFragment {
 
             fragmentMgr.beginTransaction()
                     .addToBackStack(TAG)
-                    .replace(R.id.fragment_login_container, new RegisterThirdFragment())
+                    .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance(mPhone
+                    ,mPassword,frontUrl,backUrl))
                     .commit();
 
 
@@ -358,15 +352,14 @@ public class RegisterSecondFragment extends BaseFragment {
                             .subscribe(bitmap -> {
                                 positiveImg.setImageBitmap(bitmap);
                             });
-                    String mImgUrls = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    frontUrl= ImageUtils.getRealPath(context, UCrop.getOutput(data));
 
                     Snackbar.make(rootView, "身份证正面上传成功！", Snackbar.LENGTH_LONG).show();
-                    File fileNew = new File(mImgUrls);
+                    fileCardFront = new File(frontUrl);
 
                     new Thread() {
                         public void run() {
-                            getData(fileNew, fileNew, fileNew);
-                            // initData(fileNew, "2");
+                            initData(fileCardFront, "2");
 
                         }
                     }.start();
@@ -386,16 +379,15 @@ public class RegisterSecondFragment extends BaseFragment {
                             .subscribe(bitmap -> {
                                 negativeImg.setImageBitmap(bitmap);
                             });
-                    String imgUrls = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    backUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     // String imgUrls = ImageUtils.getRealPath(context, imageUri);
                     // negativeImg.setImageURI(imageUri);
 
                     Snackbar.make(rootView, "身份证背面上传成功！", Snackbar.LENGTH_LONG).show();
-                    File fileNews = new File(imgUrls);
+                    fileCardBack = new File(backUrl);
                     new Thread() {
                         public void run() {
-                            initData(fileNews, "3");
-
+                            initData(fileCardBack, "3");
                         }
                     }.start();
 
@@ -429,6 +421,7 @@ public class RegisterSecondFragment extends BaseFragment {
                 System.out.println("status:" + status + "错误信息：" +
                         response.body().getMessage().getValue());
                 if (status == 2) {
+                    checkFront = true;
                     List<Infomation> data = response.body().getCardsinfo();
                     if (data != null) {
                         Infomation infomation = data.get(0);
@@ -507,6 +500,7 @@ public class RegisterSecondFragment extends BaseFragment {
                     }
                     imageUri = null;
                 } else if (status == 3) {
+                    checkBack = true;
                     List<Infomation> data = response.body().getCardsinfo();
                     if (data != null) {
                         Infomation infomation = data.get(0);
@@ -578,31 +572,13 @@ public class RegisterSecondFragment extends BaseFragment {
         return uri;
     }
 
-    public Bitmap onDecodeClicked(String key) {
-        byte[] decode = Base64.decode(key, Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(decode, 0, decode.length);
-        //save to image on sdcard
-        return bitmap;
-    }
 
 
-    public File base64ToFile(String base64) throws IOException {
-        byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        FileOutputStream fos = new FileOutputStream(image);
-        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fos);
-        bufferedOutputStream.write(decodedString);
-        bufferedOutputStream.close();
-        return image;
-    }
-
-    public void registerInformation(File file) {
 
 
-    }
+
+
+
 
     public void getData(File file1, File file2, File file3) {
         System.out.println("token" + mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
@@ -639,18 +615,18 @@ public class RegisterSecondFragment extends BaseFragment {
                 .addFormDataPart("living_address", "上海市长宁区")
                 .addFormDataPart("emergency_contact", gson.toJson(mdata), RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), gson.toJson(mdata)))
                 .addFormDataPart("industry", "sss", RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), "sss"))
-                .addFormDataPart("skill", "ssss", RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),"sss"))
+                .addFormDataPart("skill", "ssss", RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), "sss"))
                 .addFormDataPart("channel", "sss")
                 .build();
         Call<ApiResponse> call = userBiz.applyInformation(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), requestBody);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                System.out.println("code" + response.body().getResultCode()+response.body().getResultMessage());
+                System.out.println("code" + response.body().getResultCode() + response.body().getResultMessage());
                 if (response.body().getResultCode() == 200) {
                     System.out.println("测试注册:");
-                }else {
-                    Snackbar.make(rootView,response.body().getResultMessage(),Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(rootView, response.body().getResultMessage(), Snackbar.LENGTH_LONG).show();
                 }
 
             }

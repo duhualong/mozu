@@ -101,19 +101,10 @@ public class RegisterFirstFragment extends BaseFragment {
                 break;
 
             case R.id.register_submit_button:
-                //verifyCaptcha(mCaptcha);
-//
-//               if (checkboxRegisterInfor(mPhone,mCaptcha,mPassword,mRePassword)){
-//                   fragmentMgr.beginTransaction()
-//                           .addToBackStack(TAG)
-//                           .replace(R.id.fragment_login_container,  RegisterSecondFragment.newInstance(mPhone,mPassword))
-//                           .commit();
-//               }
+               if (checkboxRegisterInfor(mPhone,mCaptcha,mPassword,mRePassword)){
+                   verifyCaptcha(mCaptcha,mPhone,mCaptcha);
+               }
 
-                fragmentMgr.beginTransaction()
-                        .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container, new RegisterSecondFragment())
-                        .commit();
 
 
                 break;
@@ -230,7 +221,7 @@ public class RegisterFirstFragment extends BaseFragment {
 
 
     }
-private  void verifyCaptcha(String captcha){
+private  void verifyCaptcha(String captcha,String mPhone,String mPassword){
     mSubscription=mRemoteService.verifyCode(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),captcha)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -239,6 +230,10 @@ private  void verifyCaptcha(String captcha){
                 public void onSuccess(ApiResponse value) {
                     System.out.println("token"+value.getResultCode()+value.getResultMessage());
                    if (value.getResultCode()==200){
+                       fragmentMgr.beginTransaction()
+                               .addToBackStack(TAG)
+                               .replace(R.id.fragment_login_container,  RegisterSecondFragment.newInstance(mPhone,mPassword))
+                               .commit();
 
                    }
 

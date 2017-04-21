@@ -1,17 +1,27 @@
 package org.eenie.wgj.util;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
+import android.util.Base64;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.io.BufferedOutputStream;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.matches;
 
 /**
  * Utilities
@@ -98,6 +108,13 @@ public class Utils {
     b = m.matches();
     return b;
   }
+  /*** 验证电话号码
+   * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
+   */
+  public static boolean IsTelephone(String str) {
+    String regex = "^0(10|2[0-5789]-|\\d{3})-?\\d{7,8}$";
+    return matches(regex, str);
+  }
 
   //根据boole值设置密码是否显示
   public static void setShowHide(CheckBox checkBox, EditText editText){
@@ -114,5 +131,18 @@ public class Utils {
     Selection.setSelection(etext, etext.length());
   }
 
+
+  public static File base64ToFile(String base64, Context context) throws IOException {
+    byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    String imageFileName = "JPEG_" + timeStamp + "_";
+    File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+    File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+    FileOutputStream fos = new FileOutputStream(image);
+    BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fos);
+    bufferedOutputStream.write(decodedString);
+    bufferedOutputStream.close();
+    return image;
+  }
 
 }

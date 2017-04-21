@@ -102,11 +102,53 @@
             android:background="@drawable/checkbox_select_button"
             android:button="@null"
             android:gravity="center"
+            android:text="@string/tv_driving"
+            android:textColor="@color/titleColor"
+        />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginEnd="@dimen/font_size_18sp"
+                  android:layout_marginLeft="@dimen/font_size_18sp"
+                  android:layout_marginRight="@dimen/font_size_18sp"
+                  android:layout_marginStart="@dimen/font_size_18sp"
+                  android:layout_marginTop="10dp"
+                  android:gravity="center_horizontal">
+        <CheckBox
+            android:id="@id/checkbox_seventh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/checkbox_select_button"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/other"
+            android:textColor="@color/titleColor"
+        />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/checkbox_select_button"
+            android:button="@null"
+            android:gravity="center"
+            android:text="美术"
+            android:visibility="invisible"
+            android:textColor="@color/titleColor"
+        />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/checkbox_select_button"
+            android:button="@null"
+            android:visibility="invisible"
+            android:gravity="center"
             android:text="@string/other"
             android:textColor="@color/titleColor"
         />
     </LinearLayout>
-
 
     <Button
         android:id="@id/btn_save"
