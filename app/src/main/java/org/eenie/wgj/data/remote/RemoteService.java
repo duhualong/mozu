@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.eenie.wgj.model.Api;
-import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.model.response.Login;
@@ -56,27 +55,14 @@ public interface RemoteService {
     @POST("fetch_sms_code/verification")
     @FormUrlEncoded
     Single<ApiResponse> verifyCode(@Header("token") String token, @Field("verify") String captcha);
-//    //注册工作端
-//    @POST("register/user")
-//    @FormUrlEncoded
-//    Single<ApiResponse> registerInformation(@Header("token")String token,@Field("username")String username,
-//                                            @Field("password")String password,@Field("name")String name,
-//                                            @Field("gender")String gender,@Field("birthday")String birthday,
-//                                            @Field("address") String address,@Field("number") String number,
-//                                            @Field("publisher")String publisher,@Field("validate")String validate,
-//                                            @Field("id_card_positive")File crad1,@Field("id_card_negative")File cartd2,
-//                                            @Field("id_card_head_image")File crad3,@Field("height")String height,
-//                                            @Field("graduate")String graduate,@Field("telephone")String telephone,
-//                                            @Field("living_address") String livingaddress,@Field(""))
 
 
     @Headers("token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTE0NjcwODQsIm5iZiI6MTQ5MTQ2NzA4NSwiZXhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ-VJ7uKPbkIqxOsZDqZDuudwi-U4E3ebCkTg")
     @POST("readilyShootList")
     Single<ApiResponse<List<ShootList>>> getList();
 
-    @Headers("token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTE0NjcwODQsIm5iZiI6MTQ5MTQ2NzA4NSwiZXhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ-VJ7uKPbkIqxOsZDqZDuudwi-U4E3ebCkTg")
     @GET("contacts/userList")
-    Single<ApiRes<List<Contacts>>> getContacts();
+    Single<ApiResponse<List<Contacts>>> getContacts(@Header("token")String token);
 
     @FormUrlEncoded
     @POST("recog.do")

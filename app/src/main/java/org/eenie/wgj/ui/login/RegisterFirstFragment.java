@@ -1,12 +1,15 @@
 package org.eenie.wgj.ui.login;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -36,6 +39,8 @@ import static org.eenie.wgj.util.Constants.NUM_COUNTDOWN;
  */
 
 public class RegisterFirstFragment extends BaseFragment {
+    private static final String PHONE = "phone";
+    private String mUsername;
     private CountDownTimer timer;
     private boolean isCounting;
     @BindView(R.id.root_view)View rootView;
@@ -60,8 +65,31 @@ public class RegisterFirstFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
+        if (!TextUtils.isEmpty(mUsername)){
+            inputPhone.setText(mUsername);
+        }
 
     }
+
+    public static RegisterFirstFragment newInstance(String username) {
+        RegisterFirstFragment fragment = new RegisterFirstFragment();
+        if (!TextUtils.isEmpty(username) ) {
+            Bundle args = new Bundle();
+            args.putString(PHONE, username);
+            fragment.setArguments(args);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            mUsername = getArguments().getString(PHONE);
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     @OnClick({R.id.img_back,R.id.register_submit_button,R.id.register_fetch_code_button,
     R.id.security_register_button,R.id.property_register_button,R.id.checkbox_password_show_state,
     R.id.checkbox_password_show_state_twice,R.id.checkbox_register})
@@ -73,6 +101,7 @@ public class RegisterFirstFragment extends BaseFragment {
 
 
         switch (view.getId()){
+
             case R.id.checkbox_password_show_state:
                 Utils.setShowHide(checkboxFirst, inputPassword);
                 break;
@@ -90,13 +119,11 @@ public class RegisterFirstFragment extends BaseFragment {
 
                 }
 
-
                 break;
             case R.id.checkbox_register:
                 if (checkRegister.isChecked()){
                     Snackbar.make(rootView,"您已同意物管家注册协议",Snackbar.LENGTH_LONG).show();
                 }
-
 
                 break;
 
@@ -104,8 +131,6 @@ public class RegisterFirstFragment extends BaseFragment {
                if (checkboxRegisterInfor(mPhone,mCaptcha,mPassword,mRePassword)){
                    verifyCaptcha(mCaptcha,mPhone,mCaptcha);
                }
-
-
 
                 break;
             case R.id.security_register_button:

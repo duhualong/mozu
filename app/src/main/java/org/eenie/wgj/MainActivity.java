@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.ui.contacts.FragmentContact;
 import org.eenie.wgj.ui.fragment.ApplyPagerFragment;
-import org.eenie.wgj.ui.fragment.FragmentTest;
 import org.eenie.wgj.ui.fragment.HomePagerFragment;
 import org.eenie.wgj.ui.fragment.MessagePagerFragment;
 import org.eenie.wgj.ui.fragment.PersonalCenterFragment;
@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity {
                 fragment = new HomePagerFragment();
                 break;
             case 1:
-                fragment = new FragmentTest();
+                fragment = new FragmentContact();
 
                 break;
             case 2:

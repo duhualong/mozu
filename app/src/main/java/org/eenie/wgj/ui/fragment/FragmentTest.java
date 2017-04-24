@@ -9,12 +9,13 @@ import android.widget.TextView;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
-import org.eenie.wgj.model.ApiRes;
+import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.ui.news.Cheeses;
 import org.eenie.wgj.ui.news.FancyIndexer;
 import org.eenie.wgj.ui.news.GoodMan;
 import org.eenie.wgj.ui.news.MyAdapter;
+import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,7 +58,7 @@ public class FragmentTest extends BaseSupportFragment {
     protected void updateUI() {
         // 填充数据, 并排序
         initData();
-        fillAndSortData(persons, mSData);
+
         //initDatas();
         initUi();
 
@@ -111,10 +112,9 @@ public class FragmentTest extends BaseSupportFragment {
 
     private void fillAndSortData(ArrayList<GoodMan> persons, String[] str) {
 
-
         String[] datas;
         boolean china = getResources().getConfiguration().locale.getCountry().equals("CN");
-        datas = china ? Cheeses.NAMES: Cheeses.sCheeseStrings;
+        datas = china ? str: Cheeses.sCheeseStrings;
         for (int i = 0; i < datas.length; i++) {
             persons.add(new GoodMan(datas[i]));
         }
@@ -123,29 +123,25 @@ public class FragmentTest extends BaseSupportFragment {
     }
 
     private void initData() {
-        mSubscription = mRemoteService.getContacts().subscribeOn(Schedulers.io())
+        System.out.println("打印："+mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
+        mSubscription = mRemoteService.getContacts(mPrefsHelper.getPrefs().getString(Constants.TOKEN,"")).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiRes<List<Contacts>>>() {
+                .subscribe(new SingleSubscriber<ApiResponse<List<Contacts>>>() {
 
 
 
                     @Override
-                    public void onSuccess(ApiRes<List<Contacts>> value) {
+                    public void onSuccess(ApiResponse<List<Contacts>> data) {
 
-                        System.out.println("打印code：" + value.getResultCode());
-                        mContacts = value.getResultMessage();
-                        System.out.println("打印ListSize:" + mContacts.size());
+                        mContacts = data.getData();
                         mSData = new String[mContacts.size()];
 
                         for (int i = 0; i < mSData.length; i++) {
                             String str = mContacts.get(i).getName();
                             mSData[i] = str;
-                            System.out.println("str:" + str);
-                            System.out.println("str[i]:" + mSData[i]);
-
                         }
 
-
+                        fillAndSortData(persons, mSData);
                         System.out.println("str[]:" + Arrays.toString(mSData));
 
 

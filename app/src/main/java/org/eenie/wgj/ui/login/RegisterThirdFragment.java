@@ -26,14 +26,15 @@ import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.EmergencyContactMod;
-import org.eenie.wgj.model.requset.Muser;
 import org.eenie.wgj.util.Constants;
+import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,6 +46,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Single;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Eenie on 2017/4/18 at 17:26
@@ -77,6 +81,7 @@ public class RegisterThirdFragment extends BaseFragment {
     private String addressNow;
     private String workNow;
     private List<String> industry = new ArrayList<>();
+    private String str;
     private List<String> skill = new ArrayList<>();
     private int channel;
     private String channelString;
@@ -206,7 +211,7 @@ public class RegisterThirdFragment extends BaseFragment {
                 break;
 
             case R.id.btn_apply:
-                // getDatas(mAvatarFile,mAvatarFile,mAvatarFile);
+
                 if (mCheckHeight && mCheckedQualification && mCheckMarry && mCheckAddress &&
                         mCheckContact && mCheckWork && mCheckIndustry && mCheckSkill &&
                         mCheckChannel) {
@@ -221,12 +226,13 @@ public class RegisterThirdFragment extends BaseFragment {
                     }
                     System.out.println("token:" + mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
 
+                    String finalMarry = marry;
                     new Thread() {
                         public void run() {
-                            getData("18817772486", "111111", mName, mSex, mNation, mBirthday, mAddress, mNumber,
+                            getData(username, password, mName, mSex, mNation, mBirthday, mAddress, mNumber,
                                     mSignOffice, mDeadline, mAvatarFile, mAvatarFile,
-                                    mAvatarFile, height, qualifications, "1", addressNow,
-                                    industry.toString(), skill.toString(), channelStr);
+                                    mAvatarFile, height, qualifications, finalMarry, addressNow,
+                                    Utils.getStr(industry), Utils.getStr(skill), channelStr);
 
                         }
                     }.start();
@@ -635,6 +641,8 @@ public class RegisterThirdFragment extends BaseFragment {
                 }
 
                 industry = mString;
+                System.out.println("industry:" + industry);
+                System.out.println("打印数据mm：" + str);
                 dialog.dismiss();
                 mIndustry.setText("已填写");
                 mIndustry.setTextColor(ContextCompat.getColor
@@ -647,6 +655,8 @@ public class RegisterThirdFragment extends BaseFragment {
 
 
     }
+
+
 
     private void setChecked(CheckBox[] checkbox, int position) {
         checkbox[position].setChecked(true);
@@ -775,7 +785,7 @@ public class RegisterThirdFragment extends BaseFragment {
 //                        mContactEmergency.setName(mContactName);
 //                        mContactEmergency.setPhone(mContactPhone);
 
-                        mCheckContact = true;
+                            mCheckContact = true;
 
                     }
 
@@ -1049,9 +1059,9 @@ public class RegisterThirdFragment extends BaseFragment {
                 dialog.dismiss();
                 height = inputHeight;
                 if (height.endsWith("cm")) {
-                    mHeight.setText(height.replaceAll("cm", ""));
-                } else {
                     mHeight.setText(height);
+                } else {
+                    mHeight.setText(height+"cm");
                 }
 
                 mHeight.setTextColor(ContextCompat.getColor
@@ -1075,17 +1085,15 @@ public class RegisterThirdFragment extends BaseFragment {
     public void getData(String username, String password, String name, String gender, String people,
                         String birthday, String address, String number, String publisher,
                         String validate, File file1, File file2, File file3, String height,
-                        String graduate, String telephone, String livingAddress, String industry, String skill, String channel) {
+                        String graduate, String telephone, String livingAddress,
+                      String industry, String skill, String channel) {
         System.out.println("token" + mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://118.178.88.132:8000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Gson gson = new Gson();
-      EmergencyContactMod data = new EmergencyContactMod();
-//        mdata.setName("张三");
-//        mdata.setPhone("18817772486");
-//        mdata.setRelation("父亲");
+        EmergencyContactMod data = new EmergencyContactMod();
         if (!TextUtils.isEmpty(mContactName) && !TextUtils.isEmpty(mContactPhone) &&
                 !TextUtils.isEmpty(mRelation)) {
             data.setName(mContactName);
@@ -1112,16 +1120,16 @@ public class RegisterThirdFragment extends BaseFragment {
                         RequestBody.create(MediaType.parse("image/jpg"), file3))
                 .addFormDataPart("height", height)
                 .addFormDataPart("graduate", graduate)
-                .addFormDataPart("telephone", "1")
+                .addFormDataPart("telephone", telephone)
                 .addFormDataPart("living_address", livingAddress)
                 .addFormDataPart("emergency_contact", gson.toJson(data),
                         RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),
                                 gson.toJson(data)))
-                .addFormDataPart("industry", "sss",
-                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),"sss"))
-                .addFormDataPart("skill", "sss",
-                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), "sss"))
-                .addFormDataPart("channel", "sss")
+                .addFormDataPart("industry", industry,
+                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), industry))
+                .addFormDataPart("skill", skill,
+                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), skill))
+                .addFormDataPart("channel", channel)
                 .build();
 
         Call<ApiResponse> call = userBiz.applyInformation(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), requestBody);
@@ -1130,9 +1138,31 @@ public class RegisterThirdFragment extends BaseFragment {
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 System.out.println("code" + response.body().getResultCode() + response.body().getResultMessage());
                 if (response.body().getResultCode() == 200) {
-                    System.out.println("测试注册:");
+                    Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
+                    Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                            subscribe(s -> {
+
+                                fragmentMgr.beginTransaction()
+                                        .addToBackStack(TAG)
+                                        .replace(R.id.fragment_login_container,
+                                                RegisterFirstFragment.newInstance(username))
+                                        .commit();
+
+                            });
+
                 } else {
-                    Snackbar.make(rootView, response.body().getResultMessage(), Snackbar.LENGTH_LONG).show();
+                    if (response.body().getResultMessage().equals("用户已存在"))
+                    Snackbar.make(rootView, "用户已注册，请登录", Snackbar.LENGTH_LONG).show();
+                    Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                            subscribe(s -> {
+
+                                fragmentMgr.beginTransaction()
+                                        .addToBackStack(TAG)
+                                        .replace(R.id.fragment_login_container,
+                                                RegisterFirstFragment.newInstance(username))
+                                        .commit();
+
+                    });
                 }
 
             }
@@ -1146,62 +1176,5 @@ public class RegisterThirdFragment extends BaseFragment {
     }
 
 
-    public void getDatas(File file1, File file2, File file3) {
-        System.out.println("token" + mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://118.178.88.132:8000/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        EmergencyContactMod mdata = new EmergencyContactMod();
-        mdata.setName("张三");
-        mdata.setPhone("18817772486");
-        mdata.setRelation("父亲");
-        Muser muser = new Muser();
-        muser.setEmergencyContact(mdata);
-        Gson gson = new Gson();
 
-        FileUploadService userBiz = retrofit.create(FileUploadService.class);
-        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("username", "18817772486")
-                .addFormDataPart("password", "123456")
-                .addFormDataPart("name", "测试")
-                .addFormDataPart("gender", "男")
-                .addFormDataPart("people", "汉")
-                .addFormDataPart("birthday", "1992-03-05")
-                .addFormDataPart("address", "上海市浦东新区")
-                .addFormDataPart("number", "411721199203053436")
-                .addFormDataPart("publisher", "上海市公安局")
-                .addFormDataPart("validate", "2013:02:20—2023:02:20")
-                .addFormDataPart("id_card_positive", file1.getName(), RequestBody.create(MediaType.parse("image/jpg"), file1))
-                .addFormDataPart("id_card_negative", file2.getName(), RequestBody.create(MediaType.parse("image/jpg"), file2))
-                .addFormDataPart("id_card_head_image", file3.getName(), RequestBody.create(MediaType.parse("image/jpg"), file3))
-                .addFormDataPart("height", "170")
-                .addFormDataPart("graduate", "本科")
-                .addFormDataPart("telephone", "1")
-                .addFormDataPart("living_address", "上海市长宁区")
-                .addFormDataPart("emergency_contact", gson.toJson(mdata), RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), gson.toJson(mdata)))
-                .addFormDataPart("industry", "sss", RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), "sss"))
-                .addFormDataPart("skill", "ssss", RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), "sss"))
-                .addFormDataPart("channel", "sss")
-                .build();
-        Call<ApiResponse> call = userBiz.applyInformation(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), requestBody);
-        call.enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                System.out.println("code" + response.body().getResultCode() + response.body().getResultMessage());
-                if (response.body().getResultCode() == 200) {
-                    System.out.println("测试注册:");
-                } else {
-                    Snackbar.make(rootView, response.body().getResultMessage(), Snackbar.LENGTH_LONG).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-
-            }
-        });
-    }
 }

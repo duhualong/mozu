@@ -68,11 +68,11 @@ public class LoginFragment extends BaseFragment {
 
         }
 
-//        if (mPrefsHelper.getPrefs().getBoolean(Constants.IS_LOGIN, false)) {
-//            //自动登录（已保存账号密码）
-//            startActivity(new Intent(context, MainActivity.class));
-//            getActivity().finish();
-//        }
+        if (mPrefsHelper.getPrefs().getBoolean(Constants.IS_LOGIN, false)) {
+            //自动登录（已保存账号密码）
+            startActivity(new Intent(context, MainActivity.class));
+            getActivity().finish();
+        }
 
 
     }
@@ -101,7 +101,7 @@ public class LoginFragment extends BaseFragment {
 
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container, new RegisterThirdFragment())
+                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
                         .commit();
 
                 break;
@@ -124,7 +124,10 @@ public class LoginFragment extends BaseFragment {
 
                 break;
             case R.id.tv_forget_password:
-
+                fragmentMgr.beginTransaction()
+                        .addToBackStack(TAG)
+                        .replace(R.id.fragment_login_container, new ForgetPasswordFragment())
+                        .commit();
 
                 break;
         }
@@ -232,6 +235,8 @@ public class LoginFragment extends BaseFragment {
                             System.out.println("token:" + token);
                             System.out.println("data数据：" + login);
 
+                        }else {
+                            Snackbar.make(rootView, data.getResultMessage(), Snackbar.LENGTH_SHORT).show();
                         }
 
                         System.out.println("打印code：" + data.getResultCode());
