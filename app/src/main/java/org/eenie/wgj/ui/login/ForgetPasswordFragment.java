@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Single;
 import rx.SingleSubscriber;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -87,7 +88,7 @@ public class ForgetPasswordFragment extends BaseFragment {
                    //调用修改密码的接口
 
                    modifyPassword(mPhone,mCaptcha,mPassword);
-                   showModifyDialog(mPhone);
+
 
 
                }
@@ -107,25 +108,31 @@ public class ForgetPasswordFragment extends BaseFragment {
     }
 
     private void modifyPassword(String mPhone, String mCaptcha, String mPassword) {
-        mSubscription=mRemoteService.modifyPassword(mPhone,mCaptcha,mPassword)
+        mSubscription=mRemoteService.modifyPassword(mCaptcha,mPassword,mPhone)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiResponse>() {
+                .subscribe(new Subscriber<ApiResponse>() {
                     @Override
-                    public void onSuccess(ApiResponse value) {
-                        if (value.getResultCode()==200){
-                            showModifyDialog(mPhone);
+                    public void onCompleted() {
 
-                        }else {
-                             Snackbar.make(rootView,value.getResultMessage(),Snackbar.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Snackbar.make(rootView,"请求错误！",Snackbar.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                            if (apiResponse.getResultCode()==200){
+                                showModifyDialog(mPhone);
+
+                            }else {
+                                Snackbar.make(rootView,apiResponse.getResultMessage(),Snackbar.LENGTH_LONG).show();
+                            }
+
                         }
 
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-                        Snackbar.make(rootView,"网络请求错误！",Snackbar.LENGTH_LONG).show();
-
-                    }
                 });
 
     }
@@ -141,17 +148,17 @@ public class ForgetPasswordFragment extends BaseFragment {
         dialog.getWindow().findViewById(R.id.btn_login).setOnClickListener(v -> {
             Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
                     subscribe(s -> {
-
+                        dialog.dismiss();
                         fragmentMgr.beginTransaction()
                                 .addToBackStack(TAG)
-                                .replace(R.id.fragment_login_container,
-                                        RegisterFirstFragment.newInstance(phone))
+                                .replace(R.id.fragment_login_container, LoginFragment.newInstance(phone))
                                 .commit();
 
                     });
 
 
         });
+
 
 
 

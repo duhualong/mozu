@@ -1,10 +1,13 @@
 package org.eenie.wgj.ui.login;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -44,6 +47,8 @@ import static android.content.ContentValues.TAG;
  */
 
 public class LoginFragment extends BaseFragment {
+    public static final String PHONE="phone";
+    private String mUsername;
     private boolean isLogin=false;
     @BindView(R.id.root_view)
     View rootView;
@@ -56,6 +61,27 @@ public class LoginFragment extends BaseFragment {
     @BindView(R.id.checkbox_password_remember)
     CheckBox passwordRemember;
 
+
+
+    public static LoginFragment newInstance(String username) {
+        LoginFragment fragment = new LoginFragment();
+        if (!TextUtils.isEmpty(username) ) {
+            Bundle args = new Bundle();
+            args.putString(PHONE, username);
+            fragment.setArguments(args);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            mUsername = getArguments().getString(PHONE);
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     @Override
     protected int getContentView() {
         return R.layout.fragment_login;
@@ -63,6 +89,9 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
+        if (!TextUtils.isEmpty(mUsername)){
+            inputPhone.setText(mUsername);
+        }
         if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.PHONE,""))){
             inputPhone.setText(mPrefsHelper.getPrefs().getString(Constants.PHONE,""));
 
@@ -211,7 +240,7 @@ public class LoginFragment extends BaseFragment {
                 .subscribe(new SingleSubscriber<ApiResponse<Login>>() {
                     @Override
                     public void onSuccess(ApiResponse<Login> data) {
-                        if (data.getResultCode() ==200&&data.getData()!= null) {
+                        if (data.getResultCode() ==200) {
                             Login login = data.getData();
                             System.out.println("打印：login"+login);
 //                            mUserDao.initUserData(login);

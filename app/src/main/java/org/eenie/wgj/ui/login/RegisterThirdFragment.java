@@ -1145,7 +1145,7 @@ public class RegisterThirdFragment extends BaseFragment {
                                 fragmentMgr.beginTransaction()
                                         .addToBackStack(TAG)
                                         .replace(R.id.fragment_login_container,
-                                                RegisterFirstFragment.newInstance(username))
+                                                LoginFragment.newInstance(username))
                                         .commit();
 
                             });
@@ -1159,7 +1159,7 @@ public class RegisterThirdFragment extends BaseFragment {
                                 fragmentMgr.beginTransaction()
                                         .addToBackStack(TAG)
                                         .replace(R.id.fragment_login_container,
-                                                RegisterFirstFragment.newInstance(username))
+                                                LoginFragment.newInstance(username))
                                         .commit();
 
                     });
