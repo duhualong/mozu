@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <TextView android:layout_width="match_parent"
+              android:layout_height="?android:actionBarSize"
+              android:background="@color/colorPrimary"
+              android:gravity="center"
+              android:text="@string/upload_avatar"
+              android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+    <TextView
+        android:id="@id/tv_photo_personal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_personal_photo"
+        android:drawablePadding="@dimen/personal_padding"
+        android:drawableStart="@mipmap/ic_personal_photo"
+        android:gravity="start|center_vertical"
+        android:padding="@dimen/personal_margin"
+        android:text="@string/tv_photo"
+        android:textColor="@color/titleColor"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="#f0f0f0"/>
+
+    <TextView
+        android:id="@id/tv_camera_personal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_personal_camera"
+        android:drawablePadding="@dimen/personal_padding"
+        android:drawableStart="@mipmap/ic_personal_camera"
+        android:gravity="start|center_vertical"
+        android:padding="@dimen/personal_margin"
+        android:text="@string/tv_take_camera"
+        android:textColor="@color/titleColor"/>
+</LinearLayout>

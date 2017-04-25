@@ -55,6 +55,11 @@ public interface RemoteService {
     @POST("fetch_sms_code/verification")
     @FormUrlEncoded
     Single<ApiResponse> verifyCode(@Header("token") String token, @Field("verify") String captcha);
+    @POST("login/forgetpassword")
+    @FormUrlEncoded
+    Single<ApiResponse>modifyPassword(@Field("verify")String captcha,@Field("newpwd")String newPwd,
+                                      @Field("username")String username);
+
 
 
     @Headers("token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTE0NjcwODQsIm5iZiI6MTQ5MTQ2NzA4NSwiZXhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ-VJ7uKPbkIqxOsZDqZDuudwi-U4E3ebCkTg")

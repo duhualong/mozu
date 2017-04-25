@@ -59,12 +59,21 @@
   <!--padding-->
   <dimen name="text_padding_size">10dp</dimen>
 
-
+<!--personal center-->
+  <dimen name="personal_margin">10dp</dimen>
+  <dimen name="personal_size">50dp</dimen>
+    <dimen name="personal_avatar">60dp</dimen>
+  <dimen name="personal_padding">5dp</dimen>
 
 
   <dimen name="font_size_12sp">12dp</dimen>
   <dimen name="font_size_14sp">14dp</dimen>
   <dimen name="font_size_16sp">16dp</dimen>
   <dimen name="font_size_18sp">18dp</dimen>
+  
+  
+  
+  
+  
 
 </resources>

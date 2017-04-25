@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/mroot_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f0f0f0"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@id/rl_base_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/personal_padding">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@id/img_avatar"
+            android:layout_width="@dimen/personal_size"
+            android:layout_height="@dimen/personal_size"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/personal_margin"
+            android:layout_marginLeft="@dimen/personal_padding"
+            android:layout_marginRight="@dimen/personal_margin"
+            android:layout_marginStart="@dimen/personal_padding"
+            android:src="@mipmap/ic_default_header"
+        />
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:layout_toEndOf="@id/img_avatar"
+                      android:layout_toRightOf="@id/img_avatar"
+
+                      android:orientation="vertical">
+            <TextView
+                android:id="@id/personal_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#333"/>
+            <TextView
+                android:id="@id/personal_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_phone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/titleColor"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@id/img_scan"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/personal_padding"
+            android:layout_marginRight="@dimen/personal_padding"
+            android:src="@mipmap/ic_patrol_item_qrcode"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/rl_alert_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/personal_margin"
+        android:background="@color/white"
+        android:padding="@dimen/personal_padding">
+        <ImageView
+            android:id="@id/img_setting"
+            android:layout_width="@dimen/personal_size"
+            android:layout_height="@dimen/personal_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/personal_margin"
+            android:layout_marginLeft="@dimen/personal_padding"
+            android:layout_marginRight="@dimen/personal_margin"
+            android:layout_marginStart="@dimen/personal_padding"
+            android:src="@mipmap/ic_item_setting"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_toEndOf="@id/img_setting"
+                  android:layout_toRightOf="@id/img_setting"
+                  android:text="@string/alert_setting"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:textColor="#333"
+        />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/rl_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/personal_margin"
+        android:background="@color/white"
+        android:padding="@dimen/personal_padding">
+        <ImageView
+            android:id="@id/img_setting"
+            android:layout_width="@dimen/personal_size"
+            android:layout_height="@dimen/personal_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/personal_margin"
+            android:layout_marginLeft="@dimen/personal_padding"
+            android:layout_marginRight="@dimen/personal_margin"
+            android:layout_marginStart="@dimen/personal_padding"
+            android:src="@mipmap/ic_item_version"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_toEndOf="@id/img_setting"
+                  android:layout_toRightOf="@id/img_setting"
+                  android:text="@string/version"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:textColor="#333"
+        />
+
+    </RelativeLayout>
+
+</LinearLayout>

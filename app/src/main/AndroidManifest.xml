@@ -50,6 +50,14 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"/>
+        <!--个人中心基本信息-->
+        <activity android:name=".ui.personal.PersonalBaseInfoActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--个人信息的二维码-->
+        <activity android:name=".ui.personal.PersonalBarcodeActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--<provider-->
             <!--android:name="android.support.v4.content.FileProvider"-->
             <!--android:authorities="org.eenie.wgj.fileprovider"-->

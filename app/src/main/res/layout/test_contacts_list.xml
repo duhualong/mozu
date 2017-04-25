@@ -4,11 +4,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <me.zhouzhuo.zzletterssidebar.widget.ZzRecyclerView
-        android:id="@+id/rv"
+    <ListView
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+    <!--触摸时显示的字母-->
     <TextView
         android:id="@+id/tv_dialog"
         android:layout_width="100dp"
@@ -19,7 +20,7 @@
         android:textColor="@android:color/white"
         android:textSize="36sp"
         android:visibility="gone" />
-
+    <!--右侧字母栏-->
     <me.zhouzhuo.zzletterssidebar.ZzLetterSideBar
         android:id="@+id/sidebar"
         android:layout_width="24dp"

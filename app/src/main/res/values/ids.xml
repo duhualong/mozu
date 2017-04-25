@@ -123,4 +123,30 @@
     <item name="labour_work" type="id"/>
     <item name="title_dialog" type="id"/>
     <item name="labour_phone" type="id"/>
+    <item name="img_avatar" type="id"/>
+    <item name="personal_name" type="id"/>
+    <item name="personal_phone" type="id"/>
+    <item name="img_setting" type="id"/>
+    <item name="rl_alert_setting" type="id"/>
+    <item name="rl_base_information" type="id"/>
+    <item name="rl_version" type="id"/>
+    <item name="tv_avatar" type="id"/>
+    <item name="rl_scan" type="id"/>
+    <item name="img_back_right" type="id"/>
+    <item name="rl_bank_card" type="id"/>
+    <item name="rl_security_certificate" type="id"/>
+    <item name="rl_personal_information" type="id"/>
+    <item name="rl_identity_card" type="id"/>
+    <item name="img_identity_card" type="id"/>
+    <item name="img_personal_information" type="id"/>
+    <item name="img_bank_card" type="id"/>
+    <item name="img_security_certificate" type="id"/>
+    <item name="security_code" type="id"/>
+    <item name="bank_card" type="id"/>
+    <item name="mroot_view" type="id"/>
+    <item name="tv_photo_personal" type="id"/>
+    <item name="tv_camera_personal" type="id"/>
+    <item name="img_barcode" type="id"/>
+    <item name="barcode_name" type="id"/>
+    <item name="img_avatar_barcode" type="id"/>
 </resources>

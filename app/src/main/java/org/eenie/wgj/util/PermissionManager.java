@@ -55,6 +55,14 @@ public class PermissionManager {
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     }, requestCode);
   }
+
+  @TargetApi(Build.VERSION_CODES.M)
+  public static void invokeCameras(android.support.v4.app.Fragment fragment, int requestCode) {
+    fragment.requestPermissions(new String[] {
+            Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    }, requestCode);
+  }
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
   public static void requestCamera(Activity activity, int requestCode) {
     ActivityCompat.requestPermissions(activity, new String[] {

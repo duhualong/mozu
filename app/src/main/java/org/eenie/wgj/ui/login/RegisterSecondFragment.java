@@ -74,7 +74,7 @@ public class RegisterSecondFragment extends BaseFragment {
     private String mPhone;
     private String mPassword;
     private static final int REQUEST_CAMERA_PERMISSION = 2;
-    public static final int REQUEST_CAMERA_PERMISSIONS = 4;
+    private static final int REQUEST_CAMERA_PERMISSIONS = 4;
 
     public static final int TAKE_PHOTO_REQUEST_ONE = 1;
     public static final int TAKE_PHOTO_REQUEST_ONES = 3;

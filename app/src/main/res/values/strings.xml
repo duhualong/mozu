@@ -105,6 +105,22 @@
     <string name="friend_phone">请输入朋友的电话号码</string>
     <string name="modify_password">恭喜您!密码设置成功</string>
     <string name="go_login">去登陆</string>
+    <!--personal_center-->
+    <string name="personal_name">姓名</string>
+    <string name="personal_phone">手机号：18817772486</string>
+    <string name="alert_setting">提醒设置</string>
+    <string name="version">版本信息</string>
+    <string name="tv_personal_center">个人中心</string>
+    <string name="avatar">头像</string>
+    <string name="qr_code">二维码名片</string>
+    <string name="identity_card">身份证信息</string>
+    <string name="personal_information">个人信息</string>
+    <string name="bank_card">银行卡号</string>
+    <string name="security_certificate">保安证号</string>
+    <string name="upload_avatar">上传头像</string>
+    <string name="tv_photo">相册</string>
+    <string name="tv_take_camera">拍照</string>
+    <string name="barcode">分享自己的名片，让他人更加了解你</string>
 
 
 </resources>

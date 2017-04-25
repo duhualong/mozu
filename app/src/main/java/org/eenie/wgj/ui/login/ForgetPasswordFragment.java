@@ -83,9 +83,11 @@ public class ForgetPasswordFragment extends BaseFragment {
 
             case R.id.register_submit_button:
                if (checkboxModifyPassword(mPhone,mCaptcha,mPassword,mRePassword)){
-                   //调用修改密码的接口
-                   showModifyDialog(mPhone);
 
+                   //调用修改密码的接口
+
+                   modifyPassword(mPhone,mCaptcha,mPassword);
+                   showModifyDialog(mPhone);
 
 
                }
@@ -101,6 +103,30 @@ public class ForgetPasswordFragment extends BaseFragment {
                 Utils.setShowHide(checkboxTwice, inputRePassword);
                 break;
         }
+
+    }
+
+    private void modifyPassword(String mPhone, String mCaptcha, String mPassword) {
+        mSubscription=mRemoteService.modifyPassword(mPhone,mCaptcha,mPassword)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ApiResponse>() {
+                    @Override
+                    public void onSuccess(ApiResponse value) {
+                        if (value.getResultCode()==200){
+                            showModifyDialog(mPhone);
+
+                        }else {
+                             Snackbar.make(rootView,value.getResultMessage(),Snackbar.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        Snackbar.make(rootView,"网络请求错误！",Snackbar.LENGTH_LONG).show();
+
+                    }
+                });
 
     }
 
