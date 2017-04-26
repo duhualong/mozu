@@ -104,7 +104,7 @@ public class Utils {
         Pattern p;
         Matcher m;
         boolean b;
-        p = Pattern.compile("^[1][3,4,5,7,8][0-9]{9}$"); // 验证手机号
+        p = Pattern.compile("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[3|6|7|9])|(18[0-9]))\\d{8}$");
         m = p.matcher(phone);
         b = m.matches();
         return b;

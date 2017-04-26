@@ -121,6 +121,7 @@
     <string name="tv_photo">相册</string>
     <string name="tv_take_camera">拍照</string>
     <string name="barcode">分享自己的名片，让他人更加了解你</string>
+    <string name="bank_card_hint">请输入银行卡号</string>
 
 
 </resources>

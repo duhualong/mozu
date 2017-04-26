@@ -4,39 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
-
 import org.eenie.wgj.MainActivity;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
-import org.eenie.wgj.data.remote.HttpClient;
-import org.eenie.wgj.data.remote.RemoteService;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.requset.Mdata;
-import org.eenie.wgj.model.response.Login;
-import org.eenie.wgj.util.Constant;
+import org.eenie.wgj.model.requset.MLogin;
+import org.eenie.wgj.model.response.TestLogin;
 import org.eenie.wgj.util.Constants;
-import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.realm.Realm;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-import rx.Single;
-import rx.SingleSubscriber;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -47,9 +32,9 @@ import static android.content.ContentValues.TAG;
  */
 
 public class LoginFragment extends BaseFragment {
-    public static final String PHONE="phone";
+    public static final String PHONE = "phone";
     private String mUsername;
-    private boolean isLogin=false;
+    private boolean isLogin = false;
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.login_edit_input_phone)
@@ -62,10 +47,9 @@ public class LoginFragment extends BaseFragment {
     CheckBox passwordRemember;
 
 
-
     public static LoginFragment newInstance(String username) {
         LoginFragment fragment = new LoginFragment();
-        if (!TextUtils.isEmpty(username) ) {
+        if (!TextUtils.isEmpty(username)) {
             Bundle args = new Bundle();
             args.putString(PHONE, username);
             fragment.setArguments(args);
@@ -89,20 +73,20 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
-        if (!TextUtils.isEmpty(mUsername)){
+        if (!TextUtils.isEmpty(mUsername)) {
             inputPhone.setText(mUsername);
-        }
-        if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.PHONE,""))){
-            inputPhone.setText(mPrefsHelper.getPrefs().getString(Constants.PHONE,""));
+        } else {
+            if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.PHONE, ""))) {
+                inputPhone.setText(mPrefsHelper.getPrefs().getString(Constants.PHONE, ""));
 
-        }
+            }
 
-        if (mPrefsHelper.getPrefs().getBoolean(Constants.IS_LOGIN, false)) {
-            //自动登录（已保存账号密码）
-            startActivity(new Intent(context, MainActivity.class));
-            getActivity().finish();
+            if (mPrefsHelper.getPrefs().getBoolean(Constants.IS_LOGIN, false)) {
+                //自动登录（已保存账号密码）
+                startActivity(new Intent(context, MainActivity.class));
+                getActivity().finish();
+            }
         }
-
 
     }
 
@@ -114,19 +98,20 @@ public class LoginFragment extends BaseFragment {
 
         switch (view.getId()) {
             case R.id.btn_login:
-               // testOther();
-               // startActivity(new Intent(context, MainActivity.class));
+
+
                 boolean isChecked = checkInputContent(mPhone, mPassword);
                 if (isChecked) {
-                    checkLogin(mPhone, mPassword);
+                    checkedLogined(mPhone, mPassword);
+                    //checkLogin(mPhone,mPassword);
                 }
-                break;
-            case R.id.btn_register:
 
 //                fragmentMgr.beginTransaction()
 //                        .addToBackStack(TAG)
-//                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
+//                        .replace(R.id.fragment_login_container, new RegisterThirdFragment())
 //                        .commit();
+                break;
+            case R.id.btn_register:
 
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
@@ -141,7 +126,7 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.checkbox_password_remember:
                 if (passwordRemember.isChecked()) {
-                     isLogin = true;
+                    isLogin = true;
 
                     //保存密码和账号
                 } else {
@@ -149,7 +134,6 @@ public class LoginFragment extends BaseFragment {
                     isLogin = false;
 
                 }
-
 
                 break;
             case R.id.tv_forget_password:
@@ -163,121 +147,70 @@ public class LoginFragment extends BaseFragment {
 
     }
 
-    private void testOther() {
-        String tokenUrl = RemoteService.DOMAIN + "readilyShootList";
-        HttpClient client = new HttpClient();
-        client.getDatas(tokenUrl, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                System.out.println("打印数据：" + "111111");
-                String result = response.body().string();
-                if (response.isSuccessful() && !TextUtils.isEmpty(result)) {
-
-                    Gson gson = new Gson();
-                    Mdata mdata = gson.fromJson(result, Mdata.class);
-                    String code = mdata.getResultCode();
-                    Log.d(TAG, "onResponse: " + code);
-                }
-//                if (response.isSuccessful()&&!TextUtils.isEmpty(result)){
-//                    try {
-//                        JSONObject jsonObject=new JSONObject(result);
-//                      int code=  jsonObject.optInt("resultCode");
-//                        String message=jsonObject.optString("resultMessage");
-//                        System.out.println("result:"+code+",message"+message);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//
-//
-//                }
-
-            }
-        }, Constant.TOKEN);
-
-
-        client.getData(tokenUrl, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-            }
-        });
-
-
-//        mSubscription=mRemoteService.getList().subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleSubscriber<ApiResponse<List<ShootList>>>() {
-//                    @Override
-//                    public void onSuccess(ApiResponse<List<ShootList>> data) {
-//                        if (data.getResultCode()==0){
-//                            System.out.println("测试数据："+data.getResultMessage().length());
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable error) {
-//
-//                    }
-//                });
-    }
-
-    private void checkLogin(String phone, String password) {
-
-        mSubscription = mRemoteService.login(phone, password)
+    public void checkedLogined(String phone, String password) {
+        MLogin login=new MLogin(phone,password);
+        mSubscription = mRemoteService.logined(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiResponse<Login>>() {
+                .subscribe(new Subscriber<ApiResponse<TestLogin>>() {
                     @Override
-                    public void onSuccess(ApiResponse<Login> data) {
-                        if (data.getResultCode() ==200) {
-                            Login login = data.getData();
-                            System.out.println("打印：login"+login);
-//                            mUserDao.initUserData(login);
-                            Realm mRealm=Realm.getDefaultInstance();
-                            mRealm.executeTransaction(realm -> realm.copyToRealm(login));
-
-                            String token = login.getToken();
-                            if (!TextUtils.isEmpty(token)) {
-                                mPrefsHelper.getPrefs().edit().
-                                        putString(Constants.TOKEN, token)
-                                        .putBoolean(Constants.IS_LOGIN, isLogin)
-                                        .putString(Constants.PHONE,phone)
-                                        .apply();
-                            }
-                            Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
-                            Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).subscribe(s -> {
-                                startActivity(new Intent(context, MainActivity.class));
-                               getActivity().finish();
-                            });
-
-                            System.out.println("token:" + token);
-                            System.out.println("data数据：" + login);
-
-                        }else {
-                            Snackbar.make(rootView, data.getResultMessage(), Snackbar.LENGTH_SHORT).show();
-                        }
-
-                        System.out.println("打印code：" + data.getResultCode());
+                    public void onCompleted() {
 
                     }
 
                     @Override
-                    public void onError(Throwable error) {
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse<TestLogin> testLoginApiResponse) {
+                        if (testLoginApiResponse.getResultCode()==200){
+                            TestLogin data=testLoginApiResponse.getData();
+                            System.out.println(data.getToken());
+                            Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
+                            startActivity(new Intent(context,MainActivity.class));
+                        }
 
                     }
                 });
     }
+
+    private void checkLogin(String phone, String password) {
+
+
+        mSubscription = mRemoteService.postLogin(phone, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("ERROR:" + e);
+                        Snackbar.make(rootView, "错误请求！", Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200) {
+                            TestLogin login = (TestLogin) apiResponse.getData();
+                            login.getToken();
+                            Snackbar.make(rootView, "登陆成功，即将进入首页！" + login.getToken(), Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            Snackbar.make(rootView, apiResponse.getResultMessage(), Snackbar.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                });
+
+    }
+
+
     //检查输入内容（手机号码，密码）
 
     private boolean checkInputContent(String phone, String password) {

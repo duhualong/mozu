@@ -138,6 +138,11 @@ public class RegisterThirdFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
+
+
+
+
+
         initData();
 
 
@@ -1100,6 +1105,9 @@ public class RegisterThirdFragment extends BaseFragment {
             data.setPhone(mContactPhone);
             data.setRelation(mRelation);
         }
+
+        System.out.println("gson"+gson.toJson(data));
+
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("username", username)
@@ -1125,10 +1133,8 @@ public class RegisterThirdFragment extends BaseFragment {
                 .addFormDataPart("emergency_contact", gson.toJson(data),
                         RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),
                                 gson.toJson(data)))
-                .addFormDataPart("industry", industry,
-                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), industry))
-                .addFormDataPart("skill", skill,
-                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), skill))
+                .addFormDataPart("industry", industry)
+                .addFormDataPart("skill", skill)
                 .addFormDataPart("channel", channel)
                 .build();
 

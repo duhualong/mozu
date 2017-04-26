@@ -6,9 +6,10 @@ import com.google.gson.GsonBuilder;
 
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.response.Contacts;
-import org.eenie.wgj.model.response.Login;
 import org.eenie.wgj.model.response.ShootList;
+import org.eenie.wgj.model.response.TestLogin;
 import org.eenie.wgj.model.response.Token;
 
 import java.io.File;
@@ -23,6 +24,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -30,6 +32,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Single;
 
 /**
@@ -40,11 +43,18 @@ public interface RemoteService {
     String DOMAIN = "http://118.178.88.132:8000/api/";
 
 
+    @GET("register/checkuser")
+    Single<ApiResponse> checkedPhone(@Query("username") String username);
+    @POST("logina")
+    Single<ApiResponse<TestLogin>>logined(@Body MLogin login);
 
-    //登录接口
+
+
+
     @POST("login")
     @FormUrlEncoded
-    Single<ApiResponse<Login>> login(@Field("username") String username, @Field("password") String password);
+    Single<ApiResponse> postLogin(@Field("username") String username,
+                                             @Field("password") String password);
 
     //发送验证码
     @POST("fetch_sms_code")
@@ -57,12 +67,10 @@ public interface RemoteService {
     Single<ApiResponse> verifyCode(@Header("token") String token, @Field("verify") String captcha);
 
 
-
     @POST("login/forgetpassword")
     @FormUrlEncoded
-    Single<ApiResponse>modifyPassword(@Field("verify")String captcha,@Field("newpwd")String newPwd,
-                                      @Field("username")String username);
-
+    Single<ApiResponse> modifyPassword(@Field("verify") String captcha, @Field("newpwd") String newPwd,
+                                       @Field("username") String username);
 
 
     @Headers("token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTE0NjcwODQsIm5iZiI6MTQ5MTQ2NzA4NSwiZXhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ-VJ7uKPbkIqxOsZDqZDuudwi-U4E3ebCkTg")
@@ -70,7 +78,7 @@ public interface RemoteService {
     Single<ApiResponse<List<ShootList>>> getList();
 
     @GET("contacts/userList")
-    Single<ApiResponse<List<Contacts>>> getContacts(@Header("token")String token);
+    Single<ApiResponse<List<Contacts>>> getContacts(@Header("token") String token);
 
     @FormUrlEncoded
     @POST("recog.do")
@@ -83,6 +91,20 @@ public interface RemoteService {
 
 
     class Creator {
+
+//        @Inject public RemoteService createService() {
+//            OkHttpClient client =
+//                    new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor()).build();
+//
+//            Retrofit retrofit = new Retrofit.Builder().client(client)
+//                    .client(client)
+//                    .baseUrl(DOMAIN)
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                    .build();
+//            return retrofit.create(RemoteService.class);
+
+//
         @Inject
         public RemoteService createService() {
             OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
@@ -99,7 +121,6 @@ public interface RemoteService {
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-
             return retrofit.create(RemoteService.class);
         }
     }

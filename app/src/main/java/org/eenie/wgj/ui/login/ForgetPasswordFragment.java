@@ -42,16 +42,22 @@ import static org.eenie.wgj.util.Constants.NUM_COUNTDOWN;
 public class ForgetPasswordFragment extends BaseFragment {
     private CountDownTimer timer;
     private boolean isCounting;
-    @BindView(R.id.register_fetch_code_button)Button btnSendCaptcha;
+    @BindView(R.id.register_fetch_code_button)
+    Button btnSendCaptcha;
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.login_edit_input_phone)
     EditText inputPhone;
-    @BindView(R.id.register_code_edit_text)EditText inputCaptcha;
-    @BindView(R.id.login_edit_input_password)EditText inputPassword;
-    @BindView(R.id.login_edit_input_password_twice)EditText inputRePassword;
-    @BindView(R.id.checkbox_password_show_state)CheckBox checkboxFirst;
-    @BindView(R.id.checkbox_password_show_state_twice)CheckBox checkboxTwice;
+    @BindView(R.id.register_code_edit_text)
+    EditText inputCaptcha;
+    @BindView(R.id.login_edit_input_password)
+    EditText inputPassword;
+    @BindView(R.id.login_edit_input_password_twice)
+    EditText inputRePassword;
+    @BindView(R.id.checkbox_password_show_state)
+    CheckBox checkboxFirst;
+    @BindView(R.id.checkbox_password_show_state_twice)
+    CheckBox checkboxTwice;
 
     @Override
     protected int getContentView() {
@@ -64,12 +70,12 @@ public class ForgetPasswordFragment extends BaseFragment {
     }
 
     @OnClick({R.id.register_fetch_code_button, R.id.register_submit_button,
-            R.id.checkbox_password_show_state, R.id.checkbox_password_show_state_twice,R.id.img_back})
+            R.id.checkbox_password_show_state, R.id.checkbox_password_show_state_twice, R.id.img_back})
     public void onClick(View view) {
-        String mPhone=inputPhone.getText().toString();
-        String mCaptcha=inputCaptcha.getText().toString();
-        String mPassword=inputPassword.getText().toString();
-        String mRePassword=inputRePassword.getText().toString();
+        String mPhone = inputPhone.getText().toString();
+        String mCaptcha = inputCaptcha.getText().toString();
+        String mPassword = inputPassword.getText().toString();
+        String mRePassword = inputRePassword.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
@@ -77,21 +83,22 @@ public class ForgetPasswordFragment extends BaseFragment {
 
                 break;
             case R.id.register_fetch_code_button:
-                if (checkPhone(mPhone)){
-                    getCaptcha(mPhone);
+
+
+                if (checkPhone(mPhone)) {
+                    checkPhoneRegister(mPhone);
                 }
                 break;
 
             case R.id.register_submit_button:
-               if (checkboxModifyPassword(mPhone,mCaptcha,mPassword,mRePassword)){
+                if (checkboxModifyPassword(mPhone, mCaptcha, mPassword, mRePassword)) {
 
-                   //调用修改密码的接口
+                    //调用修改密码的接口
 
-                   modifyPassword(mPhone,mCaptcha,mPassword);
+                    modifyPassword(mPhone, mCaptcha, mPassword);
 
 
-
-               }
+                }
 
 
                 break;
@@ -107,8 +114,9 @@ public class ForgetPasswordFragment extends BaseFragment {
 
     }
 
-    private void modifyPassword(String mPhone, String mCaptcha, String mPassword) {
-        mSubscription=mRemoteService.modifyPassword(mCaptcha,mPassword,mPhone)
+    private void checkPhoneRegister(String mPhone) {
+
+        mSubscription = mRemoteService.checkedPhone(mPhone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -119,19 +127,60 @@ public class ForgetPasswordFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Snackbar.make(rootView,"请求错误！",Snackbar.LENGTH_LONG).show();
+                        System.out.println("打印错误");
                     }
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                            if (apiResponse.getResultCode()==200){
-                                showModifyDialog(mPhone);
+                        switch (apiResponse.getResultCode()) {
+                            case 100:
+                                getCaptcha(mPhone);
+                                break;
+                            case 200:
+                                Snackbar.make(rootView, "改手机号未注册,请先去注册!", Snackbar.LENGTH_LONG).show();
+                                Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                                        subscribe(s -> {
+                                            fragmentMgr.beginTransaction()
+                                                    .addToBackStack(TAG)
+                                                    .replace(R.id.fragment_login_container, RegisterFirstFragment.newInstance(mPhone))
+                                                    .commit();
+                                        });
 
-                            }else {
-                                Snackbar.make(rootView,apiResponse.getResultMessage(),Snackbar.LENGTH_LONG).show();
-                            }
-
+                                break;
                         }
+
+                    }
+                });
+
+
+    }
+
+
+    private void modifyPassword(String mPhone, String mCaptcha, String mPassword) {
+        mSubscription = mRemoteService.modifyPassword(mCaptcha, mPassword, mPhone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Snackbar.make(rootView, "请求错误！", Snackbar.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200) {
+                            showModifyDialog(mPhone);
+
+                        } else {
+                            Snackbar.make(rootView, apiResponse.getResultMessage(), Snackbar.LENGTH_LONG).show();
+                        }
+
+                    }
 
                 });
 
@@ -160,20 +209,18 @@ public class ForgetPasswordFragment extends BaseFragment {
         });
 
 
-
-
     }
 
     private boolean checkPhone(String mPhone) {
-        boolean result=true;
-        if (TextUtils.isEmpty(mPhone)){
-            result=false;
+        boolean result = true;
+        if (TextUtils.isEmpty(mPhone)) {
+            result = false;
             inputPhone.setError("输入的手机号码不能为空!");
 
         }
-        if (result&&!Utils.isMobile(mPhone)){
-            Snackbar.make(rootView,"请输入正确的手机号码！",Snackbar.LENGTH_LONG).show();
-            result=false;
+        if (result && !Utils.isMobile(mPhone)) {
+            Snackbar.make(rootView, "请输入正确的手机号码！", Snackbar.LENGTH_LONG).show();
+            result = false;
 
         }
         return result;
@@ -182,26 +229,26 @@ public class ForgetPasswordFragment extends BaseFragment {
 
 
     private void getCaptcha(String mPhone) {
-        mSubscription=mRemoteService.fetchMessageCode(mPhone)
+        mSubscription = mRemoteService.fetchMessageCode(mPhone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ApiResponse<Token>>() {
                     @Override
                     public void onSuccess(ApiResponse<Token> value) {
-                        if (value.getResultCode()==200){
+                        if (value.getResultCode() == 200) {
                             TimeDown();
                             mPrefsHelper.getPrefs().edit().
                                     putString(Constants.TOKEN, value.getData().getToken()).apply();
 
-                        }else {
-                            Snackbar.make(rootView,"获取验证码失败,请检查手机状态！",Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Snackbar.make(rootView, "获取验证码失败,请检查手机状态！", Snackbar.LENGTH_LONG).show();
                         }
 
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        Snackbar.make(rootView,"获取验证码失败！",Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(rootView, "获取验证码失败！", Snackbar.LENGTH_LONG).show();
 
                     }
                 });
@@ -212,7 +259,7 @@ public class ForgetPasswordFragment extends BaseFragment {
     //倒计时
     private void TimeDown() {
         //倒计时开始
-        timer = new CountDownTimer(NUM_COUNTDOWN,COUNT_UNIT) {
+        timer = new CountDownTimer(NUM_COUNTDOWN, COUNT_UNIT) {
             @Override
             public void onTick(long l) {
                 String info = "重新发送" + l / 1000 + "S";
@@ -245,46 +292,45 @@ public class ForgetPasswordFragment extends BaseFragment {
     }
 
 
+    private boolean checkboxModifyPassword(String phone, String captcha, String password,
+                                           String rePassword) {
+        boolean mResult = true;
+        if (TextUtils.isEmpty(phone)) {
+            Snackbar.make(rootView, "请填写手机号码！", Snackbar.LENGTH_LONG).show();
+            mResult = false;
+        }
+        if (mResult && !Utils.isMobile(phone)) {
+            Snackbar.make(rootView, "请填写正确的手机号码！", Snackbar.LENGTH_LONG).show();
+            mResult = false;
+        }
+        if (mResult && TextUtils.isEmpty(captcha)) {
+            mResult = false;
+            Snackbar.make(rootView, "请填写验证码", Snackbar.LENGTH_LONG).show();
+        }
+        if (mResult && (captcha.length() > 6 || (captcha.length() > 0 && captcha.length() < 4))) {
+            mResult = false;
+            Snackbar.make(rootView, "请输入4~6位的验证码！", Snackbar.LENGTH_LONG).show();
+        }
+        if (mResult) {
 
-    private boolean checkboxModifyPassword(String phone,String captcha,String password,
-                                          String rePassword) {
-        boolean mResult=true;
-        if (TextUtils.isEmpty(phone)){
-            Snackbar.make(rootView,"请填写手机号码！",Snackbar.LENGTH_LONG).show();
-            mResult=false;
         }
-        if (mResult&&!Utils.isMobile(phone)){
-            Snackbar.make(rootView,"请填写正确的手机号码！",Snackbar.LENGTH_LONG).show();
-            mResult=false;
+        if (mResult && TextUtils.isEmpty(password)) {
+            mResult = false;
+            Snackbar.make(rootView, "设置的密码不能为空！", Snackbar.LENGTH_LONG).show();
         }
-        if (mResult&&TextUtils.isEmpty(captcha)){
-            mResult=false;
-            Snackbar.make(rootView,"请填写验证码",Snackbar.LENGTH_LONG).show();
-        }
-        if (mResult&&(captcha.length()>6||(captcha.length()>0&&captcha.length()<4))){
-            mResult=false;
-            Snackbar.make(rootView,"请输入4~6位的验证码！",Snackbar.LENGTH_LONG).show();
-        }
-        if (mResult){
-
-        }
-        if (mResult&&TextUtils.isEmpty(password)){
-            mResult=false;
-            Snackbar.make(rootView,"设置的密码不能为空！",Snackbar.LENGTH_LONG).show();
-        }
-        if (mResult&&(password.length()>12||(password.length()>0&&password.length()<6))){
-            mResult=false;
-            Snackbar.make(rootView,"设置的密码长度必须在6~12为之间！",Snackbar.LENGTH_LONG).show();
+        if (mResult && (password.length() > 12 || (password.length() > 0 && password.length() < 6))) {
+            mResult = false;
+            Snackbar.make(rootView, "设置的密码长度必须在6~12为之间！", Snackbar.LENGTH_LONG).show();
         }
 
-        if (mResult&&!password.equals(rePassword)){
-            mResult=false;
+        if (mResult && !password.equals(rePassword)) {
+            mResult = false;
             inputPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             inputRePassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             checkboxFirst.setChecked(true);
             checkboxTwice.setChecked(true);
 
-            Snackbar.make(rootView,"两次输入的密码不一致,请核对密码！",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(rootView, "两次输入的密码不一致,请核对密码！", Snackbar.LENGTH_LONG).show();
 
         }
         return mResult;

@@ -20,11 +20,16 @@ import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.Token;
 import org.eenie.wgj.util.Constants;
+import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Single;
 import rx.SingleSubscriber;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -115,7 +120,8 @@ public class RegisterFirstFragment extends BaseFragment {
             case R.id.register_fetch_code_button:
 
                 if (checkPhone(mPhone)){
-                    getCaptcha(mPhone);
+                    checkPhoneRegister(mPhone);
+
 
                 }
 
@@ -148,6 +154,47 @@ public class RegisterFirstFragment extends BaseFragment {
                         (context, R.color.white));
                 break;
         }
+    }
+
+    private void checkPhoneRegister(String mPhone) {
+
+        mSubscription = mRemoteService.checkedPhone(mPhone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("打印错误");
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        switch (apiResponse.getResultCode()) {
+                            case 100:
+                                Snackbar.make(rootView, "该手机号已注册，请登录!",
+                                        Snackbar.LENGTH_LONG).show();
+                                Single.just("").delay(1, TimeUnit.SECONDS).
+                                        compose(RxUtils.applySchedulers()).
+                                        subscribe(s -> {
+                                            fragmentMgr.beginTransaction()
+                                                    .addToBackStack(TAG)
+                                                    .replace(R.id.fragment_login_container,
+                                                            LoginFragment.newInstance(mPhone))
+                                                    .commit();
+                                        });
+                                break;
+                            case 200:
+                                getCaptcha(mPhone);
+                                break;
+                        }
+
+                    }
+                });
     }
 
     private boolean checkboxRegisterInfor(String phone,String captcha,String password,

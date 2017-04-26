@@ -124,7 +124,8 @@ public class FragmentTest extends BaseSupportFragment {
 
     private void initData() {
         System.out.println("打印："+mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
-        mSubscription = mRemoteService.getContacts(mPrefsHelper.getPrefs().getString(Constants.TOKEN,"")).subscribeOn(Schedulers.io())
+        mSubscription = mRemoteService.getContacts(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ApiResponse<List<Contacts>>>() {
 
