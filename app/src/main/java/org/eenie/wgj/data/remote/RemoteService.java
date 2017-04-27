@@ -5,7 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.eenie.wgj.model.Api;
+import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.model.response.ShootList;
@@ -45,16 +47,17 @@ public interface RemoteService {
 
     @GET("register/checkuser")
     Single<ApiResponse> checkedPhone(@Query("username") String username);
+
+
+
+
+
+
     @POST("logina")
     Single<ApiResponse<TestLogin>>logined(@Body MLogin login);
 
-
-
-
     @POST("login")
-    @FormUrlEncoded
-    Single<ApiResponse> postLogin(@Field("username") String username,
-                                             @Field("password") String password);
+    Single<ApiResponse> postLogin(@Body MLogin login);
 
     //发送验证码
     @POST("fetch_sms_code")
@@ -63,8 +66,7 @@ public interface RemoteService {
 
     //验证码校验
     @POST("fetch_sms_code/verification")
-    @FormUrlEncoded
-    Single<ApiResponse> verifyCode(@Header("token") String token, @Field("verify") String captcha);
+    Single<ApiRes> verifyCode(@Body CaptchaChecked captchaChecked);
 
 
     @POST("login/forgetpassword")

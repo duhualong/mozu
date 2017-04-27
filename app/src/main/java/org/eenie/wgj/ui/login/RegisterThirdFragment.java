@@ -24,17 +24,15 @@ import com.google.gson.Gson;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
-import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.EmergencyContactMod;
+import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.util.Constants;
-import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,7 +44,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Single;
 
 import static android.content.ContentValues.TAG;
 
@@ -140,9 +137,6 @@ public class RegisterThirdFragment extends BaseFragment {
     protected void updateUI() {
 
 
-
-
-
         initData();
 
 
@@ -165,7 +159,7 @@ public class RegisterThirdFragment extends BaseFragment {
         mAddress = getValues(Constants.ADDRESS);
         mNumber = getValues(Constants.CARD_IDENTITY);
         mSignOffice = getValues(Constants.SIGN_OFFICE);
-        mDeadline = getValues(Constants.START_DATE).replaceAll("-", ":") + "—" +
+        mDeadline = getValues(Constants.START_DATE).replaceAll("-", ":") + "-" +
                 getValues(Constants.END_DATE).replaceAll("-", ":");
 
 
@@ -217,26 +211,26 @@ public class RegisterThirdFragment extends BaseFragment {
 
             case R.id.btn_apply:
 
+
                 if (mCheckHeight && mCheckedQualification && mCheckMarry && mCheckAddress &&
                         mCheckContact && mCheckWork && mCheckIndustry && mCheckSkill &&
                         mCheckChannel) {
-                    String marry = null;
-                    switch (marryState) {
-                        case "未婚":
-                            marry = "1";
-                            break;
-                        case "已婚":
-                            marry = "2";
-                            break;
-                    }
-                    System.out.println("token:" + mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
 
-                    String finalMarry = marry;
+
                     new Thread() {
                         public void run() {
+                            String marry = null;
+                            switch (marryState) {
+                                case "未婚":
+                                    marry = "1";
+                                    break;
+                                case "已婚":
+                                    marry = "2";
+                                    break;
+                            }
                             getData(username, password, mName, mSex, mNation, mBirthday, mAddress, mNumber,
                                     mSignOffice, mDeadline, mAvatarFile, mAvatarFile,
-                                    mAvatarFile, height, qualifications, finalMarry, addressNow,
+                                    mAvatarFile, height, qualifications, marry, addressNow,
                                     Utils.getStr(industry), Utils.getStr(skill), channelStr);
 
                         }
@@ -492,8 +486,6 @@ public class RegisterThirdFragment extends BaseFragment {
             }
             if (count == 0) {
                 Toast.makeText(context, "至少选择一项技能！", Toast.LENGTH_LONG).show();
-            } else if (count > 3) {
-                Toast.makeText(context, "最多选择三项技能！", Toast.LENGTH_LONG).show();
             } else {
                 List<String> mString = new ArrayList<>();
                 for (int i = 0; i < checkBoxes.length; i++) {
@@ -561,6 +553,7 @@ public class RegisterThirdFragment extends BaseFragment {
         CheckBox fifth = (CheckBox) dialog.getWindow().findViewById(R.id.checkbox_fifth);
         CheckBox sixth = (CheckBox) dialog.getWindow().findViewById(R.id.checkbox_sixth);
         Button btnSave = (Button) dialog.getWindow().findViewById(R.id.btn_save);
+        TextView tip = (TextView) dialog.getWindow().findViewById(R.id.tip_industrary);
         CheckBox[] checkBoxes = new CheckBox[]{first, second, third, fourth, fifth,
                 sixth};
         for (String s : industry) {
@@ -606,10 +599,11 @@ public class RegisterThirdFragment extends BaseFragment {
                 }
             }
             if (count == 0) {
-                Toast.makeText(context, "至少选择一项技能！", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "至少选择一项行业！", Toast.LENGTH_LONG).show();
             } else if (count > 3) {
-                Toast.makeText(context, "最多选择三项技能！", Toast.LENGTH_LONG).show();
+                tip.setVisibility(View.VISIBLE);
             } else {
+                tip.setVisibility(View.INVISIBLE);
                 List<String> mString = new ArrayList<>();
                 for (int i = 0; i < checkBoxes.length; i++) {
                     if (checkBoxes[i].isChecked()) {
@@ -644,10 +638,8 @@ public class RegisterThirdFragment extends BaseFragment {
                         }
                     }
                 }
-
                 industry = mString;
                 System.out.println("industry:" + industry);
-                System.out.println("打印数据mm：" + str);
                 dialog.dismiss();
                 mIndustry.setText("已填写");
                 mIndustry.setTextColor(ContextCompat.getColor
@@ -660,7 +652,6 @@ public class RegisterThirdFragment extends BaseFragment {
 
 
     }
-
 
 
     private void setChecked(CheckBox[] checkbox, int position) {
@@ -929,7 +920,7 @@ public class RegisterThirdFragment extends BaseFragment {
                 case "小学":
                     position = 0;
                     break;
-                case "中学":
+                case "初中":
                     position = 1;
                     break;
                 case "高中":
@@ -962,7 +953,7 @@ public class RegisterThirdFragment extends BaseFragment {
         }
         if (middle != null) {
             middle.setOnClickListener(v -> {
-                qualification = "中学";
+                qualification = "初中";
                 setColorSize(1, listText);
 
             });
@@ -1039,7 +1030,6 @@ public class RegisterThirdFragment extends BaseFragment {
                 (context, R.color.colorAccent));
         list[position].setTextSize(18);
 
-
     }
     //身高的dialog
 
@@ -1066,7 +1056,7 @@ public class RegisterThirdFragment extends BaseFragment {
                 if (height.endsWith("cm")) {
                     mHeight.setText(height);
                 } else {
-                    mHeight.setText(height+"cm");
+                    mHeight.setText(height + "cm");
                 }
 
                 mHeight.setTextColor(ContextCompat.getColor
@@ -1091,8 +1081,7 @@ public class RegisterThirdFragment extends BaseFragment {
                         String birthday, String address, String number, String publisher,
                         String validate, File file1, File file2, File file3, String height,
                         String graduate, String telephone, String livingAddress,
-                      String industry, String skill, String channel) {
-        System.out.println("token" + mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
+                        String industrys, String skills, String channel) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://118.178.88.132:8000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -1106,7 +1095,6 @@ public class RegisterThirdFragment extends BaseFragment {
             data.setRelation(mRelation);
         }
 
-        System.out.println("gson"+gson.toJson(data));
 
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -1120,12 +1108,6 @@ public class RegisterThirdFragment extends BaseFragment {
                 .addFormDataPart("number", number)
                 .addFormDataPart("publisher", publisher)
                 .addFormDataPart("validate", validate)
-                .addFormDataPart("id_card_positive", file1.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), file1))
-                .addFormDataPart("id_card_negative", file2.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), file2))
-                .addFormDataPart("id_card_head_image", file3.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), file3))
                 .addFormDataPart("height", height)
                 .addFormDataPart("graduate", graduate)
                 .addFormDataPart("telephone", telephone)
@@ -1133,54 +1115,134 @@ public class RegisterThirdFragment extends BaseFragment {
                 .addFormDataPart("emergency_contact", gson.toJson(data),
                         RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),
                                 gson.toJson(data)))
-                .addFormDataPart("industry", industry)
-                .addFormDataPart("skill", skill)
+                .addFormDataPart("industry", industrys)
+                .addFormDataPart("skill", skills)
                 .addFormDataPart("channel", channel)
+                .addFormDataPart("id_card_positive", file1.getName(),
+                        RequestBody.create(MediaType.parse("image/jpg"), file1))
+                .addFormDataPart("id_card_negative", file2.getName(),
+                        RequestBody.create(MediaType.parse("image/jpg"), file2))
+                .addFormDataPart("id_card_head_image", file3.getName(),
+                        RequestBody.create(MediaType.parse("image/jpg"), file3))
                 .build();
 
-        Call<ApiResponse> call = userBiz.applyInformation(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), requestBody);
-        call.enqueue(new Callback<ApiResponse>() {
+        Call<MApi> call = userBiz.applyInformation("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTMyOTY3NjgsIm5iZiI6MTQ5MzI5Njc2OSwiZXhwIjoxNTI0NDAwNzY5LCJkYXRhIjp7ImlkIjozOH19.r-wHIVt1Qr_F1jGkWAofxfunDsEPaL6cg8t8-Y6xxb0",
+                requestBody);
+        call.enqueue(new Callback<MApi>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                System.out.println("code" + response.body().getResultCode() + response.body().getResultMessage());
-                if (response.body().getResultCode() == 200) {
-                    Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
-                    Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                            subscribe(s -> {
+            public void onResponse(Call<MApi> call, Response<MApi> response) {
+                Log.d("Response raw", String.valueOf(response.raw().body()));
+                Log.d("Response code", String.valueOf(response.code()));
+                if (response.isSuccessful()) {
+                    System.out.println("请求码："+response.body().getResultCode());
+                    System.out.println("请求信息："+response.body().getResultMessage());
+                    if(response.body().toString()!=null){
+                        if (response.body().getResultCode()==200) {
+                        Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
 
-                                fragmentMgr.beginTransaction()
-                                        .addToBackStack(TAG)
-                                        .replace(R.id.fragment_login_container,
-                                                LoginFragment.newInstance(username))
-                                        .commit();
+                                    fragmentMgr.beginTransaction()
+                                            .addToBackStack(TAG)
+                                            .replace(R.id.fragment_login_container,
+                                                     LoginFragment.newInstance(username))
+                                            .commit();
 
-                            });
-
+                    }else {
+                        Snackbar.make(rootView,response.body().getResultMessage() , Snackbar.LENGTH_LONG).show();
+                    }
+                    }
                 } else {
-                    if (response.body().getResultMessage().equals("用户已存在"))
-                    Snackbar.make(rootView, "用户已注册，请登录", Snackbar.LENGTH_LONG).show();
-                    Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                            subscribe(s -> {
-
-                                fragmentMgr.beginTransaction()
-                                        .addToBackStack(TAG)
-                                        .replace(R.id.fragment_login_container,
-                                                LoginFragment.newInstance(username))
-                                        .commit();
-
-                    });
+                    System.out.println("sss" + response.errorBody());
                 }
 
+
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-
+            public void onFailure(Call<MApi> call, Throwable t) {
+                System.out.println("失败》》》》" + t);
             }
         });
+//        call.enqueue(new Callback<MultipartBody>() {
+//            @Override
+//            public void onResponse(Call<MultipartBody> call, Response<MultipartBody> response) {
+//                if (response.isSuccessful()){
+//                    MultipartBody multipartBody =response.body();
+////
+//                  System.out.println("请求成功");
+////                    if (response.body().getResultCode()==200) {
+////                        Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
+////
+////                                    fragmentMgr.beginTransaction()
+////                                            .addToBackStack(TAG)
+////                                            .replace(R.id.fragment_login_container,
+////                                                    new LoginFragment())
+////                                            .commit();
+//
+//                    }else {
+//                        Snackbar.make(rootView, "注册失败请检查注册信息", Snackbar.LENGTH_LONG).show();
+//                    }
+//                }else {
+//                    System.out.println("请求失败"+response.errorBody());
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MultipartBody> call, Throwable t) {
+//                System.out.println("失败》》》》");
+//            }
+//        });
+//        call.enqueue(new Callback<ApiRes>() {
+//            @Override
+//            public void onResponse(Call<ApiRes> call, Response<ApiRes> response) {
+//                System.out.println("code"+response.s);
+//                        Gson gson = new Gson();
+//                        Type objectType = new TypeToken<ApiRes>() {
+//                        }.getType();
+//                        ApiRes bean = gson.fromJson(response.body().toString(), objectType);
+//                        if (bean.getResultCode().equals("200") ) {
+//                            Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
+//                            Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+//                                    subscribe(s -> {
+//                                        fragmentMgr.beginTransaction()
+//                                                .addToBackStack(TAG)
+//                                                .replace(R.id.fragment_login_container,
+//                                                        LoginFragment.newInstance(username))
+//                                                .commit();
+//                                    });
+//
+//                        } else {
+//                            if (bean.getResultMessage().equals("用户已存在"))
+//                                Snackbar.make(rootView, "用户已注册，请登录", Snackbar.LENGTH_LONG).show();
+//                            Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+//                                    subscribe(s -> {
+//
+//                                        fragmentMgr.beginTransaction()
+//                                                .addToBackStack(TAG)
+//                                                .replace(R.id.fragment_login_container,
+//                                                        LoginFragment.newInstance(username))
+//                                                .commit();
+//
+//                                    });
+//                        }
+//                    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//            @Override
+//            public void onFailure(Call<ApiRes> call, Throwable t) {
+//                System.out.println("错误："+t);
+//
+//
+//            }
+//        });
     }
-
 
 
 }

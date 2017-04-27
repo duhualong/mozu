@@ -10,17 +10,33 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.MainActivity;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
+import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.response.TestLogin;
 import org.eenie.wgj.util.Constants;
+import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
+
+import java.lang.reflect.Type;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -102,8 +118,9 @@ public class LoginFragment extends BaseFragment {
 
                 boolean isChecked = checkInputContent(mPhone, mPassword);
                 if (isChecked) {
+                    //Checked("18817772486","111111");
                     checkedLogined(mPhone, mPassword);
-                    //checkLogin(mPhone,mPassword);
+                    //checkLogin(mPhone, mPassword);
                 }
 
 //                fragmentMgr.beginTransaction()
@@ -128,6 +145,8 @@ public class LoginFragment extends BaseFragment {
                 if (passwordRemember.isChecked()) {
                     isLogin = true;
 
+
+
                     //保存密码和账号
                 } else {
                     //只保存手机号
@@ -147,8 +166,40 @@ public class LoginFragment extends BaseFragment {
 
     }
 
+    private void Checked(String phone, String password) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://118.178.88.132:8000/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FileUploadService userBiz = retrofit.create(FileUploadService.class);
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("username", phone)
+                .addFormDataPart("password", password)
+                .build();
+        Call<ApiResponse> call = userBiz.login(requestBody);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    Type objectType = new TypeToken<TestLogin>() {
+                    }.getType();
+                    TestLogin bean = gson.fromJson(response.body().getData().toString(), objectType);
+                    System.out.println(bean.getToken());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void checkedLogined(String phone, String password) {
-        MLogin login=new MLogin(phone,password);
+        MLogin login = new MLogin(phone, password);
         mSubscription = mRemoteService.logined(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -165,11 +216,24 @@ public class LoginFragment extends BaseFragment {
 
                     @Override
                     public void onNext(ApiResponse<TestLogin> testLoginApiResponse) {
-                        if (testLoginApiResponse.getResultCode()==200){
-                            TestLogin data=testLoginApiResponse.getData();
-                            System.out.println(data.getToken());
+                        if (testLoginApiResponse.getResultCode() == 200) {
+                            TestLogin data = testLoginApiResponse.getData();
+                            mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN,data.getToken())
+                                    .putString(Constants.UID,data.getUserid())
+                                    .putString(Constants.PHONE,phone)
+                                    .putBoolean(Constants.IS_LOGIN,true).apply()
+                            ;
+                       if (isLogin){
+                               mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD,password)
+                                       .apply();
+                       }else {
+                           mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD,"")
+                                   .apply();
+                       }
                             Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
-                            startActivity(new Intent(context,MainActivity.class));
+                            Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                                    subscribe(s -> startActivity(new Intent(context, MainActivity.class)));
+
                         }
 
                     }
@@ -177,37 +241,38 @@ public class LoginFragment extends BaseFragment {
     }
 
     private void checkLogin(String phone, String password) {
-
-
-        mSubscription = mRemoteService.postLogin(phone, password)
+        MLogin login = new MLogin(phone, password);
+        mSubscription = mRemoteService.postLogin(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
-
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         System.out.println("ERROR:" + e);
                         Snackbar.make(rootView, "错误请求！", Snackbar.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200) {
-                            TestLogin login = (TestLogin) apiResponse.getData();
-                            login.getToken();
-                            Snackbar.make(rootView, "登陆成功，即将进入首页！" + login.getToken(), Snackbar.LENGTH_SHORT).show();
+
+
+                            Gson gson = new Gson();
+                            String ss = gson.toJson(apiResponse.getData());
+                            Type objectType = new TypeToken<TestLogin>() {
+                            }.getType();
+                            final TestLogin bean = gson.fromJson(ss, objectType);
+
+
+                            Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
                         } else {
                             Snackbar.make(rootView, apiResponse.getResultMessage(), Snackbar.LENGTH_SHORT).show();
                         }
 
-
                     }
                 });
-
     }
 
 
@@ -216,6 +281,7 @@ public class LoginFragment extends BaseFragment {
     private boolean checkInputContent(String phone, String password) {
         boolean result = true;
         if (TextUtils.isEmpty(phone)) {
+
             Snackbar.make(rootView, "请输入手机号码！", Snackbar.LENGTH_LONG).show();
             result = false;
 

@@ -74,7 +74,7 @@
     <string name="btn_cancel">取消</string>
     <string name="btn_ok">确定</string>
     <string name="primary">小学</string>
-    <string name="middle">中学</string>
+    <string name="middle">初中</string>
     <string name="tv_height_school">高中</string>
     <string name="university">本科</string>
     <string name="junior_college">专科</string>
@@ -122,6 +122,7 @@
     <string name="tv_take_camera">拍照</string>
     <string name="barcode">分享自己的名片，让他人更加了解你</string>
     <string name="bank_card_hint">请输入银行卡号</string>
+    <string name="tip_industry">最多选择三个行业</string>
 
 
 </resources>

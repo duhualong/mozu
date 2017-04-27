@@ -9,6 +9,8 @@ public  interface Constants   {
     String TOKEN="token";
     String IS_LOGIN="is_login";
     String PHONE="phone";
+    String PASSWORD="password";
+    String UID="uid";
     long COUNT_UNIT = 1000L;
     long NUM_COUNTDOWN = 60 * COUNT_UNIT;
     String OCRKey="Lj4sJGvLMKDBWv5JwNYGFw";

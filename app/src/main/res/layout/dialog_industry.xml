@@ -106,30 +106,36 @@
             android:textColor="@color/titleColor"
         />
     </LinearLayout>
-
+    <TextView
+        android:id="@id/tip_industrary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="@dimen/margin_height_larger_distance"
+        android:layout_marginLeft="@dimen/margin_height_larger_distance"
+        android:layout_marginRight="@dimen/margin_height_larger_distance"
+        android:layout_marginStart="@dimen/margin_height_larger_distance"
+        android:drawableLeft="@mipmap/ic_tip_industry"
+        android:drawableStart="@mipmap/ic_tip_industry"
+        android:drawablePadding="5dp"
+        android:text="@string/tip_industry"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        android:textColor="@color/titleColor"/>
     <Button
         android:id="@id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginEnd="@dimen/margin_height_normal_distance"
-        android:layout_marginLeft="@dimen/margin_height_normal_distance"
-        android:layout_marginRight="@dimen/margin_height_normal_distance"
-        android:layout_marginStart="@dimen/margin_height_normal_distance"
-        android:layout_marginTop="25dp"
+        android:layout_marginEnd="@dimen/margin_height_larger_distance"
+        android:layout_marginLeft="@dimen/margin_height_larger_distance"
+        android:layout_marginRight="@dimen/margin_height_larger_distance"
+        android:layout_marginStart="@dimen/margin_height_larger_distance"
         android:background="@mipmap/bg_submit_button"
         android:text="@string/tv_save"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"/>
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textColor="@color/titleColor"
-              android:layout_gravity="center_horizontal"
-              android:layout_marginBottom="15dp"
-              android:layout_marginEnd="@dimen/margin_height_normal_distance"
-              android:layout_marginLeft="@dimen/margin_height_normal_distance"
-              android:layout_marginRight="@dimen/margin_height_normal_distance"
-              android:layout_marginStart="@dimen/margin_height_normal_distance"
-              android:text="@string/tip_skill"/>
+
 
 </LinearLayout>

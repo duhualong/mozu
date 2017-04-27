@@ -84,35 +84,6 @@ private String userid;
     private String employer;
     private String work_content;
     private String work_experience;
-    class Mergency_contact{
-        private String name;
-        private String relation;
-        private String phone;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getRelation() {
-            return relation;
-        }
-
-        public void setRelation(String relation) {
-            this.relation = relation;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-    }
 
     public String getToken() {
         return token;
@@ -369,4 +340,34 @@ private String userid;
     public void setWork_experience(String work_experience) {
         this.work_experience = work_experience;
     }
+    class Mergency_contact{
+        private String name;
+        private String relation;
+        private String phone;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getRelation() {
+            return relation;
+        }
+
+        public void setRelation(String relation) {
+            this.relation = relation;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+    }
+
 }

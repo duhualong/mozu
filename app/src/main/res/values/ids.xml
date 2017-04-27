@@ -150,4 +150,5 @@
     <item name="barcode_name" type="id"/>
     <item name="img_avatar_barcode" type="id"/>
     <item name="et_bank_card" type="id"/>
+    <item name="tip_industrary" type="id"/>
 </resources>

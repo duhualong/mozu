@@ -152,7 +152,7 @@ public static String getStr(List<String> strList) {
     String resultStr = "";
     if (strList != null && strList.size() > 0) {
         for (int i = 0; i < strList.size(); i++) {
-            resultStr = resultStr + "'" + strList.get(i) + "'" + ',';
+            resultStr = resultStr  + strList.get(i)  + ',';
         }
         resultStr = resultStr.substring(0, resultStr.length() - 1);
     }

@@ -2,6 +2,7 @@ package org.eenie.wgj.data.remote;
 
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.Token;
 
 import java.util.Map;
@@ -43,7 +44,7 @@ public interface FileUploadService {
     Call<Api> upLoad(@Body RequestBody Body);
 
     @POST("register/user")
-    Call<ApiResponse> applyInformation(@Header("token") String token, @Body RequestBody body);
+    Call<MApi> applyInformation(@Header("token")String token,@Body RequestBody body);
 
     @POST("login")
     Call<ApiResponse> login(@Body RequestBody body);
@@ -66,7 +67,7 @@ public interface FileUploadService {
 
     @Multipart
     @POST("register/user")
-    Observable<ApiResponse<Token>> register(
+    Observable<ApiResponse> register(
             @Part("username") RequestBody username,
             @Part("password") RequestBody password,
             @Part("name") RequestBody name,

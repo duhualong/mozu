@@ -9,7 +9,6 @@ import me.zhouzhuo.zzletterssidebar.entity.SortModel;
  * Des:
  */
 public class PersonEntity extends SortModel {
-    //the sort field must add this anotation
     @Letter(isSortField = true)
     private String personName;
 

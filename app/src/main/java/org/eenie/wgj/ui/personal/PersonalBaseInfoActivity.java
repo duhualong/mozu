@@ -30,7 +30,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.img_scan, R.id.img_avatar})
+    @OnClick({R.id.img_back, R.id.img_scan, R.id.img_avatar,R.id.rl_identity_card,R.id.rl_personal_information,
+    R.id.rl_bank_card,R.id.rl_security_certificate})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -44,8 +45,29 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                 showAvatarDialog();
 
                 break;
+
+            case R.id.rl_identity_card:
+
+
+                break;
+            case R.id.rl_personal_information:
+
+
+                break;
+            case R.id.rl_bank_card:
+                startActivity(new Intent(context,PersonalBindBankActivity.class));
+
+
+                break;
+            case R.id.rl_security_certificate:
+
+
+                break;
+
         }
     }
+
+
 
 
     //上传头像

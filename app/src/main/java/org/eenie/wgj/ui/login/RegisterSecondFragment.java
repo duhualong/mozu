@@ -144,10 +144,12 @@ public class RegisterSecondFragment extends BaseFragment {
 
                 break;
             case R.id.btn_submitbtn:
+
+
                 if (checkBack && checkFront) {
                     showDialog();
                 } else {
-                    Snackbar.make(rootView, "请上传身份证的正反面！", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootView,"信息上传中,请稍后....",Snackbar.LENGTH_LONG).show();
                 }
                 break;
 

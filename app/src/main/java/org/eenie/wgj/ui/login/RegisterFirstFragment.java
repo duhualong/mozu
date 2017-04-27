@@ -17,9 +17,10 @@ import android.widget.LinearLayout;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
+import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.response.Token;
-import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
 
@@ -135,7 +136,7 @@ public class RegisterFirstFragment extends BaseFragment {
 
             case R.id.register_submit_button:
                if (checkboxRegisterInfor(mPhone,mCaptcha,mPassword,mRePassword)){
-                   verifyCaptcha(mCaptcha,mPhone,mCaptcha);
+                   verifyCaptcha(mCaptcha,mPhone,mPassword);
                }
 
                 break;
@@ -256,8 +257,6 @@ public class RegisterFirstFragment extends BaseFragment {
                     public void onSuccess(ApiResponse<Token> value) {
                         if (value.getResultCode()==200){
                             TimeDown();
-                            mPrefsHelper.getPrefs().edit().
-                                    putString(Constants.TOKEN, value.getData().getToken()).apply();
 
                         }else {
                             Snackbar.make(rootView,"获取验证码失败,请检查手机状态！",Snackbar.LENGTH_LONG).show();
@@ -294,19 +293,21 @@ public class RegisterFirstFragment extends BaseFragment {
 
     }
 private  void verifyCaptcha(String captcha,String mPhone,String mPassword){
-    mSubscription=mRemoteService.verifyCode(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),captcha)
+    CaptchaChecked captchaChecked=new CaptchaChecked(mPhone,captcha);
+    mSubscription=mRemoteService.verifyCode(captchaChecked)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new SingleSubscriber<ApiResponse>() {
+            .subscribe(new SingleSubscriber<ApiRes>() {
                 @Override
-                public void onSuccess(ApiResponse value) {
-                    System.out.println("token"+value.getResultCode()+value.getResultMessage());
+                public void onSuccess(ApiRes value) {
                    if (value.getResultCode()==200){
                        fragmentMgr.beginTransaction()
                                .addToBackStack(TAG)
-                               .replace(R.id.fragment_login_container,  RegisterSecondFragment.newInstance(mPhone,mPassword))
+                               .replace(R.id.fragment_login_container,
+                                       RegisterSecondFragment.newInstance(mPhone,mPassword))
                                .commit();
-
+                   }else {
+                       Snackbar.make(rootView,value.getResultMessage(),Snackbar.LENGTH_LONG).show();
                    }
 
 
