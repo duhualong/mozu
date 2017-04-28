@@ -234,6 +234,7 @@ public class RegisterThirdFragment extends BaseFragment {
                                     qualifications, marry, addressNow, Utils.getStr(industry),
                                     Utils.getStr(skill), channelStr);
 
+
                         }
                     }.start();
 
