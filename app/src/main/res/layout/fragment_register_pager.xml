@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView
+            android:id="@id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@mipmap/ic_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/tv_register"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+        >
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_height_distance"
+                android:background="@mipmap/bg_logo">
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_centerInParent="true"
+                           android:src="@mipmap/ic_logo"/>
+
+            </RelativeLayout>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_horizontal"
+                      android:padding="@dimen/text_padding_size"
+                      android:text="@string/tv_login_guide"
+                      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                      android:textColor="@color/white"/>
+
+            <LinearLayout
+                android:id="@id/user_register_tab_bar_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_height_larger_distance"
+                android:layout_margin="@dimen/font_size_18sp"
+                android:background="@mipmap/bg_user_register_tab_2"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@id/security_register_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:text="@string/tv_work"
+                    android:textColor="@android:color/white"/>
+
+                <Button
+                    android:id="@id/property_register_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:text="@string/tv_manager"
+                    android:textColor="@color/colorAccent"/>
+
+            </LinearLayout>
+            <android.support.v4.view.ViewPager
+                android:id="@id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

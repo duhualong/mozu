@@ -151,4 +151,5 @@
     <item name="img_avatar_barcode" type="id"/>
     <item name="et_bank_card" type="id"/>
     <item name="tip_industrary" type="id"/>
+    <item name="viewpager" type="id"/>
 </resources>

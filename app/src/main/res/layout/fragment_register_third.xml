@@ -41,7 +41,7 @@
                 android:id="@id/img"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/ic_shengaoo"
+                android:src="@mipmap/ic_registerl_height"
             />
             <TextView
                 android:id="@id/text"
@@ -82,7 +82,7 @@
                 android:id="@id/img"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/ic_xueli"
+                android:src="@mipmap/ic_register_education"
             />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"

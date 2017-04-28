@@ -172,6 +172,7 @@ public class MainActivity extends BaseActivity {
             case R.id.ll_mine_pager:
 
                 pageIndex = 4;
+
                 break;
         }
         setCurrentPager(pageIndex);

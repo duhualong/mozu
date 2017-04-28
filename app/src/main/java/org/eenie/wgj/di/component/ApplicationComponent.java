@@ -13,6 +13,7 @@ import org.eenie.wgj.data.remote.HttpClient;
 import org.eenie.wgj.data.remote.RemoteService;
 import org.eenie.wgj.di.ApplicationContext;
 import org.eenie.wgj.di.module.ApplicationModule;
+import org.eenie.wgj.realm.RealmController;
 
 import javax.inject.Singleton;
 
@@ -36,4 +37,5 @@ public interface ApplicationComponent {
   HttpClient httpClient();
   UserDao userDao();
   WebView webView();
+  RealmController realmController();
 }

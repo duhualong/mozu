@@ -9,6 +9,7 @@ import org.eenie.wgj.data.local.UserDao;
 import org.eenie.wgj.data.remote.HttpClient;
 import org.eenie.wgj.data.remote.RemoteService;
 import org.eenie.wgj.di.ApplicationContext;
+import org.eenie.wgj.realm.RealmController;
 
 import javax.inject.Singleton;
 
@@ -50,9 +51,10 @@ import dagger.Provides;
     return new UserDao(application);
   }
 
-//  @Provides @Singleton RealmController provideRealmController() {
-//    return new RealmController(application);
-//  }
+  @Provides @Singleton
+  RealmController provideRealmController() {
+    return new RealmController(application);
+  }
 
   @Provides @Singleton
   WebView provideWebView(@ApplicationContext Context context) {

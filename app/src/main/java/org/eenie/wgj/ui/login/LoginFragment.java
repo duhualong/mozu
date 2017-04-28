@@ -123,16 +123,13 @@ public class LoginFragment extends BaseFragment {
                     //checkLogin(mPhone, mPassword);
                 }
 
-//                fragmentMgr.beginTransaction()
-//                        .addToBackStack(TAG)
-//                        .replace(R.id.fragment_login_container, new RegisterThirdFragment())
-//                        .commit();
+
                 break;
             case R.id.btn_register:
 
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
+                        .replace(R.id.fragment_login_container, new RegisterThirdFragment())
                         .commit();
 
                 break;
@@ -144,7 +141,6 @@ public class LoginFragment extends BaseFragment {
             case R.id.checkbox_password_remember:
                 if (passwordRemember.isChecked()) {
                     isLogin = true;
-
 
 
                     //保存密码和账号
@@ -218,22 +214,25 @@ public class LoginFragment extends BaseFragment {
                     public void onNext(ApiResponse<TestLogin> testLoginApiResponse) {
                         if (testLoginApiResponse.getResultCode() == 200) {
                             TestLogin data = testLoginApiResponse.getData();
-                            mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN,data.getToken())
-                                    .putString(Constants.UID,data.getUserid())
-                                    .putString(Constants.PHONE,phone)
-                                    .putBoolean(Constants.IS_LOGIN,true).apply()
+                            mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
+                                    .putString(Constants.UID, data.getUserid())
+                                    .putString(Constants.PHONE, phone)
+                                    .putBoolean(Constants.IS_LOGIN, true).apply()
                             ;
-                       if (isLogin){
-                               mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD,password)
-                                       .apply();
-                       }else {
-                           mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD,"")
-                                   .apply();
-                       }
+                            if (isLogin) {
+                                mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, password)
+                                        .apply();
+                            } else {
+                                mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, "")
+                                        .apply();
+                            }
                             Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
                             Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
                                     subscribe(s -> startActivity(new Intent(context, MainActivity.class)));
 
+                        } else {
+                            Snackbar.make(rootView, testLoginApiResponse.getResultMessage(),
+                                    Snackbar.LENGTH_SHORT).show();
                         }
 
                     }
@@ -249,11 +248,13 @@ public class LoginFragment extends BaseFragment {
                     @Override
                     public void onCompleted() {
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         System.out.println("ERROR:" + e);
                         Snackbar.make(rootView, "错误请求！", Snackbar.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200) {

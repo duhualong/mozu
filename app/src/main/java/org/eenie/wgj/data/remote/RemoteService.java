@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -90,6 +91,8 @@ public interface RemoteService {
     @FormUrlEncoded
     Single<Api> upload(@Field("key") String key, @Field("secret") String secret, @Field("typeId") int typeId,
                        @Field("format") String format, @Field("file") File file);
+    @POST("register/user")
+    Single<ApiResponse> register(@Body RequestBody body);
 
 
     class Creator {

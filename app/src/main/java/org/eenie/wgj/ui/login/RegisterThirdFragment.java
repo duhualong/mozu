@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
@@ -135,9 +136,14 @@ public class RegisterThirdFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
+        String ss="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";
+        try {
+            mAvatarFile = Utils.base64ToFile(ss, context);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-        initData();
+       // initData();
 
 
     }
@@ -228,10 +234,11 @@ public class RegisterThirdFragment extends BaseFragment {
                                     marry = "2";
                                     break;
                             }
-                            getData(username, password, mName, mSex, mNation, mBirthday, mAddress, mNumber,
-                                    mSignOffice, mDeadline, mAvatarFile, mAvatarFile,
-                                    mAvatarFile, height, qualifications, marry, addressNow,
-                                    Utils.getStr(industry), Utils.getStr(skill), channelStr);
+                            getData(username, password, mName, mSex, mNation, mBirthday,
+                                    mAddress, mNumber, mSignOffice, mDeadline,
+                                    mAvatarFile, mAvatarFile, mAvatarFile, height,
+                                    qualifications, marry, addressNow, Utils.getStr(industry),
+                                    Utils.getStr(skill), channelStr);
 
                         }
                     }.start();
@@ -1075,16 +1082,104 @@ public class RegisterThirdFragment extends BaseFragment {
 
 
     }
-
+//public void uploadRegister(String username, String password, String name, String gender, String people,
+//                           String birthday, String address, String number, String publisher,
+//                           String validate, File file1, File file2, File file3, String height,
+//                           String graduate, String telephone, String livingAddress,
+//                           String industrys, String skills, String channel){
+//    Gson mgson = new GsonBuilder()
+//            .setLenient()
+//            .create();
+//    Retrofit retrofit = new Retrofit.Builder()
+//            .baseUrl("http://118.178.88.132:8000/api/")
+//            .addConverterFactory(GsonConverterFactory.create(mgson))
+//            .build();
+//    Gson gson = new Gson();
+//    EmergencyContactMod data = new EmergencyContactMod();
+//    if (!TextUtils.isEmpty(mContactName) && !TextUtils.isEmpty(mContactPhone) &&
+//            !TextUtils.isEmpty(mRelation)) {
+//        data.setName(mContactName);
+//        data.setPhone(mContactPhone);
+//        data.setRelation(mRelation);
+//    }
+//
+//
+//
+//    FileUploadService userBiz = retrofit.create(FileUploadService.class);
+//    RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+//            .addFormDataPart("username", "18817772486")
+//            .addFormDataPart("password", "123456")
+//            .addFormDataPart("name", "杜华龙")
+//            .addFormDataPart("gender", "男")
+//            .addFormDataPart("people", "汉")
+//            .addFormDataPart("birthday", "19930305")
+//            .addFormDataPart("address", "上海")
+//            .addFormDataPart("number", "412721199203053436")
+//            .addFormDataPart("publisher", "sss")
+//            .addFormDataPart("validate", "ssdddd")
+//            .addFormDataPart("height", "180")
+//            .addFormDataPart("graduate", graduate)
+//            .addFormDataPart("telephone", telephone)
+//            .addFormDataPart("living_address", livingAddress)
+//            .addFormDataPart("emergency_contact", gson.toJson(data))
+//            .addFormDataPart("industry", industrys)
+//            .addFormDataPart("skill", skills)
+//            .addFormDataPart("channel", channel)
+//            .addFormDataPart("id_card_positive", file1.getName(),
+//                    RequestBody.create(MediaType.parse("image/jpg"), file1))
+//            .addFormDataPart("id_card_negative", file2.getName(),
+//                    RequestBody.create(MediaType.parse("image/jpg"), file2))
+//            .addFormDataPart("id_card_head_image", file3.getName(),
+//                    RequestBody.create(MediaType.parse("image/jpg"), file3))
+//            .build();
+//
+//    Call<MApi> call = userBiz.applyInformation(requestBody);
+//    call.enqueue(new Callback<MApi>() {
+//        @Override
+//        public void onResponse(Call<MApi> call, Response<MApi> response) {
+//            Log.d(TAG, "onResponse: "+response.code());
+//            Log.d(TAG, "onResponseMessage: "+response.message());
+//            if (response.isSuccessful()) {
+//
+//                if (response.body().getResultCode()==200) {
+//                    Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
+//
+//                    fragmentMgr.beginTransaction()
+//                            .addToBackStack(TAG)
+//                            .replace(R.id.fragment_login_container,
+//                                    LoginFragment.newInstance(username))
+//                            .commit();
+//
+//                }else {
+//                    Snackbar.make(rootView,response.body().getResultMessage() , Snackbar.LENGTH_LONG).show();
+//                }
+//            }else {
+//                Log.d(TAG, "onResponse: error"+response.errorBody());
+//            }
+//
+//
+//
+//        }
+//
+//        @Override
+//        public void onFailure(Call<MApi> call, Throwable t) {
+//
+//        }
+//    });
+//
+//}
 
     public void getData(String username, String password, String name, String gender, String people,
                         String birthday, String address, String number, String publisher,
                         String validate, File file1, File file2, File file3, String height,
                         String graduate, String telephone, String livingAddress,
                         String industrys, String skills, String channel) {
+        Gson mgson = new GsonBuilder()
+                .setLenient()
+                .create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://118.178.88.132:8000/api/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(mgson))
                 .build();
         Gson gson = new Gson();
         EmergencyContactMod data = new EmergencyContactMod();
@@ -1094,6 +1189,7 @@ public class RegisterThirdFragment extends BaseFragment {
             data.setPhone(mContactPhone);
             data.setRelation(mRelation);
         }
+
 
 
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
@@ -1112,9 +1208,7 @@ public class RegisterThirdFragment extends BaseFragment {
                 .addFormDataPart("graduate", graduate)
                 .addFormDataPart("telephone", telephone)
                 .addFormDataPart("living_address", livingAddress)
-                .addFormDataPart("emergency_contact", gson.toJson(data),
-                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),
-                                gson.toJson(data)))
+                .addFormDataPart("emergency_contact", gson.toJson(data))
                 .addFormDataPart("industry", industrys)
                 .addFormDataPart("skill", skills)
                 .addFormDataPart("channel", channel)
@@ -1126,17 +1220,14 @@ public class RegisterThirdFragment extends BaseFragment {
                         RequestBody.create(MediaType.parse("image/jpg"), file3))
                 .build();
 
-        Call<MApi> call = userBiz.applyInformation("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTMyOTY3NjgsIm5iZiI6MTQ5MzI5Njc2OSwiZXhwIjoxNTI0NDAwNzY5LCJkYXRhIjp7ImlkIjozOH19.r-wHIVt1Qr_F1jGkWAofxfunDsEPaL6cg8t8-Y6xxb0",
-                requestBody);
+        Call<MApi> call = userBiz.applyInformation(requestBody);
         call.enqueue(new Callback<MApi>() {
             @Override
             public void onResponse(Call<MApi> call, Response<MApi> response) {
-                Log.d("Response raw", String.valueOf(response.raw().body()));
-                Log.d("Response code", String.valueOf(response.code()));
+                Log.d(TAG, "onResponse: "+response.code());
+                Log.d(TAG, "onResponseMessage: "+response.message());
                 if (response.isSuccessful()) {
-                    System.out.println("请求码："+response.body().getResultCode());
-                    System.out.println("请求信息："+response.body().getResultMessage());
-                    if(response.body().toString()!=null){
+
                         if (response.body().getResultCode()==200) {
                         Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
 
@@ -1149,99 +1240,20 @@ public class RegisterThirdFragment extends BaseFragment {
                     }else {
                         Snackbar.make(rootView,response.body().getResultMessage() , Snackbar.LENGTH_LONG).show();
                     }
-                    }
-                } else {
-                    System.out.println("sss" + response.errorBody());
+                    }else {
+                    Log.d(TAG, "onResponse: error"+response.errorBody());
                 }
+
 
 
             }
 
             @Override
             public void onFailure(Call<MApi> call, Throwable t) {
-                System.out.println("失败》》》》" + t);
+
             }
         });
-//        call.enqueue(new Callback<MultipartBody>() {
-//            @Override
-//            public void onResponse(Call<MultipartBody> call, Response<MultipartBody> response) {
-//                if (response.isSuccessful()){
-//                    MultipartBody multipartBody =response.body();
-////
-//                  System.out.println("请求成功");
-////                    if (response.body().getResultCode()==200) {
-////                        Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
-////
-////                                    fragmentMgr.beginTransaction()
-////                                            .addToBackStack(TAG)
-////                                            .replace(R.id.fragment_login_container,
-////                                                    new LoginFragment())
-////                                            .commit();
 //
-//                    }else {
-//                        Snackbar.make(rootView, "注册失败请检查注册信息", Snackbar.LENGTH_LONG).show();
-//                    }
-//                }else {
-//                    System.out.println("请求失败"+response.errorBody());
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MultipartBody> call, Throwable t) {
-//                System.out.println("失败》》》》");
-//            }
-//        });
-//        call.enqueue(new Callback<ApiRes>() {
-//            @Override
-//            public void onResponse(Call<ApiRes> call, Response<ApiRes> response) {
-//                System.out.println("code"+response.s);
-//                        Gson gson = new Gson();
-//                        Type objectType = new TypeToken<ApiRes>() {
-//                        }.getType();
-//                        ApiRes bean = gson.fromJson(response.body().toString(), objectType);
-//                        if (bean.getResultCode().equals("200") ) {
-//                            Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
-//                            Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-//                                    subscribe(s -> {
-//                                        fragmentMgr.beginTransaction()
-//                                                .addToBackStack(TAG)
-//                                                .replace(R.id.fragment_login_container,
-//                                                        LoginFragment.newInstance(username))
-//                                                .commit();
-//                                    });
-//
-//                        } else {
-//                            if (bean.getResultMessage().equals("用户已存在"))
-//                                Snackbar.make(rootView, "用户已注册，请登录", Snackbar.LENGTH_LONG).show();
-//                            Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-//                                    subscribe(s -> {
-//
-//                                        fragmentMgr.beginTransaction()
-//                                                .addToBackStack(TAG)
-//                                                .replace(R.id.fragment_login_container,
-//                                                        LoginFragment.newInstance(username))
-//                                                .commit();
-//
-//                                    });
-//                        }
-//                    }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//            @Override
-//            public void onFailure(Call<ApiRes> call, Throwable t) {
-//                System.out.println("错误："+t);
-//
-//
-//            }
-//        });
     }
 
 

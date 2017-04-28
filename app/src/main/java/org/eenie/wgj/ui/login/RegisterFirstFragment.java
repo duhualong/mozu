@@ -21,6 +21,7 @@ import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.response.Token;
+import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
 
@@ -49,19 +50,30 @@ public class RegisterFirstFragment extends BaseFragment {
     private String mUsername;
     private CountDownTimer timer;
     private boolean isCounting;
-    @BindView(R.id.root_view)View rootView;
+    @BindView(R.id.root_view)
+    View rootView;
     @BindView(R.id.register_fetch_code_button)
     Button btnSendCaptcha;
-    @BindView(R.id.user_register_tab_bar_container)LinearLayout taBbackground;
-    @BindView(R.id.login_edit_input_phone)EditText inputPhone;
-    @BindView(R.id.register_code_edit_text)EditText  inputCode;
-    @BindView(R.id.login_edit_input_password)EditText inputPassword;
-    @BindView(R.id.checkbox_password_show_state)CheckBox checkboxFirst;
-    @BindView(R.id.login_edit_input_password_twice)EditText reInputPassword;
-    @BindView(R.id.checkbox_password_show_state_twice)CheckBox checkSecond;
-    @BindView(R.id.checkbox_register)CheckBox checkRegister;
-    @BindView(R.id.property_register_button)Button btnManager;
-    @BindView(R.id.security_register_button)Button btnWork;
+    @BindView(R.id.user_register_tab_bar_container)
+    LinearLayout taBbackground;
+    @BindView(R.id.login_edit_input_phone)
+    EditText inputPhone;
+    @BindView(R.id.register_code_edit_text)
+    EditText inputCode;
+    @BindView(R.id.login_edit_input_password)
+    EditText inputPassword;
+    @BindView(R.id.checkbox_password_show_state)
+    CheckBox checkboxFirst;
+    @BindView(R.id.login_edit_input_password_twice)
+    EditText reInputPassword;
+    @BindView(R.id.checkbox_password_show_state_twice)
+    CheckBox checkSecond;
+    @BindView(R.id.checkbox_register)
+    CheckBox checkRegister;
+    @BindView(R.id.property_register_button)
+    Button btnManager;
+    @BindView(R.id.security_register_button)
+    Button btnWork;
 
 
     @Override
@@ -71,7 +83,7 @@ public class RegisterFirstFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
-        if (!TextUtils.isEmpty(mUsername)){
+        if (!TextUtils.isEmpty(mUsername)) {
             inputPhone.setText(mUsername);
         }
 
@@ -79,7 +91,7 @@ public class RegisterFirstFragment extends BaseFragment {
 
     public static RegisterFirstFragment newInstance(String username) {
         RegisterFirstFragment fragment = new RegisterFirstFragment();
-        if (!TextUtils.isEmpty(username) ) {
+        if (!TextUtils.isEmpty(username)) {
             Bundle args = new Bundle();
             args.putString(PHONE, username);
             fragment.setArguments(args);
@@ -96,17 +108,17 @@ public class RegisterFirstFragment extends BaseFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @OnClick({R.id.img_back,R.id.register_submit_button,R.id.register_fetch_code_button,
-    R.id.security_register_button,R.id.property_register_button,R.id.checkbox_password_show_state,
-    R.id.checkbox_password_show_state_twice,R.id.checkbox_register})
-    public void onClick(View view){
-        String mPhone=inputPhone.getText().toString();
-        String mCaptcha=inputCode.getText().toString();
-        String mPassword=inputPassword.getText().toString();
-        String mRePassword=reInputPassword.getText().toString();
+    @OnClick({R.id.img_back, R.id.register_submit_button, R.id.register_fetch_code_button,
+            R.id.security_register_button, R.id.property_register_button, R.id.checkbox_password_show_state,
+            R.id.checkbox_password_show_state_twice, R.id.checkbox_register})
+    public void onClick(View view) {
+        String mPhone = inputPhone.getText().toString();
+        String mCaptcha = inputCode.getText().toString();
+        String mPassword = inputPassword.getText().toString();
+        String mRePassword = reInputPassword.getText().toString();
 
 
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.checkbox_password_show_state:
                 Utils.setShowHide(checkboxFirst, inputPassword);
@@ -115,35 +127,36 @@ public class RegisterFirstFragment extends BaseFragment {
                 Utils.setShowHide(checkSecond, reInputPassword);
                 break;
             case R.id.img_back:
-              onBackPressed();
+                onBackPressed();
 
                 break;
             case R.id.register_fetch_code_button:
 
-                if (checkPhone(mPhone)){
-                    checkPhoneRegister(mPhone);
+                if (checkPhone(mPhone)) {
+                   // getCaptcha(mPhone);
+               checkPhoneRegister(mPhone);
 
 
                 }
 
                 break;
             case R.id.checkbox_register:
-                if (checkRegister.isChecked()){
-                    Snackbar.make(rootView,"您已同意物管家注册协议",Snackbar.LENGTH_LONG).show();
+                if (checkRegister.isChecked()) {
+                    Snackbar.make(rootView, "您已同意物管家注册协议", Snackbar.LENGTH_LONG).show();
                 }
 
                 break;
 
             case R.id.register_submit_button:
-               if (checkboxRegisterInfor(mPhone,mCaptcha,mPassword,mRePassword)){
-                   verifyCaptcha(mCaptcha,mPhone,mPassword);
-               }
+                if (checkboxRegisterInfor(mPhone, mCaptcha, mPassword, mRePassword)) {
+                    verifyCaptcha(mCaptcha, mPhone, mPassword);
+                }
 
                 break;
             case R.id.security_register_button:
                 taBbackground.setBackgroundResource(R.mipmap.bg_user_register_tab_2);
                 btnWork.setTextColor(ContextCompat.getColor
-                    (context, R.color.white));
+                        (context, R.color.white));
                 btnManager.setTextColor(ContextCompat.getColor
                         (context, R.color.colorAccent));
                 break;
@@ -198,50 +211,50 @@ public class RegisterFirstFragment extends BaseFragment {
                 });
     }
 
-    private boolean checkboxRegisterInfor(String phone,String captcha,String password,
+    private boolean checkboxRegisterInfor(String phone, String captcha, String password,
                                           String rePassword) {
-        boolean mResult=true;
-        if (TextUtils.isEmpty(phone)){
-            Snackbar.make(rootView,"请填写手机号码！",Snackbar.LENGTH_LONG).show();
-            mResult=false;
+        boolean mResult = true;
+        if (TextUtils.isEmpty(phone)) {
+            Snackbar.make(rootView, "请填写手机号码！", Snackbar.LENGTH_LONG).show();
+            mResult = false;
         }
-        if (mResult&&!Utils.isMobile(phone)){
-            Snackbar.make(rootView,"请填写正确的手机号码！",Snackbar.LENGTH_LONG).show();
-            mResult=false;
+        if (mResult && !Utils.isMobile(phone)) {
+            Snackbar.make(rootView, "请填写正确的手机号码！", Snackbar.LENGTH_LONG).show();
+            mResult = false;
         }
-        if (mResult&&TextUtils.isEmpty(captcha)){
-            mResult=false;
-            Snackbar.make(rootView,"请填写验证码",Snackbar.LENGTH_LONG).show();
+        if (mResult && TextUtils.isEmpty(captcha)) {
+            mResult = false;
+            Snackbar.make(rootView, "请填写验证码", Snackbar.LENGTH_LONG).show();
         }
-        if (mResult&&(captcha.length()>6||(captcha.length()>0&&captcha.length()<4))){
-            mResult=false;
-            Snackbar.make(rootView,"请输入4~6位的验证码！",Snackbar.LENGTH_LONG).show();
+        if (mResult && (captcha.length() > 6 || (captcha.length() > 0 && captcha.length() < 4))) {
+            mResult = false;
+            Snackbar.make(rootView, "请输入4~6位的验证码！", Snackbar.LENGTH_LONG).show();
         }
-        if (mResult){
+        if (mResult) {
 
         }
-        if (mResult&&TextUtils.isEmpty(password)){
-            mResult=false;
-            Snackbar.make(rootView,"设置的密码不能为空！",Snackbar.LENGTH_LONG).show();
+        if (mResult && TextUtils.isEmpty(password)) {
+            mResult = false;
+            Snackbar.make(rootView, "设置的密码不能为空！", Snackbar.LENGTH_LONG).show();
         }
-        if (mResult&&(password.length()>12||(password.length()>0&&password.length()<6))){
-            mResult=false;
-            Snackbar.make(rootView,"设置的密码长度必须在6~12为之间！",Snackbar.LENGTH_LONG).show();
+        if (mResult && (password.length() > 12 || (password.length() > 0 && password.length() < 6))) {
+            mResult = false;
+            Snackbar.make(rootView, "设置的密码长度必须在6~12为之间！", Snackbar.LENGTH_LONG).show();
         }
 
-        if (mResult&&!password.equals(rePassword)){
-            mResult=false;
+        if (mResult && !password.equals(rePassword)) {
+            mResult = false;
             inputPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             reInputPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             checkboxFirst.setChecked(true);
             checkSecond.setChecked(true);
 
-            Snackbar.make(rootView,"两次输入的密码不一致,请核对密码！",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(rootView, "两次输入的密码不一致,请核对密码！", Snackbar.LENGTH_LONG).show();
 
         }
-        if (mResult&&!checkRegister.isChecked()){
-            mResult=false;
-            Snackbar.make(rootView,"请勾选物管家服务协议",Snackbar.LENGTH_LONG).show();
+        if (mResult && !checkRegister.isChecked()) {
+            mResult = false;
+            Snackbar.make(rootView, "请勾选物管家服务协议", Snackbar.LENGTH_LONG).show();
         }
 
         return mResult;
@@ -249,24 +262,25 @@ public class RegisterFirstFragment extends BaseFragment {
     }
 
     private void getCaptcha(String mPhone) {
-        mSubscription=mRemoteService.fetchMessageCode(mPhone)
+        mSubscription = mRemoteService.fetchMessageCode(mPhone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ApiResponse<Token>>() {
                     @Override
                     public void onSuccess(ApiResponse<Token> value) {
-                        if (value.getResultCode()==200){
+                        if (value.getResultCode() == 200) {
                             TimeDown();
+                            mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, value.getData().getToken()).apply();
 
-                        }else {
-                            Snackbar.make(rootView,"获取验证码失败,请检查手机状态！",Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Snackbar.make(rootView, "获取验证码失败,请检查手机状态！", Snackbar.LENGTH_LONG).show();
                         }
 
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        Snackbar.make(rootView,"获取验证码失败！",Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(rootView, "获取验证码失败！", Snackbar.LENGTH_LONG).show();
 
                     }
                 });
@@ -275,15 +289,15 @@ public class RegisterFirstFragment extends BaseFragment {
     }
 
     private boolean checkPhone(String mPhone) {
-        boolean result=true;
-        if (TextUtils.isEmpty(mPhone)){
-            result=false;
+        boolean result = true;
+        if (TextUtils.isEmpty(mPhone)) {
+            result = false;
             inputPhone.setError("输入的手机号码不能为空!");
 
         }
-        if (result&&!Utils.isMobile(mPhone)){
-            Snackbar.make(rootView,"请输入正确的手机号码！",Snackbar.LENGTH_LONG).show();
-            result=false;
+        if (result && !Utils.isMobile(mPhone)) {
+            Snackbar.make(rootView, "请输入正确的手机号码！", Snackbar.LENGTH_LONG).show();
+            result = false;
 
         }
 
@@ -292,38 +306,39 @@ public class RegisterFirstFragment extends BaseFragment {
 
 
     }
-private  void verifyCaptcha(String captcha,String mPhone,String mPassword){
-    CaptchaChecked captchaChecked=new CaptchaChecked(mPhone,captcha);
-    mSubscription=mRemoteService.verifyCode(captchaChecked)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new SingleSubscriber<ApiRes>() {
-                @Override
-                public void onSuccess(ApiRes value) {
-                   if (value.getResultCode()==200){
-                       fragmentMgr.beginTransaction()
-                               .addToBackStack(TAG)
-                               .replace(R.id.fragment_login_container,
-                                       RegisterSecondFragment.newInstance(mPhone,mPassword))
-                               .commit();
-                   }else {
-                       Snackbar.make(rootView,value.getResultMessage(),Snackbar.LENGTH_LONG).show();
-                   }
+
+    private void verifyCaptcha(String captcha, String mPhone, String mPassword) {
+        CaptchaChecked captchaChecked = new CaptchaChecked(mPhone, captcha);
+        mSubscription = mRemoteService.verifyCode(captchaChecked)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ApiRes>() {
+                    @Override
+                    public void onSuccess(ApiRes value) {
+                        if (value.getResultCode() == 200) {
+                            fragmentMgr.beginTransaction()
+                                    .addToBackStack(TAG)
+                                    .replace(R.id.fragment_login_container,
+                                            RegisterSecondFragment.newInstance(mPhone, mPassword))
+                                    .commit();
+                        } else {
+                            Snackbar.make(rootView, value.getResultMessage(), Snackbar.LENGTH_LONG).show();
+                        }
 
 
-                }
+                    }
 
-                @Override
-                public void onError(Throwable error) {
+                    @Override
+                    public void onError(Throwable error) {
 
-                }
-            });
-}
+                    }
+                });
+    }
 
     //倒计时
     private void TimeDown() {
         //倒计时开始
-        timer = new CountDownTimer(NUM_COUNTDOWN,COUNT_UNIT) {
+        timer = new CountDownTimer(NUM_COUNTDOWN, COUNT_UNIT) {
             @Override
             public void onTick(long l) {
                 String info = "重新发送" + l / 1000 + "S";
@@ -353,8 +368,6 @@ private  void verifyCaptcha(String captcha,String mPhone,String mPassword){
         }
         isCounting = false;
     }
-
-
 
 
 }

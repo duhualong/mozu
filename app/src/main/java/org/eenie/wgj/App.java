@@ -9,11 +9,9 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import org.eenie.wgj.di.component.ApplicationComponent;
 import org.eenie.wgj.di.component.DaggerApplicationComponent;
 import org.eenie.wgj.di.module.ApplicationModule;
+import org.eenie.wgj.realm.RealmController;
 
 import java.util.Stack;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 /**
  * App
@@ -23,6 +21,8 @@ public class App extends Application {
   private ApplicationComponent mApplicationComponent;
   private static Application sApplicationContext;
   private static Stack<Activity> sActivityStack;
+  private static RealmController realmController;
+
 
   public static App get(Context context) {
     return (App)context.getApplicationContext();
@@ -38,12 +38,14 @@ public class App extends Application {
     sActivityStack = new Stack<>();
     Fresco.initialize(getApplicationContext());
     //sRefWatcher = LeakCanary.install(this);
-    Realm.init(this);
-    RealmConfiguration config = new  RealmConfiguration.Builder()
-            .name("myRealm.realm")
-            .deleteRealmIfMigrationNeeded()
-            .build();
-    Realm.setDefaultConfiguration(config);
+    realmController=new RealmController(getApplicationContext());
+//
+//    Realm.init(this);
+//    RealmConfiguration config = new  RealmConfiguration.Builder()
+//            .name("myRealm.realm")
+//            .deleteRealmIfMigrationNeeded()
+//            .build();
+//    Realm.setDefaultConfiguration(config);
   }
 
   protected DaggerApplicationComponent.Builder prepareApplicationComponent() {
@@ -60,6 +62,11 @@ public class App extends Application {
       sActivityStack.add(activity);
     }
   }
+
+  public static RealmController getRealmController() {
+    return realmController;
+  }
+
 
   public static void clearStack() {
     if (sActivityStack != null && !sActivityStack.isEmpty()) {

@@ -48,6 +48,7 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
     compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     compile "io.reactivex:rxandroid:${rxandroidVersion}"
+    compile 'com.google.code.gson:gson:2.7'
     // Facebook
     compile "com.facebook.fresco:fresco:${frescoVersion}"
     compile "com.facebook.stetho:stetho:${stethoVersion}"
