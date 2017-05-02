@@ -1,6 +1,8 @@
 package org.eenie.wgj.ui.login;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -37,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -137,7 +140,7 @@ public class RegisterThirdFragment extends BaseFragment {
     @Override
     protected void updateUI() {
 
-       initData();
+        initData();
 
 
     }
@@ -230,7 +233,9 @@ public class RegisterThirdFragment extends BaseFragment {
                             }
                             getData(username, password, mName, mSex, mNation, mBirthday,
                                     mAddress, mNumber, mSignOffice, mDeadline,
-                                    new File(frontUrl), new File(frontUrl), mAvatarFile, height,
+                                    Compressor.getDefault(context).compressToFile(new File(frontUrl)),
+                                    Compressor.getDefault(context).compressToFile(new File(frontUrl)),
+                                    Compressor.getDefault(context).compressToFile(mAvatarFile), height,
                                     qualifications, marry, addressNow, Utils.getStr(industry),
                                     Utils.getStr(skill), channelStr);
 
@@ -1186,7 +1191,6 @@ public class RegisterThirdFragment extends BaseFragment {
         }
 
 
-
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("username", username)
@@ -1208,47 +1212,60 @@ public class RegisterThirdFragment extends BaseFragment {
                 .addFormDataPart("skill", skills)
                 .addFormDataPart("channel", channel)
                 .addFormDataPart("id_card_positive", file1.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), file1))
+                        RequestBody.create(MediaType.parse("image/jpg"), compressior(file1)))
                 .addFormDataPart("id_card_negative", file2.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), file2))
+                        RequestBody.create(MediaType.parse("image/jpg"), compressior(file2)))
                 .addFormDataPart("id_card_head_image", file3.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), file3))
+                        RequestBody.create(MediaType.parse("image/jpg"), compressior(file3)))
                 .build();
 
         Call<MApi> call = userBiz.applyInformation(requestBody);
         call.enqueue(new Callback<MApi>() {
             @Override
             public void onResponse(Call<MApi> call, Response<MApi> response) {
-                Log.d(TAG, "onResponse: "+response.code());
                 Log.d(TAG, "onResponseMessage: "+response.message());
+                Log.d(TAG, "onResponseCode: "+response.code());
                 if (response.isSuccessful()) {
 
-                        if (response.body().getResultCode()==200) {
+                    if (response.body().getResultCode() == 200) {
                         Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
+                        fragmentMgr.beginTransaction()
+                                .addToBackStack(TAG)
+                                .replace(R.id.fragment_login_container,
+                                        LoginFragment.newInstance(username))
+                                .commit();
 
-                                    fragmentMgr.beginTransaction()
-                                            .addToBackStack(TAG)
-                                            .replace(R.id.fragment_login_container,
-                                                     LoginFragment.newInstance(username))
-                                            .commit();
-
-                    }else {
-                        Snackbar.make(rootView,response.body().getResultMessage() , Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(rootView, response.body().getResultMessage(), Snackbar.LENGTH_LONG).show();
                     }
-                    }else {
-                    Log.d(TAG, "onResponse: error"+response.errorBody());
-                }
+                } else {
+                    Log.d(TAG, "onResponseError: "+response.errorBody());
+                    Snackbar.make(rootView, "数据错误", Snackbar.LENGTH_LONG).show();
 
+                }
 
 
             }
 
             @Override
             public void onFailure(Call<MApi> call, Throwable t) {
+                Snackbar.make(rootView,"请求错误！",Snackbar.LENGTH_LONG).show();
 
             }
         });
-//
+
+    }
+
+    public File  compressior(File file){
+      return new Compressor.Builder(context)
+                .setMaxWidth(75)
+                .setMaxHeight(60)
+                .setQuality(75)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+                 Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                .build()
+                .compressToFile(file);
     }
 
 

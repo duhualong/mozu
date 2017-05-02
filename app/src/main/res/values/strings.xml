@@ -123,6 +123,7 @@
     <string name="barcode">分享自己的名片，让他人更加了解你</string>
     <string name="bank_card_hint">请输入银行卡号</string>
     <string name="tip_industry">最多选择三个行业</string>
+    <string name="input_security_hint">请输入保安证号</string>
 
 
 </resources>

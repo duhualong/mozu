@@ -206,10 +206,9 @@ public class RegisterSecondFragment extends BaseFragment {
 
             fragmentMgr.beginTransaction()
                     .addToBackStack(TAG)
-                    .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance(mPhone
-                    ,mPassword,frontUrl,backUrl))
+                    .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance("18817771021"
+                    ,"123456",frontUrl,backUrl))
                     .commit();
-
 
         });
         dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> {
@@ -409,7 +408,7 @@ public class RegisterSecondFragment extends BaseFragment {
                 .addFormDataPart("secret", Constants.OCRSecret)
                 .addFormDataPart("typeId", typeId)
                 .addFormDataPart("format", "json")
-                .addFormDataPart("file", "a.jpg", RequestBody.create(MediaType.parse("image/jpg"), files))
+                .addFormDataPart("file", files.getName(), RequestBody.create(MediaType.parse("image/jpg"), files))
                 .build();
         Call<Api> call = userBiz.upLoad(requestBody);
         call.enqueue(new Callback<Api>() {

@@ -11,7 +11,7 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:text="@string/bank_card"
+                  android:text="@string/security_certificate"
                   android:textAppearance="@style/TextAppearance.AppCompat.Title"
                   android:textColor="@color/white"/>
         <ImageView android:id="@id/img_back"
@@ -31,7 +31,7 @@
                   android:layout_marginTop="20dp"
                   android:layout_marginLeft="@dimen/personal_padding"
                   android:layout_marginStart="@dimen/personal_padding"
-        android:text="@string/bank_card"/>
+        android:text="@string/security_certificate"/>
         <EditText
             android:id="@id/et_bank_card"
             android:layout_width="match_parent"
@@ -43,9 +43,9 @@
             android:layout_marginStart="@dimen/font_size_18sp"
             android:layout_marginTop="10dp"
             android:background="@mipmap/bg_edit_text_light"
-            android:hint="@string/bank_card_hint"
+            android:hint="@string/input_security_hint"
             android:inputType="number"
-            android:maxLength="20"
+            android:maxLength="25"
             android:maxLines="1"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"

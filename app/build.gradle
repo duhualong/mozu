@@ -68,6 +68,8 @@ dependencies {
 
 
     compile 'me.zhouzhuo.zzletterssidebar:zz-letters-sidebar:1.0.2'
+    //压缩图片
+    compile 'id.zelory:compressor:1.0.4'
 
 
 

@@ -60,6 +60,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
                 break;
             case R.id.rl_security_certificate:
+               // startActivity(new Intent(context,));
 
 
                 break;
