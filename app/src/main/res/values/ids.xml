@@ -152,4 +152,18 @@
     <item name="et_bank_card" type="id"/>
     <item name="tip_industrary" type="id"/>
     <item name="viewpager" type="id"/>
+    <item name="rl_avatar_img" type="id"/>
+    <item name="tv_experience" type="id"/>
+    <item name="rl_work_experience" type="id"/>
+    <item name="rl_work_content" type="id"/>
+    <item name="tv_work_content" type="id"/>
+    <item name="rl_work_channel" type="id"/>
+    <item name="rl_skill" type="id"/>
+    <item name="rl_industry" type="id"/>
+    <item name="rl_work_name" type="id"/>
+    <item name="rl_contacts" type="id"/>
+    <item name="rl_now_address" type="id"/>
+    <item name="rl_marry_state" type="id"/>
+    <item name="rl_qualifications" type="id"/>
+    <item name="rl_height" type="id"/>
 </resources>

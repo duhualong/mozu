@@ -30,8 +30,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.img_scan, R.id.img_avatar,R.id.rl_identity_card,R.id.rl_personal_information,
-    R.id.rl_bank_card,R.id.rl_security_certificate})
+    @OnClick({R.id.img_back, R.id.img_scan, R.id.rl_avatar_img, R.id.rl_identity_card, R.id.rl_personal_information,
+            R.id.rl_bank_card, R.id.rl_security_certificate})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -39,28 +39,28 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.img_scan:
-                startActivity(new Intent(context,PersonalBarcodeActivity.class));
+                startActivity(new Intent(context, PersonalBarcodeActivity.class));
                 break;
-            case R.id.img_avatar:
+            case R.id.rl_avatar_img:
                 showAvatarDialog();
 
                 break;
 
             case R.id.rl_identity_card:
+                showCardPersonal();
 
 
                 break;
             case R.id.rl_personal_information:
-
-
+                startActivity(new Intent(context, PersonalInformationActivity.class));
                 break;
             case R.id.rl_bank_card:
-                startActivity(new Intent(context,PersonalBindBankActivity.class));
+                startActivity(new Intent(context, PersonalBindBankActivity.class));
 
 
                 break;
             case R.id.rl_security_certificate:
-               // startActivity(new Intent(context,));
+                startActivity(new Intent(context, PersonalSecurityActivity.class));
 
 
                 break;
@@ -68,7 +68,16 @@ public class PersonalBaseInfoActivity extends BaseActivity {
         }
     }
 
+    //身份证信息
+    private void showCardPersonal() {
+        View view = View.inflate(context, R.layout.dialog_personal_identity_card, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .create();
+        dialog.show();
 
+    }
 
 
     //上传头像

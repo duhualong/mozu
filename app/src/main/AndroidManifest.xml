@@ -62,6 +62,10 @@
         <activity android:name=".ui.personal.PersonalBindBankActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--个人信息-->
+        <activity android:name=".ui.personal.PersonalInformationActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--<provider-->
             <!--android:name="android.support.v4.content.FileProvider"-->
             <!--android:authorities="org.eenie.wgj.fileprovider"-->

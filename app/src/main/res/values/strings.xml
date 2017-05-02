@@ -124,6 +124,9 @@
     <string name="bank_card_hint">请输入银行卡号</string>
     <string name="tip_industry">最多选择三个行业</string>
     <string name="input_security_hint">请输入保安证号</string>
+    <string name="tv_work_experience">工作经验</string>
+    <string name="tv_work_content">可从事工作内容</string>
+    <string name="btn_know">我了解了</string>
 
 
 </resources>
