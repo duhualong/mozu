@@ -166,4 +166,24 @@
     <item name="rl_marry_state" type="id"/>
     <item name="rl_qualifications" type="id"/>
     <item name="rl_height" type="id"/>
+    <item name="btn_logout" type="id"/>
+    <item name="rl_attendance_work" type="id"/>
+    <item name="rl_report_job" type="id"/>
+    <item name="rl_routing_job" type="id"/>
+    <item name="tv_save" type="id"/>
+    <item name="tv_title" type="id"/>
+    <item name="tv_attendance" type="id"/>
+    <item name="checkbox_attendance" type="id"/>
+    <item name="img_right" type="id"/>
+    <item name="rl_set_start_time" type="id"/>
+    <item name="tv_set_start_time" type="id"/>
+    <item name="tv_set_end_time" type="id"/>
+    <item name="rl_set_end_time" type="id"/>
+    <item name="btn_add_hour" type="id"/>
+    <item name="btn_subtract_hour" type="id"/>
+    <item name="et_hour" type="id"/>
+    <item name="btn_add_minute" type="id"/>
+    <item name="btn_subtract_minute" type="id"/>
+    <item name="edit_minute" type="id"/>
+    <item name="btn_ok" type="id"/>
 </resources>

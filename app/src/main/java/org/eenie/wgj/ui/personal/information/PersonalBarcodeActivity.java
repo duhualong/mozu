@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.personal;
+package org.eenie.wgj.ui.personal.information;
 
 import android.view.View;
 

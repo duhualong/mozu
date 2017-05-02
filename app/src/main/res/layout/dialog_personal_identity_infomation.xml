@@ -19,12 +19,12 @@
                   android:orientation="horizontal">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:drawableLeft="@mipmap/ic_property_name"
-                  android:drawablePadding="3dp"
-                  android:drawableStart="@mipmap/ic_property_name"
+                  android:drawableLeft="@mipmap/ic_register_name"
+                  android:drawablePadding="@dimen/text_img_padding"
+                  android:drawableStart="@mipmap/ic_register_name"
                   android:gravity="center"
-                  android:text="姓名"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:text="姓        名"
+                  android:textSize="12sp"
                   android:textColor="@color/titleColor"
         />
         <TextView
@@ -35,7 +35,7 @@
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="测试"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/gray"/>
 
     </LinearLayout>
@@ -46,12 +46,12 @@
                   android:orientation="horizontal">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:drawableLeft="@mipmap/ic_xingbie"
-                  android:drawablePadding="3dp"
-                  android:drawableStart="@mipmap/ic_xingbie"
+                  android:drawableLeft="@mipmap/ic_register_gender"
+                  android:drawablePadding="@dimen/text_img_padding"
+                  android:drawableStart="@mipmap/ic_register_gender"
                   android:gravity="center"
-                  android:text="性别"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:text="性        别"
+                  android:textSize="12sp"
                   android:textColor="@color/titleColor"
         />
         <TextView
@@ -62,6 +62,7 @@
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="女"
+            android:textSize="12sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/gray"/>
 
@@ -74,12 +75,12 @@
                   android:orientation="horizontal">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:drawableLeft="@mipmap/ic_qizhi"
-                  android:drawablePadding="3dp"
-                  android:drawableStart="@mipmap/ic_qizhi"
+                  android:drawableLeft="@mipmap/ic_register_nation"
+                  android:drawablePadding="@dimen/text_img_padding"
+                  android:drawableStart="@mipmap/ic_register_nation"
                   android:gravity="center"
-                  android:text="民族"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:text="民        族"
+                  android:textSize="12sp"
                   android:textColor="@color/titleColor"
         />
         <TextView
@@ -90,7 +91,7 @@
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="汉"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/gray"/>
 
     </LinearLayout>
@@ -102,12 +103,12 @@
                   android:orientation="horizontal">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:drawableLeft="@mipmap/ic_riqi"
-                  android:drawablePadding="3dp"
-                  android:drawableStart="@mipmap/ic_riqi"
+                  android:drawableLeft="@mipmap/ic_register_born"
+                  android:drawablePadding="@dimen/text_img_padding"
+                  android:drawableStart="@mipmap/ic_register_born"
                   android:gravity="center"
-                  android:text="出生"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:text="出        生"
+                  android:textSize="12sp"
                   android:textColor="@color/titleColor"
         />
         <TextView
@@ -118,7 +119,7 @@
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="1993-03-01"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/gray"/>
 
     </LinearLayout>
@@ -134,12 +135,12 @@
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/ic_dizhi"
-            android:drawablePadding="3dp"
-            android:drawableStart="@mipmap/ic_dizhi"
+            android:drawableLeft="@mipmap/ic_register_card_address"
+            android:drawablePadding="@dimen/text_img_padding"
+            android:drawableStart="@mipmap/ic_register_card_address"
             android:gravity="center"
-            android:text="住址"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:text="住        址"
+            android:textSize="12sp"
             android:textColor="@color/titleColor"
         />
         <TextView
@@ -152,7 +153,7 @@
             android:layout_toEndOf="@+id/address"
             android:layout_toRightOf="@+id/address"
             android:text="上海市浦东新区浦东国际机场"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/gray"/>
 
     </RelativeLayout>
@@ -164,12 +165,12 @@
                   android:orientation="horizontal">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:drawableLeft="@mipmap/ic_idcard"
-                  android:drawablePadding="3dp"
-                  android:drawableStart="@mipmap/ic_idcard"
+                  android:drawableLeft="@mipmap/ic_register_card"
+                  android:drawablePadding="@dimen/text_img_padding"
+                  android:drawableStart="@mipmap/ic_register_card"
                   android:gravity="center"
-                  android:text="公民身份证号码"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:text="身份证号"
+                  android:textSize="12sp"
                   android:textColor="@color/titleColor"
         />
         <TextView
@@ -180,7 +181,7 @@
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="412721195203053010"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/gray"/>
 
     </LinearLayout>
@@ -192,12 +193,12 @@
                   android:orientation="horizontal">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:drawableLeft="@mipmap/ic_jiguanshiyedanwei"
-                  android:drawablePadding="3dp"
-                  android:drawableStart="@mipmap/ic_jiguanshiyedanwei"
+                  android:drawableLeft="@mipmap/ic_register_sign_office"
+                  android:drawablePadding="@dimen/text_img_padding"
+                  android:drawableStart="@mipmap/ic_register_sign_office"
                   android:gravity="center"
                   android:text="签证机关"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textSize="12sp"
                   android:textColor="@color/titleColor"
         />
         <TextView
@@ -208,7 +209,7 @@
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="浦东公安局"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/gray"/>
 
     </LinearLayout>
@@ -220,12 +221,12 @@
                   android:orientation="horizontal">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:drawableLeft="@mipmap/ic_jiguanshiyedanwei"
-                  android:drawablePadding="3dp"
-                  android:drawableStart="@mipmap/ic_jiguanshiyedanwei"
+                  android:drawableLeft="@mipmap/ic_register_sign_deadline"
+                  android:drawablePadding="@dimen/text_img_padding"
+                  android:drawableStart="@mipmap/ic_register_sign_deadline"
                   android:gravity="center"
                   android:text="有效期限"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textSize="12sp"
                   android:textColor="@color/titleColor"
         />
         <TextView
@@ -236,7 +237,7 @@
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="2014.08.02—2024.08.02"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/gray"/>
 
     </LinearLayout>

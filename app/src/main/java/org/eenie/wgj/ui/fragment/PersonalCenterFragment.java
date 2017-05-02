@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
-import org.eenie.wgj.ui.personal.PersonalBaseInfoActivity;
+import org.eenie.wgj.ui.personal.information.PersonalBaseInfoActivity;
+import org.eenie.wgj.ui.personal.alert.PersonalMessageAlertActivity;
 import org.eenie.wgj.util.PermissionManager;
 
 import butterknife.BindView;
@@ -51,7 +52,7 @@ public class PersonalCenterFragment extends BaseSupportFragment {
 
                 break;
             case R.id.rl_alert_setting:
-
+                startActivity(new Intent(context, PersonalMessageAlertActivity.class));
 
 
                 break;

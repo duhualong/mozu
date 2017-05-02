@@ -6,21 +6,21 @@
               android:layout_height="match_parent">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
-    android:background="@color/colorPrimary">
+                    android:background="@color/colorPrimary">
         <ImageView
             android:id="@id/img_back"
             android:layout_width="wrap_content"
-                   android:layout_height="match_parent"
-                   android:layout_centerVertical="true"
-                   android:padding="5dp"
-        android:src="@mipmap/ic_back"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_register"
-        android:textColor="@android:color/white"
-        android:layout_centerInParent="true"
-      android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@mipmap/ic_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/tv_register"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"/>
 
     </RelativeLayout>
     <ScrollView
@@ -54,7 +54,7 @@
                       android:layout_gravity="center_horizontal"
                       android:padding="@dimen/text_padding_size"
                       android:text="@string/tv_login_guide"
-                      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                      android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                       android:textColor="@color/white"/>
 
             <LinearLayout
@@ -72,6 +72,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:text="@string/tv_work"
+                    android:textSize="12sp"
                     android:textColor="@android:color/white" />
 
                 <Button
@@ -81,6 +82,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:text="@string/tv_manager"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent"/>
 
             </LinearLayout>
@@ -116,7 +118,7 @@
                     android:inputType="phone"
                     android:maxLength="11"
                     android:lines="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="12sp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/textHintColor"
                 />
@@ -141,7 +143,7 @@
                     android:textColor="@color/white"
                     android:gravity="center"
                     android:textColorHint="@color/textHintColor"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="12sp"
                     android:inputType="number"
                     android:maxLength="6"
                     android:background="@mipmap/bg_edit_code" />
@@ -154,6 +156,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:text="@string/btn_code"
+                    android:textSize="12sp"
                     android:textColor="@android:color/white"
                     android:background="@mipmap/bg_fetch_sms_code_button" />
 
@@ -190,7 +193,7 @@
                     android:maxLength="12"
                     android:inputType="textPassword"
                     android:lines="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="12sp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/textHintColor"
                 />
@@ -243,7 +246,7 @@
                         android:maxLength="12"
                         android:inputType="textPassword"
                         android:lines="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="12sp"
                         android:textColor="@color/white"
                         android:textColorHint="@color/textHintColor"
                     />
@@ -288,7 +291,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
                     android:text="@string/tv_aggrement"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="12sp"
                     android:textColor="@android:color/white"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/checkbox_register"
@@ -307,7 +310,7 @@
                 android:layout_marginBottom="@dimen/font_size_18sp"
                 android:background="@mipmap/bg_submit_button"
                 android:text="@string/btn_next"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="12sp"
             />
         </LinearLayout>
 

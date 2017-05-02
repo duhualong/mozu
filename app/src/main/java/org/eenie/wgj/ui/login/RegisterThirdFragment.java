@@ -1235,6 +1235,7 @@ public class RegisterThirdFragment extends BaseFragment {
                                         LoginFragment.newInstance(username))
                                 .commit();
 
+
                     } else {
                         Snackbar.make(rootView, response.body().getResultMessage(), Snackbar.LENGTH_LONG).show();
                     }

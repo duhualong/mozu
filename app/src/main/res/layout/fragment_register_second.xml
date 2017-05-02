@@ -18,9 +18,10 @@
             android:src="@mipmap/ic_back"/>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_centerInParent="true"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:text="@string/tv_information_title"/>
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:text="@string/tv_information_title"
+                  android:layout_centerVertical="true"
+                  android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
     <ScrollView
@@ -51,7 +52,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/titleColor"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="12sp"
                     android:text="@string/tv_upload_positive"/>
 
                 <ImageView
@@ -71,6 +72,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@mipmap/bg_submit_button"
                 android:text="@string/tv_camera"
+                android:textSize="12sp"
                 android:textColor="@android:color/white"/>
 
             <LinearLayout
@@ -87,6 +89,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/titleColor"
+                    android:textSize="12sp"
+
                     android:text="@string/tv_upload_negative"/>
 
                 <ImageView
@@ -106,6 +110,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@mipmap/bg_submit_button"
                 android:text="@string/tv_camera"
+                android:textSize="12sp"
                 android:textColor="@android:color/white"/>
 
             <Button
@@ -114,8 +119,9 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@mipmap/bg_submit_button"
+                android:background="@mipmap/bg_btnbukedianji"
                 android:text="@string/tv_submit"
+                android:textSize="12sp"
                 android:textColor="@android:color/white"/>
 
         </LinearLayout>

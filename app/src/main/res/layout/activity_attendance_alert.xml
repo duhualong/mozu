@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/personal_margin"
+                   android:src="@mipmap/ic_back"/>
+        <TextView
+            android:id="@id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/attendance_work"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        />
+        <TextView
+            android:id="@id/tv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/personal_margin"
+            android:text="@string/tv_save"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="15dp"
+                    android:paddingEnd="@dimen/personal_margin"
+                    android:paddingLeft="@dimen/personal_margin"
+                    android:paddingRight="@dimen/personal_margin"
+                    android:paddingTop="15dp"
+                    app:paddingStart="@dimen/personal_margin">
+        <TextView
+            android:id="@id/tv_attendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/open_checkbox"
+          android:textSize="14sp"
+            android:textColor="@color/titleColor"/>
+        <CheckBox
+            android:id="@id/checkbox_attendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/checkbox_alert_show_state"
+            android:padding="5dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/rl_set_start_time"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:paddingBottom="15dp"
+        android:layout_marginTop="@dimen/personal_margin"
+        android:paddingEnd="@dimen/personal_margin"
+        android:paddingLeft="@dimen/personal_margin"
+        android:paddingRight="@dimen/personal_margin"
+        android:paddingTop="15dp"
+        app:paddingStart="@dimen/personal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/tv_sign_start_time"
+            android:textSize="14sp"
+            android:textColor="@color/titleColor"/>
+        <TextView
+
+            android:id="@id/tv_set_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/go_setting"
+            android:layout_toStartOf="@id/img_right"
+            android:layout_toLeftOf="@id/img_right"
+            android:textColor="@color/colorAccent"
+         android:textSize="12sp"
+            android:padding="5dp" />
+
+        <ImageView
+            android:id="@id/img_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@mipmap/ic_arrow_right"/>
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/rl_set_end_time"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:paddingBottom="15dp"
+        android:layout_marginTop="1dp"
+        android:paddingEnd="@dimen/personal_margin"
+        android:paddingLeft="@dimen/personal_margin"
+        android:paddingRight="@dimen/personal_margin"
+        android:paddingTop="15dp"
+        app:paddingStart="@dimen/personal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/tv_sign_out"
+            android:textSize="14sp"
+            android:textColor="@color/titleColor"/>
+        <TextView
+
+            android:id="@id/tv_set_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/go_setting"
+            android:layout_toStartOf="@id/img_right"
+            android:layout_toLeftOf="@id/img_right"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:padding="5dp" />
+
+        <ImageView
+            android:id="@id/img_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@mipmap/ic_arrow_right"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

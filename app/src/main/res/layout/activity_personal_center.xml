@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="#f0f0f0"
-              android:id="@id/root_view"
               android:orientation="vertical">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
@@ -18,16 +18,16 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_personal_center"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
     </RelativeLayout>
     <RelativeLayout
         android:id="@id/rl_avatar_img"
         android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@color/white"
-                    android:padding="@dimen/personal_padding"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:padding="@dimen/personal_padding"
     >
         <TextView
             android:id="@id/tv_avatar"
@@ -37,7 +37,7 @@
             android:layout_marginLeft="@dimen/personal_padding"
             android:layout_marginStart="@dimen/personal_padding"
             android:text="@string/avatar"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/titleColor"/>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@id/img_avatar"
@@ -63,12 +63,12 @@
             android:id="@id/tv_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/qr_code"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/titleColor"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="@string/qr_code"
+            android:textSize="12sp"
+            android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_scan"
             android:layout_width="20dp"
@@ -93,11 +93,11 @@
             android:id="@id/tv_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:text="@string/identity_card"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_identity_card"
@@ -121,11 +121,11 @@
             android:id="@id/tv_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:text="@string/personal_information"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_personal_information"
@@ -149,11 +149,11 @@
             android:id="@id/tv_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:text="@string/bank_card"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_bank_card"
@@ -167,12 +167,12 @@
             android:id="@id/bank_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="未填写"
-            android:textColor="@color/colorAccent"
             android:layout_centerVertical="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_toLeftOf="@id/img_bank_card"
-            android:layout_toStartOf="@id/img_bank_card"/>
+            android:layout_toStartOf="@id/img_bank_card"
+            android:text="未填写"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent"/>
 
     </RelativeLayout>
     <RelativeLayout
@@ -186,11 +186,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:text="@string/security_certificate"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_security_certificate"
@@ -199,16 +199,28 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-           android:src="@mipmap/ic_arrow_right"/>
+            android:src="@mipmap/ic_arrow_right"/>
         <TextView
             android:id="@id/security_code"
             android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="未填写"
-                  android:textColor="@color/colorAccent"
-                  android:layout_centerVertical="true"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_toLeftOf="@id/img_security_certificate"
-        android:layout_toStartOf="@id/img_security_certificate"/>
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/img_security_certificate"
+            android:layout_toStartOf="@id/img_security_certificate"
+            android:text="未填写"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent"/>
     </RelativeLayout>
+    <Button android:id="@id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_height_larger_distance"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:textSize="12sp"
+            android:background="@mipmap/bg_submit_button"
+            android:text="@string/btn_exit_account"/>
 </LinearLayout>

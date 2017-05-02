@@ -8,7 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-      >
+    >
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical">
@@ -27,29 +27,35 @@
                                              app:selectedIndicatorWidth="8dp"
                                              app:unSelectedIndicatorColor="@color/white"
                                              app:unSelectedIndicatorHeight="8dp"
+
                                              app:unSelectedIndicatorWidth="8dp"/>
+
+           <LinearLayout android:layout_width="match_parent"
+                         android:layout_height="180dp"
+                         android:background="@color/white"
+                         android:layout_marginTop="10dp"
+                         android:layout_marginBottom="10dp"
+
+           >
             <GridView
                 android:id="@id/gradView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/white"
-                android:layout_marginTop="5dp"
+                android:layout_height="180dp"
                 android:columnWidth="10dp"
                 android:numColumns="4"
-                android:scrollbars="none"
-            android:layout_marginBottom="5dp"/>
+                android:scrollbars="none"/>
+           </LinearLayout>
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
+                          android:layout_marginBottom="5dp"
                           android:background="@color/white"
-                          android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
+                          android:orientation="horizontal">
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="5dp"
                           android:layout_marginStart="5dp"
                           android:text="@string/tv_notice"
-                          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-
+                          android:textSize="12sp"
                           android:textColor="@color/titleColor"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -57,16 +63,16 @@
                     android:layout_marginLeft="@dimen/padding_short"
                     android:layout_marginStart="@dimen/padding_short"
                     android:drawableLeft="@mipmap/ic_news_notice"
-                    android:drawableStart="@mipmap/ic_news_notice"
                     android:drawablePadding="@dimen/padding_short"
-                    android:padding="10dp"
+                    android:drawableStart="@mipmap/ic_news_notice"
                     android:lines="1"
+                    android:padding="10dp"
                     android:text="@string/tv_test_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="12sp"
                     android:textColor="@color/titleColor"/>
             </LinearLayout>
             <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="200dp">
+                            android:layout_height="142dp">
                 <com.yyydjk.library.BannerLayout android:id="@id/banner_bottom"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="142dp"
@@ -93,7 +99,7 @@
                     android:background="#35ffffff"
                     android:padding="@dimen/padding_short"
                     android:text="@string/tv_news"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="12sp"
                     android:textColor="@color/titleColor"
                 />
             </RelativeLayout>

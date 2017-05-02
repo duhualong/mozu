@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white_light"
-              android:id="@id/root_view"
               android:orientation="vertical">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
@@ -18,7 +18,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_information_title"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
     </RelativeLayout>
 
@@ -39,19 +39,23 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
+                android:layout_centerVertical="true"
                 android:src="@mipmap/ic_registerl_height"
             />
             <TextView
                 android:id="@id/text"
                 android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_centerVertical="true"
-                      android:layout_toEndOf="@id/img"
-                      android:layout_toRightOf="@id/img"
-                      android:text="@string/tv_height"
-                      android:textColor="@color/titleColor"/>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/text_img_padding"
+                android:layout_marginStart="@dimen/text_img_padding"
+                android:layout_toEndOf="@id/img"
+                android:layout_toRightOf="@id/img"
+                android:text="@string/tv_height"
+                android:textColor="@color/titleColor"
+                android:textSize="12sp"/>
             <TextView
                 android:id="@id/tv_height"
                 android:layout_width="wrap_content"
@@ -61,15 +65,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_toEndOf="@id/text"
+                android:layout_toRightOf="@id/text"
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
-                android:text="@string/tv_empty"
-                android:lines="1"
-                android:layout_toRightOf="@id/text"
-                android:layout_toEndOf="@id/text"
                 android:gravity="end|center_vertical"
-                android:textColor="@color/colorAccent"/>
+                android:lines="1"
+                android:text="@string/tv_empty"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"/>
 
         </RelativeLayout>
         <View android:layout_width="match_parent"
@@ -80,18 +85,22 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
+                android:layout_centerVertical="true"
                 android:src="@mipmap/ic_register_education"
             />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_alignBottom="@+id/tv_qualifications"
                       android:layout_centerVertical="true"
+                      android:layout_marginLeft="@dimen/text_img_padding"
+                      android:layout_marginStart="@dimen/text_img_padding"
                       android:layout_toEndOf="@id/img"
                       android:layout_toRightOf="@id/img"
                       android:text="@string/tv_qualifications"
-                      android:textColor="@color/titleColor"/>
+                      android:textColor="@color/titleColor"
+                      android:textSize="12sp"/>
             <TextView
                 android:id="@id/tv_qualifications"
                 android:layout_width="wrap_content"
@@ -106,7 +115,8 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"/>
 
         </RelativeLayout>
         <View android:layout_width="match_parent"
@@ -117,17 +127,21 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
+                android:layout_centerVertical="true"
                 android:src="@mipmap/ic_hunyin"
             />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
+                      android:layout_marginLeft="@dimen/text_img_padding"
+                      android:layout_marginStart="@dimen/text_img_padding"
                       android:layout_toEndOf="@id/img"
                       android:layout_toRightOf="@id/img"
                       android:text="@string/tv_marry_state"
-                      android:textColor="@color/titleColor"/>
+                      android:textColor="@color/titleColor"
+                      android:textSize="12sp"/>
             <TextView
                 android:id="@id/tv_marry_state"
                 android:layout_width="wrap_content"
@@ -142,7 +156,8 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"/>
 
         </RelativeLayout>
         <View android:layout_width="match_parent"
@@ -153,19 +168,23 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/ic_dizhi"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
+                android:src="@mipmap/ic_register_address"
             />
             <TextView
                 android:id="@id/text"
                 android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_centerVertical="true"
-                      android:layout_toEndOf="@id/img"
-                      android:layout_toRightOf="@id/img"
-                      android:text="@string/address_now"
-                      android:textColor="@color/titleColor"/>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/img"
+                android:layout_toRightOf="@id/img"
+                android:text="@string/address_now"
+                android:textSize="12sp"
+                android:layout_marginLeft="@dimen/text_img_padding"
+                android:layout_marginStart="@dimen/text_img_padding"
+                android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_address"
                 android:layout_width="wrap_content"
@@ -175,14 +194,15 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_toRightOf="@id/text"
                 android:layout_toEndOf="@id/text"
+                android:layout_toRightOf="@id/text"
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
-                android:text="@string/tv_empty"
                 android:lines="1"
+                android:text="@string/tv_empty"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -194,19 +214,24 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/ic_lianxiren"
+                android:layout_centerVertical="true"
+
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
+                android:src="@mipmap/ic_register_contacts"
             />
             <TextView
                 android:id="@id/text"
                 android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_centerVertical="true"
-                      android:layout_toEndOf="@id/img"
-                      android:layout_toRightOf="@id/img"
-                      android:text="@string/contacts_tv"
-                      android:textColor="@color/titleColor"/>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/img"
+                android:layout_toRightOf="@id/img"
+                android:text="@string/contacts_tv"
+                android:textSize="12sp"
+                android:layout_marginLeft="@dimen/text_img_padding"
+                android:layout_marginStart="@dimen/text_img_padding"
+                android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_contacts"
                 android:layout_width="wrap_content"
@@ -216,15 +241,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                android:drawableEnd="@mipmap/ic_arrow_right"
-                android:drawablePadding="5dp"
-                android:drawableRight="@mipmap/ic_arrow_right"
-                android:gravity="end|center_vertical"
-                android:text="@string/tv_empty"
                 android:layout_toEndOf="@id/text"
                 android:layout_toRightOf="@id/text"
-
+                android:drawableEnd="@mipmap/ic_arrow_right"
+                android:drawablePadding="5dp"
+                android:textSize="12sp"
+                android:drawableRight="@mipmap/ic_arrow_right"
+                android:gravity="end|center_vertical"
                 android:lines="1"
+
+                android:text="@string/tv_empty"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -236,19 +262,23 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/ic_danweitijian"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
+                android:src="@mipmap/ic_register_work_name"
             />
             <TextView
                 android:id="@id/text"
                 android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_centerVertical="true"
-                      android:layout_toEndOf="@id/img"
-                      android:layout_toRightOf="@id/img"
-                      android:text="@string/now_work"
-                      android:textColor="@color/titleColor"/>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/img"
+                android:layout_toRightOf="@id/img"
+                android:text="@string/now_work"
+                android:layout_marginLeft="@dimen/text_img_padding"
+                android:layout_marginStart="@dimen/text_img_padding"
+                android:textSize="12sp"
+                android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_work_name"
                 android:layout_width="wrap_content"
@@ -258,14 +288,15 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_toEndOf="@id/text"
+                android:layout_toRightOf="@id/text"
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
-                android:text="@string/tv_empty"
                 android:lines="1"
-                android:layout_toEndOf="@id/text"
-                android:layout_toRightOf="@id/text"
+                android:text="@string/tv_empty"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -277,15 +308,19 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/ic_industry"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
+                android:src="@mipmap/ic_register_industrary"
             />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:layout_toEndOf="@id/img"
                       android:layout_toRightOf="@id/img"
+                      android:textSize="12sp"
+                      android:layout_marginLeft="@dimen/text_img_padding"
+                      android:layout_marginStart="@dimen/text_img_padding"
                       android:text="@string/tv_industry"
                       android:textColor="@color/titleColor"/>
             <TextView
@@ -302,6 +337,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -313,8 +349,9 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
                 android:src="@mipmap/ic_skill"
             />
             <TextView android:layout_width="wrap_content"
@@ -323,6 +360,9 @@
                       android:layout_toEndOf="@id/img"
                       android:layout_toRightOf="@id/img"
                       android:text="@string/tv_skill"
+                      android:textSize="12sp"
+                      android:layout_marginLeft="@dimen/text_img_padding"
+                      android:layout_marginStart="@dimen/text_img_padding"
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_skill"
@@ -338,6 +378,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -349,9 +390,10 @@
                         android:padding="8dp">
             <ImageView
                 android:id="@id/img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/ic_channel"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/register_size_img"
+                android:layout_height="@dimen/register_size_img"
+                android:src="@mipmap/ic_register_channel"
             />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -359,6 +401,9 @@
                       android:layout_toEndOf="@id/img"
                       android:layout_toRightOf="@id/img"
                       android:text="@string/tv_employment"
+                      android:layout_marginLeft="@dimen/text_img_padding"
+                      android:layout_marginStart="@dimen/text_img_padding"
+                      android:textSize="12sp"
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_employment"
@@ -374,6 +419,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -382,9 +428,10 @@
     <Button
         android:id="@id/btn_apply"
         android:layout_width="match_parent"
-            android:layout_height="@dimen/height_btn_nor"
-            android:layout_margin="30dp"
-            android:background="@mipmap/bg_btnbukedianji"
-            android:text="@string/tv_commite"
+        android:layout_height="@dimen/height_btn_nor"
+        android:layout_margin="30dp"
+        android:background="@mipmap/bg_btnbukedianji"
+        android:textSize="12sp"
+        android:text="@string/tv_commite"
     />
 </LinearLayout>

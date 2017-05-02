@@ -29,7 +29,7 @@
                 android:drawablePadding="3dp"
                 android:drawableTop="@mipmap/ic_home_bottom_tab_main"
                 android:text="@string/tv_home"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="10sp"
                 android:textColor="@color/titleColor"
             />
         </LinearLayout>
@@ -50,8 +50,7 @@
                 android:drawableTop="@mipmap/ic_home_bottom_tab_contact"
                 android:gravity="center"
                 android:text="@string/tv_contact"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-
+                android:textSize="10sp"
                 android:textColor="@color/titleColor"
             />
             <View android:layout_width="0dp"
@@ -77,7 +76,7 @@
                 android:drawableTop="@mipmap/ic_home_bottom_tab_app"
                 android:gravity="center"
                 android:text="@string/tv_apply"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="10sp"
                 android:textColor="@color/titleColor"
             />
 
@@ -95,9 +94,9 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="3dp"
                 android:drawableTop="@mipmap/ic_home_bottom_tab_me"
-                android:gravity="end"
+                android:gravity="center"
                 android:text="@string/tv_my"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="10sp"
                 android:textColor="@color/titleColor"
 
             />
@@ -120,6 +119,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/tv_message"
+            android:textSize="10sp"
+            android:layout_marginTop="2dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/titleColor"
         />

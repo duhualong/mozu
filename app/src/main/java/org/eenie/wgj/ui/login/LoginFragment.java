@@ -129,7 +129,7 @@ public class LoginFragment extends BaseFragment {
 
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container, new RegisterSecondFragment())
+                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
                         .commit();
 
                 break;

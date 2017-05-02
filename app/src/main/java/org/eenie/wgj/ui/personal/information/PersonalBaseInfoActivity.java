@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.personal;
+package org.eenie.wgj.ui.personal.information;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -6,6 +6,8 @@ import android.view.View;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.ui.login.LoginActivity;
+import org.eenie.wgj.util.Constants;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,7 +33,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
     }
 
     @OnClick({R.id.img_back, R.id.img_scan, R.id.rl_avatar_img, R.id.rl_identity_card, R.id.rl_personal_information,
-            R.id.rl_bank_card, R.id.rl_security_certificate})
+            R.id.rl_bank_card, R.id.rl_security_certificate,R.id.btn_logout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -62,6 +64,14 @@ public class PersonalBaseInfoActivity extends BaseActivity {
             case R.id.rl_security_certificate:
                 startActivity(new Intent(context, PersonalSecurityActivity.class));
 
+
+                break;
+            case R.id.btn_logout:
+                //退出登录
+                mPrefsHelper.getPrefs().edit().putBoolean(Constants.IS_LOGIN,false).apply();
+
+                startActivity(new Intent(context, LoginActivity.class));
+                finish();
 
                 break;
 

@@ -127,6 +127,16 @@
     <string name="tv_work_experience">工作经验</string>
     <string name="tv_work_content">可从事工作内容</string>
     <string name="btn_know">我了解了</string>
+    <string name="btn_exit_account">退出账户</string>
+    <string name="attendance_work">考勤提醒</string>
+    <string name="report_alert">报岗提醒</string>
+    <string name="routing_alert">巡检提醒</string>
+    <string name="open_checkbox">开启考勤提醒</string>
+    <string name="tv_sign_start_time">签到提醒时间</string>
+    <string name="go_setting">去设置</string>
+    <string name="tv_sign_out">签退提醒设置</string>
+    <string name="tv_alert">提醒</string>
+    <string name="tv_save_success">保存成功</string>
 
 
 </resources>

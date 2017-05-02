@@ -10,7 +10,7 @@
         android:layout_height="?android:actionBarSize"
         android:gravity="center"
         android:text="@string/tv_login"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"/>
 
     <RelativeLayout
@@ -31,7 +31,7 @@
               android:layout_gravity="center_horizontal"
               android:padding="@dimen/text_padding_size"
               android:text="@string/tv_login_guide"
-              android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+              android:textAppearance="@style/TextAppearance.AppCompat.Body1"
               android:textColor="@color/white"/>
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_height_larger_distance"
@@ -58,7 +58,7 @@
             android:inputType="phone"
             android:maxLength="11"
             android:lines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/white"
             android:textColorHint="@color/textHintColor"
         />
@@ -98,7 +98,7 @@
             android:maxLength="12"
             android:inputType="textPassword"
             android:lines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/white"
             android:textColorHint="@color/textHintColor"
         />
@@ -140,7 +140,7 @@
             android:layout_toEndOf="@id/checkbox_password_remember"
             android:layout_toRightOf="@id/checkbox_password_remember"
             android:text="@string/tv_keep_password"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
         />
         <TextView
@@ -154,7 +154,8 @@
             android:drawablePadding="@dimen/padding_img"
             android:drawableStart="@mipmap/ic_forget_password"
             android:text="@string/tv_forget_password"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"/>
 
     </RelativeLayout>

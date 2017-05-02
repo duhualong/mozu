@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -87,6 +88,7 @@ public class RegisterSecondFragment extends BaseFragment {
     ImageView positiveImg;
     @BindView(R.id.img_negative)
     ImageView negativeImg;
+    @BindView(R.id.btn_submitbtn)Button btnSubmibtn;
 
     private Uri imageUri;
     private AlertDialog.Builder mBuilder;
@@ -206,8 +208,8 @@ public class RegisterSecondFragment extends BaseFragment {
 
             fragmentMgr.beginTransaction()
                     .addToBackStack(TAG)
-                    .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance("18817771021"
-                    ,"123456",frontUrl,backUrl))
+                    .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance(mPhone
+                    ,mPassword,frontUrl,backUrl))
                     .commit();
 
         });
@@ -495,9 +497,14 @@ public class RegisterSecondFragment extends BaseFragment {
                         }
 
                     }
-                    imageUri = null;
+                    if (checkFront&&checkBack){
+                        btnSubmibtn.setBackgroundResource(R.mipmap.bg_submit_button);
+                    }else {
+                        btnSubmibtn.setBackgroundResource(R.mipmap.bg_btnbukedianji);
+                    }
                 } else if (status == 3) {
                     checkBack = true;
+
                     List<Infomation> data = response.body().getCardsinfo();
                     if (data != null) {
                         Infomation infomation = data.get(0);
@@ -536,6 +543,11 @@ public class RegisterSecondFragment extends BaseFragment {
                             }
                         }
 
+                    }
+                    if (checkFront&&checkBack){
+                        btnSubmibtn.setBackgroundResource(R.mipmap.bg_submit_button);
+                    }else {
+                        btnSubmibtn.setBackgroundResource(R.mipmap.bg_btnbukedianji);
                     }
                 } else {
                     if (typeId.equals("2")) {

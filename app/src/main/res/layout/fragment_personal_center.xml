@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/personal_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#333"/>
             <TextView
                 android:id="@id/personal_phone"
@@ -83,7 +83,7 @@
                   android:layout_toEndOf="@id/img_setting"
                   android:layout_toRightOf="@id/img_setting"
                   android:text="@string/alert_setting"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                   android:textColor="#333"
         />
 
@@ -112,7 +112,7 @@
                   android:layout_toEndOf="@id/img_setting"
                   android:layout_toRightOf="@id/img_setting"
                   android:text="@string/version"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                   android:textColor="#333"
         />
 
