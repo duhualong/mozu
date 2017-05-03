@@ -137,6 +137,9 @@
     <string name="tv_sign_out">签退提醒设置</string>
     <string name="tv_alert">提醒</string>
     <string name="tv_save_success">保存成功</string>
+    <string name="register_success">注册成功</string>
+    <string name="company">公司</string>
+    <string name="personal">个人</string>
 
 
 </resources>

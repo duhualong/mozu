@@ -42,6 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -88,7 +89,8 @@ public class RegisterSecondFragment extends BaseFragment {
     ImageView positiveImg;
     @BindView(R.id.img_negative)
     ImageView negativeImg;
-    @BindView(R.id.btn_submitbtn)Button btnSubmibtn;
+    @BindView(R.id.btn_submitbtn)
+    Button btnSubmibtn;
 
     private Uri imageUri;
     private AlertDialog.Builder mBuilder;
@@ -151,7 +153,7 @@ public class RegisterSecondFragment extends BaseFragment {
                 if (checkBack && checkFront) {
                     showDialog();
                 } else {
-                    Snackbar.make(rootView,"信息上传中,请稍后....",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootView, "信息上传中,请稍后....", Snackbar.LENGTH_LONG).show();
                 }
                 break;
 
@@ -177,7 +179,7 @@ public class RegisterSecondFragment extends BaseFragment {
         String base64 = mPrefsHelper.getPrefs().getString(Constants.AVATAR, "");
         System.out.println("base64:" + base64);
         try {
-            File file = Utils.base64ToFile(base64,context);
+            File file = Utils.base64ToFile(base64, context);
 
             Glide.with(context)
                     .load(file)
@@ -209,7 +211,7 @@ public class RegisterSecondFragment extends BaseFragment {
             fragmentMgr.beginTransaction()
                     .addToBackStack(TAG)
                     .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance(mPhone
-                    ,mPassword,frontUrl,backUrl))
+                            , mPassword, frontUrl, backUrl))
                     .commit();
 
         });
@@ -351,14 +353,14 @@ public class RegisterSecondFragment extends BaseFragment {
                             .subscribe(bitmap -> {
                                 positiveImg.setImageBitmap(bitmap);
                             });
-                    frontUrl= ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    frontUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
 
                     Snackbar.make(rootView, "身份证正面上传成功！", Snackbar.LENGTH_LONG).show();
                     fileCardFront = new File(frontUrl);
 
                     new Thread() {
                         public void run() {
-                            initData(fileCardFront, "2");
+                            initData(Compressor.getDefault(context).compressToFile(fileCardFront), "2");
 
                         }
                     }.start();
@@ -386,13 +388,11 @@ public class RegisterSecondFragment extends BaseFragment {
                     fileCardBack = new File(backUrl);
                     new Thread() {
                         public void run() {
-                            initData(fileCardBack, "3");
+                            initData(Compressor.getDefault(context).compressToFile(fileCardBack), "3");
                         }
                     }.start();
 
                     break;
-
-
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -497,9 +497,9 @@ public class RegisterSecondFragment extends BaseFragment {
                         }
 
                     }
-                    if (checkFront&&checkBack){
+                    if (checkFront && checkBack) {
                         btnSubmibtn.setBackgroundResource(R.mipmap.bg_submit_button);
-                    }else {
+                    } else {
                         btnSubmibtn.setBackgroundResource(R.mipmap.bg_btnbukedianji);
                     }
                 } else if (status == 3) {
@@ -544,9 +544,9 @@ public class RegisterSecondFragment extends BaseFragment {
                         }
 
                     }
-                    if (checkFront&&checkBack){
+                    if (checkFront && checkBack) {
                         btnSubmibtn.setBackgroundResource(R.mipmap.bg_submit_button);
-                    }else {
+                    } else {
                         btnSubmibtn.setBackgroundResource(R.mipmap.bg_btnbukedianji);
                     }
                 } else {

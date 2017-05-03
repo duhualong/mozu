@@ -172,7 +172,7 @@
         android:layout_marginTop="@dimen/padding_short"
         android:background="@mipmap/bg_submit_button"
         android:text="@string/btn_login"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="12sp"
     />
     <Button
         android:id="@id/btn_register"
@@ -185,6 +185,7 @@
         android:layout_marginTop="@dimen/padding_short"
         android:background="@mipmap/bg_submit_button"
         android:text="@string/tv_register_new"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="12sp"
+
     />
 </LinearLayout>

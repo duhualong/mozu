@@ -11,7 +11,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_skill"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
@@ -31,6 +31,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="武术"
+            android:textSize="12sp"
             android:textColor="@color/titleColor"
         />
 
@@ -46,6 +47,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="散打"
+            android:textSize="12sp"
+
             android:textColor="@color/titleColor"
         />
         <CheckBox
@@ -60,6 +63,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="拳击"
+            android:textSize="12sp"
+
             android:textColor="@color/titleColor"
         />
     </RelativeLayout>
@@ -79,6 +84,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="退伍"
+            android:textSize="12sp"
+
             android:textColor="@color/titleColor"
         />
         <CheckBox
@@ -91,6 +98,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="美术"
+            android:textSize="12sp"
+
             android:textColor="@color/titleColor"
         />
         <CheckBox
@@ -122,6 +131,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="@string/other"
+            android:textSize="12sp"
+
             android:textColor="@color/titleColor"
         />
         <CheckBox
@@ -162,7 +173,7 @@
         android:layout_marginTop="25dp"
         android:background="@mipmap/bg_submit_button"
         android:text="@string/tv_save"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="12sp"
         android:textColor="@android:color/white"/>
 
 </LinearLayout>

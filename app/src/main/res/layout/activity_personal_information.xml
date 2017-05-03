@@ -18,7 +18,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_personal_center"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
     </RelativeLayout>
 
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-
+                android:textSize="12sp"
                 android:text="@string/tv_height"
                 android:textColor="@color/titleColor"/>
             <TextView
@@ -62,6 +62,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
                 android:lines="1"
+                android:textSize="12sp"
                 android:text="@string/tv_empty"
                 android:textColor="@color/colorAccent"/>
 
@@ -78,7 +79,7 @@
                       android:layout_height="wrap_content"
                       android:layout_alignBottom="@+id/tv_qualifications"
                       android:layout_centerVertical="true"
-
+                      android:textSize="12sp"
                       android:text="@string/tv_qualifications"
                       android:textColor="@color/titleColor"/>
             <TextView
@@ -95,6 +96,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -110,6 +112,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_marry_state"
+                      android:textSize="12sp"
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_marry_state"
@@ -125,6 +128,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -142,6 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/address_now"
+                android:textSize="12sp"
                 android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_address"
@@ -159,6 +164,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
                 android:lines="1"
+                android:textSize="12sp"
                 android:text="@string/tv_empty"
                 android:textColor="@color/colorAccent"/>
 
@@ -177,6 +183,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/contacts_tv"
+                android:textSize="12sp"
+
                 android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_contacts"
@@ -194,6 +202,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
                 android:lines="1"
+                android:textSize="12sp"
 
                 android:text="@string/tv_empty"
                 android:textColor="@color/colorAccent"/>
@@ -213,6 +222,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/now_work"
+                android:textSize="12sp"
+
                 android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_work_name"
@@ -231,6 +242,8 @@
                 android:gravity="end|center_vertical"
                 android:lines="1"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
+
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -246,6 +259,8 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_industry"
+                      android:textSize="12sp"
+
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_industry"
@@ -261,6 +276,8 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
+
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -277,6 +294,8 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_skill"
+                      android:textSize="12sp"
+
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_skill"
@@ -289,6 +308,8 @@
                 android:layout_marginRight="5dp"
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
+                android:textSize="12sp"
+
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
@@ -308,6 +329,8 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_employment"
+                      android:textSize="12sp"
+
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_employment"
@@ -323,6 +346,8 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
+
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -339,6 +364,8 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_work_experience"
+                      android:textSize="12sp"
+
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_experience"
@@ -354,6 +381,8 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
+
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -370,6 +399,8 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_work_content"
+                      android:textSize="12sp"
+
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_work_content"
@@ -385,6 +416,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>

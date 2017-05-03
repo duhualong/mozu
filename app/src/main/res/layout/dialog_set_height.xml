@@ -11,7 +11,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_height"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                   android:textColor="@color/white"
         />
 
@@ -35,9 +35,9 @@
             android:background="@null"
             android:hint="@string/hint_height"
             android:lines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/titleColor"
             android:textColorHint="@color/gray"
+            android:textSize="12sp"
         />
 
     </LinearLayout>
@@ -50,6 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@mipmap/bg_submit_button"
+                android:textSize="12sp"
                 android:text="@string/btn_cancel"/>
         <Button
             android:id="@id/btn_next"
@@ -58,6 +59,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
+            android:textSize="12sp"
             android:background="@mipmap/bg_submit_button"
             android:text="@string/btn_ok"/>
 

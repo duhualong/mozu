@@ -249,6 +249,7 @@
                 android:layout_weight="1"
                 android:id="@id/btn_cancel"
                 android:background="@mipmap/bg_submit_button"
+                android:textSize="12sp"
                 android:text="取消"/>
         <Button
             android:id="@id/btn_next"
@@ -258,6 +259,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@mipmap/bg_submit_button"
+            android:textSize="12sp"
             android:text="下一步"/>
 
     </LinearLayout>

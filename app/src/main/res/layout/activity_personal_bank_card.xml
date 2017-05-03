@@ -12,7 +12,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/bank_card"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                   android:textColor="@color/white"/>
         <ImageView android:id="@id/img_back"
                    android:layout_width="wrap_content"
@@ -31,6 +31,7 @@
                   android:layout_marginTop="20dp"
                   android:layout_marginLeft="@dimen/personal_padding"
                   android:layout_marginStart="@dimen/personal_padding"
+                  android:textSize="14sp"
         android:text="@string/bank_card"/>
         <EditText
             android:id="@id/et_bank_card"
@@ -49,7 +50,7 @@
             android:maxLines="1"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
             android:textColor="@color/titleColor"
             android:textColorHint="@color/textHintColor"/>
     </LinearLayout>
@@ -65,7 +66,7 @@
         android:layout_marginTop="24dp"
         android:background="@mipmap/bg_submit_button"
         android:text="@string/tv_save"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="12sp"
     />
 
 </LinearLayout>

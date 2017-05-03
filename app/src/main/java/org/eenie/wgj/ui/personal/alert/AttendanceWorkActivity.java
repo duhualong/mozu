@@ -2,6 +2,7 @@ package org.eenie.wgj.ui.personal.alert;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -105,6 +106,9 @@ public class AttendanceWorkActivity extends BaseActivity {
 
         addHour.setOnClickListener(v -> {
             String hour = editHour.getText().toString();
+            if (TextUtils.isEmpty(hour)){
+                hour="0";
+            }
 
             if (Integer.parseInt(hour) >= 23) {
                 Toast.makeText(context, "不能超过24小时", Toast.LENGTH_LONG).show();
@@ -121,6 +125,9 @@ public class AttendanceWorkActivity extends BaseActivity {
 
         subHour.setOnClickListener(v -> {
             String hour = editHour.getText().toString();
+            if (TextUtils.isEmpty(hour)){
+                hour="0";
+            }
             if (Integer.parseInt(hour) <= 0) {
                 Toast.makeText(context, "不能小于0时", Toast.LENGTH_LONG).show();
             } else {
@@ -136,7 +143,9 @@ public class AttendanceWorkActivity extends BaseActivity {
 
         addMinute.setOnClickListener(v -> {
             String minute = editMinute.getText().toString();
-
+            if (TextUtils.isEmpty(minute)){
+                minute="0";
+            }
 
             if (Integer.parseInt(minute) >= 59) {
                 Toast.makeText(context, "不能超过60分钟", Toast.LENGTH_LONG).show();
@@ -153,7 +162,9 @@ public class AttendanceWorkActivity extends BaseActivity {
 
         subMinute.setOnClickListener(v -> {
             String minute = editMinute.getText().toString();
-
+            if (TextUtils.isEmpty(minute)){
+                minute="0";
+            }
 
             if (Integer.parseInt(minute) <= 0) {
                 Toast.makeText(context, "不能少于0分钟", Toast.LENGTH_LONG).show();
@@ -172,27 +183,32 @@ public class AttendanceWorkActivity extends BaseActivity {
         btnOk.setOnClickListener(v -> {
             String hour = editHour.getText().toString();
             String minute = editMinute.getText().toString();
-            if (Integer.parseInt(hour) >= 24 || Integer.parseInt(hour) < 0) {
-                Toast.makeText(context, "请设置正确的小时！", Toast.LENGTH_LONG).show();
-            } else {
-                if (Integer.parseInt(minute) >= 60 || Integer.parseInt(minute) < 0) {
-                    Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
+            if (!TextUtils.isEmpty(hour)&&!TextUtils.isEmpty(minute)) {
+                if (Integer.parseInt(hour) >= 24 || Integer.parseInt(hour) < 0) {
+                    Toast.makeText(context, "请设置正确的小时！", Toast.LENGTH_LONG).show();
                 } else {
-                    dialog.dismiss();
-                    if (Integer.parseInt(hour) <= 9) {
-                        hour = "0" + hour;
+                    if (Integer.parseInt(minute) >= 60 || Integer.parseInt(minute) < 0) {
+                        Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
+                    } else {
+                        dialog.dismiss();
+                        if (Integer.parseInt(hour) <= 9) {
+                            hour = "0" + hour;
 
+                        }
+                        if (Integer.parseInt(minute) <= 9) {
+                            minute = "0" + minute;
+                        }
+                        endtime.setText(hour + ":" + minute);
+                        endtime.setTextColor(ContextCompat.getColor
+                                (context, R.color.titleColor));
                     }
-                    if (Integer.parseInt(minute) <= 9) {
-                        minute = "0" + minute;
-                    }
-                    endtime.setText(hour + ":" + minute);
-                    endtime.setTextColor(ContextCompat.getColor
-                            (context, R.color.titleColor));
                 }
+            }else {
+                Toast.makeText(context,"请设置考勤结束的时间",Toast.LENGTH_LONG).show();
             }
 
         });
+
 
     }
 
@@ -215,6 +231,9 @@ public class AttendanceWorkActivity extends BaseActivity {
 
         addHour.setOnClickListener(v -> {
             String hour = editHour.getText().toString();
+            if (TextUtils.isEmpty(hour)){
+                hour="0";
+            }
 
             if (Integer.parseInt(hour) >= 23) {
                 Toast.makeText(context, "不能超过24小时", Toast.LENGTH_LONG).show();
@@ -231,6 +250,9 @@ public class AttendanceWorkActivity extends BaseActivity {
 
         subHour.setOnClickListener(v -> {
             String hour = editHour.getText().toString();
+            if (TextUtils.isEmpty(hour)){
+                hour="0";
+            }
             if (Integer.parseInt(hour) <= 0) {
                 Toast.makeText(context, "不能小于0时", Toast.LENGTH_LONG).show();
             } else {
@@ -247,7 +269,9 @@ public class AttendanceWorkActivity extends BaseActivity {
         addMinute.setOnClickListener(v -> {
             String minute = editMinute.getText().toString();
 
-
+            if (TextUtils.isEmpty(minute)){
+                minute="0";
+            }
             if (Integer.parseInt(minute) >= 59) {
                 Toast.makeText(context, "不能超过60分钟", Toast.LENGTH_LONG).show();
 
@@ -264,6 +288,9 @@ public class AttendanceWorkActivity extends BaseActivity {
         subMinute.setOnClickListener(v -> {
             String minute = editMinute.getText().toString();
 
+            if (TextUtils.isEmpty(minute)){
+                minute="0";
+            }
 
             if (Integer.parseInt(minute) <= 0) {
                 Toast.makeText(context, "不能少于0分钟", Toast.LENGTH_LONG).show();
@@ -282,24 +309,28 @@ public class AttendanceWorkActivity extends BaseActivity {
         btnOk.setOnClickListener(v -> {
             String hour = editHour.getText().toString();
             String minute = editMinute.getText().toString();
-            if (Integer.parseInt(hour) >= 24 || Integer.parseInt(hour) < 0) {
-                Toast.makeText(context, "请设置正确的小时！", Toast.LENGTH_LONG).show();
-            } else {
-                if (Integer.parseInt(minute) >= 60 || Integer.parseInt(minute) < 0) {
-                    Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
+            if (!TextUtils.isEmpty(hour)&&!TextUtils.isEmpty(minute)) {
+                if (Integer.parseInt(hour) >= 24 || Integer.parseInt(hour) < 0) {
+                    Toast.makeText(context, "请设置正确的小时！", Toast.LENGTH_LONG).show();
                 } else {
-                    dialog.dismiss();
-                    if (Integer.parseInt(hour) <= 9) {
-                        hour = "0" + hour;
+                    if (Integer.parseInt(minute) >= 60 || Integer.parseInt(minute) < 0) {
+                        Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
+                    } else {
+                        dialog.dismiss();
+                        if (Integer.parseInt(hour) <= 9) {
+                            hour = "0" + hour;
 
+                        }
+                        if (Integer.parseInt(minute) <= 9) {
+                            minute = "0" + minute;
+                        }
+                        starttime.setText(hour + ":" + minute);
+                        starttime.setTextColor(ContextCompat.getColor
+                                (context, R.color.titleColor));
                     }
-                    if (Integer.parseInt(minute) <= 9) {
-                        minute = "0" + minute;
-                    }
-                    starttime.setText(hour + ":" + minute);
-                    starttime.setTextColor(ContextCompat.getColor
-                            (context, R.color.titleColor));
                 }
+            }else {
+                Toast.makeText(context,"请设置考勤开始的时间",Toast.LENGTH_LONG).show();
             }
 
         });

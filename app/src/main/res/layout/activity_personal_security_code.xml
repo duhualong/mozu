@@ -12,7 +12,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/security_certificate"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                   android:textColor="@color/white"/>
         <ImageView android:id="@id/img_back"
                    android:layout_width="wrap_content"
@@ -27,11 +27,12 @@
                   android:orientation="vertical">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textColor="@color/titleColor"
-                  android:layout_marginTop="20dp"
                   android:layout_marginLeft="@dimen/personal_padding"
                   android:layout_marginStart="@dimen/personal_padding"
-        android:text="@string/security_certificate"/>
+                  android:layout_marginTop="20dp"
+                  android:text="@string/security_certificate"
+                  android:textColor="@color/titleColor"
+                  android:textSize="14sp"/>
         <EditText
             android:id="@id/et_bank_card"
             android:layout_width="match_parent"
@@ -49,9 +50,9 @@
             android:maxLines="1"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/titleColor"
-            android:textColorHint="@color/textHintColor"/>
+            android:textColorHint="@color/textHintColor"
+            android:textSize="12sp"/>
     </LinearLayout>
     <Button
         android:id="@id/btn_login"
@@ -65,7 +66,7 @@
         android:layout_marginTop="24dp"
         android:background="@mipmap/bg_submit_button"
         android:text="@string/tv_save"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+       android:textSize="12sp"
     />
 
 </LinearLayout>

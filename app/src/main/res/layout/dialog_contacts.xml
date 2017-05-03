@@ -11,14 +11,14 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/contacts_tv"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                   android:textColor="@color/white"/>
 
     </RelativeLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:gravity="center_horizontal"
                   android:layout_marginBottom="5dp"
+                  android:gravity="center_horizontal"
                   android:orientation="vertical">
 
         <EditText
@@ -32,12 +32,12 @@
             android:layout_marginTop="20dp"
             android:background="@mipmap/bg_edit_text_light"
             android:hint="请输入紧急联系人姓名"
+            android:maxLength="10"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:maxLength="10"
             android:textColor="@color/titleColor"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColorHint="@color/textHintColor"/>
+            android:textColorHint="@color/textHintColor"
+            android:textSize="12sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,23 +54,22 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/relation_tv"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/titleColor"/>
+                android:textColor="@color/titleColor"
+                android:textSize="12sp"/>
 
-                <Spinner
-                    android:id="@id/spinner_contacts"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    style="@style/spinner_style"
-                    android:spinnerMode="dropdown"
-                    android:layout_toEndOf="@+id/text"
-                    android:layout_toRightOf="@+id/text"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginLeft="15dp"
-                />
-
+            <Spinner
+                android:id="@id/spinner_contacts"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/text"
+                android:layout_toRightOf="@+id/text"
+                android:spinnerMode="dropdown"
+            />
 
 
         </RelativeLayout>
@@ -87,18 +86,18 @@
             android:background="@mipmap/bg_edit_text_light"
             android:hint="@string/hint_contact_phone"
             android:inputType="phone"
+            android:maxLength="11"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textColorHint="@color/textHintColor"
-            android:maxLength="11"
             android:textColor="@color/titleColor"
-            android:textSize="16sp"/>
+            android:textColorHint="@color/textHintColor"
+            android:textSize="12sp"/>
 
         <Button
             android:id="@id/btn_save"
             android:layout_width="match_parent"
-            android:layout_marginBottom="15dp"
             android:layout_height="45dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginEnd="@dimen/font_size_18sp"
             android:layout_marginLeft="@dimen/font_size_18sp"
             android:layout_marginRight="@dimen/font_size_18sp"
@@ -106,8 +105,8 @@
             android:layout_marginTop="10dp"
             android:background="@mipmap/bg_submit_button"
             android:text="@string/tv_save"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white"
+            android:textSize="12sp"/>
     </LinearLayout>
 
 </LinearLayout>

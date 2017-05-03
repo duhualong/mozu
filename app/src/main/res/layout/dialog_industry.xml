@@ -11,7 +11,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_industry"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
@@ -32,6 +32,7 @@
             android:gravity="center"
             android:text="@string/tv_security"
             android:textColor="@color/titleColor"
+            android:textSize="12sp"
         />
 
         <CheckBox
@@ -47,6 +48,8 @@
             android:gravity="center"
             android:text="@string/fire_protection"
             android:textColor="@color/titleColor"
+
+            android:textSize="12sp"
         />
         <CheckBox
             android:id="@id/checkbox_third"
@@ -61,6 +64,8 @@
             android:gravity="center"
             android:text="@string/project"
             android:textColor="@color/titleColor"
+
+            android:textSize="12sp"
         />
     </RelativeLayout>
     <LinearLayout android:layout_width="match_parent"
@@ -80,6 +85,8 @@
             android:gravity="center"
             android:text="@string/clean"
             android:textColor="@color/titleColor"
+
+            android:textSize="12sp"
         />
         <CheckBox
             android:id="@id/checkbox_fifth"
@@ -92,6 +99,8 @@
             android:gravity="center"
             android:text="@string/customer"
             android:textColor="@color/titleColor"
+
+            android:textSize="12sp"
         />
         <CheckBox
             android:id="@id/checkbox_sixth"
@@ -104,6 +113,8 @@
             android:gravity="center"
             android:text="@string/other"
             android:textColor="@color/titleColor"
+
+            android:textSize="12sp"
         />
     </LinearLayout>
     <TextView
@@ -115,14 +126,15 @@
         android:layout_marginLeft="@dimen/margin_height_larger_distance"
         android:layout_marginRight="@dimen/margin_height_larger_distance"
         android:layout_marginStart="@dimen/margin_height_larger_distance"
-        android:drawableLeft="@mipmap/ic_tip_industry"
-        android:drawableStart="@mipmap/ic_tip_industry"
-        android:drawablePadding="5dp"
-        android:text="@string/tip_industry"
-        android:gravity="center"
         android:layout_marginTop="15dp"
-        android:visibility="invisible"
-        android:textColor="@color/titleColor"/>
+        android:drawableLeft="@mipmap/ic_tip_industry"
+        android:drawablePadding="5dp"
+        android:drawableStart="@mipmap/ic_tip_industry"
+        android:gravity="center"
+        android:text="@string/tip_industry"
+        android:textColor="@color/titleColor"
+        android:textSize="12sp"
+        android:visibility="invisible"/>
     <Button
         android:id="@id/btn_save"
         android:layout_width="match_parent"
@@ -134,8 +146,8 @@
         android:layout_marginStart="@dimen/margin_height_larger_distance"
         android:background="@mipmap/bg_submit_button"
         android:text="@string/tv_save"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:textSize="12sp"/>
 
 
 </LinearLayout>

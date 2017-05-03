@@ -1082,92 +1082,6 @@ public class RegisterThirdFragment extends BaseFragment {
 
 
     }
-//public void uploadRegister(String username, String password, String name, String gender, String people,
-//                           String birthday, String address, String number, String publisher,
-//                           String validate, File file1, File file2, File file3, String height,
-//                           String graduate, String telephone, String livingAddress,
-//                           String industrys, String skills, String channel){
-//    Gson mgson = new GsonBuilder()
-//            .setLenient()
-//            .create();
-//    Retrofit retrofit = new Retrofit.Builder()
-//            .baseUrl("http://118.178.88.132:8000/api/")
-//            .addConverterFactory(GsonConverterFactory.create(mgson))
-//            .build();
-//    Gson gson = new Gson();
-//    EmergencyContactMod data = new EmergencyContactMod();
-//    if (!TextUtils.isEmpty(mContactName) && !TextUtils.isEmpty(mContactPhone) &&
-//            !TextUtils.isEmpty(mRelation)) {
-//        data.setName(mContactName);
-//        data.setPhone(mContactPhone);
-//        data.setRelation(mRelation);
-//    }
-//
-//
-//
-//    FileUploadService userBiz = retrofit.create(FileUploadService.class);
-//    RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-//            .addFormDataPart("username", "18817772486")
-//            .addFormDataPart("password", "123456")
-//            .addFormDataPart("name", "杜华龙")
-//            .addFormDataPart("gender", "男")
-//            .addFormDataPart("people", "汉")
-//            .addFormDataPart("birthday", "19930305")
-//            .addFormDataPart("address", "上海")
-//            .addFormDataPart("number", "412721199203053436")
-//            .addFormDataPart("publisher", "sss")
-//            .addFormDataPart("validate", "ssdddd")
-//            .addFormDataPart("height", "180")
-//            .addFormDataPart("graduate", graduate)
-//            .addFormDataPart("telephone", telephone)
-//            .addFormDataPart("living_address", livingAddress)
-//            .addFormDataPart("emergency_contact", gson.toJson(data))
-//            .addFormDataPart("industry", industrys)
-//            .addFormDataPart("skill", skills)
-//            .addFormDataPart("channel", channel)
-//            .addFormDataPart("id_card_positive", file1.getName(),
-//                    RequestBody.create(MediaType.parse("image/jpg"), file1))
-//            .addFormDataPart("id_card_negative", file2.getName(),
-//                    RequestBody.create(MediaType.parse("image/jpg"), file2))
-//            .addFormDataPart("id_card_head_image", file3.getName(),
-//                    RequestBody.create(MediaType.parse("image/jpg"), file3))
-//            .build();
-//
-//    Call<MApi> call = userBiz.applyInformation(requestBody);
-//    call.enqueue(new Callback<MApi>() {
-//        @Override
-//        public void onResponse(Call<MApi> call, Response<MApi> response) {
-//            Log.d(TAG, "onResponse: "+response.code());
-//            Log.d(TAG, "onResponseMessage: "+response.message());
-//            if (response.isSuccessful()) {
-//
-//                if (response.body().getResultCode()==200) {
-//                    Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
-//
-//                    fragmentMgr.beginTransaction()
-//                            .addToBackStack(TAG)
-//                            .replace(R.id.fragment_login_container,
-//                                    LoginFragment.newInstance(username))
-//                            .commit();
-//
-//                }else {
-//                    Snackbar.make(rootView,response.body().getResultMessage() , Snackbar.LENGTH_LONG).show();
-//                }
-//            }else {
-//                Log.d(TAG, "onResponse: error"+response.errorBody());
-//            }
-//
-//
-//
-//        }
-//
-//        @Override
-//        public void onFailure(Call<MApi> call, Throwable t) {
-//
-//        }
-//    });
-//
-//}
 
     public void getData(String username, String password, String name, String gender, String people,
                         String birthday, String address, String number, String publisher,
@@ -1228,13 +1142,7 @@ public class RegisterThirdFragment extends BaseFragment {
                 if (response.isSuccessful()) {
 
                     if (response.body().getResultCode() == 200) {
-                        Snackbar.make(rootView, "注册成功，请登录", Snackbar.LENGTH_LONG).show();
-                        fragmentMgr.beginTransaction()
-                                .addToBackStack(TAG)
-                                .replace(R.id.fragment_login_container,
-                                        LoginFragment.newInstance(username))
-                                .commit();
-
+                        registerSuccessDialog();
 
                     } else {
                         Snackbar.make(rootView, response.body().getResultMessage(), Snackbar.LENGTH_LONG).show();
@@ -1255,6 +1163,26 @@ public class RegisterThirdFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private void registerSuccessDialog() {
+        View view = View.inflate(context, R.layout.dialog_success_register, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .create();
+        dialog.show();
+        dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(v -> {
+            dialog.dismiss();
+            fragmentMgr.beginTransaction()
+                    .addToBackStack(TAG)
+                    .replace(R.id.fragment_login_container,
+                            LoginFragment.newInstance(username))
+                    .commit();
+
+
+        });
     }
 
     public File  compressior(File file){

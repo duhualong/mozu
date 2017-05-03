@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="#f0f0f0"
-              android:id="@id/root_view"
               android:orientation="vertical">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
@@ -19,7 +19,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/qr_code"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
     </RelativeLayout>
     <RelativeLayout
@@ -51,7 +51,8 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/personal_margin"
                     android:text="Eenie"
-                    android:textColor="#333"/>
+                    android:textColor="#333"
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
@@ -85,8 +86,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:text="@string/barcode"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="#333"/>
+                    android:textColor="#333"
+                    android:textSize="12sp"/>
             </LinearLayout>
 
 
