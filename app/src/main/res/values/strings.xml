@@ -147,6 +147,13 @@
     <string name="legal_card_upload">法人身份证上传</string>
     <string name="upload_card_front">上传身份证人像面</string>
     <string name="upload_card_back">上传身份证国徽面</string>
+    <string name="check_update">检测更新</string>
+    <string name="version_code">版本号1.0</string>
+    <string name="updated">已是最新版本</string>
+    <string name="abnormal_alert">异常处理通知</string>
+    <string name="birthday_alert">生日提醒</string>
+    <string name="notify_alert">通知</string>
+    <string name="to_do_alert">代办事项提醒</string>
 
 
 </resources>

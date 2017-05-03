@@ -41,7 +41,7 @@ public class RegisterCompanyFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.security_register_button, R.id.img_back, R.id.register_submit_button})
+    @OnClick({R.id.security_register_button, R.id.img_back, R.id.btn_next})
     public void onClick(View view) {
         String company = etCompany.getText().toString();
         String contacts = etContacts.getText().toString();
@@ -64,7 +64,7 @@ public class RegisterCompanyFragment extends BaseFragment {
                         .commit();
 
                 break;
-            case R.id.register_submit_button:
+            case R.id.btn_next:
                 if (checkInput(company, contacts, phone, email)) {
                     fragmentMgr.beginTransaction()
                             .addToBackStack(TAG)

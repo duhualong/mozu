@@ -227,8 +227,13 @@ public class LoginFragment extends BaseFragment {
                                         .apply();
                             }
                             Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
+
                             Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                                    subscribe(s -> startActivity(new Intent(context, MainActivity.class)));
+                                    subscribe(s ->
+                                            startActivity(new Intent(context, MainActivity.class))
+                                    );
+
+
 
                         } else {
                             Snackbar.make(rootView, testLoginApiResponse.getResultMessage(),

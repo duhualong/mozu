@@ -27,5 +27,32 @@
                android:layout_gravity="center_horizontal"
                android:layout_marginTop="@dimen/padding_long"
                android:src="@mipmap/ic_launcher_logo"/>
+    <TextView android:id="@id/version_code"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:layout_marginTop="@dimen/img_back_padding"
+              android:text="@string/version_code"
+              android:textColor="@color/gray"
+              android:textSize="@dimen/text_normal_size"/>
 
+    <RelativeLayout android:id="@id/rl_version_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_long"
+                    android:background="@color/white"
+                    android:padding="@dimen/personal_margin">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/check_update"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/updated"
+                  android:textColor="@color/gray"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:textSize="@dimen/text_large_size"/>
+    </RelativeLayout>
 </LinearLayout>

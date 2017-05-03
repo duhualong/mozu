@@ -35,10 +35,10 @@ public class PersonalMessageAlertActivity extends BaseActivity{
                 break;
             case R.id.rl_report_job:
 
-
+                startActivity(new Intent(context,ReportWorkActivity.class));
                 break;
             case R.id.rl_routing_job:
-
+                startActivity(new Intent(context,RountingWorkActivity.class));
 
                 break;
 

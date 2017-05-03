@@ -198,4 +198,10 @@
     <item name="btn_upload_card_front" type="id"/>
     <item name="btn_upload_card_back" type="id"/>
     <item name="img_tip_success" type="id"/>
+    <item name="version_code" type="id"/>
+    <item name="rl_version_code" type="id"/>
+    <item name="rl_alert_to_do" type="id"/>
+    <item name="rl_alert_notice" type="id"/>
+    <item name="rl_alert_birthday" type="id"/>
+    <item name="rl_alert_abnormal" type="id"/>
 </resources>

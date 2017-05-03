@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
+import org.eenie.wgj.ui.personal.alert.CheckoutVersionActivity;
 import org.eenie.wgj.ui.personal.information.PersonalBaseInfoActivity;
 import org.eenie.wgj.ui.personal.alert.PersonalMessageAlertActivity;
 import org.eenie.wgj.util.PermissionManager;
@@ -57,6 +58,7 @@ public class PersonalCenterFragment extends BaseSupportFragment {
 
                 break;
             case R.id.rl_version:
+                startActivity(new Intent(context, CheckoutVersionActivity.class));
 
 
                 break;

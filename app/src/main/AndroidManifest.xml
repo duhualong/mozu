@@ -84,6 +84,14 @@
         <activity android:name=".ui.personal.alert.ReportWorkActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--巡检提醒-->
+        <activity android:name=".ui.personal.alert.RountingWorkActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--版本检查更新-->
+        <activity android:name=".ui.personal.alert.CheckoutVersionActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--<provider-->
             <!--android:name="android.support.v4.content.FileProvider"-->
             <!--android:authorities="org.eenie.wgj.fileprovider"-->

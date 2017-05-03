@@ -4,7 +4,6 @@ import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
@@ -21,7 +20,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class RegisterCompanyFirstFragment extends BaseFragment {
-    @BindView(R.id.root_view)ImageView rootView;
+    @BindView(R.id.root_view)View rootView;
     @BindView(R.id.edit_company_address)EditText etCompanyAddress;
 
     @Override
@@ -51,7 +50,6 @@ public class RegisterCompanyFirstFragment extends BaseFragment {
                             .replace(R.id.fragment_login_container,
                                     new RegisterCompanySecondFragment())
                             .commit();
-
 
                 }
                 break;
