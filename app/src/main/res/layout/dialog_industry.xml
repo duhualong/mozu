@@ -11,6 +11,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_industry"
+                  android:textColor="@color/white"
                   android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
     </RelativeLayout>

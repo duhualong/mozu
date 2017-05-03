@@ -12,7 +12,7 @@
             android:id="@id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="5dp"
+            android:padding="@dimen/img_back_padding"
             android:src="@mipmap/ic_back"
         />
         <TextView android:layout_width="wrap_content"

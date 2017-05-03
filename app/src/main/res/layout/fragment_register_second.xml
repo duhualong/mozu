@@ -14,12 +14,13 @@
             android:id="@id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="5dp"
+            android:padding="@dimen/img_back_padding"
             android:src="@mipmap/ic_back"/>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                   android:text="@string/tv_information_title"
+                  android:textSize="@dimen/text_title_size"
+                  android:textColor="@color/white"
                   android:layout_centerVertical="true"
                   android:layout_centerHorizontal="true"/>
 

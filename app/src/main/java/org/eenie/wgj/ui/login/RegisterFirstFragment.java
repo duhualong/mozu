@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -127,7 +126,10 @@ public class RegisterFirstFragment extends BaseFragment {
                 Utils.setShowHide(checkSecond, reInputPassword);
                 break;
             case R.id.img_back:
-                onBackPressed();
+                fragmentMgr.beginTransaction()
+                        .addToBackStack(TAG)
+                        .replace(R.id.fragment_login_container, new LoginFragment())
+                        .commit();
 
                 break;
             case R.id.register_fetch_code_button:
@@ -154,18 +156,13 @@ public class RegisterFirstFragment extends BaseFragment {
 
                 break;
             case R.id.security_register_button:
-                taBbackground.setBackgroundResource(R.mipmap.bg_user_register_tab_2);
-                btnWork.setTextColor(ContextCompat.getColor
-                        (context, R.color.white));
-                btnManager.setTextColor(ContextCompat.getColor
-                        (context, R.color.colorAccent));
+
                 break;
             case R.id.property_register_button:
-                taBbackground.setBackgroundResource(R.mipmap.bg_user_register_tab_1);
-                btnWork.setTextColor(ContextCompat.getColor
-                        (context, R.color.colorAccent));
-                btnManager.setTextColor(ContextCompat.getColor
-                        (context, R.color.white));
+                fragmentMgr.beginTransaction()
+                        .addToBackStack(TAG)
+                        .replace(R.id.fragment_login_container, new RegisterCompanyFragment())
+                        .commit();
                 break;
         }
     }

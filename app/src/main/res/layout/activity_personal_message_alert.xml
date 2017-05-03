@@ -12,12 +12,12 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/alert_setting"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:textSize="@dimen/text_title_size"
                   android:textColor="@color/white"/>
         <ImageView android:id="@id/img_back"
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
-                   android:padding="10dp"
+                   android:padding="@dimen/img_back_padding"
                    android:src="@mipmap/ic_back"/>
     </RelativeLayout>
 

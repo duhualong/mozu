@@ -12,14 +12,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:padding="5dp"
+            android:padding="@dimen/img_back_padding"
             android:src="@mipmap/ic_back"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/tv_register"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textSize="@dimen/text_title_size"
             android:textColor="@android:color/white"/>
 
     </RelativeLayout>

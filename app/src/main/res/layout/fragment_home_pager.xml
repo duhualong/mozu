@@ -32,21 +32,20 @@
 
            <LinearLayout android:layout_width="match_parent"
                          android:layout_height="180dp"
-                         android:background="@color/white"
                          android:layout_marginTop="10dp"
                          android:layout_marginBottom="10dp"
 
            >
-            <GridView
-                android:id="@id/gradView"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:columnWidth="10dp"
-                android:numColumns="4"
-                android:scrollbars="none"/>
+               <GridView
+                   android:id="@id/gradView"
+                   android:layout_width="match_parent"
+                   android:layout_height="180dp"
+                   android:columnWidth="10dp"
+                   android:numColumns="4"
+                   android:scrollbars="none"/>
            </LinearLayout>
             <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
+                          android:layout_height="40dp"
                           android:layout_marginBottom="5dp"
                           android:background="@color/white"
                           android:orientation="horizontal">
@@ -55,7 +54,7 @@
                           android:layout_marginLeft="5dp"
                           android:layout_marginStart="5dp"
                           android:text="@string/tv_notice"
-                          android:textSize="12sp"
+                          android:textSize="@dimen/text_large_size"
                           android:textColor="@color/titleColor"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -72,6 +71,7 @@
                     android:textColor="@color/titleColor"/>
             </LinearLayout>
             <RelativeLayout android:layout_width="match_parent"
+                            android:layout_marginTop="5dp"
                             android:layout_height="142dp">
                 <com.yyydjk.library.BannerLayout android:id="@id/banner_bottom"
                                                  android:layout_width="match_parent"

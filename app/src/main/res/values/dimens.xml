@@ -78,6 +78,8 @@
   <dimen name="text_normal_size">12sp</dimen>
   <dimen name="text_small_size">10sp</dimen>
 
+  <dimen name="img_back_padding">10dp</dimen>
+
 
 
   

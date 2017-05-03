@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/legal_card_upload"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/img_back_padding"
+                   android:src="@mipmap/ic_back"/>
+
+    </RelativeLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="190dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/padding_bottom"
+                android:background="@mipmap/bg_shenfenzhengkuang"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@id/img_positive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/padding_long"
+                    android:src="@mipmap/ic_register_company_card_front"/>
+
+            </LinearLayout>
+            <Button android:id="@id/btn_upload_card_front"
+                    android:layout_width="300dp"
+                    android:layout_height="@dimen/margin_height_larger_distance"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/padding_bottom"
+                    android:layout_marginTop="@dimen/padding_long"
+                    android:background="@mipmap/bg_submit_button"
+                    android:text="@string/upload_card_front"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_normal_size"/>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="190dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/padding_bottom"
+                android:background="@mipmap/bg_shenfenzhengkuang"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@id/img_negative"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/padding_long"
+                    android:src="@mipmap/ic_register_company_card_back"/>
+
+            </LinearLayout>
+            <Button android:id="@id/btn_upload_card_back"
+                    android:layout_width="300dp"
+                    android:layout_height="@dimen/margin_height_larger_distance"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/padding_long"
+                    android:layout_marginTop="@dimen/padding_long"
+                    android:background="@mipmap/bg_submit_button"
+                    android:text="@string/upload_card_back"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_normal_size"/>
+
+
+            <Button android:id="@id/btn_next"
+                    android:layout_width="300dp"
+                    android:layout_height="@dimen/margin_height_larger_distance"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/padding_long"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:background="@mipmap/bg_btnbukedianji"
+                    android:text="@string/btn_next"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_normal_size"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

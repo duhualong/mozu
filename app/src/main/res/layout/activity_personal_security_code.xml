@@ -12,13 +12,13 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/security_certificate"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:textSize="@dimen/text_title_size"
                   android:textColor="@color/white"/>
         <ImageView android:id="@id/img_back"
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
-                   android:padding="@dimen/personal_padding"
-                   android:src="@mipmap/ic_back"/>
+                   android:src="@mipmap/ic_back"
+                   android:padding="@dimen/img_back_padding"/>
     </RelativeLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"

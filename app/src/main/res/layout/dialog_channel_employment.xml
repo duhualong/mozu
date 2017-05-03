@@ -11,7 +11,8 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_employment"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                  android:textColor="@color/white"
+                  android:textAppearance="@dimen/text_title_size"/>
 
     </RelativeLayout>
     <LinearLayout

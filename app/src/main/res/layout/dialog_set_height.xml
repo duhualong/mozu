@@ -11,8 +11,8 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/tv_height"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                   android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
         />
 
 

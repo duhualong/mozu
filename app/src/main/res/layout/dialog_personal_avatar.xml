@@ -10,7 +10,8 @@
               android:background="@color/colorPrimary"
               android:gravity="center"
               android:text="@string/upload_avatar"
-              android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+              android:textColor="@color/white"
+              android:textAppearance="@dimen/text_title_size"/>
     <TextView
         android:id="@id/tv_photo_personal"
         android:layout_width="match_parent"

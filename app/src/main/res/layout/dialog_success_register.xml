@@ -9,12 +9,15 @@
               android:background="@color/colorPrimary"
               android:gravity="center"
               android:text="@string/register_success"
+              android:id="@id/title_dialog"
+              android:textColor="@color/white"
               android:textSize="@dimen/text_title_size"/>
     <ImageView android:layout_width="72dp"
                android:layout_height="72dp"
                android:layout_gravity="center_horizontal"
                android:layout_marginBottom="10dp"
                android:layout_marginTop="24dp"
+               android:id="@id/img_tip_success"
                android:src="@mipmap/ic_success_dialog"/>
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"

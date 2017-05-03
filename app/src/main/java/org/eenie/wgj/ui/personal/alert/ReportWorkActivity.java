@@ -203,7 +203,7 @@ public class ReportWorkActivity extends BaseActivity {
                     }
                 }
             }else {
-                Toast.makeText(context,"请设置考勤结束的时间",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"请设置报岗提醒结束的时间",Toast.LENGTH_LONG).show();
             }
 
         });
@@ -329,7 +329,7 @@ public class ReportWorkActivity extends BaseActivity {
                     }
                 }
             }else {
-                Toast.makeText(context,"请设置考勤开始的时间",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"请设置报岗提醒开始的时间",Toast.LENGTH_LONG).show();
             }
 
         });

@@ -140,6 +140,13 @@
     <string name="register_success">注册成功</string>
     <string name="company">公司</string>
     <string name="personal">个人</string>
+    <string name="tv_information_perfect">信息完善</string>
+    <string name="hint_company_address">请输入贵公司的办公地址</string>
+    <string name="business_licence_upload">营业执照上传</string>
+    <string name="upload_business_licence">上传营业执照</string>
+    <string name="legal_card_upload">法人身份证上传</string>
+    <string name="upload_card_front">上传身份证人像面</string>
+    <string name="upload_card_back">上传身份证国徽面</string>
 
 
 </resources>

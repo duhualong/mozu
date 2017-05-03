@@ -186,4 +186,16 @@
     <item name="btn_subtract_minute" type="id"/>
     <item name="edit_minute" type="id"/>
     <item name="btn_ok" type="id"/>
+    <item name="et_company_name" type="id"/>
+    <item name="et_contacts_name" type="id"/>
+    <item name="et_contacts_phone" type="id"/>
+    <item name="et_contacts_email" type="id"/>
+    <item name="tab_layout" type="id"/>
+    <item name="fragment_register_container" type="id"/>
+    <item name="edit_company_address" type="id"/>
+    <item name="img_business_licence" type="id"/>
+    <item name="btn_upload_licence_business" type="id"/>
+    <item name="btn_upload_card_front" type="id"/>
+    <item name="btn_upload_card_back" type="id"/>
+    <item name="img_tip_success" type="id"/>
 </resources>
