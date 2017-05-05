@@ -21,11 +21,11 @@
                    android:src="@mipmap/ic_back"/>
 
     </RelativeLayout>
-    <TextView android:layout_width="match_parent"
+    <TextView android:id="@id/tv_no_birthday"
+              android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center"
               android:text="无生日祝福"
-              android:id="@id/tv_no_birthday"
               android:textColor="@color/titleColor"
               android:textSize="@dimen/text_large_size"
               android:visibility="gone"/>
@@ -59,10 +59,20 @@
                 android:id="@id/birthday_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/birthday_recycler"
+                      android:id="@id/no_blessing"
+                      android:layout_centerHorizontal="true"
+                      android:textSize="@dimen/text_normal_size"
+                      android:visibility="gone"
+                      android:layout_marginTop="@dimen/padding_bottom"
+                      android:text="还没人为TA送上生日祝福，快去给TA送上生日祝福吧"
+                      android:textColor="@color/titleColor"/>
             <Button android:id="@id/btn_give_gift"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_height_normal_distance"
-                    android:layout_below="@id/birthday_recycler"
+                    android:layout_below="@id/no_blessing"
                     android:layout_margin="@dimen/padding_longer"
                     android:background="@mipmap/bg_submit_button"
                     android:text="送上生日祝福"

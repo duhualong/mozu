@@ -107,6 +107,17 @@
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
 
+        <!--生日提醒-->
+        <activity android:name=".ui.message.BirthdayAlertActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.message.BirthdayDetailPersonalActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.message.BirthdayGiftActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+
         <!--<provider-->
         <!--android:name="android.support.v4.content.FileProvider"-->
         <!--android:authorities="org.eenie.wgj.fileprovider"-->

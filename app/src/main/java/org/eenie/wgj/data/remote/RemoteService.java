@@ -7,6 +7,8 @@ import com.google.gson.GsonBuilder;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.BirthdayAlert;
+import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.MeetingNotice;
@@ -53,13 +55,8 @@ public interface RemoteService {
     Single<ApiResponse> checkedPhone(@Query("username") String username);
 
 
-
-
-
-
-
     @POST("logina")
-    Single<ApiResponse<TestLogin>>logined(@Body MLogin login);
+    Single<ApiResponse<TestLogin>> logined(@Body MLogin login);
 
     @POST("login")
     Single<ApiResponse> postLogin(@Body MLogin login);
@@ -99,20 +96,31 @@ public interface RemoteService {
     Single<Api> upload(@Field("key") String key, @Field("secret") String secret,
                        @Field("typeId") int typeId,
                        @Field("format") String format, @Field("file") File file);
+
     @POST("register/user")
     Single<ApiResponse> register(@Body RequestBody body);
+
     //待办事项处理
     @GET("matterRemind")
-    Single<ApiResponse<List<MeetingNotice>>>getToDoNotice(@Header("token")String token);
+    Single<ApiResponse<List<MeetingNotice>>> getToDoNotice(@Header("token") String token);
+
     //查询待办事项详情
     @GET("matterRemind/Info")
-    Single<ApiResponse<MessageDetail>>getMessageById(@Header("token")String token,
-                                                     @Query("id")int id);
+    Single<ApiResponse<MessageDetail>> getMessageById(@Header("token") String token,
+                                                      @Query("id") int id);
+
     //通知
     @GET("noticeList")
-    Single<ApiResponse<List<NoticeMessage>>>getNotice(@Header("token")String token);
+    Single<ApiResponse<List<NoticeMessage>>> getNotice(@Header("token") String token);
 
+    //生日列表
+    @GET("birthdaylist")
+    Single<ApiResponse<List<BirthdayAlert>>> getBirthdayList(@Header("token") String token);
 
+    //查询个人生日详情
+    @GET("birthdayInfo")
+    Single<ApiResponse<BirthdayDetail>> getBirthdayById(@Header("token") String token,
+                                                        @Query("id") String id);
 
 
     class Creator {
@@ -129,7 +137,7 @@ public interface RemoteService {
 //                    .build();
 //            return retrofit.create(RemoteService.class);
 
-//
+        //
         @Inject
         public RemoteService createService() {
             OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)

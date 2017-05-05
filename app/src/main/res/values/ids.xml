@@ -240,4 +240,8 @@
     <item name="btn_give_gift" type="id"/>
     <item name="rl_birthday_tip" type="id"/>
     <item name="tv_no_birthday" type="id"/>
+    <item name="item_birthday_name" type="id"/>
+    <item name="item_birthday_date" type="id"/>
+    <item name="no_blessing" type="id"/>
+    <item name="edit_gift" type="id"/>
 </resources>

@@ -145,11 +145,16 @@ public class ApplyFeedBackActivity extends BaseActivity {
                     if (meeting != null) {
                         meetingGoal.setText(meeting.getDetail());
                         applyReason.setText(meeting.getCheck_feedback());
-                        String url="http://118.178.88.132:8000"+meeting.getAvatar();
+                        String url=Constant.DOMIN+meeting.getAvatar();
                         Glide.with(context)
                                 .load(url)
                                 .centerCrop()
                                 .into(imgAvatar);
+                        String urls=Constant.DOMIN+meeting.getCheck_image();
+                        Glide.with(context)
+                                .load(urls)
+                                .centerCrop()
+                                .into(imgAvatarApply);
 
                     }
                 });

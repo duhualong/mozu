@@ -12,5 +12,6 @@ public class Constant {
                     "TQ5MTQ2NzA4NSwiZ" +
                     "XhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ-VJ7uKPbkIq" +
                     "xOsZDqZDuudwi-U4E3ebCkTg";
+    public static final String DOMIN="http://118.178.88.132:8000";
 
 }
