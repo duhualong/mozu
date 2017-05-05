@@ -12,14 +12,12 @@
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
 
-
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     //地图包、搜索包需要的基础权限
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
 
 
     <application
@@ -46,7 +44,7 @@
         <activity android:name=".ui.login.LoginActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"
-                  />
+        />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"/>
@@ -92,14 +90,31 @@
         <activity android:name=".ui.personal.alert.CheckoutVersionActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+
+
+        <!--消息-->
+
+        <!--待办事项-->
+        <activity android:name=".ui.message.ToDoNoticeActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--待办事项详情-->
+        <activity android:name=".ui.message.ApplyFeedBackActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize|adjustPan"/>
+        <!--通知-->
+        <activity android:name=".ui.message.NoticeMessageActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+
         <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="org.eenie.wgj.fileprovider"-->
-            <!--android:grantUriPermissions="true"-->
-            <!--android:exported="false">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/filepaths" />-->
+        <!--android:name="android.support.v4.content.FileProvider"-->
+        <!--android:authorities="org.eenie.wgj.fileprovider"-->
+        <!--android:grantUriPermissions="true"-->
+        <!--android:exported="false">-->
+        <!--<meta-data-->
+        <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--android:resource="@xml/filepaths" />-->
         <!--</provider>-->
 
     </application>

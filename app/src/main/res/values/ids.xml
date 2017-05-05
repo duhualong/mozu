@@ -204,4 +204,40 @@
     <item name="rl_alert_notice" type="id"/>
     <item name="rl_alert_birthday" type="id"/>
     <item name="rl_alert_abnormal" type="id"/>
+    <item name="item_to_do_title" type="id"/>
+    <item name="item_apply_date" type="id"/>
+    <item name="item_meeting_name" type="id"/>
+    <item name="item_meeting_time" type="id"/>
+    <item name="item_meeting_name_content" type="id"/>
+    <item name="item_meeting_time_content" type="id"/>
+    <item name="item_meeting_address" type="id"/>
+    <item name="item_meeting_address_content" type="id"/>
+    <item name="item_apply_status" type="id"/>
+    <item name="item_apply_status_content" type="id"/>
+    <item name="item_look_detail" type="id"/>
+    <item name="recycler_to_do" type="id"/>
+    <item name="notice_swipe_refresh_list" type="id"/>
+    <item name="apply_name" type="id"/>
+    <item name="item_meeting_goal" type="id"/>
+    <item name="item_meeting_goal_content" type="id"/>
+    <item name="rl_apply_status" type="id"/>
+    <item name="item_apply_name" type="id"/>
+    <item name="item_apply_information" type="id"/>
+    <item name="rl_apply_personal" type="id"/>
+    <item name="apply_personal" type="id"/>
+    <item name="apply_result" type="id"/>
+    <item name="rl_apply_checkbox" type="id"/>
+    <item name="et_apply_reason" type="id"/>
+    <item name="rl_apply_reason" type="id"/>
+    <item name="tv_apply_ok" type="id"/>
+    <item name="ly_check_agree" type="id"/>
+    <item name="checkbox_agree" type="id"/>
+    <item name="ly_check_refuse" type="id"/>
+    <item name="checkbox_refuse" type="id"/>
+    <item name="scrollview" type="id"/>
+    <item name="title" type="id"/>
+    <item name="birthday_recycler" type="id"/>
+    <item name="btn_give_gift" type="id"/>
+    <item name="rl_birthday_tip" type="id"/>
+    <item name="tv_no_birthday" type="id"/>
 </resources>

@@ -9,6 +9,9 @@ import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.requset.MLogin;
+import org.eenie.wgj.model.requset.MeetingNotice;
+import org.eenie.wgj.model.requset.MessageDetail;
+import org.eenie.wgj.model.requset.NoticeMessage;
 import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.model.response.ShootList;
 import org.eenie.wgj.model.response.TestLogin;
@@ -54,6 +57,7 @@ public interface RemoteService {
 
 
 
+
     @POST("logina")
     Single<ApiResponse<TestLogin>>logined(@Body MLogin login);
 
@@ -72,11 +76,14 @@ public interface RemoteService {
 
     @POST("login/forgetpassword")
     @FormUrlEncoded
-    Single<ApiResponse> modifyPassword(@Field("verify") String captcha, @Field("newpwd") String newPwd,
+    Single<ApiResponse> modifyPassword(@Field("verify") String captcha,
+                                       @Field("newpwd") String newPwd,
                                        @Field("username") String username);
 
 
-    @Headers("token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTE0NjcwODQsIm5iZiI6MTQ5MTQ2NzA4NSwiZXhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ-VJ7uKPbkIqxOsZDqZDuudwi-U4E3ebCkTg")
+    @Headers("token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTE0NjcwODQ" +
+            "sIm5iZiI6MTQ5MTQ2NzA4NSwiZXhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vq" +
+            "CQ-VJ7uKPbkIqxOsZDqZDuudwi-U4E3ebCkTg")
     @POST("readilyShootList")
     Single<ApiResponse<List<ShootList>>> getList();
 
@@ -89,10 +96,23 @@ public interface RemoteService {
 
     @POST("recog.do")
     @FormUrlEncoded
-    Single<Api> upload(@Field("key") String key, @Field("secret") String secret, @Field("typeId") int typeId,
+    Single<Api> upload(@Field("key") String key, @Field("secret") String secret,
+                       @Field("typeId") int typeId,
                        @Field("format") String format, @Field("file") File file);
     @POST("register/user")
     Single<ApiResponse> register(@Body RequestBody body);
+    //待办事项处理
+    @GET("matterRemind")
+    Single<ApiResponse<List<MeetingNotice>>>getToDoNotice(@Header("token")String token);
+    //查询待办事项详情
+    @GET("matterRemind/Info")
+    Single<ApiResponse<MessageDetail>>getMessageById(@Header("token")String token,
+                                                     @Query("id")int id);
+    //通知
+    @GET("noticeList")
+    Single<ApiResponse<List<NoticeMessage>>>getNotice(@Header("token")String token);
+
+
 
 
     class Creator {

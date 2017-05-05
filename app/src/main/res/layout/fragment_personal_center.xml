@@ -45,8 +45,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/personal_phone"
-                android:textSize="12sp"
-                android:textColor="@color/titleColor"/>
+                android:textColor="@color/titleColor"
+                android:textSize="12sp"/>
         </LinearLayout>
         <ImageView
             android:id="@id/img_scan"

@@ -153,7 +153,10 @@
     <string name="abnormal_alert">异常处理通知</string>
     <string name="birthday_alert">生日提醒</string>
     <string name="notify_alert">通知</string>
-    <string name="to_do_alert">代办事项提醒</string>
+    <string name="to_do_alert">待办事项提醒</string>
+    <string name="item_title">会议室申请</string>
+    <string name="item_date_apply">2017-04-17 15:30</string>
+    <string name="item_meeting_name">会议名称</string>
 
 
 </resources>

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@id/root_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#f1f1f1"
+                android:orientation="vertical">
+    <ScrollView android:id="@id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+    >
+
+            <LinearLayout android:id="@+id/ly"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:orientation="vertical">
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="?android:actionBarSize"
+                                android:background="@color/colorPrimary">
+                    <TextView android:id="@id/tv_title"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerInParent="true"
+                              android:text="申请反馈"
+                              android:textColor="@color/white"
+                              android:textSize="@dimen/text_title_size"/>
+                    <ImageView android:id="@id/img_back"
+                               android:layout_width="wrap_content"
+                               android:layout_height="match_parent"
+                               android:padding="@dimen/padding_bottom"
+                               android:src="@mipmap/ic_back"/>
+                    <TextView android:id="@id/tv_apply_ok"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentEnd="true"
+                              android:layout_alignParentRight="true"
+                              android:layout_centerVertical="true"
+                              android:padding="@dimen/padding_bottom"
+                              android:text="@string/btn_ok"
+                              android:textColor="@color/white"
+                              android:textSize="@dimen/text_title_size"
+                              android:visibility="gone"/>
+
+                </RelativeLayout>
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:paddingBottom="@dimen/personal_padding"
+                                android:paddingTop="@dimen/personal_padding"
+
+                >
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@id/img_avatar"
+                        android:layout_width="@dimen/personal_size"
+                        android:layout_height="@dimen/personal_size"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_long"
+                        android:layout_marginStart="@dimen/padding_long"
+                        android:src="@mipmap/ic_default_header"/>
+                    <TextView android:id="@id/apply_name"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerVertical="true"
+                              android:layout_marginLeft="@dimen/padding_long"
+                              android:layout_marginStart="@dimen/padding_long"
+                              android:layout_toEndOf="@id/img_avatar"
+                              android:layout_toRightOf="@id/img_avatar"
+                              android:text="姓名"
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_normal_size"/>
+
+
+                </RelativeLayout>
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:background="@color/white"
+                >
+                    <TextView android:id="@id/item_meeting_name"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginLeft="@dimen/padding_long"
+                              android:layout_marginStart="@dimen/padding_long"
+                              android:layout_marginTop="@dimen/padding_short"
+                              android:text="@string/item_meeting_name"
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/item_meeting_name_content"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginEnd="@dimen/padding_longer"
+                              android:layout_marginLeft="@dimen/padding_bottom"
+                              android:layout_marginRight="@dimen/padding_longer"
+                              android:layout_marginStart="@dimen/padding_bottom"
+                              android:layout_marginTop="@dimen/padding_short"
+                              android:layout_toEndOf="@id/item_meeting_name"
+                              android:layout_toRightOf="@id/item_meeting_name"
+                              android:text="12345"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/item_meeting_time"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/item_meeting_name"
+                              android:layout_marginLeft="@dimen/padding_long"
+                              android:layout_marginStart="@dimen/padding_long"
+                              android:layout_marginTop="@dimen/padding_short"
+                              android:text="会议时间"
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/item_meeting_time_content"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignTop="@id/item_meeting_time"
+                              android:layout_marginEnd="@dimen/padding_longer"
+                              android:layout_marginLeft="@dimen/padding_bottom"
+                              android:layout_marginRight="@dimen/padding_longer"
+                              android:layout_marginStart="@dimen/padding_bottom"
+                              android:layout_toEndOf="@id/item_meeting_time"
+                              android:layout_toRightOf="@id/item_meeting_time"
+                              android:text="2017-04-17 15:32:00至\n2017-04-17 18：32：00"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/item_meeting_address"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/item_meeting_time_content"
+                              android:layout_marginLeft="@dimen/padding_long"
+                              android:layout_marginStart="@dimen/padding_long"
+                              android:layout_marginTop="@dimen/padding_short"
+                              android:text="会  议  室"
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/item_meeting_address_content"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/item_meeting_time_content"
+                              android:layout_marginEnd="@dimen/padding_longer"
+                              android:layout_marginLeft="@dimen/padding_bottom"
+                              android:layout_marginRight="@dimen/padding_longer"
+                              android:layout_marginStart="@dimen/padding_bottom"
+                              android:layout_marginTop="@dimen/padding_short"
+                              android:layout_toEndOf="@id/item_meeting_address"
+                              android:layout_toRightOf="@id/item_meeting_address"
+                              android:text="B203"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_normal_size"
+                    />
+                    <TextView android:id="@id/item_meeting_goal"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/item_meeting_address"
+                              android:layout_marginLeft="@dimen/padding_long"
+                              android:layout_marginStart="@dimen/padding_long"
+                              android:layout_marginTop="@dimen/padding_short"
+                              android:text="会议目的"
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/item_meeting_goal_content"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/item_meeting_address"
+                              android:layout_marginBottom="@dimen/padding_bottom"
+                              android:layout_marginEnd="@dimen/padding_longer"
+                              android:layout_marginLeft="@dimen/padding_bottom"
+                              android:layout_marginRight="@dimen/padding_longer"
+                              android:layout_marginStart="@dimen/padding_bottom"
+                              android:layout_marginTop="@dimen/padding_short"
+                              android:layout_toEndOf="@id/item_meeting_goal"
+                              android:layout_toRightOf="@id/item_meeting_goal"
+                              android:text="testtesttesttesttesttest"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_normal_size"
+                    />
+                </RelativeLayout>
+                <RelativeLayout android:id="@id/rl_apply_status"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/padding_short"
+                                android:layout_marginTop="@dimen/padding_short"
+                                android:background="@color/white"
+                                android:visibility="visible">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerVertical="true"
+                              android:layout_marginBottom="@dimen/padding_short"
+                              android:layout_marginLeft="@dimen/padding_long"
+                              android:layout_marginStart="@dimen/padding_long"
+                              android:layout_marginTop="@dimen/padding_short"
+                              android:text="审核结果"
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/apply_result"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentEnd="true"
+                              android:layout_alignParentRight="true"
+                              android:layout_centerVertical="true"
+                              android:layout_marginEnd="@dimen/padding_long"
+                              android:layout_marginRight="@dimen/padding_long"
+                              android:text="批准"
+                              android:textColor="@color/text_green"
+                              android:textSize="@dimen/text_normal_size"/>
+
+                </RelativeLayout>
+                <RelativeLayout android:id="@id/rl_apply_personal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:paddingBottom="@dimen/personal_padding"
+                                android:paddingTop="@dimen/personal_padding">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@id/img_setting"
+                        android:layout_width="@dimen/personal_size"
+                        android:layout_height="@dimen/personal_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/personal_margin"
+                        android:layout_marginLeft="@dimen/padding_long"
+                        android:layout_marginRight="@dimen/personal_margin"
+                        android:layout_marginStart="@dimen/padding_long"
+                        android:src="@mipmap/ic_remind"
+                    />
+                    <TextView android:id="@id/item_apply_name"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginLeft="5dp"
+                              android:layout_marginStart="5dp"
+                              android:layout_marginTop="5dp"
+                              android:layout_toEndOf="@id/img_setting"
+                              android:layout_toRightOf="@id/img_setting"
+                              android:text="@string/item_title"
+                              android:textColor="#333"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/item_apply_information"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@id/item_apply_name"
+                              android:layout_marginEnd="10dp"
+                              android:layout_marginLeft="5dp"
+                              android:layout_marginRight="10dp"
+                              android:layout_marginStart="5dp"
+                              android:layout_marginTop="8dp"
+                              android:layout_toEndOf="@id/img_setting"
+                              android:layout_toLeftOf="@id/apply_personal"
+                              android:layout_toRightOf="@id/img_setting"
+                              android:layout_toStartOf="@id/apply_personal"
+                              android:maxLines="2"
+                              android:text="@string/item_date_apply"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_normal_size"/>
+                    <TextView android:id="@id/apply_personal"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentEnd="true"
+                              android:layout_alignParentRight="true"
+                              android:layout_centerVertical="true"
+                              android:layout_marginEnd="@dimen/padding_long"
+                              android:layout_marginRight="@dimen/padding_long"
+                              android:text="批准"
+                              android:textColor="@color/text_green"
+                              android:textSize="@dimen/text_normal_size"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@id/rl_apply_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="60dp"
+                    android:layout_marginEnd="@dimen/margin_height_distance"
+                    android:layout_marginLeft="@dimen/margin_height_distance"
+                    android:layout_marginRight="@dimen/margin_height_distance"
+                    android:layout_marginStart="@dimen/margin_height_distance"
+                    android:background="@mipmap/bg_edit_text_light"
+                    android:visibility="invisible"
+                >
+                    <EditText android:id="@id/et_apply_reason"
+                              android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:layout_margin="@dimen/padding_short"
+                              android:background="@null"
+                              android:gravity="start"
+                              android:hint="请输入处理原因"
+                              android:textColor="@color/titleColor"
+                              android:textColorHint="@color/gray"
+                              android:textSize="@dimen/text_normal_size"/>
+
+                </RelativeLayout>
+
+
+
+
+            </LinearLayout>
+
+
+
+    </ScrollView>
+
+    <LinearLayout android:id="@id/rl_apply_checkbox"
+                  android:layout_width="match_parent"
+                  android:layout_height="45dp"
+                  android:layout_gravity="bottom"
+                  android:background="@color/white"
+                  android:orientation="horizontal"
+                  android:layout_alignParentBottom="true"
+                  android:visibility="invisible">
+        <LinearLayout android:id="@id/ly_check_agree"
+                      android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:gravity="center"
+                      android:orientation="horizontal">
+            <ImageView android:id="@id/checkbox_agree"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:background="@mipmap/ic_apply_false"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginStart="5dp"
+                      android:text="批准"
+                      android:textColor="@color/text_green"
+                      android:textSize="@dimen/text_large_size"/>
+
+        </LinearLayout>
+        <View android:layout_width="1dp"
+              android:layout_height="match_parent"
+              android:layout_marginBottom="3dp"
+              android:layout_marginTop="3dp"
+              android:background="@color/gray_img"/>
+        <LinearLayout android:id="@id/ly_check_refuse"
+                      android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:gravity="center"
+                      android:orientation="horizontal">
+            <ImageView android:id="@id/checkbox_refuse"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:background="@mipmap/ic_apply_false"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginStart="5dp"
+                      android:text="拒绝"
+                      android:textColor="@color/text_red"
+                      android:textSize="@dimen/text_large_size"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

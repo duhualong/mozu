@@ -1,9 +1,12 @@
 package org.eenie.wgj.ui.fragment;
 
+import android.content.Intent;
 import android.view.View;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
+import org.eenie.wgj.ui.message.NoticeMessageActivity;
+import org.eenie.wgj.ui.message.ToDoNoticeActivity;
 
 import butterknife.OnClick;
 
@@ -27,10 +30,12 @@ public class MessagePagerFragment  extends BaseSupportFragment{
             R.id.rl_alert_abnormal})public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_alert_to_do:
+                startActivity(new Intent(context, ToDoNoticeActivity.class));
 
 
                 break;
             case R.id.rl_alert_notice:
+                startActivity(new Intent(context, NoticeMessageActivity.class));
 
 
                 break;

@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/white"
+              android:background="#f1f1f1"
               android:orientation="vertical">
     <TextView android:layout_width="match_parent"
               android:layout_height="?android:actionBarSize"
               android:background="@color/colorPrimary"
               android:gravity="center"
-              android:text="@string/tv_sign_start_time"
+              android:text="时间设置"
               android:textSize="@dimen/text_title_size"
               android:textColor="@color/white"/>
     <LinearLayout android:layout_width="match_parent"
@@ -21,12 +21,12 @@
                       android:gravity="end"
                       android:orientation="vertical">
             <Button android:id="@id/btn_add_hour"
-                    android:layout_width="75dp"
-                    android:layout_height="45dp"
+                    android:layout_width="60dp"
+                    android:layout_height="36dp"
                     android:background="@mipmap/normal_but_add"/>
             <EditText android:id="@id/et_hour"
-                      android:layout_width="75dp"
-                      android:layout_height="45dp"
+                      android:layout_width="60dp"
+                      android:layout_height="36dp"
                       android:layout_marginBottom="10dp"
                       android:layout_marginTop="10dp"
                       android:background="@mipmap/ic_edit_time"
@@ -38,8 +38,8 @@
                       android:textColor="@color/black"
                       android:textColorHint="@color/titleColor"/>
             <Button android:id="@id/btn_subtract_hour"
-                    android:layout_width="75dp"
-                    android:layout_height="45dp"
+                    android:layout_width="60dp"
+                    android:layout_height="36dp"
                     android:background="@mipmap/normal_but_subtract"/>
 
         </LinearLayout>
@@ -50,12 +50,12 @@
                       android:layout_weight="1"
                       android:orientation="vertical">
             <Button android:id="@id/btn_add_minute"
-                    android:layout_width="75dp"
-                    android:layout_height="45dp"
+                    android:layout_width="60dp"
+                    android:layout_height="36dp"
                     android:background="@mipmap/normal_but_add"/>
             <EditText android:id="@id/edit_minute"
-                      android:layout_width="75dp"
-                      android:layout_height="45dp"
+                      android:layout_width="60dp"
+                      android:layout_height="36dp"
                       android:layout_marginBottom="10dp"
                       android:layout_marginTop="10dp"
                       android:background="@mipmap/ic_edit_time"
@@ -67,14 +67,14 @@
                       android:textColor="@color/black"
                       android:textColorHint="@color/titleColor"/>
             <Button android:id="@id/btn_subtract_minute"
-                    android:layout_width="75dp"
-                    android:layout_height="45dp"
+                    android:layout_width="60dp"
+                    android:layout_height="36dp"
                     android:background="@mipmap/normal_but_subtract"/>
         </LinearLayout>
     </LinearLayout>
     <Button android:id="@id/btn_ok"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_height_larger_distance"
+            android:layout_height="@dimen/margin_height_normal_distance"
             android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginLeft="24dp"

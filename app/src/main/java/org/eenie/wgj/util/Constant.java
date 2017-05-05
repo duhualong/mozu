@@ -8,9 +8,9 @@ package org.eenie.wgj.util;
 
 public class Constant {
     public static final String TOKEN =
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OT" +
-                    "E0NjcwODQsIm5iZiI6MTQ5MTQ2NzA4NSwi" +
-                    "ZXhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ" +
-                    "-VJ7uKPbkIqxOsZDqZDuudwi-U4E3ebCkTg";
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTE0NjcwODQsIm5iZiI6M" +
+                    "TQ5MTQ2NzA4NSwiZ" +
+                    "XhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ-VJ7uKPbkIq" +
+                    "xOsZDqZDuudwi-U4E3ebCkTg";
 
 }

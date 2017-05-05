@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f1f1f1"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/birthday_alert"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+
+    </RelativeLayout>
+    <TextView android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:text="无生日祝福"
+              android:id="@id/tv_no_birthday"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"
+              android:visibility="gone"/>
+    <RelativeLayout android:id="@id/rl_birthday_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@mipmap/bg_staff_birthday_backgroud">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@id/img_avatar"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_long"
+            android:src="@mipmap/ic_default_header"/>
+        <TextView android:id="@id/tv_name"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/img_avatar"
+                  android:layout_centerHorizontal="true"
+                  android:layout_marginTop="@dimen/padding_bottom"
+                  android:text="姓名"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_large_size"/>
+    </RelativeLayout>
+    <ScrollView android:id="@id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/birthday_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button android:id="@id/btn_give_gift"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_height_normal_distance"
+                    android:layout_below="@id/birthday_recycler"
+                    android:layout_margin="@dimen/padding_longer"
+                    android:background="@mipmap/bg_submit_button"
+                    android:text="送上生日祝福"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_normal_size"
+            />
+        </RelativeLayout>
+    </ScrollView>
+
+
+</LinearLayout>
