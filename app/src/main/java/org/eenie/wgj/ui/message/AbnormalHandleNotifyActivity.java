@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.message;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,11 +11,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
-import org.eenie.wgj.model.requset.NoticeMessage;
+import org.eenie.wgj.model.requset.AbnormalMessage;
 import org.eenie.wgj.util.Constant;
 
 import java.util.ArrayList;
@@ -28,18 +30,18 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/4 at 18:20
+ * Created by Eenie on 2017/5/5 at 14:24
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.root_view)View rootView;
     @BindView(R.id.notice_swipe_refresh_list)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private NoticeAdapter meetingListAdapter;
     @BindView(R.id.recycler_to_do)RecyclerView mRecyclerView;
-    private List<NoticeMessage> result;
+    private List<AbnormalMessage> result;
     @BindView(R.id.title)TextView title;
     @Override
     protected int getContentView() {
@@ -48,7 +50,7 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
 
     @Override
     protected void updateUI() {
-        title.setText("通知");
+        title.setText(R.string.abnormal_alert);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
@@ -75,16 +77,16 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
     public void onRefresh() {
         meetingListAdapter.clear();
         //  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-        mSubscription=mRemoteService.getNotice(Constant.TOKEN)
+        mSubscription=mRemoteService.getAbnormalHandleList(Constant.TOKEN)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
                     result = new ArrayList<>();
                     if (listApiResponse.getResultCode() == 200) {
-                        List<NoticeMessage> orderList = listApiResponse.getData();
-                        if (orderList != null && !orderList.isEmpty()) {
-                            for (NoticeMessage order : orderList) {
-                                result.add(order);
+                        List<AbnormalMessage> abnormalList = listApiResponse.getData();
+                        if (abnormalList != null && !abnormalList.isEmpty()) {
+                            for (AbnormalMessage abnormalMessage : abnormalList) {
+                                result.add(abnormalMessage);
                             }
                         }
                     }
@@ -114,9 +116,9 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
 
     class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeViewHolder> {
         private Context context;
-        private List<NoticeMessage> meetingList;
+        private List<AbnormalMessage> meetingList;
 
-        public NoticeAdapter(Context context, List<NoticeMessage> meetingList) {
+        public NoticeAdapter(Context context, List<AbnormalMessage> meetingList) {
             this.context = context;
             this.meetingList = meetingList;
         }
@@ -131,16 +133,21 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
         @Override
         public void onBindViewHolder(NoticeViewHolder holder, int position) {
             if (meetingList != null && !meetingList.isEmpty()) {
-                NoticeMessage noticeMessage = meetingList.get(position);
-
-                String meetingName=noticeMessage.getAlert();
-                if (!TextUtils.isEmpty(meetingName)){
-                    holder.meetingContent.setText(meetingName);
+                AbnormalMessage abnormalMessage = meetingList.get(position);
+                holder.setItem(abnormalMessage);
+                String messageTitle=abnormalMessage.getTitle();
+                if (!TextUtils.isEmpty(messageTitle)){
+                    holder.title.setText(messageTitle);
                 }
-                String applyDate=noticeMessage.getCreated_at();
+
+                String applyDate=abnormalMessage.getCreated_at();
                 if (!TextUtils.isEmpty(applyDate)){
                     holder.applyDate.setText(applyDate);
                 }
+                if (!TextUtils.isEmpty(abnormalMessage.getText())){
+                    holder.meetingContent.setText(abnormalMessage.getText());
+                }
+                holder.icon.setImageResource(R.mipmap.ic_error_notice);
 
 
             }
@@ -152,7 +159,7 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
             return meetingList.size();
         }
 
-        public void addAll(List<NoticeMessage> meetingList) {
+        public void addAll(List<AbnormalMessage> meetingList) {
             this.meetingList.addAll(meetingList);
             NoticeAdapter.this.notifyDataSetChanged();
         }
@@ -165,27 +172,31 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
             private TextView applyDate;
             private TextView meetingContent;
             private TextView meetingDetail;
-            private NoticeMessage mMeetingNotice;
-
+            private AbnormalMessage mAbnormalMessage;
+            private TextView title;
+            private ImageView icon;
 
 
             public NoticeViewHolder(View itemView) {
 
                 super(itemView);
-                applyDate= ButterKnife.findById(itemView,R.id.item_apply_date);
+                title=ButterKnife.findById(itemView,R.id.item_to_do_title);
+                applyDate= ButterKnife.findById(itemView, R.id.item_apply_date);
                 meetingContent=ButterKnife.findById(itemView,R.id.item_meeting_name);
                 meetingDetail=ButterKnife.findById(itemView,R.id.item_look_detail);
+                icon=ButterKnife.findById(itemView,R.id.img_setting);
                 meetingDetail.setOnClickListener(this);
 
             }
-            public void setItem(NoticeMessage meetingNotice) {
-                mMeetingNotice = meetingNotice;
+            public void setItem(AbnormalMessage abnormalMessage) {
+                mAbnormalMessage = abnormalMessage;
             }
 
             @Override
             public void onClick(View v) {
-
-
+                Intent intent = new Intent(context, AbnormalDetailActivity.class);
+                intent.putExtra(AbnormalDetailActivity.INFO, mAbnormalMessage);
+                startActivity(intent);
             }
         }
     }

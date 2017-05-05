@@ -86,6 +86,11 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                 .setView(view) //自定义的布局文件
                 .create();
         dialog.show();
+        dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(v -> {
+            dialog.dismiss();
+
+        });
+
 
     }
 

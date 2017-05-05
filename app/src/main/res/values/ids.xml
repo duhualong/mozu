@@ -244,4 +244,12 @@
     <item name="item_birthday_date" type="id"/>
     <item name="no_blessing" type="id"/>
     <item name="edit_gift" type="id"/>
+    <item name="img_gift_icon" type="id"/>
+    <item name="tv_gift_name" type="id"/>
+    <item name="tv_content" type="id"/>
+    <item name="img_first" type="id"/>
+    <item name="img_third" type="id"/>
+    <item name="img_second" type="id"/>
+    <item name="tv_founder" type="id"/>
+    <item name="photo_container" type="id"/>
 </resources>

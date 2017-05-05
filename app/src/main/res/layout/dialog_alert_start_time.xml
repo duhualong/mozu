@@ -23,7 +23,7 @@
             <Button android:id="@id/btn_add_hour"
                     android:layout_width="60dp"
                     android:layout_height="36dp"
-                    android:background="@mipmap/normal_but_add"/>
+                    android:background="@mipmap/ic_normal_but_add"/>
             <EditText android:id="@id/et_hour"
                       android:layout_width="60dp"
                       android:layout_height="36dp"
@@ -40,7 +40,7 @@
             <Button android:id="@id/btn_subtract_hour"
                     android:layout_width="60dp"
                     android:layout_height="36dp"
-                    android:background="@mipmap/normal_but_subtract"/>
+                    android:background="@mipmap/ic_normal_but_subtract"/>
 
         </LinearLayout>
         <LinearLayout android:layout_width="0dp"
@@ -52,7 +52,7 @@
             <Button android:id="@id/btn_add_minute"
                     android:layout_width="60dp"
                     android:layout_height="36dp"
-                    android:background="@mipmap/normal_but_add"/>
+                    android:background="@mipmap/ic_normal_but_add"/>
             <EditText android:id="@id/edit_minute"
                       android:layout_width="60dp"
                       android:layout_height="36dp"
@@ -69,7 +69,7 @@
             <Button android:id="@id/btn_subtract_minute"
                     android:layout_width="60dp"
                     android:layout_height="36dp"
-                    android:background="@mipmap/normal_but_subtract"/>
+                    android:background="@mipmap/ic_normal_but_subtract"/>
         </LinearLayout>
     </LinearLayout>
     <Button android:id="@id/btn_ok"

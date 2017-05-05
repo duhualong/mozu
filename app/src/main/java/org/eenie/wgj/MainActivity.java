@@ -107,12 +107,17 @@ public class MainActivity extends BaseActivity {
         if (index == 0) {
         imgScan.setVisibility(View.VISIBLE);
             search.setVisibility(View.VISIBLE);
-
-
+            search.setText("搜索");
 
         } else {
+            if (index==3){
+                search.setVisibility(View.VISIBLE);
+                search.setText("编辑");
+            }else {
+                search.setVisibility(View.GONE);
+            }
             imgScan.setVisibility(View.GONE);
-            search.setVisibility(View.GONE);
+
 
 
         }

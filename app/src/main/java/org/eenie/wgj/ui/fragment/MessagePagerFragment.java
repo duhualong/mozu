@@ -5,6 +5,7 @@ import android.view.View;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
+import org.eenie.wgj.ui.message.AbnormalHandleNotifyActivity;
 import org.eenie.wgj.ui.message.BirthdayAlertActivity;
 import org.eenie.wgj.ui.message.NoticeMessageActivity;
 import org.eenie.wgj.ui.message.ToDoNoticeActivity;
@@ -47,6 +48,7 @@ public class MessagePagerFragment  extends BaseSupportFragment{
                 break;
 
             case R.id.rl_alert_abnormal:
+                startActivity(new Intent(context, AbnormalHandleNotifyActivity.class));
 
 
                 break;

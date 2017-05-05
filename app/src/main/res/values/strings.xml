@@ -157,6 +157,7 @@
     <string name="item_title">会议室申请</string>
     <string name="item_date_apply">2017-04-17 15:30</string>
     <string name="item_meeting_name">会议名称</string>
+    <string name="home_application">首页应用</string>
 
 
 </resources>

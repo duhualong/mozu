@@ -30,7 +30,8 @@ import rx.schedulers.Schedulers;
 
 public class BirthdayDetailPersonalActivity extends BaseActivity {
     public static final String ID = "id";
-    @BindView(R.id.img_avatar)CircleImageView avatar;
+    @BindView(R.id.img_avatar)
+    CircleImageView avatar;
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.tv_no_birthday)
@@ -41,8 +42,14 @@ public class BirthdayDetailPersonalActivity extends BaseActivity {
     ScrollView mScrollView;
     @BindView(R.id.birthday_recycler)
     RecyclerView mRecyclerView;
-    @BindView(R.id.tv_name)TextView name;
-    @BindView(R.id.no_blessing)TextView noBlessing;
+    @BindView(R.id.tv_name)
+    TextView name;
+    @BindView(R.id.no_blessing)
+    TextView noBlessing;
+    private BirthdayDetail mData;
+    private String mUrl;
+    private String mId;
+    private String mName;
 
 
     @Override
@@ -60,24 +67,26 @@ public class BirthdayDetailPersonalActivity extends BaseActivity {
 
     //得到生日详情
     private void getBirthdayDetail(String id) {
-        mSubscription=mRemoteService.getBirthdayById(Constant.TOKEN,id)
+        mSubscription = mRemoteService.getBirthdayById(Constant.TOKEN, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ApiResponse<BirthdayDetail>>() {
                     @Override
                     public void onSuccess(ApiResponse<BirthdayDetail> value) {
-                        if (value.getResultCode()==200){
-                            BirthdayDetail data=value.getData();
-                            String url=Constant.DOMIN+data.getAvatar();
+                        if (value.getResultCode() == 200) {
+                            mData = value.getData();
+                            mUrl = Constant.DOMIN + mData.getAvatar();
+                            mId = mData.getId()+"";
                             Glide.with(context)
-                                    .load(url)
+                                    .load(mUrl)
                                     .centerCrop()
                                     .into(avatar);
-                            name.setText(data.getName());
-                            if (data.getBlessing()==0){
+                            mName = mData.getName();
+                            name.setText(mName);
+                            if (mData.getBlessing() == 0) {
                                 noBlessing.setVisibility(View.VISIBLE);
                             }
-                        }else {
+                        } else {
 
                         }
 
@@ -97,7 +106,11 @@ public class BirthdayDetailPersonalActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.btn_give_gift:
-                startActivity(new Intent(context,BirthdayGiftActivity.class));
+                Intent intent = new Intent(context, BirthdayGiftActivity.class);
+                    intent.putExtra(BirthdayGiftActivity.BIRTHDAY_NAME,mName);
+                    intent.putExtra(BirthdayGiftActivity.BIRTHDAY_AVATAR, mUrl);
+                    intent.putExtra(BirthdayGiftActivity.BIRTHDAY_ID, mId);
+                context.startActivity(intent);
 
 
                 break;

@@ -12,7 +12,8 @@
             android:id="@id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="@dimen/img_back_padding"            android:src="@mipmap/ic_back"/>
+            android:padding="@dimen/img_back_padding"
+            android:src="@mipmap/ic_back"/>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
@@ -24,10 +25,6 @@
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginEnd="15dp"
-                  android:layout_marginLeft="15dp"
-                  android:layout_marginRight="15dp"
-                  android:layout_marginStart="15dp"
                   android:layout_marginTop="20dp"
                   android:background="@color/white"
                   android:orientation="vertical"
@@ -36,14 +33,14 @@
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@id/rl_height"
-                        android:padding="8dp">
+                        android:padding="@dimen/padding_bottom">
 
             <TextView
                 android:id="@id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
                 android:text="@string/tv_height"
                 android:textColor="@color/titleColor"/>
             <TextView
@@ -62,7 +59,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
                 android:lines="1"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
                 android:text="@string/tv_empty"
                 android:textColor="@color/colorAccent"/>
 
@@ -73,13 +70,13 @@
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@id/rl_qualifications"
-                        android:padding="8dp">
+                        android:padding="@dimen/padding_bottom">
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_alignBottom="@+id/tv_qualifications"
                       android:layout_centerVertical="true"
-                      android:textSize="12sp"
+                      android:textSize="@dimen/text_large_size"
                       android:text="@string/tv_qualifications"
                       android:textColor="@color/titleColor"/>
             <TextView
@@ -96,7 +93,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -106,13 +103,13 @@
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@id/rl_marry_state"
-                        android:padding="8dp">
+                        android:padding="@dimen/padding_bottom">
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_marry_state"
-                      android:textSize="12sp"
+                      android:textSize="@dimen/text_large_size"
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_marry_state"
@@ -128,7 +125,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -138,7 +135,7 @@
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@id/rl_now_address"
-                        android:padding="8dp">
+                        android:padding="@dimen/padding_bottom">
 
             <TextView
                 android:id="@id/text"
@@ -146,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/address_now"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
                 android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_address"
@@ -164,7 +161,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
                 android:lines="1"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
                 android:text="@string/tv_empty"
                 android:textColor="@color/colorAccent"/>
 
@@ -175,7 +172,7 @@
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@id/rl_contacts"
-                        android:padding="8dp">
+                        android:padding="@dimen/padding_bottom">
 
             <TextView
                 android:id="@id/text"
@@ -183,8 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/contacts_tv"
-                android:textSize="12sp"
-
+                android:textSize="@dimen/text_large_size"
                 android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_contacts"
@@ -202,8 +198,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
                 android:lines="1"
-                android:textSize="12sp"
-
+                android:textSize="@dimen/text_large_size"
                 android:text="@string/tv_empty"
                 android:textColor="@color/colorAccent"/>
 
@@ -214,7 +209,7 @@
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@id/rl_work_name"
-                        android:padding="8dp">
+                        android:padding="@dimen/padding_bottom">
 
             <TextView
                 android:id="@id/text"
@@ -242,7 +237,7 @@
                 android:gravity="end|center_vertical"
                 android:lines="1"
                 android:text="@string/tv_empty"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
 
                 android:textColor="@color/colorAccent"/>
 
@@ -259,7 +254,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_industry"
-                      android:textSize="12sp"
+                      android:textSize="@dimen/text_large_size"
 
                       android:textColor="@color/titleColor"/>
             <TextView
@@ -276,7 +271,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
 
                 android:textColor="@color/colorAccent"/>
 
@@ -288,7 +283,7 @@
             android:id="@id/rl_skill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="@dimen/padding_bottom">
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -308,8 +303,7 @@
                 android:layout_marginRight="5dp"
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
-                android:textSize="12sp"
-
+                android:textSize="@dimen/text_large_size"
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
@@ -323,14 +317,13 @@
             android:id="@id/rl_work_channel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="@dimen/padding_bottom">
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_employment"
-                      android:textSize="12sp"
-
+                      android:textSize="@dimen/text_large_size"
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_employment"
@@ -346,8 +339,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
-                android:textSize="12sp"
-
+                android:textSize="@dimen/text_large_size"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -358,14 +350,13 @@
             android:id="@id/rl_work_experience"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="@dimen/padding_bottom">
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_work_experience"
-                      android:textSize="12sp"
-
+                      android:textSize="@dimen/text_large_size"
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_experience"
@@ -381,8 +372,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
-                android:textSize="12sp"
-
+                android:textSize="@dimen/text_large_size"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -393,13 +383,13 @@
             android:id="@id/rl_work_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="@dimen/padding_bottom">
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_work_content"
-                      android:textSize="12sp"
+                      android:textSize="@dimen/text_large_size"
 
                       android:textColor="@color/titleColor"/>
             <TextView
@@ -416,7 +406,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="center"
                 android:text="@string/tv_empty"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>

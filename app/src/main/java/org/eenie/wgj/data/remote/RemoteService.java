@@ -7,9 +7,11 @@ import com.google.gson.GsonBuilder;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.AbnormalMessage;
 import org.eenie.wgj.model.requset.BirthdayAlert;
 import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.CaptchaChecked;
+import org.eenie.wgj.model.requset.GiveBirthday;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.MeetingNotice;
 import org.eenie.wgj.model.requset.MessageDetail;
@@ -121,23 +123,18 @@ public interface RemoteService {
     @GET("birthdayInfo")
     Single<ApiResponse<BirthdayDetail>> getBirthdayById(@Header("token") String token,
                                                         @Query("id") String id);
+    //赠送生日祝福
+    @POST("birthdayBlessing")
+    Single<ApiResponse>giveBirthdayBlessing(@Header("token")String token,
+                                            @Body GiveBirthday giveBirthday);
+    //获取异常处理信息列表
+    @GET("readilyShoot/ListInfo")
+    Single<ApiResponse<List<AbnormalMessage>>>getAbnormalHandleList(@Header("token")String token);
+
 
 
     class Creator {
 
-//        @Inject public RemoteService createService() {
-//            OkHttpClient client =
-//                    new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor()).build();
-//
-//            Retrofit retrofit = new Retrofit.Builder().client(client)
-//                    .client(client)
-//                    .baseUrl(DOMAIN)
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-//                    .build();
-//            return retrofit.create(RemoteService.class);
-
-        //
         @Inject
         public RemoteService createService() {
             OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)

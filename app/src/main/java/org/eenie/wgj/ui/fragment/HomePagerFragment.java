@@ -27,10 +27,10 @@ public class HomePagerFragment extends BaseSupportFragment {
 
     };
 
-    private Integer[]localGradImg={R.mipmap.ic_home_module_sign,R.mipmap.ic_home_module_stati,
-    R.mipmap.ic_home_module_polling,R.mipmap.ic_home_module_polling_stati,
-            R.mipmap.ic_home_module_train,R.mipmap.ic_train_statistics,
-            R.mipmap.ic_home_module_report,R.mipmap.ic_home_module_reportstatistic};
+    private Integer[]localGradImg={R.mipmap.ic_home_attendance,R.mipmap.ic_home_attendance_statistics,
+    R.mipmap.ic_inspection,R.mipmap.ic_inspection_statistics,
+            R.mipmap.ic_training,R.mipmap.ic_training_statistics,
+            R.mipmap.ic_submitted_post,R.mipmap.ic_submitted_post_statistics};
     private Integer[] ids = {R.mipmap.home_banner_default_bg6, R.mipmap.home_banner_default_bg1,
             R.mipmap.home_banner_default_bg2, R.mipmap.home_banner_default_bg3};
     private Integer[]idBottom={R.mipmap.home_banner_default_bg4,R.mipmap.home_banner_default_bg5};

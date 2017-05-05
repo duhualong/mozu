@@ -38,7 +38,7 @@
             android:layout_marginLeft="@dimen/personal_padding"
             android:layout_marginStart="@dimen/personal_padding"
             android:text="@string/avatar"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/titleColor"/>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@id/img_avatar"
@@ -68,7 +68,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/qr_code"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_scan"
@@ -98,7 +98,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/identity_card"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_identity_card"
@@ -126,7 +126,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/personal_information"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_personal_information"
@@ -154,7 +154,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/bank_card"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_bank_card"
@@ -172,7 +172,7 @@
             android:layout_toLeftOf="@id/img_bank_card"
             android:layout_toStartOf="@id/img_bank_card"
             android:text="未填写"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/colorAccent"/>
 
     </RelativeLayout>
@@ -191,7 +191,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/security_certificate"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_security_certificate"
@@ -209,7 +209,7 @@
             android:layout_toLeftOf="@id/img_security_certificate"
             android:layout_toStartOf="@id/img_security_certificate"
             android:text="未填写"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/colorAccent"/>
     </RelativeLayout>
     <Button android:id="@id/btn_logout"
@@ -221,7 +221,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:background="@mipmap/bg_submit_button"
             android:text="@string/btn_exit_account"/>
 </LinearLayout>

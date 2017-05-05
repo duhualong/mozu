@@ -80,6 +80,8 @@
 
   <dimen name="img_back_padding">10dp</dimen>
 
+  <!--img_size-->
+  <dimen name="img_size">100dp</dimen>
 
 
   
