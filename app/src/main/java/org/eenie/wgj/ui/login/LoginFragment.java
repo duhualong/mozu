@@ -19,6 +19,7 @@ import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.MLogin;
+import org.eenie.wgj.model.response.LoginData;
 import org.eenie.wgj.model.response.TestLogin;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
@@ -129,7 +130,7 @@ public class LoginFragment extends BaseFragment {
 
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
+                        .replace(R.id.fragment_login_container, new RegisterSecondFragment())
                         .commit();
 
                 break;
@@ -195,27 +196,29 @@ public class LoginFragment extends BaseFragment {
     }
 
     public void checkedLogined(String phone, String password) {
-        MLogin login = new MLogin(phone, password);
+
+        MLogin login = new MLogin(phone,Utils.md5(password));
         mSubscription = mRemoteService.logined(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse<TestLogin>>() {
+                .subscribe(new Subscriber<ApiResponse<LoginData>>() {
                     @Override
                     public void onCompleted() {
-
+                        System.out.println("打印：dddd");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        System.out.println("打印eeee："+e);
 
                     }
 
                     @Override
-                    public void onNext(ApiResponse<TestLogin> testLoginApiResponse) {
+                    public void onNext(ApiResponse<LoginData> testLoginApiResponse) {
                         if (testLoginApiResponse.getResultCode() == 200) {
-                            TestLogin data = testLoginApiResponse.getData();
+                            LoginData data = testLoginApiResponse.getData();
                             mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
-                                    .putString(Constants.UID, data.getUserid())
+                                    .putString(Constants.UID, data.getUserid()+"")
                                     .putString(Constants.PHONE, phone)
                                     .putBoolean(Constants.IS_LOGIN, true).apply()
                             ;

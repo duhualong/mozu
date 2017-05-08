@@ -28,7 +28,6 @@ public class PersonalBindBankActivity extends BaseActivity {
             case R.id.btn_login:
 
 
-
                 break;
             case R.id.img_back:
 

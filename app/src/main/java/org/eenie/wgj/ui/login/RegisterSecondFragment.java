@@ -15,12 +15,14 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yalantis.ucrop.UCrop;
@@ -30,6 +32,7 @@ import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.response.Infomation;
+import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.PermissionManager;
@@ -206,6 +209,8 @@ public class RegisterSecondFragment extends BaseFragment {
         dialog.show();
 
         dialog.getWindow().findViewById(R.id.btn_next).setOnClickListener(v -> {
+          //  applyRegisterInformation(mPhone,mPassword,);
+
             dialog.dismiss();
 
             fragmentMgr.beginTransaction()
@@ -220,6 +225,14 @@ public class RegisterSecondFragment extends BaseFragment {
             dialog.dismiss(); //取消对话框
 
         });
+
+
+    }
+    private void registerInformationApply(String username,String password,String name,
+                                          String gender,String birthday,String address,
+                                          String number, String publisher,String validate,
+                                          String id_card_positive,String id_card_negative,
+                                          String id_card_head_image){
 
 
     }
@@ -361,6 +374,7 @@ public class RegisterSecondFragment extends BaseFragment {
                     new Thread() {
                         public void run() {
                             initData(Compressor.getDefault(context).compressToFile(fileCardFront), "2");
+                            uploadFile(Compressor.getDefault(context).compressToFile(fileCardFront), 0);
 
                         }
                     }.start();
@@ -389,6 +403,8 @@ public class RegisterSecondFragment extends BaseFragment {
                     new Thread() {
                         public void run() {
                             initData(Compressor.getDefault(context).compressToFile(fileCardBack), "3");
+                            uploadFile(Compressor.getDefault(context).compressToFile(fileCardBack), 1);
+
                         }
                     }.start();
 
@@ -396,6 +412,62 @@ public class RegisterSecondFragment extends BaseFragment {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void uploadFile(File file, int type) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://118.178.88.132:8000/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FileUploadService userBiz = retrofit.create(FileUploadService.class);
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("filename", file.getName(),
+                        RequestBody.create(MediaType.parse("image/jpg"), file))
+                .build();
+        Call<MApi> call = userBiz.uploadFile(requestBody);
+        call.enqueue(new Callback<MApi>() {
+            @Override
+            public void onResponse(Call<MApi> call, Response<MApi> response) {
+                Log.d(TAG, "onResponseCode: " + response.code());
+                if (response.isSuccessful()) {
+                    if (response.body().getResultCode() == 200) {
+                        String fileUrl = response.body().getData();
+                        switch (type) {
+                            case 0:
+                                mPrefsHelper.getPrefs().edit().
+                                        putString(Constants.FRONT_URL, fileUrl).apply();
+
+
+                                break;
+                            case 1:
+                                mPrefsHelper.getPrefs().edit().
+                                        putString(Constants.BACK_URL, fileUrl).apply();
+                                break;
+                            case 2:
+                                mPrefsHelper.getPrefs().edit().
+                                        putString(Constants.AVATAR_URL, fileUrl).apply();
+
+                                break;
+                        }
+                    } else {
+                        Toast.makeText(context, response.body().getResultMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "请检查网络！",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MApi> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t);
+
+            }
+        });
+
+
     }
 
     private void initData(File files, String typeId) {
@@ -420,6 +492,7 @@ public class RegisterSecondFragment extends BaseFragment {
                 System.out.println("status:" + status + "错误信息：" +
                         response.body().getMessage().getValue());
                 if (status == 2) {
+
                     checkFront = true;
                     List<Infomation> data = response.body().getCardsinfo();
                     if (data != null) {
@@ -457,8 +530,15 @@ public class RegisterSecondFragment extends BaseFragment {
                                 case "头像":
                                     String avatar = item.getContent();
                                     if (!TextUtils.isEmpty(avatar)) {
-                                        mPrefsHelper.getPrefs().edit().
-                                                putString(Constants.AVATAR, avatar).apply();
+
+                                        try {
+                                            mPrefsHelper.getPrefs().edit().
+                                                    putString(Constants.AVATAR, avatar).apply();
+                                            uploadFile(Utils.base64ToFile(avatar, context), 2);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
                                     }
                                     System.out.println("头像:" + avatar);
                                     break;

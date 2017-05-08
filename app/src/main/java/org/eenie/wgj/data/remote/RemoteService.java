@@ -15,11 +15,14 @@ import org.eenie.wgj.model.requset.GiveBirthday;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.MeetingNotice;
 import org.eenie.wgj.model.requset.MessageDetail;
+import org.eenie.wgj.model.requset.ModifyInfo;
 import org.eenie.wgj.model.requset.NoticeMessage;
+import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.Contacts;
+import org.eenie.wgj.model.response.LoginData;
 import org.eenie.wgj.model.response.ShootList;
-import org.eenie.wgj.model.response.TestLogin;
 import org.eenie.wgj.model.response.Token;
+import org.eenie.wgj.model.response.UserInforById;
 
 import java.io.File;
 import java.util.List;
@@ -58,7 +61,7 @@ public interface RemoteService {
 
 
     @POST("logina")
-    Single<ApiResponse<TestLogin>> logined(@Body MLogin login);
+    Single<ApiResponse<LoginData>> logined(@Body MLogin login);
 
     @POST("login")
     Single<ApiResponse> postLogin(@Body MLogin login);
@@ -130,6 +133,13 @@ public interface RemoteService {
     //获取异常处理信息列表
     @GET("readilyShoot/ListInfo")
     Single<ApiResponse<List<AbnormalMessage>>>getAbnormalHandleList(@Header("token")String token);
+
+    //通过userid获取用户信息
+    @POST("login/getuserinfo")
+    Single<ApiResponse<UserInforById>>getUserInfoById(@Body UserId userId);
+    //修改个人信息
+    @POST("login/updateuserinfo")
+    Single<ApiResponse>modifyInforById(@Header("token")String token, @Body ModifyInfo modifyInfo);
 
 
 

@@ -41,6 +41,13 @@ public interface FileUploadService {
 
     @POST("recog.do")
     Call<Api> upLoad(@Body RequestBody Body);
+    //上传文件
+    @POST("uploadfile")
+   Call<MApi>uploadFile(@Body RequestBody body);
+    //注册新接口
+    @POST("user/register")
+    Call<MApi>registerInforation(@Body RequestBody body);
+
 
     @POST("register/user")
     Call<MApi> applyInformation(@Body RequestBody body);

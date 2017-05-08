@@ -25,4 +25,10 @@ public  interface Constants   {
     String END_DATE="end_date";
     String ADDRESS="address";
     String NATION="nation";
+    String FRONT_URL="front_url";
+    String BACK_URL="back_url";
+    String AVATAR_URL="avatar_url";
+    String PERSONAL_AVATAR="avatar_personal";
+    String SECURITY_CARD="security_card";
+    String BANK_CARD="bank_card";
 }

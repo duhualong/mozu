@@ -252,4 +252,15 @@
     <item name="img_second" type="id"/>
     <item name="tv_founder" type="id"/>
     <item name="photo_container" type="id"/>
+    <item name="recycler_home_application" type="id"/>
+    <item name="recycler_other_application" type="id"/>
+    <item name="tv_sort" type="id"/>
+    <item name="img_join_company" type="id"/>
+    <item name="img_create_company" type="id"/>
+    <item name="tv_select_city" type="id"/>
+    <item name="rl_select_city" type="id"/>
+    <item name="et_company_personal" type="id"/>
+    <item name="et_company_phone" type="id"/>
+    <item name="et_company_email" type="id"/>
+    <item name="et_company_address" type="id"/>
 </resources>
