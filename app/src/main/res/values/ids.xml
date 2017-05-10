@@ -263,4 +263,11 @@
     <item name="et_company_phone" type="id"/>
     <item name="et_company_email" type="id"/>
     <item name="et_company_address" type="id"/>
+    <item name="area_picker_cancel" type="id"/>
+    <item name="area_picker_container" type="id"/>
+    <item name="area_picker_ok" type="id"/>
+    <item name="area_picker_city" type="id"/>
+    <item name="area_picker_province" type="id"/>
+    <item name="area_container" type="id"/>
+    <item name="area_picker_area" type="id"/>
 </resources>

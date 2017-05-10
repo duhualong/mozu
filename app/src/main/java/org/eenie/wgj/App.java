@@ -29,7 +29,9 @@ public class App extends Application {
   private ApplicationComponent mApplicationComponent;
   private static Application sApplicationContext;
   private static Stack<Activity> sActivityStack;
+
   private static RealmController realmController;
+
 
   RealmConfiguration.Builder builder;
 
@@ -44,11 +46,11 @@ public class App extends Application {
     mApplicationComponent = prepareApplicationComponent().build();
     mApplicationComponent.inject(this);
     sApplicationContext = this;
-
+    realmController=new RealmController(getApplicationContext());
     sActivityStack = new Stack<>();
     Fresco.initialize(getApplicationContext());
     //sRefWatcher = LeakCanary.install(this);
-    realmController=new RealmController(getApplicationContext());
+
     builder = new RealmConfiguration.Builder(this);
     builder.name("youchi.realm")
             .migration(new RealmMigration() {
@@ -62,8 +64,7 @@ public class App extends Application {
               public void execute(Realm realm) {
                 saveModule(realm);
               }
-            })
-            .schemaVersion(2);
+            }).deleteRealmIfMigrationNeeded();
     Realm.setDefaultConfiguration(builder.build());
 //
 //    Realm.init(this);

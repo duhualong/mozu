@@ -37,7 +37,8 @@ public class RealmController {
   public RealmConfiguration getAreaConfig() {
     copyBundledRealmFile(context, context.getResources().openRawResource(R.raw.area),
         REALM_FILE_NAME);
-    return new RealmConfiguration.Builder(context).name(REALM_FILE_NAME).build();
+    return new RealmConfiguration.Builder(context).name(REALM_FILE_NAME).deleteRealmIfMigrationNeeded()
+            .build();
   }
 
   /**

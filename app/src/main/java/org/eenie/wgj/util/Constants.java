@@ -31,4 +31,7 @@ public  interface Constants   {
     String PERSONAL_AVATAR="avatar_personal";
     String SECURITY_CARD="security_card";
     String BANK_CARD="bank_card";
+
+    String REGISTER_PHONE="phone";
+    String REGISTER_PASSWORD="password";
 }

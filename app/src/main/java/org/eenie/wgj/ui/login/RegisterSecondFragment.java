@@ -6,9 +6,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -31,16 +33,20 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.Api;
+import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.Infomation;
 import org.eenie.wgj.model.response.MApi;
+import org.eenie.wgj.model.response.RegisterSuccessData;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.PermissionManager;
+import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -165,6 +171,7 @@ public class RegisterSecondFragment extends BaseFragment {
 
     //dialog弹窗
     private void showDialog() {
+
         View view = View.inflate(context, R.layout.dialog_personal_identity_infomation, null);
 
 
@@ -183,6 +190,7 @@ public class RegisterSecondFragment extends BaseFragment {
         System.out.println("base64:" + base64);
         try {
             File file = Utils.base64ToFile(base64, context);
+            uploadFile(file, 2);
 
             Glide.with(context)
                     .load(file)
@@ -209,15 +217,24 @@ public class RegisterSecondFragment extends BaseFragment {
         dialog.show();
 
         dialog.getWindow().findViewById(R.id.btn_next).setOnClickListener(v -> {
-          //  applyRegisterInformation(mPhone,mPassword,);
+
+            registerInformationApply(mPhone, mPassword, getValues(Constants.NAME)
+                    , getValues(Constants.SEX), getValues(Constants.BIRTHDAY),
+                    getValues(Constants.ADDRESS), getValues(Constants.CARD_IDENTITY),
+                    getValues(Constants.SIGN_OFFICE), getValues(Constants.START_DATE).
+                            replaceAll("-", ":") + "—" + getValues(Constants.END_DATE).
+                            replaceAll("-", ":"), getValues(Constants.FRONT_URL),
+                    getValues(Constants.BACK_URL), getValues(Constants.AVATAR_URL));
+
 
             dialog.dismiss();
 
-            fragmentMgr.beginTransaction()
-                    .addToBackStack(TAG)
-                    .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance(mPhone
-                            , mPassword, frontUrl, backUrl))
-                    .commit();
+//
+//            fragmentMgr.beginTransaction()
+//                    .addToBackStack(TAG)
+//                    .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance(mPhone
+//                            , mPassword, frontUrl, backUrl))
+//                    .commit();
 
         });
         dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> {
@@ -228,19 +245,78 @@ public class RegisterSecondFragment extends BaseFragment {
 
 
     }
-    private void registerInformationApply(String username,String password,String name,
-                                          String gender,String birthday,String address,
-                                          String number, String publisher,String validate,
-                                          String id_card_positive,String id_card_negative,
-                                          String id_card_head_image){
+
+    private void registerInformationApply(String username, String password, String name,
+                                          String gender, String birthday, String address,
+                                          String number, String publisher, String validate,
+                                          String id_card_positive, String id_card_negative,
+                                          String id_card_head_image) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://118.178.88.132:8000/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FileUploadService userBiz = retrofit.create(FileUploadService.class);
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("username", username)
+                .addFormDataPart("password", Utils.md5(password))
+                .addFormDataPart("name", name)
+                .addFormDataPart("gender", gender)
+                .addFormDataPart("birthday", birthday)
+                .addFormDataPart("address", address)
+                .addFormDataPart("number", number)
+                .addFormDataPart("publisher", publisher)
+                .addFormDataPart("validate", validate)
+                .addFormDataPart("id_card_positive", id_card_positive)
+                .addFormDataPart("id_card_negative", id_card_negative)
+                .addFormDataPart("id_card_head_image", id_card_head_image)
+                .build();
+        Call<ApiResponse<RegisterSuccessData>> call = userBiz.registerInforation(requestBody);
+        call.enqueue(new Callback<ApiResponse<RegisterSuccessData>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<RegisterSuccessData>> call,
+                                   Response<ApiResponse<RegisterSuccessData>> response) {
+                if (response.isSuccessful()) {
+
+                    if (response.body().getResultCode() == 200) {
+                        RegisterSuccessData data=response.body().getData();
+                        Toast.makeText(context, "注册成功，请选择公司！", Toast.LENGTH_LONG).show();
+
+                        Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                                subscribe(s ->
+                                        fragmentMgr.beginTransaction()
+                                                .addToBackStack(TAG)
+                                                .replace(R.id.fragment_login_container,
+                                                      new SelectCompanyWayFragment()).commit()
+                                );
+
+                    } else {
+                        Toast.makeText(context, response.body().getResultMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    Toast.makeText(context, "注册失败", Toast.LENGTH_LONG).show();
+
+                }
+
+
+        }
+
+            @Override
+            public void onFailure(Call<ApiResponse<RegisterSuccessData>> call, Throwable t) {
+
+            }
+        });
 
 
     }
+
+
+
 
     public String getValues(String key) {
 
         return mPrefsHelper.getPrefs().getString(key, "");
     }
+
 
     /**
      * 针对高版本系统检查权限
@@ -350,6 +426,18 @@ public class RegisterSecondFragment extends BaseFragment {
                 .start(context, this, requestCode);
     }
 
+    public File compressior(File file) {
+        return new Compressor.Builder(context)
+                .setMaxWidth(150)
+                .setMaxHeight(120)
+                .setQuality(75)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                .build()
+                .compressToFile(file);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -370,11 +458,11 @@ public class RegisterSecondFragment extends BaseFragment {
 
                     Snackbar.make(rootView, "身份证正面上传成功！", Snackbar.LENGTH_LONG).show();
                     fileCardFront = new File(frontUrl);
+                    uploadFile(compressior(fileCardFront), 0);
 
                     new Thread() {
                         public void run() {
                             initData(Compressor.getDefault(context).compressToFile(fileCardFront), "2");
-                            uploadFile(Compressor.getDefault(context).compressToFile(fileCardFront), 0);
 
                         }
                     }.start();
@@ -400,10 +488,12 @@ public class RegisterSecondFragment extends BaseFragment {
 
                     Snackbar.make(rootView, "身份证背面上传成功！", Snackbar.LENGTH_LONG).show();
                     fileCardBack = new File(backUrl);
+                    uploadFile(compressior(fileCardFront), 1);
+
                     new Thread() {
                         public void run() {
                             initData(Compressor.getDefault(context).compressToFile(fileCardBack), "3");
-                            uploadFile(Compressor.getDefault(context).compressToFile(fileCardBack), 1);
+
 
                         }
                     }.start();
@@ -431,7 +521,9 @@ public class RegisterSecondFragment extends BaseFragment {
                 Log.d(TAG, "onResponseCode: " + response.code());
                 if (response.isSuccessful()) {
                     if (response.body().getResultCode() == 200) {
+
                         String fileUrl = response.body().getData();
+                        System.out.println("上传成功" + response.body().getData());
                         switch (type) {
                             case 0:
                                 mPrefsHelper.getPrefs().edit().
@@ -531,13 +623,8 @@ public class RegisterSecondFragment extends BaseFragment {
                                     String avatar = item.getContent();
                                     if (!TextUtils.isEmpty(avatar)) {
 
-                                        try {
-                                            mPrefsHelper.getPrefs().edit().
-                                                    putString(Constants.AVATAR, avatar).apply();
-                                            uploadFile(Utils.base64ToFile(avatar, context), 2);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                        mPrefsHelper.getPrefs().edit().
+                                                putString(Constants.AVATAR, avatar).apply();
 
                                     }
                                     System.out.println("头像:" + avatar);

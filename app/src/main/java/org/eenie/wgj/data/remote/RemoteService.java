@@ -11,6 +11,7 @@ import org.eenie.wgj.model.requset.AbnormalMessage;
 import org.eenie.wgj.model.requset.BirthdayAlert;
 import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.CaptchaChecked;
+import org.eenie.wgj.model.requset.CreataCompanyRequest;
 import org.eenie.wgj.model.requset.GiveBirthday;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.MeetingNotice;
@@ -20,6 +21,7 @@ import org.eenie.wgj.model.requset.NoticeMessage;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.model.response.LoginData;
+import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.ShootList;
 import org.eenie.wgj.model.response.Token;
 import org.eenie.wgj.model.response.UserInforById;
@@ -139,7 +141,11 @@ public interface RemoteService {
     Single<ApiResponse<UserInforById>>getUserInfoById(@Body UserId userId);
     //修改个人信息
     @POST("login/updateuserinfo")
-    Single<ApiResponse>modifyInforById(@Header("token")String token, @Body ModifyInfo modifyInfo);
+    Single<ApiResponse>modifyInforById(@Header("toen")String token, @Body ModifyInfo modifyInfo);
+    //创建公司
+    @POST("company/create")
+    Single<MApi>
+    creataCompany(@Body CreataCompanyRequest creataCompanyRequest );
 
 
 

@@ -90,6 +90,12 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
+        if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PHONE,""))){
+            inputPhone.setText(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PHONE,""));
+        }
+        if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PASSWORD,""))){
+            inputPassword.setText(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PASSWORD,""));
+        }
         if (!TextUtils.isEmpty(mUsername)) {
             inputPhone.setText(mUsername);
         } else {
@@ -127,11 +133,12 @@ public class LoginFragment extends BaseFragment {
 
                 break;
             case R.id.btn_register:
-
+//
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container, new RegisterSecondFragment())
+                        .replace(R.id.fragment_login_container, new SelectCompanyWayFragment())
                         .commit();
+
 
                 break;
             case R.id.checkbox_password_show_state:

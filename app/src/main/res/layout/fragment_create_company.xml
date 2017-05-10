@@ -1,257 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white_light"
-              android:orientation="vertical">
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="?android:actionBarSize"
-                    android:background="@color/colorPrimary">
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_centerInParent="true"
-                  android:text="@string/create_company"
-                  android:textColor="@color/white"
-                  android:textSize="@dimen/text_title_size"/>
-        <ImageView android:id="@id/img_back"
-                   android:layout_width="wrap_content"
-                   android:layout_height="match_parent"
-                   android:padding="@dimen/padding_bottom"
-                   android:src="@mipmap/ic_back"/>
-
-
-    </RelativeLayout>
-    <ScrollView android:layout_width="match_parent"
-                android:layout_height="match_parent">
-        <LinearLayout android:layout_width="match_parent"
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@color/white_light"
+                  xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical">
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="?android:actionBarSize"
+                        android:background="@color/colorPrimary">
+            <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:orientation="vertical">
+                      android:layout_centerInParent="true"
+                      android:text="@string/create_company"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_title_size"/>
+            <ImageView android:id="@id/img_back"
+                       android:layout_width="wrap_content"
+                       android:layout_height="match_parent"
+                       android:padding="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_back"/>
 
-            <RelativeLayout android:id="@id/rl_select_city"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:padding="@dimen/padding_bottom">
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_centerVertical="true"
-                          android:text="公司地址"
-                          android:textColor="@color/titleColor"
-                          android:textSize="@dimen/text_large_size"/>
-                <TextView android:id="@id/tv_select_city"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentEnd="true"
-                          android:layout_alignParentRight="true"
-                          android:layout_centerVertical="true"
-                          android:drawableEnd="@mipmap/ic_arrow_right"
-                          android:drawablePadding="@dimen/padding_short"
-                          android:drawableRight="@mipmap/ic_arrow_right"
-                          android:gravity="center"
-                          android:text="去选择"
-                          android:textColor="@color/titleColor"
-                          android:textSize="@dimen/text_large_size"/>
 
-            </RelativeLayout>
-            <LinearLayout android:id="@id/rl_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="1dp"
-                          android:background="@color/white"
-                          android:orientation="vertical"
-                          android:padding="@dimen/padding_short">
+        </RelativeLayout>
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView android:id="@id/tv_select_city"
-                          android:layout_width="match_parent"
+            <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:layout_marginLeft="@dimen/padding_short"
-                          android:layout_marginStart="@dimen/padding_short"
-                          android:drawableLeft="@mipmap/ic_create_company_name"
-                          android:drawablePadding="@dimen/padding_bottom"
-                          android:drawableStart="@mipmap/ic_create_company_name"
-                          android:gravity="center_vertical"
-                          android:text="公司名称"
-                          android:textColor="@color/titleColor"
-                          android:textSize="@dimen/text_large_size"/>
-                <EditText
-                    android:id="@id/et_company_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_marginBottom="@dimen/padding_short"
-                    android:layout_marginEnd="34dp"
-                    android:layout_marginLeft="34dp"
-                    android:layout_marginRight="34dp"
-                    android:layout_marginStart="34dp"
-                    android:layout_marginTop="@dimen/padding_bottom"
-                    android:background="@mipmap/bg_edit_text_light"
-                    android:lines="1"
-                    android:maxLength="20"
-                    android:textColor="@color/titleColor"
-                    android:textSize="12sp"/>
+                          android:orientation="vertical">
 
+                <RelativeLayout android:id="@id/rl_select_city"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:padding="@dimen/padding_bottom">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerVertical="true"
+                              android:text="公司地址"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_large_size"/>
+                    <TextView android:id="@id/tv_select_city"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentEnd="true"
+                              android:layout_alignParentRight="true"
+                              android:layout_centerVertical="true"
+                              android:drawableEnd="@mipmap/ic_arrow_right"
+                              android:drawablePadding="@dimen/padding_short"
+                              android:drawableRight="@mipmap/ic_arrow_right"
+                              android:gravity="center"
+                              android:text="去选择"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_large_size"/>
+
+                </RelativeLayout>
+                <LinearLayout android:id="@id/rl_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="1dp"
+                              android:background="@color/white"
+                              android:orientation="vertical"
+                              android:padding="@dimen/padding_short">
+
+                    <TextView android:id="@id/tv_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginLeft="@dimen/padding_short"
+                              android:layout_marginStart="@dimen/padding_short"
+                              android:drawableLeft="@mipmap/ic_create_company_name"
+                              android:drawablePadding="@dimen/padding_bottom"
+                              android:drawableStart="@mipmap/ic_create_company_name"
+                              android:gravity="center_vertical"
+                              android:text="公司名称"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_large_size"/>
+                    <EditText
+                        android:id="@id/et_company_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginBottom="@dimen/padding_short"
+                        android:layout_marginEnd="34dp"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="34dp"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="@dimen/padding_bottom"
+                        android:background="@mipmap/bg_edit_text_light"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:textColor="@color/titleColor"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <LinearLayout android:id="@id/rl_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="1dp"
+                              android:background="@color/white"
+                              android:orientation="vertical"
+                              android:padding="@dimen/padding_short">
+
+                    <TextView android:id="@id/tv_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginLeft="@dimen/padding_short"
+                              android:layout_marginStart="@dimen/padding_short"
+                              android:drawableLeft="@mipmap/ic_create_company_personal"
+                              android:drawablePadding="@dimen/padding_bottom"
+                              android:drawableStart="@mipmap/ic_create_company_personal"
+                              android:gravity="center_vertical"
+                              android:text="您的姓名"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_large_size"/>
+                    <EditText
+                        android:id="@id/et_company_personal"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginBottom="@dimen/padding_short"
+                        android:layout_marginEnd="34dp"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="34dp"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="@dimen/padding_bottom"
+                        android:background="@mipmap/bg_edit_text_light"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:textColor="@color/titleColor"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <LinearLayout android:id="@id/rl_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="1dp"
+                              android:background="@color/white"
+                              android:orientation="vertical"
+                              android:padding="@dimen/padding_short">
+
+                    <TextView android:id="@id/tv_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginLeft="@dimen/padding_short"
+                              android:layout_marginStart="@dimen/padding_short"
+                              android:drawableLeft="@mipmap/ic_create_company_phone"
+                              android:drawablePadding="@dimen/padding_bottom"
+                              android:drawableStart="@mipmap/ic_create_company_phone"
+                              android:gravity="center_vertical"
+                              android:text="您的电话"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_large_size"/>
+                    <EditText
+                        android:id="@id/et_company_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginBottom="@dimen/padding_short"
+                        android:layout_marginEnd="34dp"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="34dp"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="@dimen/padding_bottom"
+                        android:background="@mipmap/bg_edit_text_light"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:textColor="@color/titleColor"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <LinearLayout android:id="@id/rl_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="1dp"
+                              android:background="@color/white"
+                              android:orientation="vertical"
+                              android:padding="@dimen/padding_short">
+
+                    <TextView android:id="@id/tv_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginLeft="@dimen/padding_short"
+                              android:layout_marginStart="@dimen/padding_short"
+                              android:drawableLeft="@mipmap/ic_create_company_email"
+                              android:drawablePadding="@dimen/padding_bottom"
+                              android:drawableStart="@mipmap/ic_create_company_email"
+                              android:gravity="center_vertical"
+                              android:text="您的邮箱"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_large_size"/>
+                    <EditText
+                        android:id="@id/et_company_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginBottom="@dimen/padding_short"
+                        android:layout_marginEnd="34dp"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="34dp"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="@dimen/padding_bottom"
+                        android:background="@mipmap/bg_edit_text_light"
+                        android:inputType="textEmailAddress"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:textColor="@color/titleColor"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <LinearLayout android:id="@id/rl_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="1dp"
+                              android:background="@color/white"
+                              android:orientation="vertical"
+                              android:padding="@dimen/padding_short">
+
+                    <TextView android:id="@id/tv_select_city"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginLeft="@dimen/padding_short"
+                              android:layout_marginStart="@dimen/padding_short"
+                              android:drawableLeft="@mipmap/ic_create_company_address"
+                              android:drawablePadding="@dimen/padding_bottom"
+                              android:drawableStart="@mipmap/ic_create_company_address"
+                              android:gravity="center_vertical"
+                              android:text="公司地址"
+                              android:textColor="@color/titleColor"
+                              android:textSize="@dimen/text_large_size"/>
+                    <EditText
+                        android:id="@id/et_company_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:layout_marginBottom="@dimen/padding_short"
+                        android:layout_marginEnd="34dp"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="34dp"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="@dimen/padding_bottom"
+                        android:background="@mipmap/bg_edit_text_light"
+                        android:lines="1"
+                        android:maxLength="20"
+                        android:textColor="@color/titleColor"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <Button android:id="@id/btn_next"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_height_normal_distance"
+                        android:layout_marginBottom="@dimen/padding_longer"
+                        android:layout_marginEnd="36dp"
+                        android:layout_marginLeft="36dp"
+                        android:layout_marginRight="36dp"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="@dimen/padding_nor"
+                        android:background="@mipmap/bg_submit_button"
+                        android:text="@string/btn_next"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_large_size"/>
             </LinearLayout>
-            <LinearLayout android:id="@id/rl_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="1dp"
-                          android:background="@color/white"
-                          android:orientation="vertical"
-                          android:padding="@dimen/padding_short">
 
-                <TextView android:id="@id/tv_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginLeft="@dimen/padding_short"
-                          android:layout_marginStart="@dimen/padding_short"
-                          android:drawableLeft="@mipmap/ic_create_company_personal"
-                          android:drawablePadding="@dimen/padding_bottom"
-                          android:drawableStart="@mipmap/ic_create_company_personal"
-                          android:gravity="center_vertical"
-                          android:text="您的姓名"
-                          android:textColor="@color/titleColor"
-                          android:textSize="@dimen/text_large_size"/>
-                <EditText
-                    android:id="@id/et_company_personal"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_marginBottom="@dimen/padding_short"
-                    android:layout_marginEnd="34dp"
-                    android:layout_marginLeft="34dp"
-                    android:layout_marginRight="34dp"
-                    android:layout_marginStart="34dp"
-                    android:layout_marginTop="@dimen/padding_bottom"
-                    android:background="@mipmap/bg_edit_text_light"
-                    android:lines="1"
-                    android:maxLength="20"
-                    android:textColor="@color/titleColor"
-                    android:textSize="12sp"/>
+        </ScrollView>
 
-            </LinearLayout>
-            <LinearLayout android:id="@id/rl_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="1dp"
-                          android:background="@color/white"
-                          android:orientation="vertical"
-                          android:padding="@dimen/padding_short">
 
-                <TextView android:id="@id/tv_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginLeft="@dimen/padding_short"
-                          android:layout_marginStart="@dimen/padding_short"
-                          android:drawableLeft="@mipmap/ic_create_company_phone"
-                          android:drawablePadding="@dimen/padding_bottom"
-                          android:drawableStart="@mipmap/ic_create_company_phone"
-                          android:gravity="center_vertical"
-                          android:text="您的电话"
-                          android:textColor="@color/titleColor"
-                          android:textSize="@dimen/text_large_size"/>
-                <EditText
-                    android:id="@id/et_company_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_marginBottom="@dimen/padding_short"
-                    android:layout_marginEnd="34dp"
-                    android:layout_marginLeft="34dp"
-                    android:layout_marginRight="34dp"
-                    android:layout_marginStart="34dp"
-                    android:layout_marginTop="@dimen/padding_bottom"
-                    android:background="@mipmap/bg_edit_text_light"
-                    android:lines="1"
-                    android:maxLength="20"
-                    android:textColor="@color/titleColor"
-                    android:textSize="12sp"/>
+    </LinearLayout>
 
-            </LinearLayout>
-            <LinearLayout android:id="@id/rl_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="1dp"
-                          android:background="@color/white"
-                          android:orientation="vertical"
-                          android:padding="@dimen/padding_short">
 
-                <TextView android:id="@id/tv_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginLeft="@dimen/padding_short"
-                          android:layout_marginStart="@dimen/padding_short"
-                          android:drawableLeft="@mipmap/ic_create_company_email"
-                          android:drawablePadding="@dimen/padding_bottom"
-                          android:drawableStart="@mipmap/ic_create_company_email"
-                          android:gravity="center_vertical"
-                          android:text="您的邮箱"
-                          android:textColor="@color/titleColor"
-                          android:textSize="@dimen/text_large_size"/>
-                <EditText
-                    android:id="@id/et_company_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_marginBottom="@dimen/padding_short"
-                    android:layout_marginEnd="34dp"
-                    android:layout_marginLeft="34dp"
-                    android:layout_marginRight="34dp"
-                    android:layout_marginStart="34dp"
-                    android:layout_marginTop="@dimen/padding_bottom"
-                    android:background="@mipmap/bg_edit_text_light"
-                    android:inputType="textEmailAddress"
-                    android:lines="1"
-                    android:maxLength="20"
-                    android:textColor="@color/titleColor"
-                    android:textSize="12sp"/>
 
-            </LinearLayout>
-            <LinearLayout android:id="@id/rl_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="1dp"
-                          android:background="@color/white"
-                          android:orientation="vertical"
-                          android:padding="@dimen/padding_short">
 
-                <TextView android:id="@id/tv_select_city"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginLeft="@dimen/padding_short"
-                          android:layout_marginStart="@dimen/padding_short"
-                          android:drawableLeft="@mipmap/ic_create_company_address"
-                          android:drawablePadding="@dimen/padding_bottom"
-                          android:drawableStart="@mipmap/ic_create_company_address"
-                          android:gravity="center_vertical"
-                          android:text="公司地址"
-                          android:textColor="@color/titleColor"
-                          android:textSize="@dimen/text_large_size"/>
-                <EditText
-                    android:id="@id/et_company_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="72dp"
-                    android:layout_marginBottom="@dimen/padding_short"
-                    android:layout_marginEnd="34dp"
-                    android:layout_marginLeft="34dp"
-                    android:layout_marginRight="34dp"
-                    android:layout_marginStart="34dp"
-                    android:layout_marginTop="@dimen/padding_bottom"
-                    android:background="@mipmap/bg_edit_text_light"
-                    android:lines="1"
-                    android:maxLength="20"
-                    android:textColor="@color/titleColor"
-                    android:textSize="12sp"/>
-
-            </LinearLayout>
-            <Button android:id="@id/btn_next"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_height_normal_distance"
-                    android:layout_marginBottom="@dimen/padding_longer"
-                    android:layout_marginEnd="36dp"
-                    android:layout_marginLeft="36dp"
-                    android:layout_marginRight="36dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginTop="@dimen/padding_nor"
-                    android:background="@mipmap/bg_submit_button"
-                    android:text="@string/btn_next"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_large_size"/>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>

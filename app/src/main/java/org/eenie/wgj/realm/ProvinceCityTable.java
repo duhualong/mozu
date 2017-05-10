@@ -9,12 +9,9 @@ import io.realm.annotations.Required;
  * Created by Zac on 2016/5/17.
  */
 public class ProvinceCityTable extends RealmObject {
-  @PrimaryKey
-  private int id;
-  @Required
-  private String city;
-  @Required
-  private String province;
+  @PrimaryKey private int id;
+  @Required private String city;
+  @Required private String province;
 
   public int getId() {
     return id;

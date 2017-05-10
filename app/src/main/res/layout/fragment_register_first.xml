@@ -62,6 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_height_larger_distance"
                 android:layout_margin="@dimen/font_size_18sp"
+                android:visibility="gone"
                 android:background="@mipmap/bg_user_register_tab_2"
                 android:orientation="horizontal">
 
@@ -95,6 +96,7 @@
                 android:layout_marginRight="@dimen/font_size_18sp"
                 android:layout_marginEnd="@dimen/font_size_18sp"
                 android:layout_marginBottom="@dimen/font_size_18sp"
+                android:layout_marginTop="@dimen/padding_bottom"
                 android:background="@mipmap/bg_edit_text_input">
 
                 <ImageView

@@ -90,6 +90,7 @@
         <activity android:name=".ui.personal.alert.CheckoutVersionActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.bean.JsonDataActivity"/>
 
 
         <!--消息-->

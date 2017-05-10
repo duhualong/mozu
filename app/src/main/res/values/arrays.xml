@@ -12,7 +12,9 @@
         <item>朋友</item>
     </string-array>
 
-
+    <string-array name="SimpleChineseProvince">
+    <item>北京</item>
+    </string-array>
     <string-array name="persons">
         <item>刘德华</item>
         <item>梁朝伟</item>
@@ -41,4 +43,22 @@
         <item>王源</item>
         <item>霍建华</item>
     </string-array>
+    <declare-styleable name="BaseWheelPicker">
+        <attr format="reference" name="wheelData"/>
+        <attr format="enum" name="wheelStyle">
+            <enum name="straight" value="0"/>
+            <enum name="curved" value="1"/>
+        </attr>
+        <attr format="enum" name="wheelDirection">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr format="integer" name="wheelStartIndex"/>
+        <attr format="boolean" name="wheelItemSameSize"/>
+        <attr format="integer" name="wheelItemCount"/>
+        <attr format="dimension" name="wheelItemSpace"/>
+        <attr format="color" name="wheelTextColorSelect"/>
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+    </declare-styleable>
 </resources>

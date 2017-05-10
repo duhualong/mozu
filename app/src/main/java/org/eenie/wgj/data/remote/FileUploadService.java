@@ -3,6 +3,7 @@ package org.eenie.wgj.data.remote;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.MApi;
+import org.eenie.wgj.model.response.RegisterSuccessData;
 import org.eenie.wgj.model.response.Token;
 
 import java.util.Map;
@@ -46,7 +47,7 @@ public interface FileUploadService {
    Call<MApi>uploadFile(@Body RequestBody body);
     //注册新接口
     @POST("user/register")
-    Call<MApi>registerInforation(@Body RequestBody body);
+    Call<ApiResponse<RegisterSuccessData>>registerInforation(@Body RequestBody body);
 
 
     @POST("register/user")
