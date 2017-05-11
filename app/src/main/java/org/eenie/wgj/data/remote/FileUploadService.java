@@ -38,6 +38,8 @@ public interface FileUploadService {
     @POST("recog.do")
     @Multipart
     Call<Api> uploadImg(@PartMap Map<String, RequestBody> params);
+    @GET("company/city")
+    Call<ApiResponse> getCityCompanyList(@Query("city") String city);
 
 
     @POST("recog.do")

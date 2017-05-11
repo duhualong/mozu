@@ -270,4 +270,11 @@
     <item name="area_picker_province" type="id"/>
     <item name="area_container" type="id"/>
     <item name="area_picker_area" type="id"/>
+    <item name="et_input_company" type="id"/>
+    <item name="item_company_name" type="id"/>
+    <item name="item_company" type="id"/>
+    <item name="recycler_company" type="id"/>
+    <item name="swipe_refresh_list" type="id"/>
+    <item name="search_view" type="id"/>
+    <item name="fragment_layout" type="id"/>
 </resources>

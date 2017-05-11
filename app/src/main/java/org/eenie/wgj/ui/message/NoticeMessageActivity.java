@@ -12,10 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.requset.NoticeMessage;
-import org.eenie.wgj.util.Constant;
+import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,14 +77,18 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
     @Override
     public void onRefresh() {
         meetingListAdapter.clear();
-        //  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-        mSubscription=mRemoteService.getNotice(Constant.TOKEN)
+  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
+        mSubscription=mRemoteService.getNotice(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
                     result = new ArrayList<>();
                     if (listApiResponse.getResultCode() == 200) {
-                        List<NoticeMessage> orderList = listApiResponse.getData();
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(listApiResponse.getData());
+                        List<NoticeMessage> orderList = gson.fromJson(jsonArray,
+                                new TypeToken<List<NoticeMessage>>() {
+                                }.getType());
                         if (orderList != null && !orderList.isEmpty()) {
                             for (NoticeMessage order : orderList) {
                                 result.add(order);

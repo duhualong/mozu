@@ -9,7 +9,7 @@ public class Contact implements Comparable{
     private String firstAlphabet;
     private String name;
 
-    public Contact(String name) {
+    public Contact(String s, String number, String name) {
         setName(name);
     }
 

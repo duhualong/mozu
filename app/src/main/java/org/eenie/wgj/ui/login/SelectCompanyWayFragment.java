@@ -21,12 +21,14 @@ import static android.content.ContentValues.TAG;
  */
 
 public class SelectCompanyWayFragment extends BaseFragment {
-    public static final String PHONE="phone";
-    public static final String PWD="pwd";
-    public static final String UID="uid";
+    public static final String PHONE = "phone";
+    public static final String PWD = "pwd";
+    public static final String UID = "uid";
+    public static final String TOKEN="token";
     private String mPhone;
     private String mPassword;
     private int userId;
+    private String token;
 
     @Override
     protected int getContentView() {
@@ -38,13 +40,15 @@ public class SelectCompanyWayFragment extends BaseFragment {
 
     }
 
-    public static SelectCompanyWayFragment newInstance(String username, String password,int userId) {
+    public static SelectCompanyWayFragment newInstance(String username, String password, int userId,
+                                                       String token) {
         SelectCompanyWayFragment fragment = new SelectCompanyWayFragment();
-        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)&&!TextUtils.isEmpty(token)) {
             Bundle args = new Bundle();
             args.putString(PHONE, username);
             args.putString(PWD, password);
-            args.putInt(UID,userId);
+            args.putInt(UID, userId);
+            args.putString(TOKEN,token);
             fragment.setArguments(args);
             fragment.setArguments(args);
         }
@@ -59,17 +63,19 @@ public class SelectCompanyWayFragment extends BaseFragment {
         if (getArguments() != null) {
             mPhone = getArguments().getString(PHONE);
             mPassword = getArguments().getString(PWD);
-            userId=getArguments().getInt(UID);
+            userId = getArguments().getInt(UID);
+            token=getArguments().getString(TOKEN);
+
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @OnClick({R.id.img_back,R.id.img_join_company,R.id.img_create_company})
-    public void onClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.img_back, R.id.img_join_company, R.id.img_create_company})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.img_back:
-                mPrefsHelper.getPrefs().edit().putString(Constants.REGISTER_PHONE,mPhone)
-                        .putString(Constants.REGISTER_PASSWORD,mPassword)
+                mPrefsHelper.getPrefs().edit().putString(Constants.REGISTER_PHONE, mPhone)
+                        .putString(Constants.REGISTER_PASSWORD, mPassword)
                         .apply();
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
@@ -80,6 +86,10 @@ public class SelectCompanyWayFragment extends BaseFragment {
                 break;
             case R.id.img_join_company:
 
+                fragmentMgr.beginTransaction()
+                        .addToBackStack(TAG)
+                        .replace(R.id.fragment_login_container,
+                                RegisterPersonalFirstFragment.newInstance(userId,token)).commit();
 
                 break;
             case R.id.img_create_company:
@@ -87,7 +97,7 @@ public class SelectCompanyWayFragment extends BaseFragment {
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
                         .replace(R.id.fragment_login_container,
-                                 new CreateCompanyFragment()).commit();
+                                 CreateCompanyFragment.newInstance(userId,token)).commit();
 
                 break;
         }

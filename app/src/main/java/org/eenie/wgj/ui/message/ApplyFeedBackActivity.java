@@ -13,6 +13,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
@@ -131,13 +133,19 @@ public class ApplyFeedBackActivity extends BaseActivity {
         String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
 
 
-        mSubscription=mRemoteService.getMessageById(Constant.TOKEN,id)
+        mSubscription=mRemoteService.getMessageById(token,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
                     MessageDetail mData = null;
                     if (listApiResponse.getResultCode() == 200) {
-                         mData = listApiResponse.getData();
+                        Gson gson=new Gson();
+                        String jsonArray= gson.toJson(listApiResponse.getData());
+                       mData = gson.fromJson(jsonArray,
+                                new TypeToken<MessageDetail>() {
+                                }.getType());
+
+
                     }
                         return Single.just(mData);
                 })

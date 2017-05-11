@@ -13,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.requset.MeetingNotice;
-import org.eenie.wgj.util.Constant;
+import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,16 +76,22 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
     @Override
     public void onRefresh() {
         meetingListAdapter.clear();
-      //  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-            mSubscription=mRemoteService.getToDoNotice(Constant.TOKEN)
+  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
+            mSubscription=mRemoteService.getToDoNotice(token)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .flatMap(listApiResponse -> {
                         result = new ArrayList<>();
                         if (listApiResponse.getResultCode() == 200) {
-                            List<MeetingNotice> orderList = listApiResponse.getData();
-                            if (orderList != null && !orderList.isEmpty()) {
-                                for (MeetingNotice order : orderList) {
+                            Gson gson=new Gson();
+                            String jsonArray= gson.toJson(listApiResponse.getData());
+                            List<MeetingNotice>  data = gson.fromJson(jsonArray,
+                                    new TypeToken<List<MeetingNotice> >() {
+                                    }.getType());
+
+
+                            if (data != null && !data.isEmpty()) {
+                                for (MeetingNotice order : data) {
                                         result.add(order);
                                 }
                             }

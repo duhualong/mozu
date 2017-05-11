@@ -7,24 +7,18 @@ import com.google.gson.GsonBuilder;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.requset.AbnormalMessage;
-import org.eenie.wgj.model.requset.BirthdayAlert;
+import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.requset.CreataCompanyRequest;
 import org.eenie.wgj.model.requset.GiveBirthday;
+import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.requset.MLogin;
-import org.eenie.wgj.model.requset.MeetingNotice;
-import org.eenie.wgj.model.requset.MessageDetail;
 import org.eenie.wgj.model.requset.ModifyInfo;
-import org.eenie.wgj.model.requset.NoticeMessage;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.Contacts;
-import org.eenie.wgj.model.response.LoginData;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.ShootList;
-import org.eenie.wgj.model.response.Token;
-import org.eenie.wgj.model.response.UserInforById;
 
 import java.io.File;
 import java.util.List;
@@ -57,28 +51,28 @@ import rx.Single;
 public interface RemoteService {
     String DOMAIN = "http://118.178.88.132:8000/api/";
 
-
-    @GET("register/checkuser")
+    //检验用户名
+    @GET("user/exist")
     Single<ApiResponse> checkedPhone(@Query("username") String username);
 
-
-    @POST("logina")
-    Single<ApiResponse<LoginData>> logined(@Body MLogin login);
+    //登录
+    @POST("user/login")
+    Single<ApiResponse> logined(@Body MLogin login);
 
     @POST("login")
     Single<ApiResponse> postLogin(@Body MLogin login);
 
     //发送验证码
-    @POST("fetch_sms_code")
+    @POST("sms/get")
     @FormUrlEncoded
-    Single<ApiResponse<Token>> fetchMessageCode(@Field("telephone") String telephone);
+    Single<ApiResponse> fetchMessageCode(@Field("telephone") String telephone);
 
     //验证码校验
-    @POST("fetch_sms_code/verification")
+    @POST("sms/check")
     Single<ApiRes> verifyCode(@Body CaptchaChecked captchaChecked);
 
-
-    @POST("login/forgetpassword")
+    //重置密码
+    @POST("user/resetpasswd")
     @FormUrlEncoded
     Single<ApiResponse> modifyPassword(@Field("verify") String captcha,
                                        @Field("newpwd") String newPwd,
@@ -109,44 +103,56 @@ public interface RemoteService {
 
     //待办事项处理
     @GET("matterRemind")
-    Single<ApiResponse<List<MeetingNotice>>> getToDoNotice(@Header("token") String token);
+    Single<ApiResponse> getToDoNotice(@Header("token") String token);
 
     //查询待办事项详情
     @GET("matterRemind/Info")
-    Single<ApiResponse<MessageDetail>> getMessageById(@Header("token") String token,
+    Single<ApiResponse> getMessageById(@Header("token") String token,
                                                       @Query("id") int id);
 
     //通知
     @GET("noticeList")
-    Single<ApiResponse<List<NoticeMessage>>> getNotice(@Header("token") String token);
+    Single<ApiResponse> getNotice(@Header("token") String token);
 
     //生日列表
     @GET("birthdaylist")
-    Single<ApiResponse<List<BirthdayAlert>>> getBirthdayList(@Header("token") String token);
+    Single<ApiResponse> getBirthdayList(@Header("token") String token);
 
     //查询个人生日详情
     @GET("birthdayInfo")
     Single<ApiResponse<BirthdayDetail>> getBirthdayById(@Header("token") String token,
                                                         @Query("id") String id);
+
     //赠送生日祝福
     @POST("birthdayBlessing")
-    Single<ApiResponse>giveBirthdayBlessing(@Header("token")String token,
-                                            @Body GiveBirthday giveBirthday);
+    Single<ApiResponse> giveBirthdayBlessing(@Header("token") String token,
+                                             @Body GiveBirthday giveBirthday);
+
     //获取异常处理信息列表
     @GET("readilyShoot/ListInfo")
-    Single<ApiResponse<List<AbnormalMessage>>>getAbnormalHandleList(@Header("token")String token);
+    Single<ApiResponse> getAbnormalHandleList(@Header("token") String token);
 
     //通过userid获取用户信息
-    @POST("login/getuserinfo")
-    Single<ApiResponse<UserInforById>>getUserInfoById(@Body UserId userId);
+    @POST("user/getinfo")
+    Single<ApiResponse> getUserInfoById(@Header("token")String token,@Body UserId userId);
+
     //修改个人信息
-    @POST("login/updateuserinfo")
-    Single<ApiResponse>modifyInforById(@Header("toen")String token, @Body ModifyInfo modifyInfo);
+    @POST("user/update")
+    Single<ApiResponse> modifyInforById(@Header("token") String token, @Body ModifyInfo modifyInfo);
+
     //创建公司
     @POST("company/create")
     Single<MApi>
-    creataCompany(@Body CreataCompanyRequest creataCompanyRequest );
-
+    createCompany(@Header("token")String token,@Body CreataCompanyRequest creataCompanyRequest);
+    //获取所有公司列表
+    @GET("company/all")
+    Single<ApiResponse>getCompanyList();
+    //获取某一城市下的公司
+    @GET("company/city")
+    Single<ApiResponse>getCityCompanyList(@Query("city") String city);
+    //加入公司
+    @POST("company/join")
+    Single<NewResponse>joinCompany(@Header("token")String token, @Body JoinCompany joinCompany);
 
 
     class Creator {

@@ -30,6 +30,20 @@ public class CreataCompanyRequest {
     private String logo;
     private String license_pic;
 
+    public CreataCompanyRequest(int user_id, String company_name, String email, String city,
+                                String location, String representative, String intro,
+                                String logo, String license_pic) {
+        this.user_id = user_id;
+        this.company_name = company_name;
+        this.email = email;
+        this.city = city;
+        this.location = location;
+        this.representative = representative;
+        this.intro = intro;
+        this.logo = logo;
+        this.license_pic = license_pic;
+    }
+
     public int getUser_id() {
         return user_id;
     }

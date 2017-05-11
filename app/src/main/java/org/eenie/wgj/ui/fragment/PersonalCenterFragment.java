@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
@@ -170,14 +172,19 @@ public class PersonalCenterFragment extends BaseSupportFragment {
 
     private void getUerInformationById(String userId) {
         UserId mUser = new UserId(userId);
-        mSubscription = mRemoteService.getUserInfoById(mUser)
+        mSubscription = mRemoteService.getUserInfoById(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN,""),mUser)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiResponse<UserInforById>>() {
+                .subscribe(new SingleSubscriber<ApiResponse>() {
                     @Override
-                    public void onSuccess(ApiResponse<UserInforById> value) {
+                    public void onSuccess(ApiResponse value) {
                         if (value.getResultCode() == 200) {
-                            mData = value.getData();
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(value.getData());
+                            UserInforById mData = gson.fromJson(jsonArray,
+                                    new TypeToken<UserInforById>() {
+                                    }.getType());
                             if (mData != null) {
                                 if (!TextUtils.isEmpty(mData.getSecurity_card())){
                                     mPrefsHelper.getPrefs().edit().

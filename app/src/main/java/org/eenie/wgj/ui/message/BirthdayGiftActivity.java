@@ -19,7 +19,7 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.BirthdayGift;
 import org.eenie.wgj.model.requset.GiveBirthday;
-import org.eenie.wgj.util.Constant;
+import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,8 +147,9 @@ public class BirthdayGiftActivity extends BaseActivity {
 
     private void giveBirthdayBlessing(String birthdayId, String blessing) {
         BirthdayGift gift = mBirthdayGiftAdapter.getSelectedEntity();
+        String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
         GiveBirthday birthdayGift=new GiveBirthday(birthdayId,blessing,gift.getId()+"");
-        mSubscription=mRemoteService.giveBirthdayBlessing(Constant.TOKEN,birthdayGift)
+        mSubscription=mRemoteService.giveBirthdayBlessing(token,birthdayGift)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ApiResponse>() {

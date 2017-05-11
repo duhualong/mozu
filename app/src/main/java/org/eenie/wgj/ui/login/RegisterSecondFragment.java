@@ -278,7 +278,7 @@ public class RegisterSecondFragment extends BaseFragment {
                 if (response.isSuccessful()) {
 
                     if (response.body().getResultCode() == 200) {
-                        RegisterSuccessData data=response.body().getData();
+                        RegisterSuccessData data = response.body().getData();
                         Toast.makeText(context, "注册成功，请选择公司！", Toast.LENGTH_LONG).show();
 
                         Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
@@ -286,19 +286,22 @@ public class RegisterSecondFragment extends BaseFragment {
                                         fragmentMgr.beginTransaction()
                                                 .addToBackStack(TAG)
                                                 .replace(R.id.fragment_login_container,
-                                                      new SelectCompanyWayFragment()).commit()
+                                                        SelectCompanyWayFragment.newInstance
+                                                                (username, password,
+                                                                        data.getUser_id(),
+                                                                        data.getToken())).commit()
                                 );
 
                     } else {
                         Toast.makeText(context, response.body().getResultMessage(), Toast.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(context, "注册失败", Toast.LENGTH_LONG).show();
 
                 }
 
 
-        }
+            }
 
             @Override
             public void onFailure(Call<ApiResponse<RegisterSuccessData>> call, Throwable t) {
@@ -308,8 +311,6 @@ public class RegisterSecondFragment extends BaseFragment {
 
 
     }
-
-
 
 
     public String getValues(String key) {

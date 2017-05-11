@@ -14,6 +14,7 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.util.Constant;
+import org.eenie.wgj.util.Constants;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,7 +68,8 @@ public class BirthdayDetailPersonalActivity extends BaseActivity {
 
     //得到生日详情
     private void getBirthdayDetail(String id) {
-        mSubscription = mRemoteService.getBirthdayById(Constant.TOKEN, id)
+        String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
+        mSubscription = mRemoteService.getBirthdayById(token, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ApiResponse<BirthdayDetail>>() {

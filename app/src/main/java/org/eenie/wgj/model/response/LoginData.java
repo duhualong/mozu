@@ -17,8 +17,8 @@ public class LoginData {
 
     private String token;
     private int permissions;
-    private String permissions_name;
-    private int userid;
+
+    private int user_id;
 
     public String getToken() {
         return token;
@@ -36,19 +36,11 @@ public class LoginData {
         this.permissions = permissions;
     }
 
-    public String getPermissions_name() {
-        return permissions_name;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setPermissions_name(String permissions_name) {
-        this.permissions_name = permissions_name;
-    }
-
-    public int getUserid() {
-        return userid;
-    }
-
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 }

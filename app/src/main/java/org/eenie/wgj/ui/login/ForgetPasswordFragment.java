@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.model.ApiResponse;
@@ -232,13 +235,19 @@ public class ForgetPasswordFragment extends BaseFragment {
         mSubscription = mRemoteService.fetchMessageCode(mPhone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiResponse<Token>>() {
+                .subscribe(new SingleSubscriber<ApiResponse>() {
                     @Override
-                    public void onSuccess(ApiResponse<Token> value) {
+                    public void onSuccess(ApiResponse value) {
                         if (value.getResultCode() == 200) {
                             TimeDown();
+                            Gson gson=new Gson();
+                           String jsonArray= gson.toJson(value.getData());
+                            Token data = gson.fromJson(jsonArray,
+                                    new TypeToken<Token>() {
+                                    }.getType());
+
                             mPrefsHelper.getPrefs().edit().
-                                    putString(Constants.TOKEN, value.getData().getToken()).apply();
+                                    putString(Constants.TOKEN, data.getToken()).apply();
 
                         } else {
                             Snackbar.make(rootView, "获取验证码失败,请检查手机状态！", Snackbar.LENGTH_LONG).show();

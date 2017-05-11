@@ -14,6 +14,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.model.ApiRes;
@@ -93,7 +96,6 @@ public class RegisterFirstFragment extends BaseFragment {
         if (!TextUtils.isEmpty(username)) {
             Bundle args = new Bundle();
             args.putString(PHONE, username);
-            fragment.setArguments(args);
             fragment.setArguments(args);
         }
         return fragment;
@@ -262,15 +264,21 @@ public class RegisterFirstFragment extends BaseFragment {
         mSubscription = mRemoteService.fetchMessageCode(mPhone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiResponse<Token>>() {
+                .subscribe(new SingleSubscriber<ApiResponse>() {
                     @Override
-                    public void onSuccess(ApiResponse<Token> value) {
+                    public void onSuccess(ApiResponse value) {
                         if (value.getResultCode() == 200) {
                             TimeDown();
-                            mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, value.getData().getToken()).apply();
+                            Gson gson=new Gson();
+                            String jsonArray= gson.toJson(value.getData());
+                            Token data = gson.fromJson(jsonArray,
+                                    new TypeToken<Token>() {
+                                    }.getType());
 
+                            mPrefsHelper.getPrefs().edit().
+                                    putString(Constants.TOKEN, data.getToken()).apply();
                         } else {
-                            Snackbar.make(rootView, "获取验证码失败,请检查手机状态！", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(rootView, value.getResultMessage(), Snackbar.LENGTH_LONG).show();
                         }
 
                     }

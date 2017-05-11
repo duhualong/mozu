@@ -4,9 +4,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -20,7 +24,10 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Eenie on 2017/5/8 at 14:57
@@ -29,11 +36,12 @@ import butterknife.OnClick;
  */
 
 public class CreateCompanyFragment extends BaseFragment {
+    @BindView(R.id.root_view)
+    View rootView;
     private ArrayList<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private Thread thread;
-    private static final int MSG_LOAD_DATA = 0x0001;
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
 
@@ -41,7 +49,23 @@ public class CreateCompanyFragment extends BaseFragment {
 
 
     public static final String UID = "uid";
+    public static final String TOKEN = "token";
+    private String city;
     private int userId;
+    private String token;
+    @BindView(R.id.tv_select_city)
+    TextView selectCity;
+    @BindView(R.id.et_company_name)
+    EditText inputCompanyName;
+    @BindView(R.id.et_company_personal)
+    EditText inputCompanyPersonal;
+    @BindView(R.id.et_company_phone)
+    EditText inputCompanyPhone;
+    @BindView(R.id.et_company_email)
+    EditText inputCompanyEmail;
+    @BindView(R.id.et_company_address)
+    EditText inputCompanyAddress;
+
 
     @Override
     protected int getContentView() {
@@ -53,54 +77,38 @@ public class CreateCompanyFragment extends BaseFragment {
 
         initJsonData();
 
-        // updateProvince(mRealm);
-//        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//            @Override
-//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//                if (newState==BottomSheetBehavior.STATE_EXPANDED){
-//                    behavior.setHideable(true);
-//                }else {
-//                    behavior.setHideable(false);
-//                }
-//            }
-//
-//            @Override
-//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-//
-//            }
-//        });
     }
 
-    public static CreateCompanyFragment newInstance(int userId) {
+    public static CreateCompanyFragment newInstance(int userId, String token) {
         CreateCompanyFragment fragment = new CreateCompanyFragment();
+        if (!TextUtils.isEmpty(token)) {
+            Bundle args = new Bundle();
+            args.putInt(UID, userId);
+            args.putString(TOKEN, token);
+            fragment.setArguments(args);
 
-        Bundle args = new Bundle();
-        args.putInt(UID, userId);
-        fragment.setArguments(args);
-        fragment.setArguments(args);
+        }
+
         return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            userId = getArguments().getInt(UID);
+            token = getArguments().getString(TOKEN);
+
+
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case MSG_LOAD_DATA:
-                    if (thread == null) {//如果已创建就不再重新创建子线程了
-
-                        Toast.makeText(context, "开始解析数据", Toast.LENGTH_SHORT).show();
-                        thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 写子线程中的操作,解析省市区数据
-                                initJsonData();
-                            }
-                        });
-                        thread.start();
-                    }
-                    break;
 
                 case MSG_LOAD_SUCCESS:
-                    Toast.makeText(context, "解析数据成功", Toast.LENGTH_SHORT).show();
+
                     isLoaded = true;
                     break;
 
@@ -187,18 +195,14 @@ public class CreateCompanyFragment extends BaseFragment {
         return detail;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getArguments() != null) {
-            userId = getArguments().getInt(UID);
 
-
-        }
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @OnClick({R.id.rl_select_city, R.id.img_back})
+    @OnClick({R.id.rl_select_city, R.id.img_back, R.id.btn_next})
     public void onClick(View view) {
+        String companyName = inputCompanyName.getText().toString();
+        String companyPersonal = inputCompanyPersonal.getText().toString();
+        String companyPhone = inputCompanyPhone.getText().toString();
+        String companyEmail = inputCompanyPhone.getText().toString();
+        String companyAddress = inputCompanyAddress.getText().toString();
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
@@ -211,30 +215,77 @@ public class CreateCompanyFragment extends BaseFragment {
 
 
                 break;
+            case R.id.btn_next:
+                boolean checked = checkInputContent(city, companyName, companyPersonal,
+                        companyPhone, companyEmail, companyAddress);
+                if (checked) {
+                    fragmentMgr.beginTransaction()
+                            .addToBackStack(TAG)
+                            .replace(R.id.fragment_login_container,
+                                    CreateCompanySecondFragment.newInstance(userId, token, city,
+                                            companyName, companyPersonal, companyPhone,
+                                            companyEmail, companyAddress)).commit();
+
+                }
+
+
+                break;
 
         }
 
     }
 
+    private boolean checkInputContent(String city, String companyName, String companyPersonal,
+                                      String companyPhone, String companyEmail, String companyAddress) {
+        boolean result = true;
+        if (TextUtils.isEmpty(city)) {
+            Snackbar.make(rootView, "请选择公司所在的城市", Snackbar.LENGTH_LONG).show();
+            result = false;
+        }
+        if (result && TextUtils.isEmpty(companyName)) {
+            Snackbar.make(rootView, "请输入公司名称", Snackbar.LENGTH_LONG).show();
+            result = false;
+        }
+        if (result && TextUtils.isEmpty(companyPersonal)) {
+            Snackbar.make(rootView, "请输入联系人姓名", Snackbar.LENGTH_LONG).show();
+            result = false;
+        }
+        if (result && TextUtils.isEmpty(companyPhone)) {
+            Snackbar.make(rootView, "请输入电话", Snackbar.LENGTH_LONG).show();
+            result = false;
+        }
+        if (result && TextUtils.isEmpty(companyEmail)) {
+            Snackbar.make(rootView, "请输入邮箱", Snackbar.LENGTH_LONG).show();
+            result = false;
+        }
+        if (result && TextUtils.isEmpty(companyAddress)) {
+            Snackbar.make(rootView, "请输入公司地址", Snackbar.LENGTH_LONG).show();
+            result = false;
+        }
+        return result;
+
+    }
+
     private void ShowPickerView() {// 弹出选择器
 
-        OptionsPickerView pvOptions = new OptionsPickerView.Builder(context, new OptionsPickerView.OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //返回的分别是三个级别的选中位置
-                String tx = options1Items.get(options1).getPickerViewText() +
-                        options2Items.get(options1).get(options2) +
-                        options3Items.get(options1).get(options2).get(options3);
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(context,
+                (options1, options2, options3, v) -> {
+                    //返回的分别是三个级别的选中位置
+                    String tx = options1Items.get(options1).getPickerViewText() +
+                            options2Items.get(options1).get(options2) +
+                            options3Items.get(options1).get(options2).get(options3);
 
-                Toast.makeText(context, tx, Toast.LENGTH_SHORT).show();
-            }
-        })
+                    city = options2Items.get(options1).get(options2);
+                    selectCity.setText(city);
+
+
+                })
 
                 .setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
                 .setContentTextSize(20)
-                .setOutSideCancelable(false)// default is true
+                .setOutSideCancelable(true)// default is true
                 .build();
 
 //        pvOptions.setPicker(options1Items);//一级选择器

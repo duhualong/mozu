@@ -21,6 +21,7 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.response.LoginData;
 import org.eenie.wgj.model.response.TestLogin;
+import org.eenie.wgj.search.TestMyActivity;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
@@ -90,11 +91,11 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
-        if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PHONE,""))){
-            inputPhone.setText(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PHONE,""));
+        if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PHONE, ""))) {
+            inputPhone.setText(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PHONE, ""));
         }
-        if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PASSWORD,""))){
-            inputPassword.setText(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PASSWORD,""));
+        if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PASSWORD, ""))) {
+            inputPassword.setText(mPrefsHelper.getPrefs().getString(Constants.REGISTER_PASSWORD, ""));
         }
         if (!TextUtils.isEmpty(mUsername)) {
             inputPhone.setText(mUsername);
@@ -133,12 +134,12 @@ public class LoginFragment extends BaseFragment {
 
                 break;
             case R.id.btn_register:
-//
-                fragmentMgr.beginTransaction()
-                        .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container, new SelectCompanyWayFragment())
-                        .commit();
 
+//                fragmentMgr.beginTransaction()
+//                        .addToBackStack(TAG)
+//                        .replace(R.id.fragment_login_container, new RegisterPersonalFirstFragment())
+//                        .commit();
+                startActivity(new Intent(context, TestMyActivity.class));
 
                 break;
             case R.id.checkbox_password_show_state:
@@ -204,11 +205,11 @@ public class LoginFragment extends BaseFragment {
 
     public void checkedLogined(String phone, String password) {
 
-        MLogin login = new MLogin(phone,Utils.md5(password));
+        MLogin login = new MLogin(phone, Utils.md5(password));
         mSubscription = mRemoteService.logined(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse<LoginData>>() {
+                .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
                         System.out.println("打印：dddd");
@@ -216,19 +217,26 @@ public class LoginFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("打印eeee："+e);
+                        System.out.println("打印eeee：" + e);
 
                     }
 
                     @Override
-                    public void onNext(ApiResponse<LoginData> testLoginApiResponse) {
+                    public void onNext(ApiResponse testLoginApiResponse) {
                         if (testLoginApiResponse.getResultCode() == 200) {
-                            LoginData data = testLoginApiResponse.getData();
+
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(testLoginApiResponse.getData());
+                            LoginData data = gson.fromJson(jsonArray,
+                                    new TypeToken<LoginData>() {
+                                    }.getType());
+
                             mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
-                                    .putString(Constants.UID, data.getUserid()+"")
+                                    .putString(Constants.UID, data.getUser_id() + "")
                                     .putString(Constants.PHONE, phone)
                                     .putBoolean(Constants.IS_LOGIN, true).apply()
                             ;
+                            System.out.println("uid" + data.getToken() + "\n" + data.getUser_id());
                             if (isLogin) {
                                 mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, password)
                                         .apply();
@@ -242,7 +250,6 @@ public class LoginFragment extends BaseFragment {
                                     subscribe(s ->
                                             startActivity(new Intent(context, MainActivity.class))
                                     );
-
 
 
                         } else {

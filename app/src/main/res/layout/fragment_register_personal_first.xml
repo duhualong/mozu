@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f1f1f1"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/select_company"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+    </RelativeLayout>
+
+
+            <RelativeLayout android:id="@id/rl_select_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="公司地址"
+                          android:textColor="@color/titleColor"
+                          android:textSize="@dimen/text_large_size"/>
+                <TextView android:id="@id/tv_select_city"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去选择"
+                          android:textColor="@color/titleColor"
+                          android:textSize="@dimen/text_large_size"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_height_larger_distance"
+                            android:layout_marginBottom="@dimen/padding_bottom"
+                            android:layout_marginEnd="@dimen/padding_bottom"
+                            android:layout_marginLeft="@dimen/padding_bottom"
+                            android:layout_marginRight="@dimen/padding_bottom"
+                            android:layout_marginStart="@dimen/padding_bottom"
+                            android:layout_marginTop="@dimen/padding_bottom"
+                            android:background="@mipmap/ic_search_input">
+                <SearchView
+                    android:id="@id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_short"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="请输入公司名称"
+                    android:textColor="@color/titleColor"
+                />
+
+
+            </RelativeLayout>
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@id/swipe_refresh_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/padding_bottom"
+            >
+                <android.support.v7.widget.RecyclerView
+                    android:id="@id/recycler_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+
+
+</LinearLayout>

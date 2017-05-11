@@ -14,10 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.requset.BirthdayAlert;
-import org.eenie.wgj.util.Constant;
+import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,14 +86,19 @@ public class BirthdayAlertActivity  extends BaseActivity implements SwipeRefresh
     @Override
     public void onRefresh() {
         meetingListAdapter.clear();
-        //  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-        mSubscription = mRemoteService.getBirthdayList(Constant.TOKEN)
+   String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
+        mSubscription = mRemoteService.getBirthdayList(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
                     result = new ArrayList<>();
                     if (listApiResponse.getResultCode() == 200) {
-                        List<BirthdayAlert> orderList = listApiResponse.getData();
+                        Gson gson=new Gson();
+                        String jsonArray = gson.toJson(listApiResponse.getData());
+                        List<BirthdayAlert> orderList = gson.fromJson(jsonArray,
+                                new TypeToken<List<BirthdayAlert>>() {
+                                }.getType());
+
                         if (orderList != null && !orderList.isEmpty()) {
                             for (BirthdayAlert order : orderList) {
                                 result.add(order);

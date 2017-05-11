@@ -14,10 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.requset.AbnormalMessage;
-import org.eenie.wgj.util.Constant;
+import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +39,17 @@ import rx.schedulers.Schedulers;
  */
 
 public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
-    @BindView(R.id.root_view)View rootView;
+    @BindView(R.id.root_view)
+    View rootView;
     @BindView(R.id.notice_swipe_refresh_list)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private NoticeAdapter meetingListAdapter;
-    @BindView(R.id.recycler_to_do)RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_to_do)
+    RecyclerView mRecyclerView;
     private List<AbnormalMessage> result;
-    @BindView(R.id.title)TextView title;
+    @BindView(R.id.title)
+    TextView title;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_to_do_notice;
@@ -55,7 +62,7 @@ public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeR
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        meetingListAdapter=new NoticeAdapter(context,new ArrayList<>());
+        meetingListAdapter = new NoticeAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(
@@ -65,8 +72,10 @@ public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeR
         mRecyclerView.setAdapter(meetingListAdapter);
 
     }
-    @OnClick({R.id.img_back})public void onClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.img_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
@@ -76,14 +85,18 @@ public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeR
     @Override
     public void onRefresh() {
         meetingListAdapter.clear();
-        //  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-        mSubscription=mRemoteService.getAbnormalHandleList(Constant.TOKEN)
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        mSubscription = mRemoteService.getAbnormalHandleList(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
                     result = new ArrayList<>();
                     if (listApiResponse.getResultCode() == 200) {
-                        List<AbnormalMessage> abnormalList = listApiResponse.getData();
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(listApiResponse.getData());
+                        List<AbnormalMessage> abnormalList = gson.fromJson(jsonArray,
+                                new TypeToken<List<AbnormalMessage>>() {
+                                }.getType());
                         if (abnormalList != null && !abnormalList.isEmpty()) {
                             for (AbnormalMessage abnormalMessage : abnormalList) {
                                 result.add(abnormalMessage);
@@ -109,7 +122,9 @@ public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeR
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
-    @Override public void onResume() {
+
+    @Override
+    public void onResume() {
         super.onResume();
         onRefresh();
     }
@@ -135,16 +150,16 @@ public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeR
             if (meetingList != null && !meetingList.isEmpty()) {
                 AbnormalMessage abnormalMessage = meetingList.get(position);
                 holder.setItem(abnormalMessage);
-                String messageTitle=abnormalMessage.getTitle();
-                if (!TextUtils.isEmpty(messageTitle)){
+                String messageTitle = abnormalMessage.getTitle();
+                if (!TextUtils.isEmpty(messageTitle)) {
                     holder.title.setText(messageTitle);
                 }
 
-                String applyDate=abnormalMessage.getCreated_at();
-                if (!TextUtils.isEmpty(applyDate)){
+                String applyDate = abnormalMessage.getCreated_at();
+                if (!TextUtils.isEmpty(applyDate)) {
                     holder.applyDate.setText(applyDate);
                 }
-                if (!TextUtils.isEmpty(abnormalMessage.getText())){
+                if (!TextUtils.isEmpty(abnormalMessage.getText())) {
                     holder.meetingContent.setText(abnormalMessage.getText());
                 }
                 holder.icon.setImageResource(R.mipmap.ic_error_notice);
@@ -168,7 +183,8 @@ public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeR
             this.meetingList.clear();
             NoticeAdapter.this.notifyDataSetChanged();
         }
-        class NoticeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        class NoticeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView applyDate;
             private TextView meetingContent;
             private TextView meetingDetail;
@@ -180,14 +196,15 @@ public class AbnormalHandleNotifyActivity extends BaseActivity implements SwipeR
             public NoticeViewHolder(View itemView) {
 
                 super(itemView);
-                title=ButterKnife.findById(itemView,R.id.item_to_do_title);
-                applyDate= ButterKnife.findById(itemView, R.id.item_apply_date);
-                meetingContent=ButterKnife.findById(itemView,R.id.item_meeting_name);
-                meetingDetail=ButterKnife.findById(itemView,R.id.item_look_detail);
-                icon=ButterKnife.findById(itemView,R.id.img_setting);
+                title = ButterKnife.findById(itemView, R.id.item_to_do_title);
+                applyDate = ButterKnife.findById(itemView, R.id.item_apply_date);
+                meetingContent = ButterKnife.findById(itemView, R.id.item_meeting_name);
+                meetingDetail = ButterKnife.findById(itemView, R.id.item_look_detail);
+                icon = ButterKnife.findById(itemView, R.id.img_setting);
                 meetingDetail.setOnClickListener(this);
 
             }
+
             public void setItem(AbnormalMessage abnormalMessage) {
                 mAbnormalMessage = abnormalMessage;
             }

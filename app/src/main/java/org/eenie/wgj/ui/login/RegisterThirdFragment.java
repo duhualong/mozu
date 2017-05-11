@@ -27,7 +27,9 @@ import com.google.gson.GsonBuilder;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
+import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.EmergencyContactMod;
+import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.Utils;
@@ -48,6 +50,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 
@@ -1137,8 +1142,8 @@ public class RegisterThirdFragment extends BaseFragment {
         call.enqueue(new Callback<MApi>() {
             @Override
             public void onResponse(Call<MApi> call, Response<MApi> response) {
-                Log.d(TAG, "onResponseMessage: "+response.message());
-                Log.d(TAG, "onResponseCode: "+response.code());
+                Log.d(TAG, "onResponseMessage: " + response.message());
+                Log.d(TAG, "onResponseCode: " + response.code());
                 if (response.isSuccessful()) {
 
                     if (response.body().getResultCode() == 200) {
@@ -1148,7 +1153,7 @@ public class RegisterThirdFragment extends BaseFragment {
                         Snackbar.make(rootView, response.body().getResultMessage(), Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    Log.d(TAG, "onResponseError: "+response.errorBody());
+                    Log.d(TAG, "onResponseError: " + response.errorBody());
                     Snackbar.make(rootView, "数据错误", Snackbar.LENGTH_LONG).show();
 
                 }
@@ -1158,7 +1163,7 @@ public class RegisterThirdFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<MApi> call, Throwable t) {
-                Snackbar.make(rootView,"请求错误！",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(rootView, "请求错误！", Snackbar.LENGTH_LONG).show();
 
             }
         });
@@ -1185,17 +1190,55 @@ public class RegisterThirdFragment extends BaseFragment {
         });
     }
 
-    public File  compressior(File file){
-      return new Compressor.Builder(context)
+    public File compressior(File file) {
+        return new Compressor.Builder(context)
                 .setMaxWidth(75)
                 .setMaxHeight(60)
                 .setQuality(75)
                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                 .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-                 Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
                 .build()
                 .compressToFile(file);
     }
+
+    private void JoinCompany(String token, int userId, int companyId) {
+        JoinCompany joinCompany = new JoinCompany(21, 1);
+
+        mSubscription = mRemoteService.joinCompany("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOj" +
+                "E0OTQzODc3MjQsIm5iZiI6MTQ5NDM4NzcyNSwiZXhwIjoxNTI1NDkxNzI1LCJkYXRhIjp7ImlkIjo1MX19." +
+                "b11u3hIOMu8swf6sVbKJZsYIsk8Zkw1ikXdPj7csLqk", joinCompany)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NewResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        Snackbar.make(rootView, "网络请求失败",
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NewResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200) {
+                            registerSuccessDialog();
+
+
+
+                        } else {
+                            Snackbar.make(rootView, apiResponse.getResultMessage(),
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+    }
+
 
 
 }

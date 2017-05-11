@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
@@ -33,12 +35,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class PersonalBaseInfoActivity extends BaseActivity {
-    public static final String AVATAR="avatar";
+    public static final String AVATAR = "avatar";
     @BindView(R.id.root_view)
     View rootView;
-    @BindView(R.id.img_avatar)CircleImageView avatar;
-    @BindView(R.id.bank_card)TextView bank;
-    @BindView(R.id.security_code)TextView security;
+    @BindView(R.id.img_avatar)
+    CircleImageView avatar;
+    @BindView(R.id.bank_card)
+    TextView bank;
+    @BindView(R.id.security_code)
+    TextView security;
 
 
     @Override
@@ -48,8 +53,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        String avatarUrl=mPrefsHelper.getPrefs().getString(Constants.PERSONAL_AVATAR,"");
-        System.out.println("打印avatar"+avatarUrl);
+        String avatarUrl = mPrefsHelper.getPrefs().getString(Constants.PERSONAL_AVATAR, "");
+        System.out.println("打印avatar" + avatarUrl);
         if (!TextUtils.isEmpty(avatarUrl)) {
             Glide.with(context)
                     .load(avatarUrl)
@@ -57,14 +62,14 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                     .centerCrop()
                     .into(avatar);
         }
-        String bankCard=mPrefsHelper.getPrefs().getString(Constants.BANK_CARD,"");
+        String bankCard = mPrefsHelper.getPrefs().getString(Constants.BANK_CARD, "");
 
-        String securityCard=mPrefsHelper.getPrefs().getString(Constants.SECURITY_CARD,"");
-        if (!TextUtils.isEmpty(bankCard)){
+        String securityCard = mPrefsHelper.getPrefs().getString(Constants.SECURITY_CARD, "");
+        if (!TextUtils.isEmpty(bankCard)) {
             bank.setText(bankCard);
 
         }
-        if (!TextUtils.isEmpty(securityCard)){
+        if (!TextUtils.isEmpty(securityCard)) {
             security.setText(securityCard);
 
         }
@@ -72,7 +77,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
     }
 
     @OnClick({R.id.img_back, R.id.img_scan, R.id.rl_avatar_img, R.id.rl_identity_card, R.id.rl_personal_information,
-            R.id.rl_bank_card, R.id.rl_security_certificate,R.id.btn_logout})
+            R.id.rl_bank_card, R.id.rl_security_certificate, R.id.btn_logout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -107,7 +112,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                 break;
             case R.id.btn_logout:
                 //退出登录
-                mPrefsHelper.getPrefs().edit().putBoolean(Constants.IS_LOGIN,false).apply();
+                mPrefsHelper.getPrefs().edit().putBoolean(Constants.IS_LOGIN, false).apply();
 
                 startActivity(new Intent(context, LoginActivity.class));
                 finish();
@@ -119,8 +124,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     //身份证信息
     private void showCardPersonal() {
-       String userId= mPrefsHelper.getPrefs().getString(Constants.UID,"");
-        if (!TextUtils.isEmpty(userId)){
+        String userId = mPrefsHelper.getPrefs().getString(Constants.UID, "");
+        if (!TextUtils.isEmpty(userId)) {
             getCardInfor(userId);
 
         }
@@ -131,15 +136,20 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     private void getCardInfor(String userId) {
         UserId mUser = new UserId(userId);
-        mSubscription = mRemoteService.getUserInfoById(mUser)
+        mSubscription = mRemoteService.getUserInfoById(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), mUser)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiResponse<UserInforById>>() {
+                .subscribe(new SingleSubscriber<ApiResponse>() {
                     @Override
-                    public void onSuccess(ApiResponse<UserInforById> value) {
+                    public void onSuccess(ApiResponse value) {
                         if (value.getResultCode() == 200) {
-                           UserInforById mData = value.getData();
-                            if (mData!=null){
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(value.getData());
+                            UserInforById mData = gson.fromJson(jsonArray,
+                                    new TypeToken<UserInforById>() {
+                                    }.getType());
+                            if (mData != null) {
                                 View view = View.inflate(context,
                                         R.layout.dialog_personal_identity_card, null);
                                 CircleImageView avatar = (CircleImageView)
@@ -153,7 +163,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                                 TextView mSignOffice = (TextView) view.findViewById(R.id.tv_sign_office);
                                 TextView mDeadline = (TextView) view.findViewById(R.id.tv_date_deadline);
                                 Glide.with(context)
-                                        .load(Constant.DOMIN+mData.getId_card_head_image())
+                                        .load(Constant.DOMIN + mData.getId_card_head_image())
                                         .asBitmap()
                                         .centerCrop()
                                         .into(avatar);
@@ -176,7 +186,6 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
                                 });
                             }
-
 
 
                         } else {
