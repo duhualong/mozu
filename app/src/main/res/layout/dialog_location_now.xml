@@ -19,7 +19,6 @@
     </RelativeLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="100dp"
-                  android:layout_marginBottom="10dp"
                   android:layout_marginEnd="@dimen/font_size_18sp"
                   android:layout_marginLeft="@dimen/font_size_18sp"
                   android:layout_marginRight="@dimen/font_size_18sp"
@@ -30,18 +29,18 @@
             android:id="@id/edit_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:background="@null"
-            android:lines="5"
             android:gravity="start|left"
             android:hint="@string/hint_address"
-        android:textSize="12sp"
+            android:lines="5"
             android:textColor="@color/titleColor"
             android:textColorHint="@color/gray"
+            android:textSize="@dimen/text_large_size"
         />
 
     </LinearLayout>
@@ -54,8 +53,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@mipmap/bg_submit_button"
-                android:textSize="12sp"
-                android:text="@string/btn_cancel"/>
+                android:text="@string/btn_cancel"
+                android:textSize="@dimen/text_large_size"/>
         <Button
             android:id="@id/btn_next"
             android:layout_width="0dp"
@@ -63,9 +62,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:textSize="12sp"
             android:background="@mipmap/bg_submit_button"
-            android:text="@string/btn_ok"/>
+            android:text="@string/btn_ok"
+            android:textSize="@dimen/text_large_size"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -99,7 +99,7 @@ public class TestMyActivity extends BaseActivity {
     protected void updateUI() {
         initJsonData();
         // initData();
-        joinCompany(21,1);
+      //  joinCompany(21,1);
 
     }
 
@@ -298,14 +298,14 @@ public class TestMyActivity extends BaseActivity {
             }
         });
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplication(),
-                        ((SortModel)adapter.getItem(position)).getCompanyId(),
-                        Toast.LENGTH_SHORT).show();
 
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Toast.makeText(getApplication(), ((SortModel)adapter.getItem(position)).getName(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private List<SortModel> filledDatas(List<CompanyList> data) {

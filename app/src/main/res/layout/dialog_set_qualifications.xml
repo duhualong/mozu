@@ -30,8 +30,8 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:text="@string/primary"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/gray"
+                android:textSize="@dimen/text_large_size"
+                android:textColor="@color/titleColor"
             />
             <View android:layout_width="match_parent"
                   android:layout_height="1dp"
@@ -42,8 +42,8 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:text="@string/middle"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/gray"
+                android:textSize="@dimen/text_large_size"
+                android:textColor="@color/titleColor"
             />
             <View android:layout_width="match_parent"
                   android:layout_height="1dp"
@@ -54,8 +54,8 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:text="@string/tv_height_school"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/gray"
+                android:textSize="@dimen/text_large_size"
+                android:textColor="@color/titleColor"
             />
             <View android:layout_width="match_parent"
                   android:layout_height="1dp"
@@ -66,8 +66,8 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:text="@string/junior_college"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/gray"
+                android:textSize="@dimen/text_large_size"
+                android:textColor="@color/titleColor"
             />
             <View android:layout_width="match_parent"
                   android:layout_height="1dp"
@@ -78,8 +78,8 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:text="@string/university"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/gray"
+                android:textSize="@dimen/text_large_size"
+                android:textColor="@color/titleColor"
             />
             <View android:layout_width="match_parent"
                   android:layout_height="1dp"
@@ -90,8 +90,8 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:text="@string/graduate"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/gray"
+                android:textSize="@dimen/text_large_size"
+                android:textColor="@color/titleColor"
             />
             <View android:layout_width="match_parent"
                   android:layout_height="1dp"
@@ -102,12 +102,13 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:text="@string/doctor"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/gray"
+                android:textSize="@dimen/text_large_size"
+                android:textColor="@color/titleColor"
             />
             <View android:layout_width="match_parent"
                   android:layout_height="1dp"
                   android:background="@color/white_light"/>
+
         </LinearLayout>
     </ScrollView>
     <LinearLayout android:layout_width="match_parent"
@@ -118,7 +119,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@mipmap/bg_submit_button"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
                 android:text="@string/btn_cancel"/>
         <Button
             android:id="@id/btn_next"
@@ -127,7 +128,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:background="@mipmap/bg_submit_button"
             android:text="@string/btn_ok"/>
 

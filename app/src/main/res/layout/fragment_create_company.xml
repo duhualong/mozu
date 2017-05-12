@@ -143,6 +143,7 @@
                           android:layout_marginTop="1dp"
                           android:background="@color/white"
                           android:orientation="vertical"
+                          android:visibility="gone"
                           android:padding="@dimen/padding_short">
 
                 <TextView android:id="@id/tv_select_city"
@@ -155,6 +156,7 @@
                           android:drawableStart="@mipmap/ic_create_company_phone"
                           android:gravity="center_vertical"
                           android:text="您的电话"
+
                           android:textColor="@color/titleColor"
                           android:textSize="@dimen/text_large_size"/>
                 <EditText

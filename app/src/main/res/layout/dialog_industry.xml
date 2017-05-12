@@ -134,13 +134,14 @@
         android:gravity="center"
         android:text="@string/tip_industry"
         android:textColor="@color/titleColor"
-        android:textSize="12sp"
-        android:visibility="invisible"/>
+        android:textSize="14sp"
+        android:visibility="gone"/>
     <Button
         android:id="@id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="@dimen/margin_height_larger_distance"
         android:layout_marginLeft="@dimen/margin_height_larger_distance"
         android:layout_marginRight="@dimen/margin_height_larger_distance"

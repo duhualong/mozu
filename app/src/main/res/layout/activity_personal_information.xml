@@ -203,12 +203,13 @@
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
-        <View android:layout_width="match_parent"
-              android:layout_height="1dp"
-              android:background="@color/gray_light"/>
+        <!--<View android:layout_width="match_parent"-->
+              <!--android:layout_height="1dp"-->
+              <!--android:background="@color/gray_light"/>-->
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@id/rl_work_name"
+                        android:visibility="gone"
                         android:padding="@dimen/padding_bottom">
 
             <TextView
@@ -217,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/now_work"
-                android:textSize="12sp"
+                android:textSize="@dimen/text_large_size"
 
                 android:textColor="@color/titleColor"/>
             <TextView
@@ -248,7 +249,7 @@
         <RelativeLayout android:id="@id/rl_industry"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp">
+                        android:padding="@dimen/margin_bottom">
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -289,8 +290,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_skill"
-                      android:textSize="12sp"
-
+                      android:textSize="@dimen/text_large_size"
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_skill"

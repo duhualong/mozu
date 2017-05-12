@@ -63,7 +63,7 @@ public class UserInforById {
     private String people;
     private String height;
     private String graduate;
-    private String telephone;
+    private String marry;
     private String living_address;
     private EmergencyContactBean emergency_contact;
     private String industry;
@@ -242,12 +242,12 @@ public class UserInforById {
         this.graduate = graduate;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getMarry() {
+        return marry;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setMarry(String marry) {
+        this.marry = marry;
     }
 
     public String getLiving_address() {

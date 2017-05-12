@@ -24,11 +24,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
+import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.CreataCompanyRequest;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.util.ImageUtils;
@@ -343,7 +346,6 @@ public class CreateCompanySecondFragment extends BaseFragment {
                                 imgLicence.setImageBitmap(bitmap);
                             });
                     licenceUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
-
                     Snackbar.make(rootView, "营业执照上传成功！", Snackbar.LENGTH_LONG).show();
                     mFileLicence = new File(licenceUrl);
                     uploadFile(compressior(mFileLicence));
@@ -366,15 +368,20 @@ public class CreateCompanySecondFragment extends BaseFragment {
                 .addFormDataPart("filename", file.getName(),
                         RequestBody.create(MediaType.parse("image/jpg"), file))
                 .build();
-        Call<MApi> call = userBiz.uploadFile(requestBody);
-        call.enqueue(new Callback<MApi>() {
+        Call<ApiResponse> call = userBiz.uploadFile(requestBody);
+        call.enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<MApi> call, Response<MApi> response) {
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 Log.d(TAG, "onResponseCode: " + response.code());
                 if (response.isSuccessful()) {
                     if (response.body().getResultCode() == 200) {
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(response.body().getData());
+                       String mData = gson.fromJson(jsonArray,
+                                new TypeToken<String>() {
+                                }.getType());
 
-                        mFileUrl = response.body().getData();
+                        mFileUrl = mData;
                         System.out.println("上传成功" + response.body().getData());
                         btnNext.setBackgroundResource(R.mipmap.bg_submit_button);
 
@@ -391,7 +398,7 @@ public class CreateCompanySecondFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<MApi> call, Throwable t) {
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t);
 
             }

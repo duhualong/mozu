@@ -1,8 +1,6 @@
 package org.eenie.wgj.ui.login;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -22,72 +20,84 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
-import org.eenie.wgj.data.remote.FileUploadService;
+import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.EmergencyContactMod;
 import org.eenie.wgj.model.requset.JoinCompany;
-import org.eenie.wgj.model.response.MApi;
-import org.eenie.wgj.util.Constants;
+import org.eenie.wgj.model.requset.ModifyInfo;
 import org.eenie.wgj.util.Utils;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import id.zelory.compressor.Compressor;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 
+
 /**
- * Created by Eenie on 2017/4/18 at 17:26
+ * Created by Eenie on 2017/5/12 at 9:10
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class RegisterThirdFragment extends BaseFragment {
-    public static final String PHONE = "phone";
-    public static final String PASSWORD = "password";
-    public static final String FRONT = "front";
-    public static final String BACK = "back";
-    private String username;
-    private String password;
-    private String frontUrl;
-    private String backUrl;
-    private String avatarUrl;
-
-
-    private EmergencyContactMod mContactEmergency;
-    private String mContactName;
-    private String mContactPhone;
-    private String mRelation;
-    private int mPosition;
+public class RegisterPersonalSecondFragment extends BaseFragment {
+    private static final String TOKEN = "token";
+    private static final String USER_ID = "user_id";
+    private static final String COMPANY_ID = "company_id";
+    @BindView(R.id.view_height)
+    TextView viewHeight;
+    @BindView(R.id.view_qualifications)
+    TextView viewQualif;
+    @BindView(R.id.view_marry)
+    TextView maryState;
+    @BindView(R.id.view_address)
+    TextView viewAddress;
+    @BindView(R.id.view_contacts)
+    TextView viewContacts;
+    @BindView(R.id.view_industry)
+    TextView viewIndustry;
+    @BindView(R.id.view_skill)
+    TextView viewSkill;
+    @BindView(R.id.view_employment)
+    TextView viewChannel;
+    @BindView(R.id.root_view)
+    View rootView;
+    @BindView(R.id.tv_height)
+    TextView mHeight;
+    @BindView(R.id.tv_qualifications)
+    TextView mQualifications;
+    @BindView(R.id.tv_marry_state)
+    TextView mMarryState;
+    @BindView(R.id.tv_address)
+    TextView mAddressNow;
+    @BindView(R.id.tv_contacts)
+    TextView mContacts;
+    @BindView(R.id.tv_industry)
+    TextView mIndustry;
+    @BindView(R.id.tv_skill)
+    TextView mSkill;
+    @BindView(R.id.tv_employment)
+    TextView mEmployment;
     private String height;
     private String qualifications;
     private String qualification;
     private String marryState;
     private String marrayStates;
     private String addressNow;
-    private String workNow;
+    private EmergencyContactMod mContactEmergency;
+    private String mContactName;
+    private String mContactPhone;
+    private String mRelation;
+    private int mPosition;
     private List<String> industry = new ArrayList<>();
-    private String str;
     private List<String> skill = new ArrayList<>();
     private int channel;
     private String channelString;
@@ -96,128 +106,102 @@ public class RegisterThirdFragment extends BaseFragment {
     private String channelStr;
     private int channelCode;
 
-
-    @BindView(R.id.tv_height)
-    TextView mHeight;
-    @BindView(R.id.tv_qualifications)
-    TextView mQualifications;
-    @BindView(R.id.tv_marry_state)
-    TextView mMarryState;
-    @BindView(R.id.root_view)
-    View rootView;
-    @BindView(R.id.tv_address)
-    TextView mAddressNow;
-    @BindView(R.id.tv_contacts)
-    TextView mContacts;
-    @BindView(R.id.tv_work_name)
-    TextView mWorkName;
-    @BindView(R.id.tv_industry)
-    TextView mIndustry;
-    @BindView(R.id.tv_skill)
-    TextView mSkill;
-    @BindView(R.id.tv_employment)
-    TextView mEmployment;
-    private File mAvatarFile;
-    private String mName;
-    private String mSex;
-    private String mNation;
-    private String mBirthday;
-    private String mAddress;
-    private String mNumber;
-    private String mSignOffice;
-    private String mDeadline;
     private boolean mCheckHeight;
     private boolean mCheckedQualification;
     private boolean mCheckMarry;
     private boolean mCheckAddress;
     private boolean mCheckContact;
-    private boolean mCheckWork;
     private boolean mCheckIndustry;
     private boolean mCheckSkill;
     private boolean mCheckChannel;
-
+    private String mToken;
+    private int mUserId;
+    private int mCompanyId;
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_register_third;
+        return R.layout.fragment_register_personal_second;
     }
 
     @Override
     protected void updateUI() {
-        initData();
-    }
-
-    private void initData() {
-
-        String base64 = mPrefsHelper.getPrefs().getString(Constants.AVATAR, "");
-        System.out.println("base64:" + base64);
-        try {
-            mAvatarFile = Utils.base64ToFile(base64, context);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mName = getValues(Constants.NAME);
-        mSex = getValues(Constants.SEX);
-        mNation = getValues(Constants.NATION);
-        mBirthday = getValues(Constants.BIRTHDAY);
-        mAddress = getValues(Constants.ADDRESS);
-        mNumber = getValues(Constants.CARD_IDENTITY);
-        mSignOffice = getValues(Constants.SIGN_OFFICE);
-        mDeadline = getValues(Constants.START_DATE).replaceAll("-", ":") + "-" +
-                getValues(Constants.END_DATE).replaceAll("-", ":");
 
 
     }
 
-    public String getValues(String key) {
+    public static RegisterPersonalSecondFragment newInstance(String token, int userId,
+                                                             int companyId) {
 
-        return mPrefsHelper.getPrefs().getString(key, "");
-    }
 
-    public static RegisterThirdFragment newInstance(String phone, String password,
-                                                    String frontUrl, String backUrl) {
-
-        RegisterThirdFragment fragment = new RegisterThirdFragment();
-        if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(password) &&
-                !TextUtils.isEmpty(frontUrl) && !TextUtils.isEmpty(backUrl)) {
+        RegisterPersonalSecondFragment fragment = new RegisterPersonalSecondFragment();
+        if (!TextUtils.isEmpty(token)) {
             Bundle args = new Bundle();
-            args.putString(PHONE, phone);
-            args.putString(PASSWORD, password);
-            args.putString(FRONT, frontUrl);
-            args.putString(BACK, frontUrl);
+            args.putString(TOKEN, token);
+            args.putInt(USER_ID, userId);
+            args.putInt(COMPANY_ID, companyId);
             fragment.setArguments(args);
-            fragment.setArguments(args);
+
         }
+
         return fragment;
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getArguments() != null) {
-            username = getArguments().getString(PHONE);
-            password = getArguments().getString(PASSWORD);
-            frontUrl = getArguments().getString(FRONT);
-            backUrl = getArguments().getString(BACK);
+            mToken = getArguments().getString(TOKEN);
+            mUserId = getArguments().getInt(USER_ID);
+            mCompanyId = getArguments().getInt(COMPANY_ID);
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @OnClick({R.id.img_back, R.id.btn_apply, R.id.tv_height, R.id.tv_qualifications,
-            R.id.tv_marry_state, R.id.tv_address, R.id.tv_contacts, R.id.tv_work_name,
-            R.id.tv_industry, R.id.tv_skill, R.id.tv_employment,})
+    @OnClick({R.id.img_back, R.id.rl_height, R.id.rl_qualifications, R.id.rl_marry_state,
+            R.id.rl_now_address, R.id.rl_contacts, R.id.rl_industry, R.id.rl_skill,
+            R.id.rl_work_channel, R.id.btn_apply})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
+            case R.id.rl_height:
+                showHeightDialog();
+                break;
+            case R.id.rl_qualifications:
+                showQualifications();
 
+                break;
+            case R.id.rl_marry_state:
+                showMarryDialog();
+
+
+                break;
+            case R.id.rl_now_address:
+                showNowAddressDialog();
+
+                break;
+            case R.id.rl_contacts:
+
+                showContactsDialog();
+                break;
+            case R.id.rl_industry:
+                showIndustryDialog();
+
+
+                break;
+            case R.id.rl_skill:
+                showSkillDialog();
+
+
+                break;
+            case R.id.rl_work_channel:
+                showEmploymentDialog();
+
+                break;
             case R.id.btn_apply:
 
-
                 if (mCheckHeight && mCheckedQualification && mCheckMarry && mCheckAddress &&
-                        mCheckContact && mCheckWork && mCheckIndustry && mCheckSkill &&
+                        mCheckContact && mCheckIndustry && mCheckSkill &&
                         mCheckChannel) {
 
 
@@ -232,12 +216,17 @@ public class RegisterThirdFragment extends BaseFragment {
                                     marry = "2";
                                     break;
                             }
-                            getData(username, password, mName, mSex, mNation, mBirthday,
-                                    mAddress, mNumber, mSignOffice, mDeadline,
-                                    Compressor.getDefault(context).compressToFile(new File(frontUrl)),
-                                    Compressor.getDefault(context).compressToFile(new File(frontUrl)),
-                                    Compressor.getDefault(context).compressToFile(mAvatarFile), height,
-                                    qualifications, marry, addressNow, Utils.getStr(industry),
+                            Gson gson = new Gson();
+                            EmergencyContactMod data = new EmergencyContactMod();
+                            if (!TextUtils.isEmpty(mContactName) && !TextUtils.isEmpty(mContactPhone) &&
+                                    !TextUtils.isEmpty(mRelation)) {
+                                data.setName(mContactName);
+                                data.setPhone(mContactPhone);
+                                data.setRelation(mRelation);
+
+                            }
+                            applyInformation(height, qualifications, marry, addressNow,
+                                    gson.toJson(data), Utils.getStr(industry),
                                     Utils.getStr(skill), channelStr);
 
 
@@ -248,50 +237,108 @@ public class RegisterThirdFragment extends BaseFragment {
                     Snackbar.make(rootView, "信息未完善，请填写完整！", Snackbar.LENGTH_LONG).show();
                 }
 
+                // applyInformation();
 
                 break;
-            case R.id.tv_height:
-                showHeightDialog();
 
-
-                break;
-            case R.id.tv_qualifications:
-                showQualifications();
-
-                break;
-            case R.id.tv_marry_state:
-                showMarryDialog();
-
-
-                break;
-            case R.id.tv_address:
-                showNowAddressDialog();
-
-
-                break;
-            case R.id.tv_contacts:
-                showContactsDialog();
-                break;
-            case R.id.tv_work_name:
-                showWorkDialog();
-
-
-                break;
-            case R.id.tv_industry:
-                showIndustryDialog();
-
-
-                break;
-            case R.id.tv_skill:
-                showSkillDialog();
-
-
-                break;
-            case R.id.tv_employment:
-                showEmploymentDialog();
-
-                break;
         }
+    }
+
+    private void applyInformation(String height, String educate, String marry,
+                                  String address, String contact,
+                                  String industry, String skill, String channel) {
+        ModifyInfo info = new ModifyInfo(height, educate, marry, address, contact, industry, skill,
+                channel);
+        Log.d(TAG, "applyInformation: " + info);
+//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTQzODc3Mj" +
+//                "QsIm5iZiI6MTQ5NDM4NzcyNSwiZXhwIjoxNTI1NDkxNzI1LCJkYXRhIjp7ImlkIjo1MX1" +
+//                "9.b11u3hIOMu8swf6sVbKJZsYIsk8Zkw1ikXdPj7csLqk";
+        mSubscription = mRemoteService.modifyInforById(mToken, info)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200) {
+                            joinCompany(mUserId, mCompanyId);
+
+                        } else {
+                            Snackbar.make(rootView, apiResponse.getResultMessage(),
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+    }
+
+    private void joinCompany(int userId, int companyId) {
+        JoinCompany joinCompany = new JoinCompany(userId, companyId);
+//
+//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTQzODc3Mj" +
+//                "QsIm5iZiI6MTQ5NDM4NzcyNSwiZXhwIjoxNTI1NDkxNzI1LCJkYXRhIjp7ImlkIjo1MX1" +
+//                "9.b11u3hIOMu8swf6sVbKJZsYIsk8Zkw1ikXdPj7csLqk";
+
+        mSubscription = mRemoteService.joinCompany(mToken, joinCompany)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NewResponse>() {
+                    @Override
+                    public void onCompleted() {
+//                        Snackbar.make(rootView, "解析错误",
+//                                Snackbar.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NewResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200) {
+                            registerSuccessDialog();
+
+                        } else {
+                            Snackbar.make(rootView, apiResponse.getResultMessage(),
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+
+    }
+
+    private void registerSuccessDialog() {
+        View view = View.inflate(context, R.layout.dialog_success_register, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .create();
+        dialog.show();
+        dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(v -> {
+            dialog.dismiss();
+            fragmentMgr.beginTransaction()
+                    .addToBackStack(TAG)
+                    .replace(R.id.fragment_login_container,
+                            new LoginFragment())
+                    .commit();
+
+
+        });
     }
 
     //应聘渠道
@@ -427,6 +474,28 @@ public class RegisterThirdFragment extends BaseFragment {
 
     }
 
+    private void setChecked(CheckBox[] checkbox, int position) {
+        checkbox[position].setChecked(true);
+        checkbox[position].setTextColor(ContextCompat.getColor
+                (context, R.color.white));
+    }
+
+    private void onCheckBoxListener(CheckBox[] checkBoxes) {
+        for (CheckBox checkBox : checkBoxes) {
+            checkBox.setOnClickListener(v -> {
+                if (checkBox.isChecked()) {
+                    checkBox.setTextColor(ContextCompat.getColor
+                            (context, R.color.white));
+                } else {
+                    checkBox.setTextColor(ContextCompat.getColor
+                            (context, R.color.titleColor));
+                }
+            });
+        }
+
+
+    }
+
     //技能
     private void showSkillDialog() {
         View view = View.inflate(context, R.layout.dialog_skill, null);
@@ -532,10 +601,10 @@ public class RegisterThirdFragment extends BaseFragment {
                         }
                     }
                 }
-
+                skill = null;
                 skill = mString;
                 dialog.dismiss();
-                mSkill.setText("已填写");
+                mSkill.setText(Utils.getStr(mString));
                 mSkill.setTextColor(ContextCompat.getColor
                         (context, R.color.titleColor));
                 mCheckSkill = true;
@@ -646,10 +715,11 @@ public class RegisterThirdFragment extends BaseFragment {
                         }
                     }
                 }
+                industry = null;
                 industry = mString;
                 System.out.println("industry:" + industry);
                 dialog.dismiss();
-                mIndustry.setText("已填写");
+                mIndustry.setText(Utils.getStr(mString));
                 mIndustry.setTextColor(ContextCompat.getColor
                         (context, R.color.titleColor));
                 mCheckIndustry = true;
@@ -658,59 +728,6 @@ public class RegisterThirdFragment extends BaseFragment {
 
         });
 
-
-    }
-
-
-    private void setChecked(CheckBox[] checkbox, int position) {
-        checkbox[position].setChecked(true);
-        checkbox[position].setTextColor(ContextCompat.getColor
-                (context, R.color.white));
-    }
-
-    private void onCheckBoxListener(CheckBox[] checkBoxes) {
-        for (CheckBox checkBox : checkBoxes) {
-            checkBox.setOnClickListener(v -> {
-                if (checkBox.isChecked()) {
-                    checkBox.setTextColor(ContextCompat.getColor
-                            (context, R.color.white));
-                } else {
-                    checkBox.setTextColor(ContextCompat.getColor
-                            (context, R.color.titleColor));
-                }
-            });
-        }
-
-
-    }
-
-    //现单位名称
-    private void showWorkDialog() {
-        View view = View.inflate(context, R.layout.dialog_work_now, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        final AlertDialog dialog = builder
-                .setView(view) //自定义的布局文件
-                .create();
-        dialog.show();
-        EditText work = (EditText) dialog.getWindow().findViewById(R.id.et_work_now);
-
-        dialog.getWindow().findViewById(R.id.btn_next).setOnClickListener(v -> {
-            String inputWork = work.getText().toString();
-            if (TextUtils.isEmpty(inputWork)) {
-                work.setError("现单位名称不能为空！");
-            } else {
-                dialog.dismiss();
-                workNow = inputWork;
-                mWorkName.setText(inputWork);
-                mWorkName.setTextColor(ContextCompat.getColor
-                        (context, R.color.titleColor));
-                mCheckWork = true;
-            }
-        });
-        dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> {
-            dialog.dismiss(); //取消对话框
-
-        });
 
     }
 
@@ -724,6 +741,7 @@ public class RegisterThirdFragment extends BaseFragment {
         dialog.show();
         //资源转[]
         String[] spinner = getResources().getStringArray(R.array.spingcontacts);
+
 
         Spinner mSpinner = (Spinner) dialog.getWindow().findViewById(R.id.spinner_contacts);
         EditText contactName = (EditText) dialog.getWindow().findViewById(R.id.emergency_contact_name);
@@ -742,6 +760,7 @@ public class RegisterThirdFragment extends BaseFragment {
         adapter.setDropDownViewResource(R.layout.my_drop_down_item);
         mSpinner.setAdapter(adapter);
         mSpinner.setSelection(mPosition);
+
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -780,14 +799,12 @@ public class RegisterThirdFragment extends BaseFragment {
                         Toast.makeText(context, "请选择关系！", Toast.LENGTH_LONG).show();
                     } else {
                         dialog.dismiss();
-                        mContacts.setText("已填写");
+                        mContacts.setText(mContactName + "/" + mRelation + "/" + mContactPhone);
                         mContacts.setTextColor(ContextCompat.getColor
                                 (context, R.color.titleColor));
                         if (!TextUtils.isEmpty(mContactName) && !TextUtils.isEmpty(mContactPhone) &&
                                 !TextUtils.isEmpty(mRelation))
-//                            mContactEmergency.setRelation(mRelation);
-//                        mContactEmergency.setName(mContactName);
-//                        mContactEmergency.setPhone(mContactPhone);
+
 
                             mCheckContact = true;
 
@@ -802,7 +819,6 @@ public class RegisterThirdFragment extends BaseFragment {
 
 
     }
-
 
     //现居住地址
     private void showNowAddressDialog() {
@@ -905,6 +921,7 @@ public class RegisterThirdFragment extends BaseFragment {
 
     }
 
+    //学历
     private void showQualifications() {
         View view = View.inflate(context, R.layout.dialog_set_qualifications, null);
 
@@ -1030,7 +1047,7 @@ public class RegisterThirdFragment extends BaseFragment {
     public void setColorSize(int position, TextView[] list) {
         for (int i = 0; i < list.length; i++) {
             list[i].setTextColor(ContextCompat.getColor
-                    (context, R.color.gray))
+                    (context, R.color.titleColor))
             ;
             list[i].setTextSize(14);
         }
@@ -1039,6 +1056,7 @@ public class RegisterThirdFragment extends BaseFragment {
         list[position].setTextSize(18);
 
     }
+
     //身高的dialog
 
     private void showHeightDialog() {
@@ -1083,158 +1101,4 @@ public class RegisterThirdFragment extends BaseFragment {
 
 
     }
-
-    public void getData(String username, String password, String name, String gender, String people,
-                        String birthday, String address, String number, String publisher,
-                        String validate, File file1, File file2, File file3, String height,
-                        String graduate, String telephone, String livingAddress,
-                        String industrys, String skills, String channel) {
-        Gson mgson = new GsonBuilder()
-                .setLenient()
-                .create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://118.178.88.132:8000/api/")
-                .addConverterFactory(GsonConverterFactory.create(mgson))
-                .build();
-        Gson gson = new Gson();
-        EmergencyContactMod data = new EmergencyContactMod();
-        if (!TextUtils.isEmpty(mContactName) && !TextUtils.isEmpty(mContactPhone) &&
-                !TextUtils.isEmpty(mRelation)) {
-            data.setName(mContactName);
-            data.setPhone(mContactPhone);
-            data.setRelation(mRelation);
-        }
-
-
-        FileUploadService userBiz = retrofit.create(FileUploadService.class);
-        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("username", username)
-                .addFormDataPart("password", password)
-                .addFormDataPart("name", name)
-                .addFormDataPart("gender", gender)
-                .addFormDataPart("people", people)
-                .addFormDataPart("birthday", birthday)
-                .addFormDataPart("address", address)
-                .addFormDataPart("number", number)
-                .addFormDataPart("publisher", publisher)
-                .addFormDataPart("validate", validate)
-                .addFormDataPart("height", height)
-                .addFormDataPart("graduate", graduate)
-                .addFormDataPart("telephone", telephone)
-                .addFormDataPart("living_address", livingAddress)
-                .addFormDataPart("emergency_contact", gson.toJson(data))
-                .addFormDataPart("industry", industrys)
-                .addFormDataPart("skill", skills)
-                .addFormDataPart("channel", channel)
-                .addFormDataPart("id_card_positive", file1.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), compressior(file1)))
-                .addFormDataPart("id_card_negative", file2.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), compressior(file2)))
-                .addFormDataPart("id_card_head_image", file3.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), compressior(file3)))
-                .build();
-
-        Call<MApi> call = userBiz.applyInformation(requestBody);
-        call.enqueue(new Callback<MApi>() {
-            @Override
-            public void onResponse(Call<MApi> call, Response<MApi> response) {
-                Log.d(TAG, "onResponseMessage: " + response.message());
-                Log.d(TAG, "onResponseCode: " + response.code());
-                if (response.isSuccessful()) {
-
-                    if (response.body().getResultCode() == 200) {
-                        registerSuccessDialog();
-
-                    } else {
-                        Snackbar.make(rootView, response.body().getResultMessage(), Snackbar.LENGTH_LONG).show();
-                    }
-                } else {
-                    Log.d(TAG, "onResponseError: " + response.errorBody());
-                    Snackbar.make(rootView, "数据错误", Snackbar.LENGTH_LONG).show();
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<MApi> call, Throwable t) {
-                Snackbar.make(rootView, "请求错误！", Snackbar.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
-
-    private void registerSuccessDialog() {
-        View view = View.inflate(context, R.layout.dialog_success_register, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        final AlertDialog dialog = builder
-                .setView(view) //自定义的布局文件
-                .create();
-        dialog.show();
-        dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(v -> {
-            dialog.dismiss();
-            fragmentMgr.beginTransaction()
-                    .addToBackStack(TAG)
-                    .replace(R.id.fragment_login_container,
-                            LoginFragment.newInstance(username))
-                    .commit();
-
-
-        });
-    }
-
-    public File compressior(File file) {
-        return new Compressor.Builder(context)
-                .setMaxWidth(75)
-                .setMaxHeight(60)
-                .setQuality(75)
-                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
-                .build()
-                .compressToFile(file);
-    }
-
-    private void JoinCompany(String token, int userId, int companyId) {
-        JoinCompany joinCompany = new JoinCompany(21, 1);
-
-        mSubscription = mRemoteService.joinCompany("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOj" +
-                "E0OTQzODc3MjQsIm5iZiI6MTQ5NDM4NzcyNSwiZXhwIjoxNTI1NDkxNzI1LCJkYXRhIjp7ImlkIjo1MX19." +
-                "b11u3hIOMu8swf6sVbKJZsYIsk8Zkw1ikXdPj7csLqk", joinCompany)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NewResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        Snackbar.make(rootView, "网络请求失败",
-                                Snackbar.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(NewResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200) {
-                            registerSuccessDialog();
-
-
-
-                        } else {
-                            Snackbar.make(rootView, apiResponse.getResultMessage(),
-                                    Snackbar.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-
-    }
-
-
-
 }

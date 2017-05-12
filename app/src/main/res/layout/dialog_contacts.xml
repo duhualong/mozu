@@ -11,8 +11,8 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/contacts_tv"
-                  android:textSize="@dimen/text_title_size"
-                  android:textColor="@color/white"/>
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
 
     </RelativeLayout>
     <LinearLayout android:layout_width="match_parent"
@@ -37,7 +37,8 @@
             android:paddingRight="10dp"
             android:textColor="@color/titleColor"
             android:textColorHint="@color/textHintColor"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/text_large_size"
+        />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -55,21 +56,40 @@
                 android:gravity="center_vertical"
                 android:text="@string/relation_tv"
                 android:textColor="@color/titleColor"
-                android:textSize="12sp"/>
-
-            <Spinner
-                android:id="@id/spinner_contacts"
-                style="@style/spinner_style"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_toEndOf="@+id/text"
-                android:layout_toRightOf="@+id/text"
-                android:spinnerMode="dropdown"
+                android:textSize="@dimen/text_large_size"
             />
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/padding_bottom"
+                            android:layout_marginStart="@dimen/padding_bottom"
+                            android:layout_toEndOf="@+id/text"
+                            android:layout_toRightOf="@+id/text"
+                            android:background="@mipmap/bg_edit_text_light"
+                            android:orientation="horizontal">
+                <Spinner
+                    android:id="@id/spinner_contacts"
+                    style="@style/spinner_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/spinner_img"
+                    android:layout_toStartOf="@id/spinner_img"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown"
+
+                />
+                <ImageView android:id="@id/spinner_img"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentEnd="true"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:layout_marginEnd="5dp"
+                           android:layout_marginRight="5dp"
+                           android:src="@mipmap/ic_spinner_close"/>
+
+
+            </RelativeLayout>
 
 
         </RelativeLayout>
@@ -91,22 +111,19 @@
             android:paddingRight="10dp"
             android:textColor="@color/titleColor"
             android:textColorHint="@color/textHintColor"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/text_large_size"
+        />
 
         <Button
             android:id="@id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginEnd="@dimen/font_size_18sp"
-            android:layout_marginLeft="@dimen/font_size_18sp"
-            android:layout_marginRight="@dimen/font_size_18sp"
-            android:layout_marginStart="@dimen/font_size_18sp"
-            android:layout_marginTop="10dp"
+            android:layout_margin="18dp"
             android:background="@mipmap/bg_submit_button"
             android:text="@string/tv_save"
             android:textColor="@android:color/white"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/text_large_size"
+        />
     </LinearLayout>
 
 </LinearLayout>

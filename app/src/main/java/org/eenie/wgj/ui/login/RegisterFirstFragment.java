@@ -19,7 +19,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
-import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.response.Token;
@@ -146,7 +145,7 @@ public class RegisterFirstFragment extends BaseFragment {
                 break;
             case R.id.checkbox_register:
                 if (checkRegister.isChecked()) {
-                    Snackbar.make(rootView, "您已同意物管家注册协议", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootView, "您已同意物管家注册协议", Snackbar.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -182,7 +181,7 @@ public class RegisterFirstFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("打印错误");
+
                     }
 
                     @Override
@@ -317,9 +316,9 @@ public class RegisterFirstFragment extends BaseFragment {
         mSubscription = mRemoteService.verifyCode(captchaChecked)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiRes>() {
+                .subscribe(new SingleSubscriber<ApiResponse>() {
                     @Override
-                    public void onSuccess(ApiRes value) {
+                    public void onSuccess(ApiResponse value) {
                         if (value.getResultCode() == 200) {
                             fragmentMgr.beginTransaction()
                                     .addToBackStack(TAG)

@@ -5,5 +5,5 @@
           android:padding="10dp"
           android:textColor="@color/titleColor"
           android:background="@color/white"
-       android:textAppearance="@style/TextAppearance.AppCompat.Small" >
+       android:textSize="@dimen/text_large_size" >
 </TextView>

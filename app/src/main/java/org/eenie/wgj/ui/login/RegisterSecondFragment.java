@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
@@ -35,7 +37,6 @@ import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.Infomation;
-import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.RegisterSuccessData;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
@@ -87,11 +88,11 @@ public class RegisterSecondFragment extends BaseFragment {
     private static final int REQUEST_CAMERA_PERMISSION = 2;
     private static final int REQUEST_CAMERA_PERMISSIONS = 4;
 
-    public static final int TAKE_PHOTO_REQUEST_ONE = 1;
-    public static final int TAKE_PHOTO_REQUEST_ONES = 3;
+    private static final int TAKE_PHOTO_REQUEST_ONE = 1;
+    private static final int TAKE_PHOTO_REQUEST_ONES = 3;
 
-    public static final int RESPONSE_CODE_POSITIVE = 10;
-    public static final int RESPONSE_CODE_NEGIVITE = 9;
+    private static final int RESPONSE_CODE_POSITIVE = 10;
+    private static final int RESPONSE_CODE_NEGIVITE = 9;
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.img_positive)
@@ -162,7 +163,7 @@ public class RegisterSecondFragment extends BaseFragment {
                 if (checkBack && checkFront) {
                     showDialog();
                 } else {
-                    Snackbar.make(rootView, "信息上传中,请稍后....", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootView, "信息上传中,请稍后....", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -172,7 +173,7 @@ public class RegisterSecondFragment extends BaseFragment {
     //dialog弹窗
     private void showDialog() {
 
-        View view = View.inflate(context, R.layout.dialog_personal_identity_infomation, null);
+        View view = View.inflate(context, R.layout.dialog_new_identity_card_information, null);
 
 
         CircleImageView avatar = (CircleImageView) view.findViewById(R.id.personal_sdv_avatar);
@@ -187,7 +188,6 @@ public class RegisterSecondFragment extends BaseFragment {
 
 
         String base64 = mPrefsHelper.getPrefs().getString(Constants.AVATAR, "");
-        System.out.println("base64:" + base64);
         try {
             File file = Utils.base64ToFile(base64, context);
             uploadFile(file, 2);
@@ -229,12 +229,6 @@ public class RegisterSecondFragment extends BaseFragment {
 
             dialog.dismiss();
 
-//
-//            fragmentMgr.beginTransaction()
-//                    .addToBackStack(TAG)
-//                    .replace(R.id.fragment_login_container, RegisterThirdFragment.newInstance(mPhone
-//                            , mPassword, frontUrl, backUrl))
-//                    .commit();
 
         });
         dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> {
@@ -270,15 +264,21 @@ public class RegisterSecondFragment extends BaseFragment {
                 .addFormDataPart("id_card_negative", id_card_negative)
                 .addFormDataPart("id_card_head_image", id_card_head_image)
                 .build();
-        Call<ApiResponse<RegisterSuccessData>> call = userBiz.registerInforation(requestBody);
-        call.enqueue(new Callback<ApiResponse<RegisterSuccessData>>() {
+        Call<ApiResponse> call = userBiz.registerInforation(requestBody);
+        call.enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse<RegisterSuccessData>> call,
-                                   Response<ApiResponse<RegisterSuccessData>> response) {
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
 
                     if (response.body().getResultCode() == 200) {
-                        RegisterSuccessData data = response.body().getData();
+
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(response.body().getData());
+                        Log.d(TAG, "json: " + jsonArray);
+                        RegisterSuccessData data = gson.fromJson(jsonArray,
+                                new TypeToken<RegisterSuccessData>() {
+                                }.getType());
+
                         Toast.makeText(context, "注册成功，请选择公司！", Toast.LENGTH_LONG).show();
 
                         Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
@@ -293,7 +293,8 @@ public class RegisterSecondFragment extends BaseFragment {
                                 );
 
                     } else {
-                        Toast.makeText(context, response.body().getResultMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, response.body().getResultMessage(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(context, "注册失败", Toast.LENGTH_LONG).show();
@@ -304,7 +305,7 @@ public class RegisterSecondFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<RegisterSuccessData>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
 
             }
         });
@@ -515,15 +516,20 @@ public class RegisterSecondFragment extends BaseFragment {
                 .addFormDataPart("filename", file.getName(),
                         RequestBody.create(MediaType.parse("image/jpg"), file))
                 .build();
-        Call<MApi> call = userBiz.uploadFile(requestBody);
-        call.enqueue(new Callback<MApi>() {
+        Call<ApiResponse> call = userBiz.uploadFile(requestBody);
+        call.enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<MApi> call, Response<MApi> response) {
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 Log.d(TAG, "onResponseCode: " + response.code());
                 if (response.isSuccessful()) {
                     if (response.body().getResultCode() == 200) {
 
-                        String fileUrl = response.body().getData();
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(response.body().getData());
+                        String fileUrl = gson.fromJson(jsonArray,
+                                new TypeToken<String>() {
+                                }.getType());
+
                         System.out.println("上传成功" + response.body().getData());
                         switch (type) {
                             case 0:
@@ -554,7 +560,7 @@ public class RegisterSecondFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<MApi> call, Throwable t) {
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t);
 
             }

@@ -23,8 +23,8 @@
         android:layout_height="48dp"
         android:gravity="center"
         android:text="@string/single"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/gray"
+        android:textColor="@color/titleColor"
+        android:textSize="@dimen/text_large_size"
     />
     <View android:layout_width="match_parent" android:layout_height="1dp"
           android:background="@color/white_light"/>
@@ -34,26 +34,23 @@
         android:layout_height="48dp"
         android:gravity="center"
         android:text="@string/married"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/gray"
+        android:textSize="@dimen/text_large_size"
+        android:textColor="@color/titleColor"
     />
     <View android:layout_width="match_parent" android:layout_height="1dp"
           android:background="@color/white_light"/>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="@dimen/height_btn_nor"
-                  android:layout_marginEnd="18dp"
-                  android:layout_marginLeft="18dp"
-                  android:layout_marginRight="18dp"
-                  android:layout_marginStart="18dp"
-                  android:layout_marginBottom="30dp"
-                  android:layout_marginTop="30dp">
+                  android:layout_margin="18dp"
+                >
         <Button android:id="@id/btn_cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@mipmap/bg_submit_button"
-                android:textSize="12sp"
-                android:text="@string/btn_cancel"/>
+                android:text="@string/btn_cancel"
+                android:textSize="@dimen/text_large_size"
+        />
         <Button
             android:id="@id/btn_next"
             android:layout_width="0dp"
@@ -62,8 +59,9 @@
             android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="@mipmap/bg_submit_button"
-            android:textSize="12sp"
-            android:text="@string/btn_ok"/>
+            android:text="@string/btn_ok"
+            android:textSize="@dimen/text_large_size"
+        />
 
     </LinearLayout>
 </LinearLayout>

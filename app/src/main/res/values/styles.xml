@@ -8,7 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="spinner_style">
-        <item name="android:background">@mipmap/bg_edit_text_light</item>
-        <item name="android:textSize">12sp</item>
+
+        <item name="android:paddingLeft">5dip</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

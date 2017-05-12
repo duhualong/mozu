@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.eenie.wgj.model.Api;
-import org.eenie.wgj.model.ApiRes;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.BirthdayDetail;
@@ -69,7 +68,7 @@ public interface RemoteService {
 
     //验证码校验
     @POST("sms/check")
-    Single<ApiRes> verifyCode(@Body CaptchaChecked captchaChecked);
+    Single<ApiResponse> verifyCode(@Body CaptchaChecked captchaChecked);
 
     //重置密码
     @POST("user/resetpasswd")

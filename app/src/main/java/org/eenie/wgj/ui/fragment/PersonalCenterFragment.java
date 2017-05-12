@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -115,7 +114,7 @@ public class PersonalCenterFragment extends BaseSupportFragment {
 //                intent.putExtra(PersonalBaseInfoActivity.AVATAR,
 //                        Constant.DOMIN+mData.getAvatar());
 //            }
-            startActivity(new Intent(context,PersonalBaseInfoActivity.class));
+            startActivity(new Intent(context, PersonalBaseInfoActivity.class));
 
         }
     }
@@ -173,7 +172,7 @@ public class PersonalCenterFragment extends BaseSupportFragment {
     private void getUerInformationById(String userId) {
         UserId mUser = new UserId(userId);
         mSubscription = mRemoteService.getUserInfoById(mPrefsHelper.getPrefs().
-                getString(Constants.TOKEN,""),mUser)
+                getString(Constants.TOKEN, ""), mUser)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ApiResponse>() {
@@ -186,13 +185,13 @@ public class PersonalCenterFragment extends BaseSupportFragment {
                                     new TypeToken<UserInforById>() {
                                     }.getType());
                             if (mData != null) {
-                                if (!TextUtils.isEmpty(mData.getSecurity_card())){
+                                if (!TextUtils.isEmpty(mData.getSecurity_card())) {
                                     mPrefsHelper.getPrefs().edit().
                                             putString(Constants.SECURITY_CARD,
                                                     mData.getSecurity_card())
                                             .apply();
                                 }
-                                if (!TextUtils.isEmpty(mData.getBank_card())){
+                                if (!TextUtils.isEmpty(mData.getBank_card())) {
                                     mPrefsHelper.getPrefs().edit().
                                             putString(Constants.BANK_CARD,
                                                     mData.getBank_card())
@@ -231,6 +230,7 @@ public class PersonalCenterFragment extends BaseSupportFragment {
 
                             }
 
+
                         } else {
                             Snackbar.make(rootView, value.getResultMessage(),
                                     Snackbar.LENGTH_LONG).show();
@@ -240,7 +240,6 @@ public class PersonalCenterFragment extends BaseSupportFragment {
 
                     @Override
                     public void onError(Throwable error) {
-                        Toast.makeText(context, "参数错误", Toast.LENGTH_LONG).show();
 
                     }
                 });

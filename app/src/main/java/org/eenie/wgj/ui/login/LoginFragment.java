@@ -21,7 +21,6 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.response.LoginData;
 import org.eenie.wgj.model.response.TestLogin;
-import org.eenie.wgj.search.TestMyActivity;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
@@ -135,11 +134,11 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.btn_register:
 
-//                fragmentMgr.beginTransaction()
-//                        .addToBackStack(TAG)
-//                        .replace(R.id.fragment_login_container, new RegisterPersonalFirstFragment())
-//                        .commit();
-                startActivity(new Intent(context, TestMyActivity.class));
+                fragmentMgr.beginTransaction()
+                        .addToBackStack(TAG)
+                        .replace(R.id.fragment_login_container, new RegisterFirstFragment())
+                        .commit();
+              // startActivity(new Intent(context, TestMyActivity.class));
 
                 break;
             case R.id.checkbox_password_show_state:

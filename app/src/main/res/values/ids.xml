@@ -277,4 +277,14 @@
     <item name="swipe_refresh_list" type="id"/>
     <item name="search_view" type="id"/>
     <item name="fragment_layout" type="id"/>
+    <item name="view" type="id"/>
+    <item name="view_height" type="id"/>
+    <item name="view_qualifications" type="id"/>
+    <item name="view_marry" type="id"/>
+    <item name="view_address" type="id"/>
+    <item name="view_contacts" type="id"/>
+    <item name="view_industry" type="id"/>
+    <item name="view_skill" type="id"/>
+    <item name="view_employment" type="id"/>
+    <item name="spinner_img" type="id"/>
 </resources>

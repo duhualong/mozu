@@ -32,7 +32,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="武术"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
             android:textColor="@color/titleColor"
         />
 
@@ -48,7 +48,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="散打"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
 
             android:textColor="@color/titleColor"
         />
@@ -64,7 +64,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="拳击"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
 
             android:textColor="@color/titleColor"
         />
@@ -85,7 +85,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="退伍"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
 
             android:textColor="@color/titleColor"
         />
@@ -99,7 +99,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="美术"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
 
             android:textColor="@color/titleColor"
         />
@@ -132,7 +132,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="@string/other"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_large_size"
 
             android:textColor="@color/titleColor"
         />
@@ -145,6 +145,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="美术"
+            android:textSize="@dimen/text_large_size"
+
             android:visibility="invisible"
             android:textColor="@color/titleColor"
         />
@@ -158,6 +160,8 @@
             android:visibility="invisible"
             android:gravity="center"
             android:text="@string/other"
+            android:textSize="@dimen/text_large_size"
+
             android:textColor="@color/titleColor"
         />
     </LinearLayout>
@@ -166,15 +170,15 @@
         android:id="@id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="18dp"
         android:layout_marginEnd="@dimen/margin_height_larger_distance"
         android:layout_marginLeft="@dimen/margin_height_larger_distance"
         android:layout_marginRight="@dimen/margin_height_larger_distance"
         android:layout_marginStart="@dimen/margin_height_larger_distance"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="18dp"
         android:background="@mipmap/bg_submit_button"
         android:text="@string/tv_save"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_large_size"
         android:textColor="@android:color/white"/>
 
 </LinearLayout>
