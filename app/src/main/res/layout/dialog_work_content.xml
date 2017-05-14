@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/tv_work_content"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:textColor="@color/white"
+        />
+
+
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:layout_marginEnd="@dimen/font_size_18sp"
+                  android:layout_marginLeft="@dimen/font_size_18sp"
+                  android:layout_marginRight="@dimen/font_size_18sp"
+                  android:layout_marginStart="@dimen/font_size_18sp"
+                  android:layout_marginTop="36dp"
+                  android:background="@mipmap/bg_edit_text_light">
+        <EditText
+            android:id="@id/edit_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:gravity="start|left"
+            android:hint="请输入可从事的工作内容"
+            android:lines="5"
+            android:textColor="@color/titleColor"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/text_large_size"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/height_btn_nor"
+                  android:layout_margin="18dp">
+        <Button android:id="@id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@mipmap/bg_submit_button"
+                android:text="@string/btn_cancel"
+                android:textSize="@dimen/text_large_size"/>
+        <Button
+            android:id="@id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@mipmap/bg_submit_button"
+            android:text="@string/btn_ok"
+            android:textSize="@dimen/text_large_size"/>
+
+    </LinearLayout>
+</LinearLayout>

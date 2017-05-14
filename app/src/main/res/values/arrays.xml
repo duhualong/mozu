@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spingcontacts">
-        <item>选择关系</item>
+        <item>请选择</item>
         <item>父亲</item>
         <item>母亲</item>
         <item>兄弟</item>

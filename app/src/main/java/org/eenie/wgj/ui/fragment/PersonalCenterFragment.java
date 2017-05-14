@@ -61,7 +61,7 @@ public class PersonalCenterFragment extends BaseSupportFragment {
     protected void updateUI() {
         String userId = mPrefsHelper.getPrefs().getString(Constants.UID, "");
         if (!TextUtils.isEmpty(userId)) {
-            getUerInformationById(userId);
+            getUserInformationById(userId);
 
 
         }
@@ -169,7 +169,7 @@ public class PersonalCenterFragment extends BaseSupportFragment {
     }
 
 
-    private void getUerInformationById(String userId) {
+    private void getUserInformationById(String userId) {
         UserId mUser = new UserId(userId);
         mSubscription = mRemoteService.getUserInfoById(mPrefsHelper.getPrefs().
                 getString(Constants.TOKEN, ""), mUser)
@@ -249,7 +249,7 @@ public class PersonalCenterFragment extends BaseSupportFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        String userId = mPrefsHelper.getPrefs().getString(Constants.UID, "");
-//        getUerInformationById(userId);
+        String userId = mPrefsHelper.getPrefs().getString(Constants.UID, "");
+        getUserInformationById(userId);
     }
 }

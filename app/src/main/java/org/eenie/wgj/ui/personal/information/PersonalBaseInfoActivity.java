@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -77,6 +78,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
     TextView bank;
     @BindView(R.id.security_code)
     TextView security;
+    private String mBankCard;
+    private String mSecurityCard;
 
 
     @Override
@@ -95,15 +98,19 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                     .centerCrop()
                     .into(avatar);
         }
-        String bankCard = mPrefsHelper.getPrefs().getString(Constants.BANK_CARD, "");
+        mBankCard = mPrefsHelper.getPrefs().getString(Constants.BANK_CARD, "");
 
-        String securityCard = mPrefsHelper.getPrefs().getString(Constants.SECURITY_CARD, "");
-        if (!TextUtils.isEmpty(bankCard)) {
-            bank.setText(bankCard);
+        mSecurityCard = mPrefsHelper.getPrefs().getString(Constants.SECURITY_CARD, "");
+        if (!TextUtils.isEmpty(mBankCard)) {
+            bank.setText(mBankCard);
+            bank.setTextColor(ContextCompat.getColor
+                    (context, R.color.titleColor));
 
         }
-        if (!TextUtils.isEmpty(securityCard)) {
-            security.setText(securityCard);
+        if (!TextUtils.isEmpty(mSecurityCard)) {
+            security.setText(mSecurityCard);
+            security.setTextColor(ContextCompat.getColor
+                    (context, R.color.titleColor));
 
         }
 
@@ -355,13 +362,15 @@ public class PersonalBaseInfoActivity extends BaseActivity {
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getResultCode() == 200) {
+                        System.out.println("图片路径："+response.body().getData());
 
                         Gson gson = new Gson();
                         String jsonArray = gson.toJson(response.body().getData());
                         fileUrl = gson.fromJson(jsonArray,
                                 new TypeToken<String>() {
                                 }.getType());
-                        modifyInformation(avatarUrl,"","");
+                        System.out.println("图片路径URL："+fileUrl);
+                        modifyInformation(fileUrl,mBankCard,mSecurityCard);
 
                     } else {
                         Toast.makeText(context, response.body().getResultMessage(),
@@ -406,19 +415,15 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                             Snackbar.make(rootView,"修改成功！",Snackbar.LENGTH_LONG).show();
                             if (!TextUtils.isEmpty(avatarUrl)){
                                 mPrefsHelper.getPrefs().edit().putString
-                                        (Constants.PERSONAL_AVATAR,avatarUrl)
+                                        (Constants.PERSONAL_AVATAR, Constant.DOMIN+avatarUrl)
                                         .apply();
+//                                Glide.with(context)
+//                                        .load(avatarUrl)
+//                                        .asBitmap()
+//                                        .centerCrop()
+//                                        .into(avatar);
                             }
-                            if (!TextUtils.isEmpty(bankCard)){
-                                mPrefsHelper.getPrefs().edit().putString(
-                                        Constants.BANK_CARD,bankCard)
-                                        .apply();
-                            }
-                            if (!TextUtils.isEmpty(securityCard)){
-                                mPrefsHelper.getPrefs().edit().putString(
-                                        Constants.SECURITY_CARD,securityCard)
-                                        .apply();
-                            }
+
 
 
                         } else {
@@ -441,5 +446,35 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                         Environment.DIRECTORY_PICTURES).getAbsolutePath())
                 .build()
                 .compressToFile(file);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mBankCard = mPrefsHelper.getPrefs().getString(Constants.BANK_CARD, "");
+        mSecurityCard = mPrefsHelper.getPrefs().getString(Constants.SECURITY_CARD, "");
+        if (!TextUtils.isEmpty(mBankCard)) {
+            bank.setText(mBankCard);
+            bank.setTextColor(ContextCompat.getColor
+                    (context, R.color.titleColor));
+
+        }
+        if (!TextUtils.isEmpty(mSecurityCard)) {
+            security.setText(mSecurityCard);
+            security.setTextColor(ContextCompat.getColor
+                    (context, R.color.titleColor));
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mBankCard!=null){
+            mBankCard=null;
+        }
+        if (mSecurityCard!=null){
+            mSecurityCard=null;
+        }
     }
 }

@@ -70,6 +70,7 @@ public class UserInforById {
     private String skill;
     private String channel;
     private String work_experience;
+    private String work_content;
     private String employer;
     private String bank_card;
     private String security_card;
@@ -290,12 +291,22 @@ public class UserInforById {
         this.channel = channel;
     }
 
-    public Object getWork_experience() {
-        return work_experience;
-    }
+
 
     public void setWork_experience(String work_experience) {
         this.work_experience = work_experience;
+    }
+
+    public String getWork_experience() {
+        return work_experience;
+    }
+
+    public String getWork_content() {
+        return work_content;
+    }
+
+    public void setWork_content(String work_content) {
+        this.work_content = work_content;
     }
 
     public String getEmployer() {

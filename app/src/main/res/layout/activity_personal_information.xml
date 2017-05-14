@@ -161,6 +161,7 @@
                 android:drawableRight="@mipmap/ic_arrow_right"
                 android:gravity="end|center_vertical"
                 android:lines="1"
+                android:maxLength="18"
                 android:textSize="@dimen/text_large_size"
                 android:text="@string/tv_empty"
                 android:textColor="@color/colorAccent"/>
@@ -323,8 +324,9 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:text="@string/tv_employment"
-                      android:textSize="@dimen/text_large_size"
-                      android:textColor="@color/titleColor"/>
+                      android:textColor="@color/titleColor"
+                      android:id="@id/text"
+                      android:textSize="@dimen/text_large_size"/>
             <TextView
                 android:id="@id/tv_employment"
                 android:layout_width="wrap_content"
@@ -337,10 +339,13 @@
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
-                android:gravity="center"
+                android:gravity="center_vertical|end"
+                android:lines="1"
+                android:layout_toEndOf="@id/text"
+                android:layout_toRightOf="@id/text"
                 android:text="@string/tv_empty"
-                android:textSize="@dimen/text_large_size"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_large_size"/>
 
         </RelativeLayout>
         <View android:layout_width="match_parent"
@@ -357,6 +362,8 @@
                       android:layout_centerVertical="true"
                       android:text="@string/tv_work_experience"
                       android:textSize="@dimen/text_large_size"
+                      android:id="@id/text"
+
                       android:textColor="@color/titleColor"/>
             <TextView
                 android:id="@id/tv_experience"
@@ -370,9 +377,13 @@
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
-                android:gravity="center"
+                android:gravity="end|center_vertical"
                 android:text="@string/tv_empty"
                 android:textSize="@dimen/text_large_size"
+                android:maxLength="18"
+                android:lines="1"
+                android:layout_toRightOf="@id/text"
+                android:layout_toEndOf="@id/text"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
@@ -390,6 +401,7 @@
                       android:layout_centerVertical="true"
                       android:text="@string/tv_work_content"
                       android:textSize="@dimen/text_large_size"
+                      android:id="@id/text"
 
                       android:textColor="@color/titleColor"/>
             <TextView
@@ -404,9 +416,13 @@
                 android:drawableEnd="@mipmap/ic_arrow_right"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
-                android:gravity="center"
+                android:gravity="end|center_vertical"
                 android:text="@string/tv_empty"
                 android:textSize="@dimen/text_large_size"
+                android:lines="1"
+                android:maxLength="18"
+                android:layout_toEndOf="@id/text"
+                android:layout_toRightOf="@id/text"
                 android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
