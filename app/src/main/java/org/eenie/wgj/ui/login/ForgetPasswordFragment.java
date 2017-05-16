@@ -160,7 +160,7 @@ public class ForgetPasswordFragment extends BaseFragment {
 
 
     private void modifyPassword(String mPhone, String mCaptcha, String mPassword) {
-        mSubscription = mRemoteService.modifyPassword(mCaptcha, mPassword, mPhone)
+        mSubscription = mRemoteService.modifyPassword(mCaptcha, Utils.md5(mPassword), mPhone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {

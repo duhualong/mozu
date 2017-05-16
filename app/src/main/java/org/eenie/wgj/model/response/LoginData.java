@@ -17,8 +17,18 @@ public class LoginData {
 
     private String token;
     private int permissions;
+    private int type;
+
 
     private int user_id;
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
 
     public String getToken() {
         return token;

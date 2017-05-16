@@ -1176,21 +1176,21 @@ public class PersonalInformationActivity extends BaseActivity {
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200) {
                             Snackbar.make(rootView, "修改成功！", Snackbar.LENGTH_LONG).show();
-                            if (!mHeight.equals(height)) {
+                            if (!TextUtils.isEmpty(height)) {
                                 tvHeight.setText(height + "cm");
                                 tvHeight.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 mHeight = height;
 
                             }
-                            if (!mEducation.equals(education)) {
+                            if (!TextUtils.isEmpty(education)) {
                                 tvEducation.setText(education);
                                 tvEducation.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 qualification = "";
                                 mEducation = education;
                             }
-                            if (!mMarry.equals(finalMarryState)) {
+                            if (!TextUtils.isEmpty(finalMarryState)) {
                                 switch (finalMarryState) {
                                     case "1":
 
@@ -1209,46 +1209,47 @@ public class PersonalInformationActivity extends BaseActivity {
                                 mMarry = finalMarryState;
 
                             }
-                            if (!mAddress.equals(address)) {
+                            if (!TextUtils.isEmpty(address)) {
                                 tvAddress.setText(address);
                                 tvAddress.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 mAddress = address;
                             }
-                            if (!mContacts.equals(contacts)) {
+                            if (!TextUtils.isEmpty(contacts)) {
                                 tvContacts.setText(mContactName + "/" + mRelation + "/" +
                                         mContactPhone);
                                 tvContacts.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 mContacts = contacts;
                             }
-                            if (!mIndustry.equals(industry)) {
+                            if (!TextUtils.isEmpty(industry)) {
                                 tvIndustry.setText(industry);
                                 tvIndustry.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 mIndustry = industry;
                             }
-                            if (!mSkill.equals(skill)) {
+                            if (!TextUtils.isEmpty(skill)) {
                                 tvSkill.setText(skill);
                                 tvSkill.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 mSkill = skill;
                             }
-                            if (!mChannel.equals(channel)) {
+                            if (!TextUtils.isEmpty(channel)) {
                                 tvChannel.setText(channel);
                                 tvChannel.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 mChannel = channel;
                                 channelString = null;
                             }
-                            if (!mWorkExperience.equals(workExperience)) {
+
+                            if (!TextUtils.isEmpty(workExperience)) {
                                 tvWorkExperience.setText(workExperience);
                                 tvWorkExperience.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 mWorkExperience = workExperience;
                             }
-                            if (!mWorkContent.equals(workContent)){
-                                tvWorkContent.setText(workExperience);
+                            if (!TextUtils.isEmpty(workContent)){
+                                tvWorkContent.setText(workContent);
                                 tvWorkContent.setTextColor(ContextCompat.getColor
                                         (context, R.color.titleColor));
                                 mWorkContent = workContent;

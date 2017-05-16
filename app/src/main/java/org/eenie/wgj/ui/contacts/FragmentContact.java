@@ -1,25 +1,42 @@
 package org.eenie.wgj.ui.contacts;
 
 
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.Contacts;
+import org.eenie.wgj.search.CharacterParser;
+import org.eenie.wgj.search.ClearEditText;
+import org.eenie.wgj.search.PinyinComparator;
+import org.eenie.wgj.search.SideBar;
+import org.eenie.wgj.search.SortContactsAdapter;
+import org.eenie.wgj.search.SortModel;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import me.zhouzhuo.zzletterssidebar.ZzLetterSideBar;
-import me.zhouzhuo.zzletterssidebar.interf.OnLetterTouchListener;
-import me.zhouzhuo.zzletterssidebar.widget.ZzRecyclerView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Eenie on 2017/4/24 at 14:59
@@ -28,21 +45,25 @@ import rx.schedulers.Schedulers;
  */
 
 public class FragmentContact extends BaseSupportFragment {
-    @BindView(R.id.rv)
-    ZzRecyclerView rv;
-    private PersonRecyclerViewAdapter adapter;
-    @BindView(R.id.sidebar)
-    ZzLetterSideBar sideBar;
-    @BindView(R.id.tv_dialog)
-    TextView tvDialog;
-    public String[] mSData;
-    private List<String> mData;
-    private String[] mList;
-    private String[] mPersonNames;
-    private List<PersonEntity> mDatas;
-    private  List<PersonEntity> mPersonEntities;
+    @BindView(R.id.fragment_layout)
+    FrameLayout mFrameLayout;
+    @BindView(R.id.country_lvcountry)
+    ListView sortListView;
+    @BindView(R.id.sidrbar)
+    SideBar sideBar;
+    @BindView(R.id.dialog)
+    TextView dialog;
+    @BindView(R.id.filter_edit)
+    ClearEditText mClearEditText;
+    @BindView(R.id.root_view)
+    View rootView;
 
-
+    private CharacterParser characterParser;
+    private PinyinComparator pinyinComparator;
+    private SortContactsAdapter adapter;
+    private List<SortModel> SourceDateList;
+    private List<String> mStrArray = new ArrayList<>();
+    private List<Integer> mCompanyId = new ArrayList<>();
     @Override
     protected int getContentView() {
         return R.layout.test_contacts_list;
@@ -50,59 +71,16 @@ public class FragmentContact extends BaseSupportFragment {
 
     @Override
     protected void updateUI() {
-       initData();
-
-
-
-
-
-
-
-
-
-        //set adapter
-        mDatas = new ArrayList<>();
-        adapter = new PersonRecyclerViewAdapter(context, mDatas);
-        //set click event, optional
-        adapter.setRecyclerViewClickListener((itemView, pos) ->
-        Toast.makeText(context, mDatas.get(pos).getPersonName(), Toast.LENGTH_SHORT).show());
-        rv.setAdapter(adapter);
-
-        //init data
-        //String[] personNames = getResources().getStringArray(R.array.persons);
-        String[] personNames = new String[]{"张三","赵四","Mary","1111","丽水","阿杜"};
-        List<PersonEntity> personEntities = new ArrayList<>();
-        for (String name : personNames) {
-            PersonEntity entity = new PersonEntity();
-            entity.setPersonName(name);
-            personEntities.add(entity);
-        }
-
-        //update data
-        mDatas = personEntities;
-        adapter.updateRecyclerView(mDatas);
-        adapter.notifyDataSetChanged();
-
-        //set touch event, must add
-        sideBar.setLetterTouchListener(rv, adapter, tvDialog, new OnLetterTouchListener() {
-            @Override
-            public void onLetterTouch(String letter, int position) {
-            }
-
-            @Override
-            public void onActionUp() {
-            }
-        });
+        initData();
 
     }
 
-
     private void initData() {
-        System.out.println("打印：" + mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
+
         mSubscription = mRemoteService.getContacts(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse<List<Contacts>>>() {
+                .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -114,44 +92,31 @@ public class FragmentContact extends BaseSupportFragment {
                     }
 
                     @Override
-                    public void onNext(ApiResponse<List<Contacts>> listApiResponse) {
-                        System.out.println("打印数组" + listApiResponse.getData().size());
-                        List<Contacts> mContacts = listApiResponse.getData();
-                        List<String> str = null;
-                        for (int i=0;i<mContacts.size();i++){
-                            str.add(mContacts.get(i).getName());
+                    public void onNext(ApiResponse listApiResponse) {
+                        if (listApiResponse.getResultCode() == 200) {
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(listApiResponse.getData());
+                            List<Contacts> mData = gson.fromJson(jsonArray,
+                                    new TypeToken<List<Contacts>>() {
+                                    }.getType());
+                            if (mData!=null) {
+
+                                mFrameLayout.setVisibility(View.VISIBLE);
+                                initViews(mData);
+                            }
+                        } else {
+
+                            mFrameLayout.setVisibility(View.GONE);
+                            Snackbar.make(rootView, listApiResponse.getResultMessage(),
+                                    Snackbar.LENGTH_SHORT).show();
+
 
                         }
-                        System.out.println("str:"+str);
+
 
                         new Thread() {
                             public void run() {
 
-
-                                //set adapter
-//                                mDatas = new ArrayList<>();
-//                                adapter = new PersonRecyclerViewAdapter(context, mDatas);
-//                                listView.setAdapter(adapter);
-//                                mList = new String[mContacts.size()];
-//
-//                                for (int i = 0; i < mContacts.size(); i++) {
-//                                    mList[i] = mContacts.get(i).getName();
-//                                }
-//                                System.out.println("打印list" + mList);
-//
-//
-//                                if (mList!=null) {
-//                                    mPersonEntities = new ArrayList<>();
-//                                    for (String name : mList) {
-//                                        PersonEntity entity = new PersonEntity();
-//                                        entity.setPersonName(name);
-//                                        mPersonEntities.add(entity);
-//                                    }
-//                                    //init data
-//                                    mDatas = mPersonEntities;
-//                                    adapter.updateListView(mDatas);
-
-                                //}
                             }
                         }.start();
 
@@ -161,5 +126,119 @@ public class FragmentContact extends BaseSupportFragment {
 
     }
 
+    private void initViews(List<Contacts> mData) {
+        characterParser = CharacterParser.getInstance();
+
+        pinyinComparator = new PinyinComparator();
+
+        sideBar.setTextView(dialog);
+
+
+        sideBar.setOnTouchingLetterChangedListener(s -> {
+
+            int position = adapter.getPositionForSection(s.charAt(0));
+            if (position != -1) {
+                sortListView.setSelection(position);
+            }
+
+        });
+
+
+        if (mData.size() > 0) {
+            SourceDateList = filledDatas(mData);
+            Collections.sort(SourceDateList, pinyinComparator);
+            adapter = new SortContactsAdapter(context, SourceDateList);
+            sortListView.setAdapter(adapter);
+        } else {
+
+        }
+
+
+        mClearEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterData(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        sortListView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent=new Intent(context,ContactsDetailActivity.class);
+            intent.putExtra(ContactsDetailActivity.NAME,
+                    ((SortModel) adapter.getItem(position)).getName());
+            intent.putExtra(ContactsDetailActivity.AVATAR,
+                    ((SortModel) adapter.getItem(position)).getAvatar());
+            intent.putExtra(ContactsDetailActivity.PHONE,
+                    ((SortModel) adapter.getItem(position)).getPhone());
+            intent.putExtra(ContactsDetailActivity.DUTY,
+                    ((SortModel) adapter.getItem(position)).getDuties());
+
+
+            startActivity(intent);
+
+
+
+        });
+    }
+
+    /**
+     * @param filterStr
+     */
+    private void filterData(String filterStr) {
+        List<SortModel> filterDateList = new ArrayList<>();
+
+        if (TextUtils.isEmpty(filterStr)) {
+            filterDateList = SourceDateList;
+        } else {
+            filterDateList.clear();
+            for (SortModel sortModel : SourceDateList) {
+                String name = sortModel.getName();
+                if (name.indexOf(filterStr.toString()) != -1 ||
+                        characterParser.getSelling(name).startsWith(filterStr.toString())) {
+                    filterDateList.add(sortModel);
+                }
+            }
+        }
+
+        Collections.sort(filterDateList, pinyinComparator);
+        adapter.updateListView(filterDateList);
+    }
+    private List<SortModel> filledDatas(List<Contacts> data) {
+        List<SortModel> mSortList = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+            SortModel sortModel = new SortModel();
+            sortModel.setName(data.get(i).getName());
+            sortModel.setId(data.get(i).getId());
+            sortModel.setAvatar(data.get(i).getId_card_head_image());
+            sortModel.setDuties(data.get(i).getDuties());
+            sortModel.setPhone(data.get(i).getPhone());
+
+
+
+            String pinyin = characterParser.getSelling(data.get(i).getName());
+            String sortString = pinyin.substring(0, 1).toUpperCase();
+
+            if (sortString.matches("[A-Z]")) {
+                sortModel.setSortLetters(sortString.toUpperCase());
+            } else {
+                sortModel.setSortLetters("#");
+            }
+
+            mSortList.add(sortModel);
+        }
+        Log.d(TAG, "filledData: " + mSortList.toString());
+        return mSortList;
+
+    }
 }
 

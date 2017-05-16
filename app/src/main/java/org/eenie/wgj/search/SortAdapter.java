@@ -97,7 +97,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 
 	private String getAlpha(String str) {
 		String  sortStr = str.trim().substring(0, 1).toUpperCase();
-		// ������ʽ���ж�����ĸ�Ƿ���Ӣ����ĸ
+
 		if (sortStr.matches("[A-Z]")) {
 			return sortStr;
 		} else {

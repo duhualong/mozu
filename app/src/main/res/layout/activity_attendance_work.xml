@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_background"
+              android:id="@id/root_view"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:id="@id/title_attendance"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="2017年5月"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+
+
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:padding="@dimen/padding_bottom">
+        <TextView android:id="@id/attendance_name"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/padding_short"
+                  android:layout_marginStart="@dimen/padding_short"
+                  android:text="姓名"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/padding_short"
+                  android:layout_marginStart="@dimen/padding_short"
+                  android:text="|"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/attendance_duty"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/padding_short"
+                  android:layout_marginStart="@dimen/padding_short"
+                  android:text="职务"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+
+    </LinearLayout>
+    <!--<noman.weekcalendar.WeekCalendar-->
+        <!--android:id="@+id/weekCalendar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_marginTop="1dp"-->
+        <!--app:dayNameLength="threeLetters"-->
+        <!--app:daysBackgroundColor="#fcfcfc"-->
+        <!--app:daysTextColor="@color/titleColor"-->
+        <!--app:selectedBgColor="@color/text_blue"-->
+        <!--app:todaysDateBgColor="@color/text_red"-->
+        <!--app:weekBackgroundColor="#ffffff"-->
+        <!--app:weekTextColor="#000"-->
+        <!--app:weekTextSize="10sp"/>-->
+    <com.loonggg.weekcalendar.view.WeekCalendar
+        android:id="@+id/week_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        app:hideTodayName="false"
+        app:daysSelectedBackground="@drawable/green_bg"
+        app:isCornerMark="true"
+        app:isShowMonth="true"
+         />
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/padding_bottom"
+
+                  android:layout_marginEnd="@dimen/padding_long"
+                  android:layout_marginLeft="@dimen/padding_long"
+                  android:layout_marginRight="@dimen/padding_long"
+                  android:layout_marginStart="@dimen/padding_long"
+                  android:orientation="horizontal">
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_weight="1"
+                        android:id="@id/rl_sign_in"
+                        android:background="@color/white">
+            <ImageView android:id="@id/img_attendance"
+                       android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_attendance_sign_in"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/img_attendance"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginTop="@dimen/padding_short"
+                      android:text="签到"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+
+
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_marginLeft="@dimen/padding_bottom"
+                        android:layout_marginStart="@dimen/padding_bottom"
+                        android:layout_weight="1"
+                        android:id="@id/rl_sign_off"
+                        android:background="@color/white">
+            <ImageView android:id="@id/img_attendance"
+                       android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_attendance_sign_off"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/img_attendance"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginTop="@dimen/padding_short"
+                      android:text="签退"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginEnd="@dimen/padding_long"
+                  android:layout_marginLeft="@dimen/padding_long"
+                  android:layout_marginRight="@dimen/padding_long"
+                  android:layout_marginStart="@dimen/padding_long"
+                  android:layout_marginTop="@dimen/padding_bottom"
+                  android:orientation="horizontal">
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_weight="1"
+                        android:id="@id/rl_work_overtime"
+                        android:background="@color/white">
+            <ImageView android:id="@id/img_attendance"
+                       android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_attendance_work_overtime"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/img_attendance"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginTop="@dimen/padding_short"
+                      android:text="加班考勤"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+
+
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_marginLeft="@dimen/padding_bottom"
+                        android:layout_marginStart="@dimen/padding_bottom"
+                        android:layout_weight="1"
+                        android:id="@id/rl_work_recoder"
+                        android:background="@color/white">
+            <ImageView android:id="@id/img_attendance"
+                       android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_attendance_work_recoder"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/img_attendance"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginTop="@dimen/padding_short"
+                      android:text="考勤记录"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

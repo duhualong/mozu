@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseSupportFragment;
-import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.ui.news.Cheeses;
 import org.eenie.wgj.ui.news.FancyIndexer;
@@ -18,14 +17,10 @@ import org.eenie.wgj.ui.news.MyAdapter;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import rx.SingleSubscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static org.eenie.wgj.R.id.lv_content;
 import static org.eenie.wgj.R.id.tv_index_center;
@@ -124,35 +119,35 @@ public class FragmentTest extends BaseSupportFragment {
 
     private void initData() {
         System.out.println("打印："+mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
-        mSubscription = mRemoteService.getContacts(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ApiResponse<List<Contacts>>>() {
-
-
-
-                    @Override
-                    public void onSuccess(ApiResponse<List<Contacts>> data) {
-
-                        mContacts = data.getData();
-                        mSData = new String[mContacts.size()];
-
-                        for (int i = 0; i < mSData.length; i++) {
-                            String str = mContacts.get(i).getName();
-                            mSData[i] = str;
-                        }
-
-                        fillAndSortData(persons, mSData);
-                        System.out.println("str[]:" + Arrays.toString(mSData));
-
-
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-
-                    }
-                });
+//        mSubscription = mRemoteService.getContacts(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""))
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new SingleSubscriber<ApiResponse<List<Contacts>>>() {
+//
+//
+//
+//                    @Override
+//                    public void onSuccess(ApiResponse<List<Contacts>> data) {
+//
+//                        mContacts = data.getData();
+//                        mSData = new String[mContacts.size()];
+//
+//                        for (int i = 0; i < mSData.length; i++) {
+//                            String str = mContacts.get(i).getName();
+//                            mSData[i] = str;
+//                        }
+//
+//                        fillAndSortData(persons, mSData);
+//                        System.out.println("str[]:" + Arrays.toString(mSData));
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable error) {
+//
+//                    }
+//                });
     }
 
 }

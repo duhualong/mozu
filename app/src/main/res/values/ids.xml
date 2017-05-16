@@ -287,4 +287,22 @@
     <item name="view_skill" type="id"/>
     <item name="view_employment" type="id"/>
     <item name="spinner_img" type="id"/>
+    <item name="linkman_phone" type="id"/>
+    <item name="linkman_duty" type="id"/>
+    <item name="linkman_name" type="id"/>
+    <!--考勤-->
+    <item name="title_attendance" type="id"/>
+    <item name="attendance_name" type="id"/>
+    <item name="attendance_duty" type="id"/>
+    <item name="img_attendance" type="id"/>
+    <item name="rl_sign_in" type="id"/>
+    <item name="rl_sign_off" type="id"/>
+    <item name="rl_work_overtime" type="id"/>
+    <item name="rl_work_recoder" type="id"/>
+    <item name="recycler_project" type="id"/>
+    <item name="item_project_img" type="id"/>
+    <item name="item_project_name" type="id"/>
+    <item name="item_project_edit" type="id"/>
+    <item name="tv_new_rebuild" type="id"/>
+    <item name="img_delete" type="id"/>
 </resources>

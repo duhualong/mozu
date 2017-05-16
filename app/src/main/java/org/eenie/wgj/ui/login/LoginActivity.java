@@ -5,6 +5,7 @@ import android.app.Fragment;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 
+import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -19,6 +20,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        JPushInterface.resumePush(getApplicationContext());
         Fragment fragment = fragmentMgr.findFragmentById(R.id.fragment_login_container);
         if (fragment == null) {
             fragment = new LoginFragment();

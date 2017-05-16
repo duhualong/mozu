@@ -197,28 +197,53 @@ public class PersonalCenterFragment extends BaseSupportFragment {
                                                     mData.getBank_card())
                                             .apply();
                                 }
-                                if (TextUtils.isEmpty(mData.getAvatar())) {
+                                if (TextUtils.isEmpty(mData.getAvatar())||mData.getAvatar()==null) {
+                                    if (mData.getId_card_head_image().startsWith(Constant.DOMIN)){
 
-                                    Glide.with(context)
-                                            .load(Constant.DOMIN + mData.getId_card_head_image())
-                                            .asBitmap()
-                                            .centerCrop()
-                                            .into(avatar);
-                                    mPrefsHelper.getPrefs().edit().
-                                            putString(Constants.PERSONAL_AVATAR,
-                                                    Constant.DOMIN + mData.getId_card_head_image())
-                                            .apply();
+
+
+                                        Glide.with(context).load(
+                                                mData.getId_card_head_image()).
+                                                centerCrop().into(avatar);
+                                        mPrefsHelper.getPrefs().edit().
+                                                putString(Constants.PERSONAL_AVATAR,
+                                                        mData.getId_card_head_image())
+                                                .apply();
+                                    }else {
+                                        Glide.with(context).load(Constant.DOMIN+
+                                                mData.getId_card_head_image()).
+                                                centerCrop().into(avatar);
+                                        mPrefsHelper.getPrefs().edit().
+                                                putString(Constants.PERSONAL_AVATAR,
+                                                        Constant.DOMIN + mData.getId_card_head_image())
+                                                .apply();
+                                    }
+                                    Glide.with(context).load(Constant.DOMIN+
+                                            mData.getId_card_head_image()).centerCrop().into(avatar);
+
+
 
                                 } else {
-                                    Glide.with(context)
-                                            .load(Constant.DOMIN + mData.getAvatar())
-                                            .asBitmap()
-                                            .centerCrop()
-                                            .into(avatar);
-                                    mPrefsHelper.getPrefs().edit().
-                                            putString(Constants.PERSONAL_AVATAR,
-                                                    Constant.DOMIN + mData.getAvatar())
-                                            .apply();
+                                    if (mData.getAvatar().startsWith(Constant.DOMIN)){
+                                        Glide.with(context)
+                                                .load(mData.getAvatar())
+                                                .centerCrop()
+                                                .into(avatar);
+                                        mPrefsHelper.getPrefs().edit().
+                                                putString(Constants.PERSONAL_AVATAR,
+                                                       mData.getAvatar())
+                                                .apply();
+                                    }else {
+                                        Glide.with(context)
+                                                .load(Constant.DOMIN + mData.getAvatar())
+                                                .centerCrop()
+                                                .into(avatar);
+                                        mPrefsHelper.getPrefs().edit().
+                                                putString(Constants.PERSONAL_AVATAR,
+                                                        Constant.DOMIN + mData.getAvatar())
+                                                .apply();
+                                    }
+
                                 }
                                 if (!TextUtils.isEmpty(mData.getName())) {
                                     name.setText(mData.getName());

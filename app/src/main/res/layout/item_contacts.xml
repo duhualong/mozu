@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_marginBottom="1dp"
+              android:gravity="center_vertical"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/catalog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_short"
+        android:paddingEnd="0dp"
+        android:paddingStart="@dimen/padding_short"
+
+        android:paddingLeft="@dimen/padding_short"
+        android:paddingRight="0dp"
+        app:paddingEnd="0dp"
+        android:paddingTop="@dimen/padding_short"
+        android:text="A"
+        android:textColor="@color/titleColor"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:background="@color/white"
+                  android:padding="@dimen/padding_short">
+        <TextView
+            android:id="@id/tv_surname"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/img_background_blue"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_large_size"
+        />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dip"
+            android:paddingTop="10dp"
+            android:text="hhhh"
+            android:textColor="@color/titleColor"
+            android:textSize="@dimen/text_large_size"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

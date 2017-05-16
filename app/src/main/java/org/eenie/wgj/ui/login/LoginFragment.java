@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,14 @@ import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
 
 import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -122,12 +127,11 @@ public class LoginFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.btn_login:
 
-
                 boolean isChecked = checkInputContent(mPhone, mPassword);
                 if (isChecked) {
                     //Checked("18817772486","111111");
+
                     checkedLogined(mPhone, mPassword);
-                    //checkLogin(mPhone, mPassword);
                 }
 
 
@@ -164,6 +168,7 @@ public class LoginFragment extends BaseFragment {
                         .addToBackStack(TAG)
                         .replace(R.id.fragment_login_container, new ForgetPasswordFragment())
                         .commit();
+
 
                 break;
         }
@@ -211,12 +216,11 @@ public class LoginFragment extends BaseFragment {
                 .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
-                        System.out.println("打印：dddd");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("打印eeee：" + e);
+
 
                     }
 
@@ -230,11 +234,37 @@ public class LoginFragment extends BaseFragment {
                                     new TypeToken<LoginData>() {
                                     }.getType());
 
+                        // checkCompanyState(data.getToken());
                             mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
                                     .putString(Constants.UID, data.getUser_id() + "")
                                     .putString(Constants.PHONE, phone)
                                     .putBoolean(Constants.IS_LOGIN, true).apply()
                             ;
+                            Set<String> tags = new HashSet<>();
+                            tags.add(Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
+                            JPushInterface.setTags(context, tags, new TagAliasCallback() {
+                                @Override
+                                public void gotResult(int i, String s, Set<String> set) {
+                                    System.out.println("dddd:"+i);
+                                    if (i==0){
+                                        System.out.println("打印code"+i+"set:"+set);
+                                    }
+
+
+                                }
+                            });
+//                            JPushInterface.setAliasAndTags(context, null, tags, new TagAliasCallback() {
+//                                @Override
+//                                public void gotResult(int i, String s, Set<String> set) {
+//                                    System.out.println("dddd:"+i);
+//                                    if (i==0){
+//                                        System.out.println("打印code"+i);
+//                                    }
+//
+//
+//                                }
+//                            });
+
                             System.out.println("uid" + data.getToken() + "\n" + data.getUser_id());
                             if (isLogin) {
                                 mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, password)
@@ -245,7 +275,12 @@ public class LoginFragment extends BaseFragment {
                             }
                             Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
 
-                            Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                            Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                                    subscribe(s ->
+                                            checkCompanyState(data.getToken())
+                                    );
+
+                            Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
                                     subscribe(s ->
                                             startActivity(new Intent(context, MainActivity.class))
                                     );
@@ -258,6 +293,35 @@ public class LoginFragment extends BaseFragment {
 
                     }
                 });
+    }
+
+    private void checkCompanyState(String token) {
+        mSubscription = mRemoteService.joinCompanyState(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200){
+                            System.out.println("code:"+apiResponse.getResultCode());
+
+                            Log.d(TAG, "onNext: "+apiResponse.getResultMessage());
+                        }
+
+                    }
+                });
+
+
     }
 
     private void checkLogin(String phone, String password) {
@@ -286,7 +350,6 @@ public class LoginFragment extends BaseFragment {
                             Type objectType = new TypeToken<TestLogin>() {
                             }.getType();
                             final TestLogin bean = gson.fromJson(ss, objectType);
-
 
                             Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
                         } else {

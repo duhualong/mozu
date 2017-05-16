@@ -11,11 +11,14 @@ import org.eenie.wgj.di.component.ApplicationComponent;
 import org.eenie.wgj.di.component.DaggerApplicationComponent;
 import org.eenie.wgj.di.module.ApplicationModule;
 import org.eenie.wgj.realm.RealmController;
+import org.eenie.wgj.ui.attendance.AttendanceActivity;
+import org.eenie.wgj.ui.project.ProjectSettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import cn.jpush.android.api.JPushInterface;
 import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -45,6 +48,11 @@ public class App extends Application {
     super.onCreate();
     mApplicationComponent = prepareApplicationComponent().build();
     mApplicationComponent.inject(this);
+    JPushInterface.setDebugMode(true);
+    JPushInterface.init(this);
+//    MultiActionsNotificationBuilder notificationBuilder = new MultiActionsNotificationBuilder(this);
+//    JPushInterface.initCrashHandler(this);
+//    JPushInterface.setPushNotificationBuilder(2, notificationBuilder);
     sApplicationContext = this;
     realmController=new RealmController(getApplicationContext());
     sActivityStack = new Stack<>();
@@ -77,14 +85,16 @@ public class App extends Application {
 
   private void saveModule(Realm realm) {
     List<HomeModule> mModules = new ArrayList<>();
-    mModules.add(new HomeModule("ic_home_module_sign", "考勤", false, 0, true));
+    mModules.add(new HomeModule(AttendanceActivity.class,"ic_home_module_sign", "考勤",
+            false, 0, true));
     mModules.add(new HomeModule( "ic_home_module_stati", "考勤统计", false, 1, true));
     mModules.add(new HomeModule("ic_home_module_polling", "巡检", false, 2, true));
     mModules.add(new HomeModule( "ic_home_module_polling_stati", "巡检统计", false, 3, true));
     mModules.add(new HomeModule("ic_home_module__form_up", "表单上传", false, 4, true));
     mModules.add(new HomeModule("ic_home_module_visitor", "访客通行", false, 5, true));
     mModules.add(new HomeModule( "ic_home_module_meeting", "会议", false, 6, true));
-    mModules.add(new HomeModule( "ic_home_module_event_info", "项目设置", false, 7, true));
+    mModules.add(new HomeModule(ProjectSettingActivity.class,"ic_home_module_event_info",
+            "项目设置", false, 7, true));
     mModules.add(new HomeModule("ic_home_module_fix", "维修", false, 10, false));
     mModules.add(new HomeModule( "ic_home_module_train", "培训", false, 11, false));
     mModules.add(new HomeModule("ic_home_module_workshow", "工作秀", false, 12, false));

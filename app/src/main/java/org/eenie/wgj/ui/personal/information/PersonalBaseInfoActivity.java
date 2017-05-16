@@ -94,7 +94,6 @@ public class PersonalBaseInfoActivity extends BaseActivity {
         if (!TextUtils.isEmpty(avatarUrl)) {
             Glide.with(context)
                     .load(avatarUrl)
-                    .asBitmap()
                     .centerCrop()
                     .into(avatar);
         }
@@ -116,8 +115,9 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.img_scan, R.id.rl_avatar_img, R.id.rl_identity_card, R.id.rl_personal_information,
-            R.id.rl_bank_card, R.id.rl_security_certificate, R.id.btn_logout})
+    @OnClick({R.id.img_back, R.id.img_scan, R.id.rl_avatar_img, R.id.rl_identity_card,
+            R.id.rl_personal_information, R.id.rl_bank_card, R.id.rl_security_certificate,
+            R.id.btn_logout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -152,8 +152,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                 break;
             case R.id.btn_logout:
                 //退出登录
-                mPrefsHelper.getPrefs().edit().putBoolean(Constants.IS_LOGIN, false).apply();
-
+                mPrefsHelper.clear();
+//                mPrefsHelper.getPrefs().edit().putBoolean(Constants.IS_LOGIN, false).apply();
                 startActivity(new Intent(context, LoginActivity.class));
                 finish();
 
@@ -199,14 +199,20 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                                 TextView mNation = (TextView) view.findViewById(R.id.tv_nation);
                                 TextView mBirthday = (TextView) view.findViewById(R.id.tv_birthday);
                                 TextView mAddress = (TextView) view.findViewById(R.id.tv_address);
-                                TextView mIdentity = (TextView) view.findViewById(R.id.tv_identity_card);
-                                TextView mSignOffice = (TextView) view.findViewById(R.id.tv_sign_office);
-                                TextView mDeadline = (TextView) view.findViewById(R.id.tv_date_deadline);
-                                Glide.with(context)
-                                        .load(Constant.DOMIN + mData.getId_card_head_image())
-                                        .asBitmap()
-                                        .centerCrop()
-                                        .into(avatar);
+                                TextView mIdentity = (TextView) view.findViewById
+                                        (R.id.tv_identity_card);
+                                TextView mSignOffice = (TextView) view.findViewById
+                                        (R.id.tv_sign_office);
+                                TextView mDeadline = (TextView) view.findViewById
+                                        (R.id.tv_date_deadline);
+                                if (!TextUtils.isEmpty(mData.getId_card_head_image())&&
+                                        mData.getId_card_head_image()!=null){
+                                    Glide.with(context)
+                                            .load(Constant.DOMIN + mData.getId_card_head_image())
+                                            .centerCrop()
+                                            .into(avatar);
+                                }
+
                                 mName.setText(mData.getName());
                                 mSex.setText(mData.getGender());
                                 mNation.setText(mData.getPeople());
@@ -221,10 +227,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                                         .setView(view) //自定义的布局文件
                                         .create();
                                 dialog.show();
-                                dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(v -> {
-                                    dialog.dismiss();
-
-                                });
+                                dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(
+                                        v -> dialog.dismiss());
                             }
 
 

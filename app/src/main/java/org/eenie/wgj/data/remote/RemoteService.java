@@ -15,7 +15,6 @@ import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.ModifyInfo;
 import org.eenie.wgj.model.requset.UserId;
-import org.eenie.wgj.model.response.Contacts;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.ShootList;
 
@@ -85,7 +84,7 @@ public interface RemoteService {
     Single<ApiResponse<List<ShootList>>> getList();
 
     @GET("contacts/userList")
-    Single<ApiResponse<List<Contacts>>> getContacts(@Header("token") String token);
+    Single<ApiResponse> getContacts(@Header("token") String token);
 
     @FormUrlEncoded
     @POST("recog.do")
@@ -152,6 +151,20 @@ public interface RemoteService {
     //加入公司
     @POST("company/join")
     Single<NewResponse>joinCompany(@Header("token")String token, @Body JoinCompany joinCompany);
+    //查询加入申请公司状态
+    @POST("user/apply")
+    Single<ApiResponse>joinCompanyState(@Header("token")String token);
+    //获取所有项目的列表
+
+    /**
+     * 获取项目列表
+     * @param token
+     * @return
+     */
+    @GET("projectsList")
+    Single<ApiResponse> getProjectList(@Header("token") String token);
+
+
 
 
     class Creator {
@@ -163,10 +176,7 @@ public interface RemoteService {
                     .readTimeout(30, TimeUnit.SECONDS)
                     .addNetworkInterceptor(new StethoInterceptor())
                     .build();
-
-
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
-
             Retrofit retrofit = new Retrofit.Builder().baseUrl(DOMAIN)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))
