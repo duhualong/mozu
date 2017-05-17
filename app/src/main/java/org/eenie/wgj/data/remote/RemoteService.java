@@ -8,6 +8,7 @@ import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.BirthdayDetail;
+import org.eenie.wgj.model.requset.BuildNewProject;
 import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.requset.CreataCompanyRequest;
 import org.eenie.wgj.model.requset.GiveBirthday;
@@ -161,8 +162,28 @@ public interface RemoteService {
      * @param token
      * @return
      */
-    @GET("projectsList")
+    @GET("project/list")
     Single<ApiResponse> getProjectList(@Header("token") String token);
+    //新建项目列表
+    @POST("project/add")
+    Single<ApiResponse> newProject(@Header("token")String token,
+                                   @Body BuildNewProject buildNewProject);
+    //删除项目
+    @POST("project/delete")
+    Single<ApiResponse>deleteProject(@Header("token")String token,
+                                  @Body BuildNewProject buildNewProject);
+    //修改项目
+    @POST("project/modify")
+    Single<ApiResponse>modifyProject(@Header("token")String token,
+                                     @Body BuildNewProject buildNewProject);
+    //获取关键人物信息列表
+    @GET("ownerIndexList")
+    Single<ApiResponse>getKeyProjectContact(@Header("token")String token,@Query("projectid")
+                                            String projectId);
+    //删除关键人物信息
+    @GET("ownerDelete")
+    Single<ApiResponse>deleteKeyPersonal(@Header("token")String token,@Query("id")int id);
+
 
 
 

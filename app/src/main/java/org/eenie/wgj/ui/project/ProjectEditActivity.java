@@ -11,10 +11,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yalantis.ucrop.UCrop;
@@ -24,6 +26,7 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.BuildNewProject;
+import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.RxUtils;
@@ -48,25 +51,37 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/16 at 16:45
+ * Created by Eenie on 2017/5/17 at 18:42
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class NewBuildProjectActivity extends BaseActivity {
-    private static final int TAKE_PHOTO_REQUEST =0x101 ;
-    private static final int RESPONSE_CODE_POSITIVE =0x102 ;
-    private static final int REQUEST_GALLERY_PHOTO =0x103 ;
-    private static final int RESPONSE_CODE_NEGIVITE =0x104 ;
-    @BindView(R.id.root_view)View rootView;
-    @BindView(R.id.et_project_name)EditText etProjectName;
-    @BindView(R.id.img_project)ImageView imgProject;
-    @BindView(R.id.img_delete)ImageView imgDelete;
-    @BindView(R.id.img_project_background)ImageView imgBackground;
+public class ProjectEditActivity extends BaseActivity {
+    public static final String PROJECT_ID = "project_id";
+    public static final String PROJECT_NAME = "project_name";
+    public static final String PROJECT_LOGO = "project_logo";
+    private static final int TAKE_PHOTO_REQUEST = 0x101;
+    private static final int RESPONSE_CODE_POSITIVE = 0x102;
+    private static final int REQUEST_GALLERY_PHOTO = 0x103;
+    private static final int RESPONSE_CODE_NEGIVITE = 0x104;
+    @BindView(R.id.root_view)
+    View rootView;
+    @BindView(R.id.et_project_name)
+    EditText etProjectName;
+    @BindView(R.id.img_project)
+    ImageView imgProject;
+    @BindView(R.id.img_delete)
+    ImageView imgDelete;
+    @BindView(R.id.img_project_background)
+    ImageView imgBackground;
+    @BindView(R.id.button_project_cancel)
+    Button mButton;
 
     private String avatarUrl;
     private String fileUrl;
     private Uri imageUri;
+    private String mProjectName;
+    private String mProjectId;
 
     @Override
     protected int getContentView() {
@@ -75,28 +90,45 @@ public class NewBuildProjectActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        mButton.setText("删除");
+        mProjectId = getIntent().getStringExtra(PROJECT_ID);
+        mProjectName = getIntent().getStringExtra(PROJECT_NAME);
+        fileUrl = getIntent().getStringExtra(PROJECT_LOGO);
+        if (!TextUtils.isEmpty(mProjectName)) {
+            etProjectName.setText(mProjectName);
+        }
+        if (!TextUtils.isEmpty(fileUrl)) {
+            imgProject.setVisibility(View.VISIBLE);
+            imgDelete.setVisibility(View.VISIBLE);
+            imgBackground.setVisibility(View.GONE);
+            Glide.with(context).load(Constant.DOMIN + fileUrl).centerCrop()
+                    .into(imgProject);
+        }
+
 
     }
-    @OnClick({R.id.img_back,R.id.rl_upload,R.id.button_project_cancel,R.id.button_project_ok})
-    public void onClick(View view){
-        String projectName=etProjectName.getText().toString();
 
-        switch (view.getId()){
+    @OnClick({R.id.img_back, R.id.rl_upload, R.id.button_project_cancel, R.id.button_project_ok})
+    public void onClick(View view) {
+        String projectName = etProjectName.getText().toString();
+
+        switch (view.getId()) {
             case R.id.rl_upload:
+
                 showUploadDialogDialog();
                 break;
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.button_project_cancel:
-                onBackPressed();
+                deleteProject(mProjectId);
                 break;
             case R.id.button_project_ok:
-                if (!TextUtils.isEmpty(projectName)){
-                    rebulidNewProject(projectName);
+                if (!TextUtils.isEmpty(projectName)) {
+                    editProject(projectName);
 
-                }else {
-                    Snackbar.make(rootView,"请填写项目名称",Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(rootView, "请填写项目名称", Snackbar.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -104,11 +136,47 @@ public class NewBuildProjectActivity extends BaseActivity {
 
     }
 
-    private void rebulidNewProject(String projectName) {
-        String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-        BuildNewProject mProject=new BuildNewProject(projectName,fileUrl);
-        if (!TextUtils.isEmpty(token)){
-            mSubscription=mRemoteService.newProject(token,mProject)
+    private void deleteProject(String projectId) {
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        BuildNewProject mProject = new BuildNewProject(Integer.parseInt(projectId.trim()));
+        mSubscription=mRemoteService.deleteProject(token,mProject)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200){
+                            Snackbar.make(rootView, apiResponse.getResultMessage(),
+                                    Snackbar.LENGTH_SHORT).show();
+                            Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                                    subscribe(s -> finish()
+                                    );
+                        }else {
+                            Snackbar.make(rootView, apiResponse.getResultMessage(),
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+    }
+
+    private void editProject(String projectName) {
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        BuildNewProject mProject = new BuildNewProject(projectName, fileUrl,
+                Integer.parseInt(mProjectId.trim()));
+        if (!TextUtils.isEmpty(token)) {
+            mSubscription = mRemoteService.modifyProject(token, mProject)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<ApiResponse>() {
@@ -124,15 +192,15 @@ public class NewBuildProjectActivity extends BaseActivity {
 
                         @Override
                         public void onNext(ApiResponse apiResponse) {
-                            if (apiResponse.getResultCode()==200){
-                                Snackbar.make(rootView,apiResponse.getResultMessage(),
+                            if (apiResponse.getResultCode() == 200) {
+                                Snackbar.make(rootView, apiResponse.getResultMessage(),
                                         Snackbar.LENGTH_SHORT).show();
                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                                        subscribe(s ->finish()
+                                        subscribe(s -> finish()
                                         );
 
-                            }else {
-                                Snackbar.make(rootView,apiResponse.getResultMessage(),
+                            } else {
+                                Snackbar.make(rootView, apiResponse.getResultMessage(),
                                         Snackbar.LENGTH_SHORT).show();
                             }
 
@@ -140,7 +208,6 @@ public class NewBuildProjectActivity extends BaseActivity {
                     });
 
         }
-
 
 
     }
@@ -166,6 +233,7 @@ public class NewBuildProjectActivity extends BaseActivity {
 
 
     }
+
     private void showPhotoSelectDialog() {
         imageUri = createImageUri(context);
         Intent intent = new Intent();
@@ -195,7 +263,7 @@ public class NewBuildProjectActivity extends BaseActivity {
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
                 .withMaxResultSize(100, 100)
-                .start(NewBuildProjectActivity.this, requestCode);
+                .start(ProjectEditActivity.this, requestCode);
     }
 
     @Override
@@ -248,6 +316,7 @@ public class NewBuildProjectActivity extends BaseActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     private void uploadFile(File file) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://118.178.88.132:8000/api/")
@@ -304,5 +373,4 @@ public class NewBuildProjectActivity extends BaseActivity {
                 .build()
                 .compressToFile(file);
     }
-
 }

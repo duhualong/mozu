@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_background"
+              android:id="@id/root_view"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:id="@id/tv_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="文化广场项目设置"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+    </RelativeLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/padding_bottom"
+    >
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <RelativeLayout android:id="@id/rl_set_key_personal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="@string/tv_key_personal_setting"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_exchange_work"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="交接班设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_job_training"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="岗位培训设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_security"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:visibility="gone"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="临保设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_work_flights"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="班次设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout android:id="@id/rl_set_attendance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="考勤设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_project_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="项目工时设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_arrange_schedual"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="排班设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_post"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="岗位设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_report_post"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="报岗设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_patrol_point"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检点位设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_patrol_road"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检线路设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:id="@id/rl_set_class_meeting"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:visibility="gone"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="班会设置"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -139,7 +139,7 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
         public void onBindViewHolder(NoticeViewHolder holder, int position) {
             if (meetingList != null && !meetingList.isEmpty()) {
                 NoticeMessage noticeMessage = meetingList.get(position);
-
+                holder.setItem(noticeMessage);
                 String meetingName=noticeMessage.getAlert();
                 if (!TextUtils.isEmpty(meetingName)){
                     holder.meetingContent.setText(meetingName);

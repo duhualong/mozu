@@ -299,10 +299,49 @@
     <item name="rl_sign_off" type="id"/>
     <item name="rl_work_overtime" type="id"/>
     <item name="rl_work_recoder" type="id"/>
+    <!--项目设置-->
     <item name="recycler_project" type="id"/>
     <item name="item_project_img" type="id"/>
     <item name="item_project_name" type="id"/>
     <item name="item_project_edit" type="id"/>
     <item name="tv_new_rebuild" type="id"/>
     <item name="img_delete" type="id"/>
+    <item name="img_project" type="id"/>
+    <item name="rl_upload" type="id"/>
+    <item name="et_project_name" type="id"/>
+    <item name="button_project_cancel" type="id"/>
+    <item name="button_project_ok" type="id"/>
+    <item name="img_project_background" type="id"/>
+    <item name="rl_set_key_personal" type="id"/>
+    <item name="rl_set_exchange_work" type="id"/>
+    <item name="rl_set_job_training" type="id"/>
+    <item name="rl_set_security" type="id"/>
+    <item name="rl_set_work_flights" type="id"/>
+    <item name="rl_set_attendance" type="id"/>
+    <item name="rl_set_project_time" type="id"/>
+    <item name="rl_set_arrange_schedual" type="id"/>
+    <item name="rl_set_post" type="id"/>
+    <item name="rl_set_report_post" type="id"/>
+    <item name="rl_set_patrol_point" type="id"/>
+    <item name="rl_set_patrol_road" type="id"/>
+    <item name="rl_set_class_meeting" type="id"/>
+    <item name="rl_item_project" type="id"/>
+    <item name="ly_add_keyman" type="id"/>
+    <item name="recycler_project_contacts" type="id"/>
+    <item name="img_add_contacts" type="id"/>
+    <item name="lv_data_contacts" type="id"/>
+    <item name="item_contacts_name" type="id"/>
+    <item name="rl_key_personal" type="id"/>
+    <item name="button_edit" type="id"/>
+    <item name="button_delete" type="id"/>
+    <item name="tv_gender" type="id"/>
+    <item name="tv_age" type="id"/>
+    <item name="tv_post" type="id"/>
+    <item name="tv_wok_time" type="id"/>
+    <item name="tv_car_number" type="id"/>
+    <item name="tv_phone_number" type="id"/>
+    <item name="tv_other" type="id"/>
+    <item name="rl_other" type="id"/>
+    <item name="rl_phone" type="id"/>
+    <item name="rl_car_number" type="id"/>
 </resources>

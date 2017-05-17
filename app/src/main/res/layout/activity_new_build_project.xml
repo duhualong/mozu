@@ -1,78 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white_background"
-              android:orientation="vertical">
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="?android:actionBarSize"
-                    android:background="@color/colorPrimary">
-        <ImageView android:id="@id/img_back"
-                   android:layout_width="wrap_content"
-                   android:layout_height="match_parent"
-                   android:padding="@dimen/padding_bottom"
-                   android:src="@mipmap/ic_back"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_centerInParent="true"
-                  android:text="@string/project_setting"
-                  android:textColor="@color/white"
-                  android:textSize="@dimen/text_title_size"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@id/root_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white_background"
+>
 
-    </RelativeLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:background="@color/white"
-                  android:orientation="vertical">
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="@dimen/padding_bottom"
-                  android:layout_marginStart="@dimen/padding_bottom"
-                  android:layout_marginTop="@dimen/padding_bottom"
-                  android:text="项目名称"
-                  android:textColor="@color/titleColor"
-                  android:textSize="14sp"/>
-        <EditText
-            android:id="@id/et_bank_card"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginBottom="@dimen/personal_margin"
-            android:layout_marginEnd="@dimen/margin_height_normal_distance"
-            android:layout_marginLeft="@dimen/margin_height_normal_distance"
-            android:layout_marginRight="@dimen/margin_height_normal_distance"
-            android:layout_marginStart="@dimen/margin_height_normal_distance"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/bg_edit_text_light"
-            android:hint="请输入项目名称"
-            android:maxLength="20"
-            android:maxLines="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/titleColor"
-            android:textColorHint="@color/textHintColor"
-            android:textSize="@dimen/text_large_size"/>
+                  android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+                  android:layout_alignParentTop="true" android:orientation="vertical">
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="?android:actionBarSize"
+                        android:background="@color/colorPrimary">
+            <ImageView android:id="@id/img_back"
+                       android:layout_width="wrap_content"
+                       android:layout_height="match_parent"
+                       android:padding="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_back"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerInParent="true"
+                      android:text="@string/project_setting"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_title_size"/>
+
+        </RelativeLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@color/white"
+                      android:orientation="vertical">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="@dimen/padding_bottom"
+                      android:layout_marginStart="@dimen/padding_bottom"
+                      android:layout_marginTop="@dimen/padding_bottom"
+                      android:text="项目名称"
+                      android:textColor="@color/titleColor"
+                      android:textSize="14sp"/>
+            <EditText
+                android:id="@id/et_project_name"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="@dimen/personal_margin"
+                android:layout_marginEnd="@dimen/margin_height_normal_distance"
+                android:layout_marginLeft="@dimen/margin_height_normal_distance"
+                android:layout_marginRight="@dimen/margin_height_normal_distance"
+                android:layout_marginStart="@dimen/margin_height_normal_distance"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/bg_edit_text_light"
+                android:hint="请输入项目名称"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/titleColor"
+                android:textColorHint="@color/textHintColor"
+                android:textSize="@dimen/text_large_size"/>
+        </LinearLayout>
+        <RelativeLayout android:id="@id/rl_upload"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="@dimen/padding_bottom"
+                        android:background="@color/white">
+
+            <ImageView android:id="@id/img_project"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_centerInParent="true"
+                       android:background="@color/white"
+                       android:scaleType="centerCrop"
+            />
+            <ImageView android:id="@id/img_project_background"
+                       android:layout_width="36dp"
+                       android:layout_height="36dp"
+                       android:layout_centerInParent="true"
+                       android:background="@color/white"
+                       android:scaleType="centerCrop"
+                       android:src="@mipmap/ic_upload_photo"
+            />
+            <ImageView android:id="@id/img_delete"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentEnd="true"
+                       android:layout_alignParentRight="true"
+                       android:padding="@dimen/padding_short"
+                       android:src="@mipmap/ic_photo_delete"
+                       android:visibility="invisible"/>
+
+        </RelativeLayout>
+
     </LinearLayout>
-    <RelativeLayout android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_margin="@dimen/padding_bottom"
-
-                    android:background="@color/white">
-
-        <ImageView android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_centerInParent="true"
-                   android:background="@color/white"
-                   android:scaleType="centerCrop"
-                   android:src="@mipmap/ic_dialog_photo"
-        />
-        <ImageView android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentEnd="true"
-                   android:layout_alignParentRight="true"
-                   android:padding="@dimen/padding_short"
-                   android:src="@mipmap/ic_photo_delete"
-                   android:id="@id/img_delete"
-                   android:visibility="invisible"/>
-
-    </RelativeLayout>
-</LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/margin_height_larger_distance"
+                  android:layout_alignParentBottom="true"
+                  android:layout_marginBottom="@dimen/padding_bottom"
+                  android:layout_marginEnd="@dimen/padding_longer"
+                  android:layout_marginLeft="@dimen/padding_longer"
+                  android:layout_marginRight="@dimen/padding_longer"
+                  android:layout_marginStart="@dimen/padding_longer"
+                  android:layout_marginTop="@dimen/margin_height_larger_distance"
+                  android:orientation="horizontal">
+        <Button android:id="@id/button_project_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@mipmap/ic_button_cancel"
+                android:text="取消"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_large_size"/>
+        <Button android:id="@id/button_project_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_bottom"
+                android:layout_marginStart="@dimen/padding_bottom"
+                android:layout_weight="1"
+                android:background="@mipmap/ic_button_ok"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_large_size"/>
+    </LinearLayout>
+</RelativeLayout>

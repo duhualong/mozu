@@ -105,15 +105,6 @@ public class PersonalCenterFragment extends BaseSupportFragment {
                 showRequestPermissionDialog();
             }
         } else {
-//            Intent intent = new Intent(context, PersonalBaseInfoActivity.class);
-//            if (TextUtils.isEmpty(mData.getAvatar())){
-//                intent.putExtra(PersonalBaseInfoActivity.AVATAR,
-//                        Constant.DOMIN+mData.getId_card_head_image());
-//
-//            }else {
-//                intent.putExtra(PersonalBaseInfoActivity.AVATAR,
-//                        Constant.DOMIN+mData.getAvatar());
-//            }
             startActivity(new Intent(context, PersonalBaseInfoActivity.class));
 
         }

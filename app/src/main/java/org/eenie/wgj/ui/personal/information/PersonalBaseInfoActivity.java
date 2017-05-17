@@ -68,7 +68,6 @@ public class PersonalBaseInfoActivity extends BaseActivity {
     private String avatarUrl;
     private String fileUrl;
 
-    public static final String AVATAR = "avatar";
 
     @BindView(R.id.root_view)
     View rootView;

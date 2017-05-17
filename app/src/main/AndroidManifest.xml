@@ -37,8 +37,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:replace="android:icon"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
         <activity android:name=".ui.SplashActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize">
@@ -58,7 +58,8 @@
         />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!--个人中心基本信息-->
         <activity android:name=".ui.personal.information.PersonalBaseInfoActivity"
                   android:screenOrientation="portrait"
@@ -159,6 +160,22 @@
         <activity android:name=".ui.project.NewBuildProjectActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustPan"/>
+        <!--//编辑项目-->
+        <activity android:name=".ui.project.ProjectEditActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--项目设置的具体内容设置-->
+        <activity android:name=".ui.project.ProjectItemSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--关键人物信息设置-->
+        <activity android:name=".ui.project.KeyPersonalSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--关键人物信息详情-->
+        <activity android:name=".ui.project.KeyPersonalDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
 
         <!--<provider-->
         <!--android:name="android.support.v4.content.FileProvider"-->
@@ -170,20 +187,20 @@
         <!--android:resource="@xml/filepaths" />-->
         <!--</provider>-->
         <!--<service android:name="cn.jpush.android.service.PushService"-->
-                 <!--android:process=":multiprocess"-->
-                 <!--tools:node="replace" >-->
+        <!--android:process=":multiprocess"-->
+        <!--tools:node="replace" >-->
 
         <!--</service>-->
         <!--<service-->
-            <!--android:name="cn.jpush.android.service.PushService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="cn.jpush.android.intent.REGISTER" />-->
-                <!--<action android:name="cn.jpush.android.intent.REPORT" />-->
-                <!--<action android:name="cn.jpush.android.intent.PushService" />-->
-                <!--<action android:name="cn.jpush.android.intent.PUSH_TIME" />-->
-            <!--</intent-filter>-->
+        <!--android:name="cn.jpush.android.service.PushService"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="cn.jpush.android.intent.REGISTER" />-->
+        <!--<action android:name="cn.jpush.android.intent.REPORT" />-->
+        <!--<action android:name="cn.jpush.android.intent.PushService" />-->
+        <!--<action android:name="cn.jpush.android.intent.PUSH_TIME" />-->
+        <!--</intent-filter>-->
         <!--</service>-->
 
 
@@ -193,8 +210,8 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
-                 <action android:name="cn.jpush.android.intent.ACTION_NOTIFICATION_RECEIVED"/>
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <action android:name="cn.jpush.android.intent.ACTION_NOTIFICATION_RECEIVED"/>
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
                 <category android:name="org.eenie.wgj"/>
             </intent-filter>
         </receiver>

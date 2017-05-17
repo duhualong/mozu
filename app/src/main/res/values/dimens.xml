@@ -36,6 +36,7 @@
 
   <!--padding-->
   <dimen name="padding_img">4dp</dimen>
+  <dimen name="padding_distance">5dp</dimen>
   <dimen name="padding_short">6dp</dimen>
   <dimen name="padding_bottom">10dp</dimen>
   <dimen name="padding_nor">12dp</dimen>
@@ -56,6 +57,7 @@
   <dimen name="margin_height_distance">24dp</dimen>
   <dimen name="margin_height_normal_distance">36dp</dimen>
   <dimen name="margin_height_larger_distance">48dp</dimen>
+  <dimen name="margin_top_distance">72dp</dimen>
 
   <!--padding-->
   <dimen name="text_padding_size">10dp</dimen>

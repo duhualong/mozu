@@ -1,18 +1,29 @@
 package org.eenie.wgj.ui.project;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Typeface;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,7 +31,9 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.ProjectList;
+import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
+import org.eenie.wgj.util.PermissionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +52,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class ProjectSettingActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+    private static final int REQUEST_CAMERA_PERMISSION = 0x101;
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.notice_swipe_refresh_list)
@@ -46,6 +60,7 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
     private ProjectAdapter mProjectAdapter;
     @BindView(R.id.recycler_project)
     RecyclerView mRecyclerView;
+    private boolean permission;
 
 
     @Override
@@ -67,6 +82,7 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(mProjectAdapter);
+        checkPermission();
 
 
     }
@@ -78,10 +94,87 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
                 onBackPressed();
                 break;
             case R.id.tv_new_rebuild:
+                if (permission){
+                    startActivity(new Intent(context, NewBuildProjectActivity.class));
+                }else {
+                    Toast.makeText(context,"请提供拍照和读取文件的权限",Toast.LENGTH_SHORT).show();
+
+                }
 
                 break;
         }
     }
+
+
+    /**
+     * 针对高版本系统检查权限
+     */
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            boolean hasPermission = PermissionManager.checkCameraPermission(context)
+                    && PermissionManager.checkWriteExternalStoragePermission(context);
+            if (hasPermission) {
+                permission=true;
+
+
+            } else {
+                showRequestPermissionDialog();
+            }
+        } else {
+          permission=true;
+
+        }
+    }
+
+
+    /**
+     * 请求权限Snackbar
+     */
+    private void showRequestPermissionDialog() {
+        if (this.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            Snackbar.make(rootView, "请提供摄像头及文件权限，以拍摄和预览相机图片!", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("OK", v -> {
+                        PermissionManager.requestCamera(ProjectSettingActivity.this, REQUEST_CAMERA_PERMISSION);
+                    }).show();
+
+        } else {
+            PermissionManager.requestCamera(ProjectSettingActivity.this, REQUEST_CAMERA_PERMISSION);
+        }
+    }
+
+
+    /**
+     * 权限申请回调
+     *
+     * @param requestCode  请求码
+     * @param permissions  请求权限
+     * @param grantResults 请求结果
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CAMERA_PERMISSION:
+
+                boolean isCanCapturePhoto = true;
+
+                for (int result : grantResults) {
+                    if (result == PackageManager.PERMISSION_DENIED) {
+                        isCanCapturePhoto = false;
+                    }
+                }
+                if (isCanCapturePhoto) {
+                   permission=true;
+                } else {
+                    Snackbar.make(rootView, "请完整的权限，以预览裁剪图片!", Snackbar.LENGTH_SHORT).show();
+                }
+
+                break;
+
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
 
     @Override
     public void onRefresh() {
@@ -115,8 +208,8 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
                                     mProjectAdapter.addAll(projectLists);
                                 }
                             }
-                        }else {
-                            Snackbar.make(rootView,apiResponse.getResultMessage(),
+                        } else {
+                            Snackbar.make(rootView, apiResponse.getResultMessage(),
                                     Snackbar.LENGTH_SHORT).show();
                         }
                     }
@@ -158,8 +251,41 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (projectList != null && !projectList.isEmpty()) {
                 ProjectList data = projectList.get(position);
+                holder.setItem(data);
                 if (data != null) {
-                    holder.projectName.setText(data.getProjectname());
+                    switch (position%4){
+                        case 0:
+                            holder.projectName.setTextColor(ContextCompat.getColor
+                                    (context, R.color.text_blue));
+                            break;
+                        case 1:
+                            holder.projectName.setTextColor(ContextCompat.getColor
+                                    (context, R.color.text_green));
+                            break;
+                        case 2:
+                            holder.projectName.setTextColor(ContextCompat.getColor
+                                    (context, R.color.deep_orange));
+                            break;
+                        case 3:
+                            holder.projectName.setTextColor(ContextCompat.getColor
+                                    (context, R.color.amber));
+                            break;
+                    }
+                    if (data.getProjectname()!=null&&!TextUtils.isEmpty(data.getProjectname())){
+                        holder.projectName.setText(data.getProjectname());
+                        holder.projectName.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                    }
+                    if (data.getProject_logo()!=null&&!TextUtils.isEmpty(data.getProject_logo())){
+                       String logo=data.getProject_logo();
+                        if (logo.startsWith("/images")){
+                            Glide.with(context).load(
+                                    Constant.DOMIN + data.getProject_logo()).
+                                    centerCrop().into(holder.imgProject);
+                        }
+
+
+                    }
+
                     // holder.imgProject.setImageURI(data.get);
                 }
 //设置显示内容
@@ -188,6 +314,7 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
             private TextView projectName;
             private ImageView projectEdit;
             private ProjectList mProjectList;
+            private RelativeLayout rlProject;
 
 
             public ProjectViewHolder(View itemView) {
@@ -196,7 +323,9 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
                 imgProject = ButterKnife.findById(itemView, R.id.item_project_img);
                 projectName = ButterKnife.findById(itemView, R.id.item_project_name);
                 projectEdit = ButterKnife.findById(itemView, R.id.item_project_edit);
+                rlProject=ButterKnife.findById(itemView,R.id.rl_item_project);
                 projectEdit.setOnClickListener(this);
+                rlProject.setOnClickListener(this);
 
             }
 
@@ -206,6 +335,40 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
 
             @Override
             public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.item_project_edit:
+                    Intent intents= new Intent(ProjectSettingActivity.this,
+                                ProjectEditActivity.class);
+
+                        if (mProjectList!=null){
+                            intents.putExtra(ProjectEditActivity.PROJECT_ID,
+                                    mProjectList.getId()+"");
+                            intents.putExtra(ProjectEditActivity.PROJECT_NAME,
+                                    mProjectList.getProjectname());
+                            if (mProjectList.getProject_logo()!=null&&
+                                    !TextUtils.isEmpty(mProjectList.getProject_logo())){
+                                intents.putExtra(ProjectEditActivity.PROJECT_LOGO,
+                                        mProjectList.getProject_logo());
+                            }
+
+
+                        }
+                        startActivity(intents);
+                        break;
+                    case R.id.rl_item_project:
+                        Intent intent=new Intent(context,
+                                ProjectItemSettingActivity.class);
+                        if (mProjectList!=null){
+                            System.out.println("项目id："+mProjectList.getId()+"名字："+mProjectList.getProjectname());
+                            intent.putExtra(ProjectItemSettingActivity.PROJECT_ID,
+                                    mProjectList.getId()+"");
+                            intent.putExtra(ProjectItemSettingActivity.PROJECT_NAME,
+                                    mProjectList.getProjectname());
+
+                        }
+                        startActivity(intent);
+                        break;
+                }
 
 
             }

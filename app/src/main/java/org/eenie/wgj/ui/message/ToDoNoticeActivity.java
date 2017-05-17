@@ -140,6 +140,7 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
         public void onBindViewHolder(NoticeViewHolder holder, int position) {
             if (meetingList != null && !meetingList.isEmpty()) {
                 MeetingNotice noticeMessage = meetingList.get(position);
+
                 holder.setItem(noticeMessage);
                 String meetingName=noticeMessage.getName();
                 if (!TextUtils.isEmpty(meetingName)){

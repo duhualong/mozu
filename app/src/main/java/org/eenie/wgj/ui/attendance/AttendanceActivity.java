@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.attendance;
 
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loonggg.weekcalendar.view.WeekCalendar;
@@ -19,6 +20,7 @@ import butterknife.OnClick;
 
 public class AttendanceActivity extends BaseActivity {
     @BindView(R.id.week_calendar)WeekCalendar mWeekCalendar;
+    @BindView(R.id.title_attendance)TextView mTitle;
     @Override
     protected int getContentView() {
         return R.layout.activity_attendance_work;
@@ -32,15 +34,13 @@ public class AttendanceActivity extends BaseActivity {
             System.out.println("sss");
 
         }
+//点击当前日期time：2017-05-18
+        mWeekCalendar.setOnDateClickListener(time ->
+                Toast.makeText(context,time,Toast.LENGTH_SHORT).show());
 
-        mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
-            @Override
-            public void onDateClick(String time) {
-                Toast.makeText(context,time,Toast.LENGTH_SHORT).show();
-            }
+        mWeekCalendar.setOnCurrentMonthDateListener((year, month) -> {
+           mTitle.setText(year+"年"+month+"月");
         });
-
-
 
 
     }

@@ -19,10 +19,10 @@
     <color name="green">#4CAF50</color>
     <color name="green_light">#8BC34A</color>
     <color name="lime">#CDDC39</color>
-    <color name="yellow">#FFEB3B</color>
-    <color name="amber">#FFC107</color>
+    <color name="yellow">#F7B011</color>
+    <color name="amber">#F7B011</color>
     <color name="orange">#FF9800</color>
-    <color name="deep_orange">#FF5722</color>
+    <color name="deep_orange">#F98436</color>
     <color name="brown">#795548</color>
     <color name="gray">#9E9E9E</color>
     <color name="gray_img">#bbbbbb</color>

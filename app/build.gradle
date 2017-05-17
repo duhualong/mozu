@@ -17,8 +17,8 @@ android {
 
         ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', /*'arm64-v8a', */ 'x86'
-                    //'x86', 'x86_64', 'mips', 'mips64'
+            abiFilters 'armeabi', 'arm64-v8a',  'x86',
+                    'x86', 'x86_64', 'mips', 'mips64'
         }
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
@@ -76,7 +76,7 @@ dependencies {
     compile files('libs/pinyin4j-2.5.0.jar')
     //upload photo
     compile 'com.google.zxing:core:3.2.1'
-    compile 'com.yalantis:ucrop:2.0.0@aar'
+    compile 'com.github.yalantis:ucrop:2.2.1'
     compile 'de.hdodenhof:circleimageview:2.0.0'
 
 
@@ -96,7 +96,7 @@ dependencies {
 
 //    周日历
     compile 'noman.weekcalendar:weekcalendar:1.0.6'
-    compile 'com.github.loonggg:WeekCalendar:v1.3'
+    compile 'com.github.loonggg:WeekCalendar:v1.4'
 
     //极光推送
     compile 'cn.jiguang.sdk:jpush:3.0.5'

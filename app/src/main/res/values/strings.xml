@@ -163,6 +163,8 @@
     <string name="create_company">创建公司</string>
     <string name="linkman">联系人</string>
     <string name="linkman_name">张三</string>
+    <string name="tv_key_personal_setting">关键人物信息设置</string>
+    <string name="tv_add"><u>去添加</u></string>
 
 
 </resources>
