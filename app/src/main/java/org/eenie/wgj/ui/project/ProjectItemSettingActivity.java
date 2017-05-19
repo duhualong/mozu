@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.ui.project.exchangework.ExchangeWorkSettingActivity;
+import org.eenie.wgj.ui.project.keypersonal.KeyPersonalSettingActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,6 +26,7 @@ public class ProjectItemSettingActivity extends BaseActivity {
     private String projectName;
     @BindView(R.id.root_view)View rootView;
     @BindView(R.id.tv_title)TextView tvTitle;
+    private Intent mIntent;
 
     @Override
     protected int getContentView() {
@@ -49,15 +52,20 @@ public class ProjectItemSettingActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.rl_set_key_personal:
-                Intent intent=new Intent(context,KeyPersonalSettingActivity.class);
+                 mIntent=new Intent(context,KeyPersonalSettingActivity.class);
                 if (!TextUtils.isEmpty(projectId)){
-                    intent.putExtra(KeyPersonalSettingActivity.PROJECT_ID,projectId);
+                    mIntent.putExtra(KeyPersonalSettingActivity.PROJECT_ID,projectId);
                 }
-                startActivity(intent);
+                startActivity(mIntent);
 
                 break;
             case R.id.rl_set_exchange_work:
 
+                 mIntent=new Intent(context,ExchangeWorkSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(ExchangeWorkSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
 
                 break;
             case R.id.rl_set_job_training:

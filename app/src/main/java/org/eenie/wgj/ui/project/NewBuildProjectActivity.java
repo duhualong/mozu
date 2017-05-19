@@ -220,7 +220,7 @@ public class NewBuildProjectActivity extends BaseActivity {
                     avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
 
                     File fileCardFront = new File(avatarUrl);
-                    uploadFile(compressior(fileCardFront));
+                    uploadFile(fileCardFront);
 
                     break;
                 case REQUEST_GALLERY_PHOTO:
@@ -240,7 +240,7 @@ public class NewBuildProjectActivity extends BaseActivity {
                             });
                     avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     File fileCardFronts = new File(avatarUrl);
-                    uploadFile(compressior(fileCardFronts));
+                    uploadFile(fileCardFronts);
 
 
                     break;

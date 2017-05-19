@@ -60,7 +60,7 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_centerVertical="true"
-                          android:text="交接班设置"
+                          android:text="@string/tv_exchange_work_setting"
                           android:textColor="@color/titleColor"/>
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"

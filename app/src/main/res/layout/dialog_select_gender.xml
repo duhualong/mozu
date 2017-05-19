@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:id="@id/title_dialog"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="设置性别"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
+        />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@id/tv_man"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="男"
+        android:textColor="@color/titleColor"
+        android:textSize="@dimen/text_large_size"
+    />
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView
+        android:id="@id/tv_woman"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="女"
+        android:textSize="@dimen/text_large_size"
+        android:textColor="@color/titleColor"
+    />
+
+</LinearLayout>

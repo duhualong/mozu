@@ -1,5 +1,6 @@
-package org.eenie.wgj.ui.project;
+package org.eenie.wgj.ui.project.keypersonal;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import rx.schedulers.Schedulers;
 
 public class KeyPersonalDetailActivity extends BaseActivity {
     public static final String INFO = "info";
+    public static final String PROJECT_ID = "id";
     @BindView(R.id.img_avatar)
     CircleImageView avatar;
     @BindView(R.id.tv_name)
@@ -53,7 +55,8 @@ public class KeyPersonalDetailActivity extends BaseActivity {
     TextView tvPhone;
     @BindView(R.id.tv_other)
     TextView tvOther;
-    private  KeyContactList data;
+    private KeyContactList data;
+    private String projectId;
 
 
     @Override
@@ -63,7 +66,13 @@ public class KeyPersonalDetailActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-         data = getIntent().getParcelableExtra(INFO);
+        projectId = getIntent().getStringExtra(PROJECT_ID);
+        data = getIntent().getParcelableExtra(INFO);
+        initUI(data);
+
+    }
+
+    private void initUI(KeyContactList data) {
         if (data != null) {
             if (!TextUtils.isEmpty(data.getName())) {
                 tvName.setText(data.getName());
@@ -108,16 +117,14 @@ public class KeyPersonalDetailActivity extends BaseActivity {
             } else {
                 tvPhone.setText("无");
             }
-            if (!TextUtils.isEmpty(data.getInfo().getRemarks())){
+            if (!TextUtils.isEmpty(data.getInfo().getRemarks())) {
                 tvOther.setText(data.getInfo().getRemarks());
-            }else {
+            } else {
                 tvOther.setText("无");
             }
 
 
         }
-
-
     }
 
     @OnClick({R.id.img_back, R.id.button_delete, R.id.button_edit})
@@ -128,7 +135,7 @@ public class KeyPersonalDetailActivity extends BaseActivity {
                 break;
 
             case R.id.button_delete:
-                if (data!=null){
+                if (data != null) {
                     deleteKeyContacts(data.getId());
                 }
 
@@ -136,15 +143,24 @@ public class KeyPersonalDetailActivity extends BaseActivity {
                 break;
             case R.id.button_edit:
 
+                Intent intent = new Intent(context, KeyPersonalEditDetail.class);
+                if (data != null) {
+                    intent.putExtra(KeyPersonalEditDetail.INFO, data);
+                    intent.putExtra(KeyPersonalEditDetail.PROJECT_ID, projectId);
+                    System.out.println("projectId:" + projectId);
+                }
+                startActivityForResult(intent, 1);
+
+
 
                 break;
         }
     }
 
     private void deleteKeyContacts(int id) {
-        String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-        if (!TextUtils.isEmpty(token)){
-            mSubscription=mRemoteService.deleteKeyPersonal(token,id)
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        if (!TextUtils.isEmpty(token)) {
+            mSubscription = mRemoteService.deleteKeyPersonal(token, id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<ApiResponse>() {
@@ -160,8 +176,8 @@ public class KeyPersonalDetailActivity extends BaseActivity {
 
                         @Override
                         public void onNext(ApiResponse apiResponse) {
-                            if (apiResponse.getResultCode()==200){
-                                Toast.makeText(context,apiResponse.getResultMessage(),
+                            if (apiResponse.getResultCode() == 200) {
+                                Toast.makeText(context, apiResponse.getResultMessage(),
                                         Toast.LENGTH_SHORT).show();
                                 Single.just("").delay(1, TimeUnit.SECONDS).
                                         compose(RxUtils.applySchedulers()).
@@ -173,5 +189,15 @@ public class KeyPersonalDetailActivity extends BaseActivity {
                         }
                     });
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 4) {
+            KeyContactList mData = data.getParcelableExtra("info");
+            initUI(mData);
+        }
+
     }
 }

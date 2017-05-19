@@ -85,22 +85,22 @@ public class App extends Application {
 
   private void saveModule(Realm realm) {
     List<HomeModule> mModules = new ArrayList<>();
-    mModules.add(new HomeModule(AttendanceActivity.class,"ic_home_module_sign", "考勤",
+    mModules.add(new HomeModule(AttendanceActivity.class,"ic_home_attendance", "考勤",
             false, 0, true));
-    mModules.add(new HomeModule( "ic_home_module_stati", "考勤统计", false, 1, true));
-    mModules.add(new HomeModule("ic_home_module_polling", "巡检", false, 2, true));
-    mModules.add(new HomeModule( "ic_home_module_polling_stati", "巡检统计", false, 3, true));
-    mModules.add(new HomeModule("ic_home_module__form_up", "表单上传", false, 4, true));
-    mModules.add(new HomeModule("ic_home_module_visitor", "访客通行", false, 5, true));
-    mModules.add(new HomeModule( "ic_home_module_meeting", "会议", false, 6, true));
-    mModules.add(new HomeModule(ProjectSettingActivity.class,"ic_home_module_event_info",
+    mModules.add(new HomeModule( "ic_home_attendance_statistics", "考勤统计", false, 1, true));
+    mModules.add(new HomeModule("ic_inspection", "巡检", false, 2, true));
+    mModules.add(new HomeModule( "ic_inspection_statistics", "巡检统计", false, 3, true));
+    mModules.add(new HomeModule("ic_home_module_form_up", "表单上传", false, 4, true));
+    mModules.add(new HomeModule("ic_visitor_pass", "访客通行", false, 5, true));
+    mModules.add(new HomeModule( "ic_meeting", "会议", false, 6, true));
+    mModules.add(new HomeModule(ProjectSettingActivity.class,"ic_project_setting",
             "项目设置", false, 7, true));
-    mModules.add(new HomeModule("ic_home_module_fix", "维修", false, 10, false));
-    mModules.add(new HomeModule( "ic_home_module_train", "培训", false, 11, false));
-    mModules.add(new HomeModule("ic_home_module_workshow", "工作秀", false, 12, false));
-    mModules.add(new HomeModule( "ic_home_module_report", "报岗", false, 13, false));
-    mModules.add(new HomeModule("ic_home_module_reportstatistic", "报岗统计", false, 14, false));
-    mModules.add(new HomeModule("ic_home_module_casual", "随手拍", false, 15, false));
+    mModules.add(new HomeModule("ic_repair", "维修", false, 10, false));
+    mModules.add(new HomeModule( "ic_training", "培训", false, 11, false));
+    mModules.add(new HomeModule("ic_work_show", "工作秀", false, 12, false));
+    mModules.add(new HomeModule( "ic_submitted_post", "报岗", false, 13, false));
+    mModules.add(new HomeModule("ic_submitted_post_statistics", "报岗统计", false, 14, false));
+    mModules.add(new HomeModule("ic_snapshot", "随手拍", false, 15, false));
     mModules.add(new HomeModule("ic_training_statistics", "培训统计", false, 16, false));
     realm.insertOrUpdate(mModules);
   }

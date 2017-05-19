@@ -288,7 +288,7 @@ public class ProjectEditActivity extends BaseActivity {
                     avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
 
                     File fileCardFront = new File(avatarUrl);
-                    uploadFile(compressior(fileCardFront));
+                    uploadFile(fileCardFront);
 
                     break;
                 case REQUEST_GALLERY_PHOTO:
@@ -308,7 +308,7 @@ public class ProjectEditActivity extends BaseActivity {
                             });
                     avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     File fileCardFronts = new File(avatarUrl);
-                    uploadFile(compressior(fileCardFronts));
+                    uploadFile(fileCardFronts);
 
 
                     break;
@@ -364,9 +364,9 @@ public class ProjectEditActivity extends BaseActivity {
 
     public File compressior(File file) {
         return new Compressor.Builder(context)
-                .setMaxWidth(100)
-                .setMaxHeight(100)
-                .setQuality(75)
+                .setMaxWidth(300)
+                .setMaxHeight(300)
+                .setQuality(150)
                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                 .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_PICTURES).getAbsolutePath())

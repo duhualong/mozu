@@ -60,6 +60,7 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <!--个人中心基本信息-->
         <activity android:name=".ui.personal.information.PersonalBaseInfoActivity"
                   android:screenOrientation="portrait"
@@ -169,13 +170,33 @@
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
         <!--关键人物信息设置-->
-        <activity android:name=".ui.project.KeyPersonalSettingActivity"
+        <activity android:name=".ui.project.keypersonal.KeyPersonalSettingActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
         <!--关键人物信息详情-->
-        <activity android:name=".ui.project.KeyPersonalDetailActivity"
+        <activity android:name=".ui.project.keypersonal.KeyPersonalDetailActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--编辑关键联系人信息-->
+        <activity android:name=".ui.project.keypersonal.KeyPersonalEditDetail"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--添加关键联系人信息-->
+        <activity android:name=".ui.project.keypersonal.AddKeyPersonalInformationActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--交接班设置-->
+        <activity android:name=".ui.project.exchangework.ExchangeWorkSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--交班设置详情-->
+        <activity android:name=".ui.project.exchangework.ExchangeWorkDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--编辑交班设置-->
+        <activity android:name=".ui.project.exchangework.ExchangeWorkEditActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
 
         <!--<provider-->
         <!--android:name="android.support.v4.content.FileProvider"-->

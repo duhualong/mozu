@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@mipmap/bg_submit_button"
+                android:background="@mipmap/ic_button_cancel"
                 android:text="@string/btn_cancel"
                 android:textSize="@dimen/text_large_size"/>
         <Button

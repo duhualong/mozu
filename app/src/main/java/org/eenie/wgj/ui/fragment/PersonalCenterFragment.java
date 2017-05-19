@@ -201,6 +201,8 @@ public class PersonalCenterFragment extends BaseSupportFragment {
                                                         mData.getId_card_head_image())
                                                 .apply();
                                     }else {
+
+
                                         Glide.with(context).load(Constant.DOMIN+
                                                 mData.getId_card_head_image()).
                                                 centerCrop().into(avatar);
@@ -268,4 +270,6 @@ public class PersonalCenterFragment extends BaseSupportFragment {
         String userId = mPrefsHelper.getPrefs().getString(Constants.UID, "");
         getUserInformationById(userId);
     }
+
+
 }

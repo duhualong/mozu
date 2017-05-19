@@ -248,7 +248,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@id/btn_cancel"
-                android:background="@mipmap/bg_submit_button"
+                android:background="@mipmap/ic_button_cancel"
                 android:textSize="12sp"
                 android:text="取消"/>
         <Button

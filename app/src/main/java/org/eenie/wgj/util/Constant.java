@@ -13,5 +13,6 @@ public class Constant {
                     "XhwIjoxNTIyNTcxMDg1LCJkYXRhIjp7ImlkIjoxfX0.60X8vqCQ-VJ7uKPbkIq" +
                     "xOsZDqZDuudwi-U4E3ebCkTg";
     public static final String DOMIN="http://118.178.88.132:8000";
+    public static final String DOMIN_URL="http://118.178.88.132:8000/api/";
 
 }

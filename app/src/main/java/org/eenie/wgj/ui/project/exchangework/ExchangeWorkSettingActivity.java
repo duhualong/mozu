@@ -1,8 +1,7 @@
-package org.eenie.wgj.ui.project;
+package org.eenie.wgj.ui.project.exchangework;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -17,15 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.KeyContactList;
-import org.eenie.wgj.util.Constant;
+import org.eenie.wgj.model.requset.ExchangeWorkList;
+import org.eenie.wgj.ui.project.keypersonal.AddKeyPersonalInformationActivity;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -40,14 +38,15 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/17 at 13:31
+ * Created by Eenie on 2017/5/19 at 11:31
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
-    public static final String PROJECT_ID = "project_id";
-    private String projectId;
+public class ExchangeWorkSettingActivity extends BaseActivity implements
+        SwipeRefreshLayout.OnRefreshListener {
+    public static final String PROJECT_ID = "id";
+
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.ly_add_keyman)
@@ -60,11 +59,12 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_project_contacts)
     RecyclerView mRecyclerView;
-    private KeyContactAdapter mKeyContactAdapter;
+    private ExchangeWorkAdapter mExchangeWorkAdapter;
+    private String projectId;
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_key_personal_setting;
+        return R.layout.activity_exchange_work_setting;
     }
 
     @Override
@@ -75,14 +75,14 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mKeyContactAdapter = new KeyContactAdapter(context, new ArrayList<>());
+        mExchangeWorkAdapter = new ExchangeWorkAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mRecyclerView.setAdapter(mKeyContactAdapter);
+        mRecyclerView.setAdapter(mExchangeWorkAdapter);
 
 
     }
@@ -94,11 +94,16 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
                 onBackPressed();
                 break;
             case R.id.img_add_contacts:
+            //添加交班
 
 
                 break;
             case R.id.ly_add_keyman:
+                Intent intents = new Intent(context,
+                        AddKeyPersonalInformationActivity.class);
+                intents.putExtra(AddKeyPersonalInformationActivity.PROJECT_ID, projectId);
 
+                startActivity(intents);
                 break;
         }
 
@@ -106,9 +111,9 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
 
     @Override
     public void onRefresh() {
-        mKeyContactAdapter.clear();
+        mExchangeWorkAdapter.clear();
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
-        mSubscription = mRemoteService.getKeyProjectContact(token, projectId)
+        mSubscription = mRemoteService.getExchangeWorkList(token, projectId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -129,13 +134,16 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
                             if (apiResponse.getData() != null) {
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                List<KeyContactList> contactLists = gson.fromJson(jsonArray,
-                                        new TypeToken<List<KeyContactList>>() {
+                                List<ExchangeWorkList> exchangeWorkLists = gson.fromJson(jsonArray,
+                                        new TypeToken<List<ExchangeWorkList>>() {
                                         }.getType());
 
-                                if (contactLists != null && !contactLists.isEmpty()) {
-                                    if (mKeyContactAdapter != null) {
-                                        mKeyContactAdapter.addAll(contactLists);
+                                if (exchangeWorkLists != null && !exchangeWorkLists.isEmpty()) {
+                                    if (mExchangeWorkAdapter != null) {
+                                        lyNoPersonal.setVisibility(View.GONE);
+                                        imgContacts.setVisibility(View.VISIBLE);
+                                        lyNoData.setVisibility(View.VISIBLE);
+                                        mExchangeWorkAdapter.addAll(exchangeWorkLists);
                                     }
                                 } else {
                                     lyNoPersonal.setVisibility(View.VISIBLE);
@@ -153,8 +161,8 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
                             lyNoPersonal.setVisibility(View.VISIBLE);
                             imgContacts.setVisibility(View.GONE);
                             lyNoData.setVisibility(View.GONE);
-                            Snackbar.make(rootView, apiResponse.getResultMessage(),
-                                    Snackbar.LENGTH_SHORT).show();
+//                            Snackbar.make(rootView, apiResponse.getResultMessage(),
+//                                    Snackbar.LENGTH_SHORT).show();
                         }
                     }
 
@@ -175,38 +183,32 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
         onRefresh();
     }
 
-    class KeyContactAdapter extends RecyclerView.Adapter<KeyContactAdapter.KeyContactViewHolder> {
+    class ExchangeWorkAdapter extends RecyclerView.Adapter<ExchangeWorkAdapter.ExchangeWorkViewHolder> {
         private Context context;
-        private List<KeyContactList> contactsList;
+        private List<ExchangeWorkList> mExchangeWorkLists;
 
-        public KeyContactAdapter(Context context, List<KeyContactList> contactsList) {
+        public ExchangeWorkAdapter(Context context, List<ExchangeWorkList> mExchangeWorkLists) {
             this.context = context;
-            this.contactsList = contactsList;
+            this.mExchangeWorkLists = mExchangeWorkLists;
         }
 
         @Override
-        public KeyContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ExchangeWorkViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
             View itemView = inflater.inflate(R.layout.item_key_contacts_setting, parent, false);
-            return new KeyContactViewHolder(itemView);
+            return new ExchangeWorkViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(KeyContactViewHolder holder, int position) {
-            if (contactsList != null && !contactsList.isEmpty()) {
-                KeyContactList data = contactsList.get(position);
+        public void onBindViewHolder(ExchangeWorkViewHolder holder, int position) {
+            if (mExchangeWorkLists != null && !mExchangeWorkLists.isEmpty()) {
+                ExchangeWorkList data = mExchangeWorkLists.get(position);
                 holder.setItem(data);
                 if (data != null) {
-                    if (data.getName() != null && !TextUtils.isEmpty(data.getName())) {
-                        holder.contactsName.setText(data.getName());
+                    if (!TextUtils.isEmpty(data.getMattername())) {
+                        holder.contactsName.setText(data.getMattername());
                     }
-
-                    if (data.getImages() != null && !TextUtils.isEmpty(data.getImages())) {
-
-                        Glide.with(context).load(
-                                Constant.DOMIN + data.getImages()).
-                                centerCrop().into(holder.avatarImg);
-                    }
+                    holder.avatarImg.setVisibility(View.GONE);
                 }
 
 
@@ -216,26 +218,26 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
 
         @Override
         public int getItemCount() {
-            return contactsList.size();
+            return mExchangeWorkLists.size();
         }
 
-        public void addAll(List<KeyContactList> contactsList) {
-            this.contactsList.addAll(contactsList);
-            KeyContactAdapter.this.notifyDataSetChanged();
+        public void addAll(List<ExchangeWorkList> mExchangeWorkLists) {
+            this.mExchangeWorkLists.addAll(mExchangeWorkLists);
+            ExchangeWorkAdapter.this.notifyDataSetChanged();
         }
 
         public void clear() {
-            this.contactsList.clear();
-            KeyContactAdapter.this.notifyDataSetChanged();
+            this.mExchangeWorkLists.clear();
+            ExchangeWorkAdapter.this.notifyDataSetChanged();
         }
 
-        class KeyContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class ExchangeWorkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView contactsName;
             private CircleImageView avatarImg;
             private RelativeLayout rlPersonal;
-            private KeyContactList mContactList;
+            private ExchangeWorkList mExchangeWorkList;
 
-            public KeyContactViewHolder(View itemView) {
+            public ExchangeWorkViewHolder(View itemView) {
 
                 super(itemView);
 
@@ -246,16 +248,19 @@ public class KeyPersonalSettingActivity extends BaseActivity implements SwipeRef
 
             }
 
-            public void setItem(KeyContactList data) {
-                mContactList = data;
+            public void setItem(ExchangeWorkList data) {
+                mExchangeWorkList = data;
             }
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,
-                        KeyPersonalDetailActivity.class);
-                if (mContactList!=null){
-                    intent.putExtra(KeyPersonalDetailActivity.INFO, mContactList);
+                        ExchangeWorkDetailActivity.class);
+                if (mExchangeWorkList != null) {
+                    intent.putExtra(ExchangeWorkDetailActivity.INFO, mExchangeWorkList);
+                    if (!TextUtils.isEmpty(projectId)) {
+                        intent.putExtra(ExchangeWorkDetailActivity.PROJECT_ID, projectId);
+                    }
                 }
 
                 startActivity(intent);

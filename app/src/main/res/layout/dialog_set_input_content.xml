@@ -10,34 +10,33 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:text="@string/tv_work_experience"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                  android:text="@string/now_work"
+                  android:textSize="@dimen/text_title_size"
+                  android:id="@id/title_dialog"
                   android:textColor="@color/white"
         />
 
 
     </RelativeLayout>
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="100dp"
+                  android:layout_height="@dimen/margin_height_larger_distance"
+                  android:layout_marginBottom="10dp"
                   android:layout_marginEnd="@dimen/font_size_18sp"
                   android:layout_marginLeft="@dimen/font_size_18sp"
                   android:layout_marginRight="@dimen/font_size_18sp"
                   android:layout_marginStart="@dimen/font_size_18sp"
                   android:layout_marginTop="36dp"
-                  android:background="@mipmap/bg_edit_text_light">
+                  android:background="@drawable/bg_edit_text_light">
         <EditText
-            android:id="@id/edit_address"
+            android:id="@id/et_input_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             android:background="@null"
-            android:gravity="start|left"
-            android:hint="请输入工作经验"
-            android:lines="5"
+            android:hint="@string/hint_now_work"
+            android:lines="1"
+            android:maxLength="15"
             android:textColor="@color/titleColor"
             android:textColorHint="@color/gray"
             android:textSize="@dimen/text_large_size"
@@ -46,25 +45,32 @@
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="@dimen/height_btn_nor"
-                  android:layout_margin="18dp">
-        <Button android:id="@id/btn_cancel"
+                  android:layout_height="@dimen/margin_height_larger_distance"
+                  android:layout_marginBottom="@dimen/padding_bottom"
+                  android:layout_marginEnd="@dimen/font_size_18sp"
+                  android:layout_marginLeft="@dimen/font_size_18sp"
+                  android:layout_marginRight="@dimen/font_size_18sp"
+                  android:layout_marginStart="@dimen/font_size_18sp"
+                  android:layout_marginTop="@dimen/font_size_18sp"
+                  android:orientation="horizontal">
+        <Button android:id="@id/button_project_cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@mipmap/ic_button_cancel"
-                android:text="@string/btn_cancel"
+                android:text="取消"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_large_size"/>
-        <Button
-            android:id="@id/btn_next"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:background="@mipmap/bg_submit_button"
-            android:text="@string/btn_ok"
-            android:textSize="@dimen/text_large_size"/>
-
+        <Button android:id="@id/button_project_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_bottom"
+                android:layout_marginStart="@dimen/padding_bottom"
+                android:layout_weight="1"
+                android:background="@mipmap/ic_button_ok"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_large_size"/>
     </LinearLayout>
+
 </LinearLayout>

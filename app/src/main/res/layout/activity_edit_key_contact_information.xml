@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@id/root_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white_background"
-                android:id="@id/root_view"
                 android:orientation="vertical">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
@@ -20,12 +20,22 @@
                   android:text="@string/tv_key_personal_setting"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+        android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:gravity="center"
+                  android:id="@id/tv_save"
+                  android:padding="@dimen/padding_bottom"
+        android:text="@string/tv_save"/>
 
     </RelativeLayout>
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="?android:actionBarSize"
-                android:layout_marginBottom="@dimen/padding_bottom">
+                android:layout_marginBottom="@dimen/padding_bottom"
+                android:layout_marginTop="?android:actionBarSize">
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical">
@@ -35,6 +45,7 @@
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_distance"
+                            android:id="@id/rl_avatar_img"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -45,16 +56,46 @@
                     android:text="头像"
                     android:textColor="@color/black_light"
                     android:textSize="@dimen/text_large_size"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_toLeftOf="@id/checkbox_avatar_show_state"
+                          android:layout_toStartOf="@id/checkbox_avatar_show_state"
+                          android:layout_centerVertical="true"
+                          android:textColor="@color/black_light"
+                          android:layout_marginEnd="@dimen/personal_margin"
+                          android:layout_marginStart="@dimen/personal_margin"
+                          android:id="@id/avatar_tv"
+                          android:text="显示头像"/>
+                <CheckBox
+                    android:id="@id/checkbox_avatar_show_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/img_avatar"
+                    android:layout_toStartOf="@id/img_avatar"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/padding_short"
+                    android:layout_marginEnd="@dimen/padding_distance"
+                    android:layout_marginRight="@dimen/padding_distance"
+                    android:checked="true"
+                    android:button="@drawable/checkbox_show_avatar"
+                />
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@id/img_avatar"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/padding_distance"
                     android:layout_marginRight="@dimen/padding_distance"
                     android:src="@mipmap/ic_default_header"/>
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentEnd="true"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:src="@mipmap/ic_arrow_right"/>
 
 
             </RelativeLayout>
@@ -64,6 +105,7 @@
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
+                            android:id="@id/rl_name"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,23 +119,22 @@
                     android:id="@id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
-                    android:text="张三"
-                    android:maxLength="15"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:textColor="@color/titleColor"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
+                    android:maxLength="15"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
                            android:src="@mipmap/ic_arrow_right"/>
-
 
 
             </RelativeLayout>
@@ -103,6 +144,7 @@
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
+                            android:id="@id/rl_gender"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -116,23 +158,22 @@
                     android:id="@id/tv_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
-                    android:text="男"
-                    android:maxLength="15"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:textColor="@color/titleColor"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
+                    android:maxLength="15"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
                            android:src="@mipmap/ic_arrow_right"/>
-
 
 
             </RelativeLayout>
@@ -142,6 +183,7 @@
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
+                            android:id="@id/rl_age"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -155,21 +197,21 @@
                     android:id="@id/tv_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
-                    android:text="18岁"
-                    android:maxLength="15"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:textColor="@color/titleColor"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
+                    android:maxLength="15"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
                            android:src="@mipmap/ic_arrow_right"/>
 
 
@@ -180,6 +222,7 @@
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
+                            android:id="@id/rl_height"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -193,21 +236,21 @@
                     android:id="@id/tv_height"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
-                    android:text="170cm"
-                    android:maxLength="15"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:textColor="@color/titleColor"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
+                    android:maxLength="15"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
                            android:src="@mipmap/ic_arrow_right"/>
 
             </RelativeLayout>
@@ -217,6 +260,7 @@
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
+                            android:id="@id/rl_post"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -230,21 +274,21 @@
                     android:id="@id/tv_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
-                    android:text="boss"
-                    android:maxLength="15"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:textColor="@color/titleColor"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
+                    android:maxLength="15"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
                            android:src="@mipmap/ic_arrow_right"/>
 
             </RelativeLayout>
@@ -254,6 +298,7 @@
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
+                            android:id="@id/rl_work_time"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -267,31 +312,31 @@
                     android:id="@id/tv_wok_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
-                    android:text="08:20-09:10"
-                    android:maxLength="15"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:textColor="@color/titleColor"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
+                    android:maxLength="15"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
                            android:src="@mipmap/ic_arrow_right"/>
 
             </RelativeLayout>
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@id/rl_car_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
-                            android:id="@id/rl_car_number"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -305,31 +350,31 @@
                     android:id="@id/tv_car_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
-                    android:text="沪A110119"
-                    android:maxLength="15"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:textColor="@color/titleColor"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
+                    android:maxLength="15"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
                            android:src="@mipmap/ic_arrow_right"/>
 
             </RelativeLayout>
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@id/rl_phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
-                            android:id="@id/rl_phone"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -342,31 +387,31 @@
                     android:id="@id/tv_phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
                     android:layout_centerVertical="true"
-                    android:text="18817872480"
-                    android:maxLength="15"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:textColor="@color/titleColor"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
+                    android:maxLength="15"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
                            android:src="@mipmap/ic_arrow_right"/>
 
             </RelativeLayout>
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@id/rl_other"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="1dp"
                             android:background="@color/white"
                             android:padding="@dimen/padding_bottom"
-                            android:id="@id/rl_other"
             >
                 <TextView
                     android:layout_width="wrap_content"
@@ -379,24 +424,23 @@
                     android:id="@id/tv_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                   android:layout_toLeftOf="@id/img_right"
-                    android:layout_toStartOf="@id/img_right"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/padding_short"
                     android:layout_marginRight="@dimen/padding_short"
-                    android:maxLength="20"
+                    android:layout_toLeftOf="@id/img_right"
+                    android:layout_toStartOf="@id/img_right"
                     android:lines="1"
-                    android:layout_centerVertical="true"
-                    android:text="AA"
-                    android:textColor="@color/titleColor"
+                    android:maxLength="20"
+                    android:text="去设置"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_large_size"/>
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:id="@id/img_right"
+                           android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:id="@id/img_right"
-                           android:layout_centerVertical="true"
                            android:layout_alignParentEnd="true"
                            android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_arrow_right"/>
-
+                           android:layout_centerVertical="true"
+                           android:src="@mipmap/ic_arrow_right"/>
             </RelativeLayout>
         </LinearLayout>
 

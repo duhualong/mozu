@@ -344,4 +344,24 @@
     <item name="rl_other" type="id"/>
     <item name="rl_phone" type="id"/>
     <item name="rl_car_number" type="id"/>
+    <item name="checkbox_avatar_show_state" type="id"/>
+    <item name="rl_name" type="id"/>
+    <item name="rl_gender" type="id"/>
+    <item name="rl_post" type="id"/>
+    <item name="rl_work_time" type="id"/>
+    <item name="et_input_content" type="id"/>
+    <item name="tv_man" type="id"/>
+    <item name="tv_woman" type="id"/>
+    <item name="rl_age" type="id"/>
+    <item name="ly_end_time" type="id"/>
+    <item name="ly_start_time" type="id"/>
+    <item name="tv_end_time" type="id"/>
+    <item name="tv_start_time" type="id"/>
+    <item name="tv_dialog_title" type="id"/>
+    <item name="avatar_tv" type="id"/>
+    <item name="exchange_work_name" type="id"/>
+    <item name="tv_matter" type="id"/>
+    <item name="tv_set_title" type="id"/>
+    <item name="et_input_work_title" type="id"/>
+    <item name="et_input_exchange_work_content" type="id"/>
 </resources>

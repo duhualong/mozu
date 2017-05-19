@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.NewResponse;
+import org.eenie.wgj.model.requset.AddKeyPersonalInformation;
 import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.BuildNewProject;
 import org.eenie.wgj.model.requset.CaptchaChecked;
@@ -107,7 +108,7 @@ public interface RemoteService {
     //查询待办事项详情
     @GET("matterRemind/Info")
     Single<ApiResponse> getMessageById(@Header("token") String token,
-                                                      @Query("id") int id);
+                                       @Query("id") int id);
 
     //通知
     @GET("noticeList")
@@ -133,7 +134,7 @@ public interface RemoteService {
 
     //通过userid获取用户信息
     @POST("user/getinfo")
-    Single<ApiResponse> getUserInfoById(@Header("token")String token,@Body UserId userId);
+    Single<ApiResponse> getUserInfoById(@Header("token") String token, @Body UserId userId);
 
     //修改个人信息
     @POST("user/update")
@@ -142,50 +143,72 @@ public interface RemoteService {
     //创建公司
     @POST("company/create")
     Single<MApi>
-    createCompany(@Header("token")String token,@Body CreataCompanyRequest creataCompanyRequest);
+    createCompany(@Header("token") String token, @Body CreataCompanyRequest creataCompanyRequest);
+
     //获取所有公司列表
     @GET("company/all")
-    Single<ApiResponse>getCompanyList();
+    Single<ApiResponse> getCompanyList();
+
     //获取某一城市下的公司
     @GET("company/city")
-    Single<ApiResponse>getCityCompanyList(@Query("city") String city);
+    Single<ApiResponse> getCityCompanyList(@Query("city") String city);
+
     //加入公司
     @POST("company/join")
-    Single<NewResponse>joinCompany(@Header("token")String token, @Body JoinCompany joinCompany);
+    Single<NewResponse> joinCompany(@Header("token") String token, @Body JoinCompany joinCompany);
+
     //查询加入申请公司状态
     @POST("user/apply")
-    Single<ApiResponse>joinCompanyState(@Header("token")String token);
+    Single<ApiResponse> joinCompanyState(@Header("token") String token);
+
     //获取所有项目的列表
 
     /**
      * 获取项目列表
+     *
      * @param token
      * @return
      */
     @GET("project/list")
     Single<ApiResponse> getProjectList(@Header("token") String token);
+
     //新建项目列表
     @POST("project/add")
-    Single<ApiResponse> newProject(@Header("token")String token,
+    Single<ApiResponse> newProject(@Header("token") String token,
                                    @Body BuildNewProject buildNewProject);
+
     //删除项目
     @POST("project/delete")
-    Single<ApiResponse>deleteProject(@Header("token")String token,
-                                  @Body BuildNewProject buildNewProject);
+    Single<ApiResponse> deleteProject(@Header("token") String token,
+                                      @Body BuildNewProject buildNewProject);
+
     //修改项目
     @POST("project/modify")
-    Single<ApiResponse>modifyProject(@Header("token")String token,
-                                     @Body BuildNewProject buildNewProject);
+    Single<ApiResponse> modifyProject(@Header("token") String token,
+                                      @Body BuildNewProject buildNewProject);
+
     //获取关键人物信息列表
     @GET("ownerIndexList")
-    Single<ApiResponse>getKeyProjectContact(@Header("token")String token,@Query("projectid")
-                                            String projectId);
+    Single<ApiResponse> getKeyProjectContact(@Header("token") String token, @Query("projectid")
+            String projectId);
+
     //删除关键人物信息
     @GET("ownerDelete")
-    Single<ApiResponse>deleteKeyPersonal(@Header("token")String token,@Query("id")int id);
+    Single<ApiResponse> deleteKeyPersonal(@Header("token") String token, @Query("id") int id);
 
+    //修改关键人物信息
+    @POST("ownerUpdate")
+    Single<ApiResponse> updateKeyPersonal(@Header("token") String token,
+                                          @Body AddKeyPersonalInformation addKeyPersonalInformation);
 
+    //获取交接班列表
+    @GET("precautionList")
+    Single<ApiResponse> getExchangeWorkList(@Header("token") String token, @Query("projectid")
+            String projectId);
 
+    //交接班删除
+    @GET("precautionDelete")
+    Single<ApiResponse> deleteExchangeWorkItem(@Header("token") String token, @Query("id") int id);
 
 
     class Creator {

@@ -76,8 +76,9 @@ dependencies {
     compile files('libs/pinyin4j-2.5.0.jar')
     //upload photo
     compile 'com.google.zxing:core:3.2.1'
-    compile 'com.github.yalantis:ucrop:2.2.1'
+    //compile 'com.github.yalantis:ucrop:2.2.1'
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.yalantis:ucrop:2.2.0'
 
 
     compile 'me.zhouzhuo.zzletterssidebar:zz-letters-sidebar:1.0.2'
@@ -101,5 +102,5 @@ dependencies {
     //极光推送
     compile 'cn.jiguang.sdk:jpush:3.0.5'
     compile 'cn.jiguang.sdk:jcore:1.1.2'
-
+    compile 'com.zhy:okhttputils:2.6.2'
 }

@@ -24,6 +24,13 @@ public class KeyContactList implements Parcelable {
     private String images;
     private InfoBean info;
 
+    public KeyContactList(int id, String name, String images, InfoBean info) {
+        this.id = id;
+        this.name = name;
+        this.images = images;
+        this.info = info;
+    }
+
     public int getId() {
         return id;
     }
@@ -77,6 +84,17 @@ public class KeyContactList implements Parcelable {
         private String numberplates;
         private String remarks;
         private String phone;
+        public InfoBean(int sex, int age, int height, String job, String workinghours,
+                        String numberplates, String remarks, String phone) {
+            this.sex = sex;
+            this.age = age;
+            this.height = height;
+            this.job = job;
+            this.workinghours = workinghours;
+            this.numberplates = numberplates;
+            this.remarks = remarks;
+            this.phone = phone;
+        }
 
         public int getSex() {
             return sex;
@@ -160,8 +178,7 @@ public class KeyContactList implements Parcelable {
             dest.writeString(this.phone);
         }
 
-        public InfoBean() {
-        }
+
 
         protected InfoBean(Parcel in) {
             this.sex = in.readInt();
