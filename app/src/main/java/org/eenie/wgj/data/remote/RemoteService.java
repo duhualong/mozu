@@ -209,7 +209,13 @@ public interface RemoteService {
     //交接班删除
     @GET("precautionDelete")
     Single<ApiResponse> deleteExchangeWorkItem(@Header("token") String token, @Query("id") int id);
-
+    //获取岗位培训列表
+    @GET("jobtrainingList")
+    Single<ApiResponse>getTrainingWorkList(@Header("token")String token, @Query("projectid")
+            String projectId);
+    //删除岗位培训
+    @GET("jobtrainingDelete")
+    Single<ApiResponse> deleteTrainingWorkItem(@Header("token") String token, @Query("id") int id);
 
     class Creator {
 

@@ -5,7 +5,6 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.Token;
 
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -61,12 +60,18 @@ public interface FileUploadService {
 //                                         @PartMap() Map<String, RequestBody> partMap,
 //                                         @Part("file") MultipartBody.Part file);
 
-    @Multipart
+    //添加交接班
     @POST("precautionAdd")
-    Call<ApiResponse> addExchangeWorkList(@Header("token") String token,
-                                                @PartMap() Map<String, RequestBody> pa,
-                                                @Part List<MultipartBody.Part> imgs);
-
+    Call<ApiResponse> addExchangeWorkList(@Header("token") String token,@Body RequestBody body);
+    //编辑交接班
+    @POST("precautionUpdate")
+    Call<ApiResponse>editExchangeWorkList(@Header("token")String token,@Body RequestBody body);
+    //添加岗位培训设置
+    @POST("jobtrainingAdd")
+    Call<ApiResponse> addTrainingWork(@Header("token") String token,@Body RequestBody body);
+    //编辑岗位培训设置
+    @POST("jobtrainingUpdate")
+    Call<ApiResponse>editTrainingWork(@Header("token") String token,@Body RequestBody body);
 
 
     @POST("register/user")

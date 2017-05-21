@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.project.exchangework;
+package org.eenie.wgj.ui.project.worktraining;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,7 +23,7 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.requset.ExchangeWorkList;
+import org.eenie.wgj.model.response.WorkTrainingList;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
@@ -50,12 +50,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/19 at 15:13
+ * Created by Eenie on 2017/5/21 at 15:10
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class ExchangeWorkEditActivity extends BaseActivity {
+public class EditTrainingWorkActivity extends BaseActivity {
     private static final int REQUEST_CAMERA_FIRST=0x101;
     private static final int REQUEST_CAMERA_SECOND=0x102;
     private static final int REQUEST_CAMERA_THIRD=0x103;
@@ -69,8 +69,8 @@ public class ExchangeWorkEditActivity extends BaseActivity {
     public static final String PROJECT_ID = "id";
     @BindView(R.id.root_view)
     View rootView;
-    private ArrayList<ExchangeWorkList.ImageBean> lists;
-    private ExchangeWorkList data;
+    private ArrayList<WorkTrainingList.ImageBean> lists;
+    private WorkTrainingList data;
     @BindView(R.id.et_input_work_title)
     EditText mInputTitle;
     @BindView(R.id.et_input_exchange_work_content)
@@ -93,7 +93,7 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_edit_exchange_work;
+        return R.layout.activity_edit_training_work;
     }
 
     @Override
@@ -102,8 +102,8 @@ public class ExchangeWorkEditActivity extends BaseActivity {
         mProjectId = getIntent().getStringExtra(PROJECT_ID);
         if (data != null) {
             mId = data.getId();
-            mTitleName = data.getMattername();
-            mContent = data.getMatter();
+            mTitleName = data.getTrainingname();
+            mContent = data.getTrainingcontent();
             lists = data.getImage();
             if (!TextUtils.isEmpty(mTitleName)) {
                 mInputTitle.setText(mTitleName);
@@ -155,8 +155,8 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 
     @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
     public void onClick(View view) {
-         mContent = mInputContent.getText().toString();
-         mTitleName=mInputTitle.getText().toString();
+        mContent = mInputContent.getText().toString();
+        mTitleName=mInputTitle.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
@@ -166,9 +166,9 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName))
 
 
-                if (firstFile!=null){
-                    files.add(0,firstFile);
-                }
+                    if (firstFile!=null){
+                        files.add(0,firstFile);
+                    }
                 if (secondFile!=null){
                     files.add(1,secondFile);
                 }
@@ -247,7 +247,8 @@ public class ExchangeWorkEditActivity extends BaseActivity {
         contentValues.put(MediaStore.Images.Media.TITLE, name);
         contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, name + ".jpg");
         contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-        Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                contentValues);
         return uri;
     }
 
@@ -262,7 +263,7 @@ public class ExchangeWorkEditActivity extends BaseActivity {
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
                 .withMaxResultSize(100, 100)
-                .start(ExchangeWorkEditActivity.this, requestCode);
+                .start(EditTrainingWorkActivity.this, requestCode);
     }
 
     @Override
@@ -346,45 +347,8 @@ public class ExchangeWorkEditActivity extends BaseActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    private void addData(String token, String pathOne,String pathTwo,String pathThree) {
 
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Constant.DOMIN_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        FileUploadService userBiz = retrofit.create(FileUploadService.class);
-//        List<File> files = new ArrayList<>();
-//        if (!TextUtils.isEmpty(pathOne)&&!TextUtils.isEmpty(pathTwo)&&!TextUtils.isEmpty(pathThree)){
-//
-//            files.add(new File(pathOne));
-//            files.add(new File(pathTwo));
-//            files.add(new File(pathThree));
-//
-//        }
-//
-//
-//
-//        Call<ApiResponse> call = userBiz.addExchangeWorkList(token,getMultipartBody(files)
-//        );
-//        call.enqueue(new Callback<ApiResponse>() {
-//            @Override
-//            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-//                Log.d("tag:", "onResponse: "+response.code());
-//                if (response.body().getResultCode()==200){
-//                    Toast.makeText(context,"测试成功",Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ApiResponse> call, Throwable t) {
-//
-//            }
-//        });
-
-
-    }
-    private void editData(RequestBody body,String token){
+    private void editData(RequestBody body, String token){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -394,12 +358,12 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 
 
 
-        Call<ApiResponse> call = userBiz.editExchangeWorkList(token,body);
+        Call<ApiResponse> call = userBiz.editTrainingWork(token,body);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 Log.d("tag:", "onResponse: "+response.code());
-                if (response.body().getResultCode()==200){
+                if (response.body().getResultCode()==0){
                     //会调数据
 
 //                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
@@ -413,7 +377,7 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                             compose(RxUtils.applySchedulers()).
                             subscribe(s ->
                                     startActivity(new Intent(context,
-                                            ExchangeWorkSettingActivity.class))
+                                            WorkTrainingDetailActivity.class))
                             );
 
                 }
@@ -430,23 +394,24 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                                                  String content,String id){
         MultipartBody.Builder builder=new MultipartBody.Builder();
         for (int i=0;i<files.size();i++){
-            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
+            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),
+                    files.get(i));
             builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
 
         }
         builder.addFormDataPart("projectid",projectId);
-        builder.addFormDataPart("mattername",title);
-        builder.addFormDataPart("matter",content);
+        builder.addFormDataPart("trainingname",title);
+        builder.addFormDataPart("trainingcontent",content);
         builder.addFormDataPart("id",id);
         builder.setType(MultipartBody.FORM);
         return builder.build();
-
     }
     //下载
     private void downloadImg(String imgUrl,int position) {
         OkHttpUtils.get().url(Constant.DOMIN+imgUrl)
                 .build()
-                .execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), "a.jpg") {
+                .execute(new FileCallBack(Environment.getExternalStorageDirectory().
+                        getAbsolutePath(), "a.jpg") {
                     @Override
                     public void onError(okhttp3.Call call, Exception e, int id) {
 
@@ -475,6 +440,5 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                     }
                 });
     }
-
 
 }

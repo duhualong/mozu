@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -14,10 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.yalantis.ucrop.UCrop;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.FileCallBack;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
@@ -50,12 +46,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/19 at 15:13
+ * Created by Eenie on 2017/5/21 at 14:23
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class ExchangeWorkEditActivity extends BaseActivity {
+public class AddExchangeWorkActivity extends BaseActivity {
     private static final int REQUEST_CAMERA_FIRST=0x101;
     private static final int REQUEST_CAMERA_SECOND=0x102;
     private static final int REQUEST_CAMERA_THIRD=0x103;
@@ -89,8 +85,6 @@ public class ExchangeWorkEditActivity extends BaseActivity {
     private File secondFile;
     private File thirdFile;
     List<File> files = new ArrayList<>();
-    List<String>imgPath=new ArrayList<>();
-
     @Override
     protected int getContentView() {
         return R.layout.activity_edit_exchange_work;
@@ -98,65 +92,15 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        data = getIntent().getParcelableExtra(INFO);
+
         mProjectId = getIntent().getStringExtra(PROJECT_ID);
-        if (data != null) {
-            mId = data.getId();
-            mTitleName = data.getMattername();
-            mContent = data.getMatter();
-            lists = data.getImage();
-            if (!TextUtils.isEmpty(mTitleName)) {
-                mInputTitle.setText(mTitleName);
-            }
-            if (!TextUtils.isEmpty(mContent)) {
-                mInputContent.setText(mContent);
-            }
-            if (lists.size() > 0) {
-                switch (lists.size()){
-                    case 1:
-                        firstPath=lists.get(0).getImage();
-
-                        break;
-                    case 2:
-                        firstPath=lists.get(0).getImage();
-                        secondPath=lists.get(1).getImage();
-
-                        break;
-                    case 3:
-                        firstPath=lists.get(0).getImage();
-                        secondPath=lists.get(1).getImage();
-                        thirdPath=lists.get(2).getImage();
-
-
-                        break;
-                }
-                for (int i = 0; i < lists.size(); i++) {
-                    int finalI = i;
-                    new Thread() {
-                        public void run() {
-                            downloadImg(lists.get(finalI).getImage(),finalI);
-                        }
-                    }.start();
-
-                    if (i < 2) {
-                        imgList.get(i + 1).setVisibility(View.VISIBLE);
-                    }
-                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(i).getImage())
-                            .centerCrop().into(imgList.get(i));
-
-                }
-
-            }
-
-
-        }
 
     }
 
     @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
     public void onClick(View view) {
-         mContent = mInputContent.getText().toString();
-         mTitleName=mInputTitle.getText().toString();
+        mContent = mInputContent.getText().toString();
+        mTitleName=mInputTitle.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
@@ -166,9 +110,9 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName))
 
 
-                if (firstFile!=null){
-                    files.add(0,firstFile);
-                }
+                    if (firstFile!=null){
+                        files.add(0,firstFile);
+                    }
                 if (secondFile!=null){
                     files.add(1,secondFile);
                 }
@@ -178,7 +122,7 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                 if (files!=null){
                     new Thread() {
                         public void run() {
-                            editData(getMultipartBody(files,mProjectId,mTitleName,mContent,mId+""),
+                            addData(getMultipartBody(files,mProjectId,mTitleName,mContent),
                                     mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
                         }
                     }.start();
@@ -262,7 +206,7 @@ public class ExchangeWorkEditActivity extends BaseActivity {
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
                 .withMaxResultSize(100, 100)
-                .start(ExchangeWorkEditActivity.this, requestCode);
+                .start(AddExchangeWorkActivity.this, requestCode);
     }
 
     @Override
@@ -346,55 +290,15 @@ public class ExchangeWorkEditActivity extends BaseActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    private void addData(String token, String pathOne,String pathTwo,String pathThree) {
 
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Constant.DOMIN_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        FileUploadService userBiz = retrofit.create(FileUploadService.class);
-//        List<File> files = new ArrayList<>();
-//        if (!TextUtils.isEmpty(pathOne)&&!TextUtils.isEmpty(pathTwo)&&!TextUtils.isEmpty(pathThree)){
-//
-//            files.add(new File(pathOne));
-//            files.add(new File(pathTwo));
-//            files.add(new File(pathThree));
-//
-//        }
-//
-//
-//
-//        Call<ApiResponse> call = userBiz.addExchangeWorkList(token,getMultipartBody(files)
-//        );
-//        call.enqueue(new Callback<ApiResponse>() {
-//            @Override
-//            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-//                Log.d("tag:", "onResponse: "+response.code());
-//                if (response.body().getResultCode()==200){
-//                    Toast.makeText(context,"测试成功",Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ApiResponse> call, Throwable t) {
-//
-//            }
-//        });
-
-
-    }
-    private void editData(RequestBody body,String token){
+    private void addData(RequestBody body, String token){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
 
-
-
-
-        Call<ApiResponse> call = userBiz.editExchangeWorkList(token,body);
+        Call<ApiResponse> call = userBiz.addExchangeWorkList(token,body);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -407,13 +311,12 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 //                mIntent.putExtra("exchange_work", list);
 //                // 设置结果，并进行传送
 //                setResult(4,mIntent);
-                    Toast.makeText(context, "编辑成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
 
                     Single.just("").delay(1, TimeUnit.SECONDS).
                             compose(RxUtils.applySchedulers()).
                             subscribe(s ->
-                                    startActivity(new Intent(context,
-                                            ExchangeWorkSettingActivity.class))
+                                  finish()
                             );
 
                 }
@@ -427,7 +330,7 @@ public class ExchangeWorkEditActivity extends BaseActivity {
         });
     }
     public static MultipartBody getMultipartBody(List<File> files,String projectId,String title,
-                                                 String content,String id){
+                                                 String content){
         MultipartBody.Builder builder=new MultipartBody.Builder();
         for (int i=0;i<files.size();i++){
             RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
@@ -437,44 +340,9 @@ public class ExchangeWorkEditActivity extends BaseActivity {
         builder.addFormDataPart("projectid",projectId);
         builder.addFormDataPart("mattername",title);
         builder.addFormDataPart("matter",content);
-        builder.addFormDataPart("id",id);
         builder.setType(MultipartBody.FORM);
         return builder.build();
 
     }
-    //下载
-    private void downloadImg(String imgUrl,int position) {
-        OkHttpUtils.get().url(Constant.DOMIN+imgUrl)
-                .build()
-                .execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), "a.jpg") {
-                    @Override
-                    public void onError(okhttp3.Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(File response, int id) {
-                        System.out.println("response"+response.length());
-                        switch (position){
-                            case 0:
-                                firstFile=response;
-
-                                break;
-                            case 1:
-                                secondFile=response;
-
-                                break;
-                            case 2:
-                                thirdFile=response;
-                                break;
-
-                        }
-                        System.out.println("fileName:"+response.getName());
-
-
-                    }
-                });
-    }
-
 
 }

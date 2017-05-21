@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.project.exchangework;
+package org.eenie.wgj.ui.project.worktraining;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.requset.ExchangeWorkList;
+import org.eenie.wgj.model.response.WorkTrainingList;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
@@ -30,19 +30,19 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/19 at 12:10
+ * Created by Eenie on 2017/5/21 at 14:58
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class ExchangeWorkDetailActivity extends BaseActivity {
+public class WorkTrainingDetailActivity extends BaseActivity {
     @BindView(R.id.root_view)View rootView;
     @BindView(R.id.exchange_work_name)TextView workTitle;
     @BindView(R.id.tv_matter)TextView tvMatter;
     public static final String INFO="info";
     public static final String PROJECT_ID="project_id";
-    private  ExchangeWorkList data;
-    @BindViews({R.id.img_first,R.id.img_second,R.id.img_third})List<ImageView>imgList;
+    private WorkTrainingList data;
+    @BindViews({R.id.img_first,R.id.img_second,R.id.img_third})List<ImageView> imgList;
     private String projectId;
     private  int mId;
 
@@ -50,27 +50,27 @@ public class ExchangeWorkDetailActivity extends BaseActivity {
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_exchange_work_detail;
+        return R.layout.activity_training_work_detail;
     }
 
     @Override
     protected void updateUI() {
-       data= getIntent().getParcelableExtra(INFO);
+        data= getIntent().getParcelableExtra(INFO);
         projectId=getIntent().getStringExtra(PROJECT_ID);
         initUI(data);
 
 
     }
 
-    private void initUI(ExchangeWorkList data) {
+    private void initUI(WorkTrainingList data) {
         if (data!=null){
-           mId= data.getId();
-            if (!TextUtils.isEmpty(data.getMattername())){
-                workTitle.setText(data.getMattername());
+            mId= data.getId();
+            if (!TextUtils.isEmpty(data.getTrainingname())){
+                workTitle.setText(data.getTrainingname());
 
             }
-            if (!TextUtils.isEmpty(data.getMatter())){
-                tvMatter.setText(data.getMatter());
+            if (!TextUtils.isEmpty(data.getTrainingcontent())){
+                tvMatter.setText(data.getTrainingcontent());
             }else {
                 tvMatter.setText("无");
             }
@@ -102,22 +102,21 @@ public class ExchangeWorkDetailActivity extends BaseActivity {
                 break;
 
             case R.id.button_edit:
-                Intent intent=new Intent(context,ExchangeWorkEditActivity.class);
+                Intent intent=new Intent(context,EditTrainingWorkActivity.class);
                 if (data!=null){
-                    intent.putExtra(ExchangeWorkEditActivity.INFO,data);
+                    intent.putExtra(EditTrainingWorkActivity.INFO,data);
                     if (!TextUtils.isEmpty(projectId)){
-                        intent.putExtra(ExchangeWorkEditActivity.PROJECT_ID,projectId);
+                        intent.putExtra(EditTrainingWorkActivity.PROJECT_ID,projectId);
                     }
                 }
                 startActivityForResult(intent, 1);
-
                 break;
         }
     }
     //删除交接班
 
     private void deleteItem(String token, int id) {
-        mSubscription=mRemoteService.deleteExchangeWorkItem(token,id)
+        mSubscription=mRemoteService.deleteTrainingWorkItem(token,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -156,10 +155,9 @@ public class ExchangeWorkDetailActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 4) {
-            ExchangeWorkList mData = data.getParcelableExtra("exchange_work");
-            initUI(mData);
+//            ExchangeWorkList mData = data.getParcelableExtra("exchange_work");
+//            initUI(mData);
         }
 
     }
-
 }

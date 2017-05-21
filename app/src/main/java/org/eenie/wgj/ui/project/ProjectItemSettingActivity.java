@@ -9,6 +9,7 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.ui.project.exchangework.ExchangeWorkSettingActivity;
 import org.eenie.wgj.ui.project.keypersonal.KeyPersonalSettingActivity;
+import org.eenie.wgj.ui.project.worktraining.WorkTrainingSettingActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -69,6 +70,12 @@ public class ProjectItemSettingActivity extends BaseActivity {
 
                 break;
             case R.id.rl_set_job_training:
+
+                mIntent=new Intent(context,WorkTrainingSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(ExchangeWorkSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
 
                 break;
             case R.id.rl_set_security:

@@ -197,7 +197,26 @@
         <activity android:name=".ui.project.exchangework.ExchangeWorkEditActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustPan"/>
-
+        <!--添加交接班-->
+        <activity android:name=".ui.project.exchangework.AddExchangeWorkActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--岗位培训设置-->
+        <activity android:name=".ui.project.worktraining.WorkTrainingSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--岗位培训设置详情-->
+        <activity android:name=".ui.project.worktraining.WorkTrainingDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--添加岗位培训设置-->
+        <activity android:name=".ui.project.worktraining.AddTrainingWorkActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--编辑岗位培训设置-->
+        <activity android:name=".ui.project.worktraining.EditTrainingWorkActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
         <!--<provider-->
         <!--android:name="android.support.v4.content.FileProvider"-->
         <!--android:authorities="org.eenie.wgj.fileprovider"-->

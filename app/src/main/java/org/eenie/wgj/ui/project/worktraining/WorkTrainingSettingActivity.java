@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.project.exchangework;
+package org.eenie.wgj.ui.project.worktraining;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +22,8 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.requset.ExchangeWorkList;
+import org.eenie.wgj.model.response.WorkTrainingList;
+import org.eenie.wgj.ui.project.exchangework.AddExchangeWorkActivity;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -37,13 +38,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/19 at 11:31
+ * Created by Eenie on 2017/5/21 at 14:39
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class ExchangeWorkSettingActivity extends BaseActivity implements
-        SwipeRefreshLayout.OnRefreshListener {
+public class WorkTrainingSettingActivity extends BaseActivity implements
+        SwipeRefreshLayout.OnRefreshListener{
     public static final String PROJECT_ID = "id";
 
     @BindView(R.id.root_view)
@@ -63,7 +64,7 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_exchange_work_setting;
+        return R.layout.activity_training_work_setting;
     }
 
     @Override
@@ -93,18 +94,18 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
                 onBackPressed();
                 break;
             case R.id.img_add_contacts:
-            //添加交班
+
                 Intent intent = new Intent(context,
-                        AddExchangeWorkActivity.class);
-                intent.putExtra(AddExchangeWorkActivity.PROJECT_ID, projectId);
+                        AddTrainingWorkActivity.class);
+                intent.putExtra(AddTrainingWorkActivity.PROJECT_ID, projectId);
 
                 startActivity(intent);
 
                 break;
             case R.id.ly_add_keyman:
                 Intent intents = new Intent(context,
-                        AddExchangeWorkActivity.class);
-                intents.putExtra(AddExchangeWorkActivity.PROJECT_ID, projectId);
+                        AddTrainingWorkActivity.class);
+                intents.putExtra(AddTrainingWorkActivity.PROJECT_ID, projectId);
 
                 startActivity(intents);
                 break;
@@ -116,7 +117,7 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
     public void onRefresh() {
         mExchangeWorkAdapter.clear();
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
-        mSubscription = mRemoteService.getExchangeWorkList(token, projectId)
+        mSubscription = mRemoteService.getTrainingWorkList(token, projectId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -137,16 +138,16 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
                             if (apiResponse.getData() != null) {
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                List<ExchangeWorkList> exchangeWorkLists = gson.fromJson(jsonArray,
-                                        new TypeToken<List<ExchangeWorkList>>() {
+                                List<WorkTrainingList> workTrainingLists = gson.fromJson(jsonArray,
+                                        new TypeToken<List<WorkTrainingList>>() {
                                         }.getType());
 
-                                if (exchangeWorkLists != null && !exchangeWorkLists.isEmpty()) {
+                                if (workTrainingLists != null && !workTrainingLists.isEmpty()) {
                                     if (mExchangeWorkAdapter != null) {
                                         lyNoPersonal.setVisibility(View.GONE);
                                         imgContacts.setVisibility(View.VISIBLE);
                                         lyNoData.setVisibility(View.VISIBLE);
-                                        mExchangeWorkAdapter.addAll(exchangeWorkLists);
+                                        mExchangeWorkAdapter.addAll(workTrainingLists);
                                     }
                                 } else {
                                     lyNoPersonal.setVisibility(View.VISIBLE);
@@ -188,11 +189,11 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
 
     class ExchangeWorkAdapter extends RecyclerView.Adapter<ExchangeWorkAdapter.ExchangeWorkViewHolder> {
         private Context context;
-        private List<ExchangeWorkList> mExchangeWorkLists;
+        private List<WorkTrainingList> mWorkTrainingLists;
 
-        public ExchangeWorkAdapter(Context context, List<ExchangeWorkList> mExchangeWorkLists) {
+        public ExchangeWorkAdapter(Context context, List<WorkTrainingList> mWorkTrainingLists) {
             this.context = context;
-            this.mExchangeWorkLists = mExchangeWorkLists;
+            this.mWorkTrainingLists = mWorkTrainingLists;
         }
 
         @Override
@@ -204,12 +205,12 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
 
         @Override
         public void onBindViewHolder(ExchangeWorkViewHolder holder, int position) {
-            if (mExchangeWorkLists != null && !mExchangeWorkLists.isEmpty()) {
-                ExchangeWorkList data = mExchangeWorkLists.get(position);
+            if (mWorkTrainingLists != null && !mWorkTrainingLists.isEmpty()) {
+                WorkTrainingList data = mWorkTrainingLists.get(position);
                 holder.setItem(data);
                 if (data != null) {
-                    if (!TextUtils.isEmpty(data.getMattername())) {
-                        holder.contactsName.setText(data.getMattername());
+                    if (!TextUtils.isEmpty(data.getTrainingname())) {
+                        holder.contactsName.setText(data.getTrainingname());
                     }
                     holder.avatarImg.setVisibility(View.GONE);
                 }
@@ -221,16 +222,16 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
 
         @Override
         public int getItemCount() {
-            return mExchangeWorkLists.size();
+            return mWorkTrainingLists.size();
         }
 
-        public void addAll(List<ExchangeWorkList> mExchangeWorkLists) {
-            this.mExchangeWorkLists.addAll(mExchangeWorkLists);
+        public void addAll(List<WorkTrainingList> mWorkTrainingLists) {
+            this.mWorkTrainingLists.addAll(mWorkTrainingLists);
             ExchangeWorkAdapter.this.notifyDataSetChanged();
         }
 
         public void clear() {
-            this.mExchangeWorkLists.clear();
+            this.mWorkTrainingLists.clear();
             ExchangeWorkAdapter.this.notifyDataSetChanged();
         }
 
@@ -238,7 +239,7 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
             private TextView contactsName;
             private CircleImageView avatarImg;
             private RelativeLayout rlPersonal;
-            private ExchangeWorkList mExchangeWorkList;
+            private WorkTrainingList mWorkTrainingList;
 
             public ExchangeWorkViewHolder(View itemView) {
 
@@ -251,18 +252,18 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
 
             }
 
-            public void setItem(ExchangeWorkList data) {
-                mExchangeWorkList = data;
+            public void setItem(WorkTrainingList data) {
+                mWorkTrainingList = data;
             }
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,
-                        ExchangeWorkDetailActivity.class);
-                if (mExchangeWorkList != null) {
-                    intent.putExtra(ExchangeWorkDetailActivity.INFO, mExchangeWorkList);
+                        WorkTrainingDetailActivity.class);
+                if (mWorkTrainingList != null) {
+                    intent.putExtra(WorkTrainingDetailActivity.INFO, mWorkTrainingList);
                     if (!TextUtils.isEmpty(projectId)) {
-                        intent.putExtra(ExchangeWorkDetailActivity.PROJECT_ID, projectId);
+                        intent.putExtra(WorkTrainingDetailActivity.PROJECT_ID, projectId);
                     }
                 }
 
