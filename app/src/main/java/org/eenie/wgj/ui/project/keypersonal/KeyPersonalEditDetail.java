@@ -148,6 +148,8 @@ public class KeyPersonalEditDetail extends BaseActivity {
             mOther = data.getInfo().getRemarks();
             if (!TextUtils.isEmpty(mName)) {
                 tvName.setText(mName);
+                tvName.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
             }
             if (!TextUtils.isEmpty(mAvatarUrl)) {
                 if (mAvatarUrl.startsWith("/images")) {
@@ -157,18 +159,28 @@ public class KeyPersonalEditDetail extends BaseActivity {
             }
             if (!TextUtils.isEmpty(mGender)) {
                 tvGender.setText(mGender);
+                tvGender.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
             }
             if (!TextUtils.isEmpty(mAge)) {
                 tvAge.setText(mAge + "岁");
+                tvAge.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
             }
             if (!TextUtils.isEmpty(mHeight)) {
                 tvHeight.setText(mHeight + "cm");
+                tvHeight.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
             }
             if (!TextUtils.isEmpty(mPost)) {
                 tvPost.setText(mPost);
+                tvPost.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
             }
             if (!TextUtils.isEmpty(mWorkTime)) {
                 tvWorkTime.setText(mWorkTime);
+                tvWorkTime.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
 
                 String[] time = mWorkTime.split("-");
                 if (time.length > 1) {
@@ -180,9 +192,13 @@ public class KeyPersonalEditDetail extends BaseActivity {
             }
             if (!TextUtils.isEmpty(mCarNumber)) {
                 tvCarNumber.setText(mCarNumber);
+                tvCarNumber.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
             }
             if (!TextUtils.isEmpty(mOther)) {
                 tvOther.setText(mOther);
+                tvOther.setTextColor(ContextCompat.getColor
+                        (context, R.color.titleColor));
             }
 
 

@@ -14,5 +14,7 @@ public class Constant {
                     "xOsZDqZDuudwi-U4E3ebCkTg";
     public static final String DOMIN="http://118.178.88.132:8000";
     public static final String DOMIN_URL="http://118.178.88.132:8000/api/";
+    public static final String BAIDU_SEARCH =
+            "http://api.map.baidu.com/place/v2/";
 
 }

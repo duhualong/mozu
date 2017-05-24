@@ -167,6 +167,9 @@
     <string name="tv_add"><u>去添加</u></string>
     <string name="tv_exchange_work_setting">交接班设置</string>
     <string name="tv_work_training_setting">岗位培训设置</string>
+    <string name="tv_class_setting">班次设置</string>
+    <string name="tv_attendance_setting">考勤设置</string>
+    <string name="post_work_setting">岗位设置</string>
 
 
 </resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical"
+>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="签到地址"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@color/white">
+        <org.eenie.wgj.search.ClearEditText
+            android:id="@+id/filter_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_height_normal_distance"
+            android:layout_marginEnd="@dimen/padding_longer"
+            android:layout_marginLeft="@dimen/padding_longer"
+            android:layout_marginRight="@dimen/padding_longer"
+            android:layout_marginStart="@dimen/padding_longer"
+            android:layout_marginTop="@dimen/padding_bottom"
+            android:padding="5dp"
+            android:background="#E8E8E8"
+            android:drawableLeft="@drawable/search_bar_icon_normal"
+            android:drawableStart="@drawable/search_bar_icon_normal"
+            android:drawablePadding="@dimen/padding_short"
+            android:hint="签到地址"
+            android:textColorHint="@color/gray"
+            android:lines="1"
+            android:textColor="@color/titleColor"
+            android:textSize="@dimen/text_large_size" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@id/lv_data_contacts"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/padding_bottom"
+                  android:layout_marginTop="@dimen/padding_bottom"
+                  android:orientation="vertical">
+
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@id/swipe_refresh_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/padding_bottom"
+
+        >
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_project_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

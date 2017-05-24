@@ -364,4 +364,28 @@
     <item name="tv_set_title" type="id"/>
     <item name="et_input_work_title" type="id"/>
     <item name="et_input_exchange_work_content" type="id"/>
+    <item name="img_edit_classwide" type="id"/>
+    <item name="item_time" type="id"/>
+    <item name="button_save" type="id"/>
+    <item name="ly_show_button" type="id"/>
+    <item name="rl_sign_in_city" type="id"/>
+    <item name="rl_sign_in_address" type="id"/>
+    <item name="tv_sign_in_city" type="id"/>
+    <item name="tv_sign_in_address" type="id"/>
+    <item name="rl_sign_in_scope" type="id"/>
+    <item name="tv_sign_in_scope" type="id"/>
+    <item name="text_scope" type="id"/>
+    <item name="rl_sign_in_work_day" type="id"/>
+    <item name="tv_sign_in_work_day" type="id"/>
+    <item name="rl_sign_in_fingerprint" type="id"/>
+    <item name="tv_sign_in_fingerprint" type="id"/>
+    <item name="rl_sign_in_contract" type="id"/>
+    <item name="tv_sign_in_contract" type="id"/>
+    <item name="tv_location" type="id"/>
+    <item name="map_view" type="id"/>
+    <item name="locationTitle" type="id"/>
+    <item name="addressList" type="id"/>
+    <item name="detailAddress" type="id"/>
+    <item name="regionAddress" type="id"/>
+    <item name="rl_select_detail" type="id"/>
 </resources>

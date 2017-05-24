@@ -102,4 +102,8 @@ public class SelectCompanyWayFragment extends BaseFragment {
                 break;
         }
     }
+
+
+
+
 }

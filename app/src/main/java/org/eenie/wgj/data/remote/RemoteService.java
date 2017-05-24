@@ -11,11 +11,13 @@ import org.eenie.wgj.model.requset.AddKeyPersonalInformation;
 import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.BuildNewProject;
 import org.eenie.wgj.model.requset.CaptchaChecked;
+import org.eenie.wgj.model.requset.ClassMeetingRequest;
 import org.eenie.wgj.model.requset.CreataCompanyRequest;
 import org.eenie.wgj.model.requset.GiveBirthday;
 import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.ModifyInfo;
+import org.eenie.wgj.model.requset.PostWorkRequest;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.ShootList;
@@ -209,13 +211,53 @@ public interface RemoteService {
     //交接班删除
     @GET("precautionDelete")
     Single<ApiResponse> deleteExchangeWorkItem(@Header("token") String token, @Query("id") int id);
+
     //获取岗位培训列表
     @GET("jobtrainingList")
-    Single<ApiResponse>getTrainingWorkList(@Header("token")String token, @Query("projectid")
+    Single<ApiResponse> getTrainingWorkList(@Header("token") String token, @Query("projectid")
             String projectId);
+
     //删除岗位培训
     @GET("jobtrainingDelete")
     Single<ApiResponse> deleteTrainingWorkItem(@Header("token") String token, @Query("id") int id);
+
+    //班次列表
+    @GET("serviceList")
+    Single<ApiResponse> getClassWideList(@Header("token") String token, @Query("projectid")
+            String projectId);
+
+    //班次删除
+    @GET("serviceDelete")
+    Single<ApiResponse> deleteClassItem(@Header("token") String token, @Query("id") int id);
+
+    //班次添加
+    @POST("serviceAdd")
+    Single<ApiResponse> addClassItem(@Header("token") String token, @Body ClassMeetingRequest request);
+
+    //班次编辑
+    @POST("serviceUpdate")
+    Single<ApiResponse> editClassItem(@Header("token") String token, @Body ClassMeetingRequest
+            classMeetingRequest);
+
+    //考勤设置
+    @GET("attendanceList")
+    Single<ApiResponse> getAttendanceInformation(@Header("token") String token, @Query("projectid")
+            String projectId);
+
+    //岗位设置
+    @GET("postList")
+    Single<ApiResponse> getPostList(@Header("token") String token, @Query("projectid")
+            String projectId);
+    //岗位设置删除
+    @GET("postDelete")
+    Single<ApiResponse>deletePostItem(@Header("token")String token,@Query("id")int id);
+    //岗位设置编辑
+    @POST("postUpdate")
+    Single<ApiResponse>editPostItem(@Header("token")String token, @Body PostWorkRequest request);
+    //岗位添加
+    @POST("postAdd")
+    Single<ApiResponse>addPostItem(@Header("token")String token,@Body PostWorkRequest request);
+
 
     class Creator {
 

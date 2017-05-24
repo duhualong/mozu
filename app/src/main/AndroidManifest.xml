@@ -25,11 +25,16 @@
 
     //地图包、搜索包需要的基础权限
 
-
+    <!--允许程序打开网络套接字-->
+    <!--允许程序设置内置sd卡的写权限-->
+    <!--允许程序获取网络状态-->
+    <!--允许程序访问WiFi网络信息-->
+    <!--允许程序读写手机状态和身份-->
+    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
-    <!--极光推送的key:eb9f37bf4603be2e556a4cfc   secret: fae1cafac9ca0712a066dc15-->
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -39,6 +44,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="380a05008184897997e202e6c41600e5">
+        </meta-data>
+
         <activity android:name=".ui.SplashActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize">
@@ -217,6 +227,46 @@
         <activity android:name=".ui.project.worktraining.EditTrainingWorkActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustPan"/>
+        <!--班次设置-->
+        <activity android:name=".ui.project.classmeeting.ClassMeetingSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--班次详情-->
+        <activity android:name=".ui.project.classmeeting.ClassMeetingItemDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--考勤设置-->
+        <activity android:name=".ui.project.attendance.AttendanceSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--选择城市-->
+        <activity android:name=".ui.project.attendance.SelectCityActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+<activity android:name=".ui.project.attendance.SearchAddressDetailActivity"
+          android:screenOrientation="portrait"
+          android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.project.attendance.SearchAddressActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--岗位设置-->
+        <activity android:name=".ui.project.workpost.WorkPostSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--岗位设置详情-->
+        <activity android:name=".ui.project.workpost.WorkPostDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.project.workpost.WorkPostEditActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.project.workpost.WorkPostAddActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+        <service android:name="com.amap.api.location.APSService"/>
+
+
         <!--<provider-->
         <!--android:name="android.support.v4.content.FileProvider"-->
         <!--android:authorities="org.eenie.wgj.fileprovider"-->

@@ -79,6 +79,10 @@ public interface FileUploadService {
 
     @POST("login")
     Call<ApiResponse> login(@Body RequestBody body);
+@GET("suggestion?ak=Q55T7roT63eXRPsKtbGraUcI")
+Call<ApiResponse>getAddressDetail(@Query("region")String region,@Query("query")String query,@Query("output")
+                                  String output);
+
 
     @GET("register/checkuser")
     Call<ApiResponse> checked(@Query("username") String username);

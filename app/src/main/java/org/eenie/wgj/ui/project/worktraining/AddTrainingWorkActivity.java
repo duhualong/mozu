@@ -229,6 +229,7 @@ public class AddTrainingWorkActivity extends BaseActivity {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
                                 imgList.get(1).setVisibility(View.VISIBLE);
+                                imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
 
                             });
                     firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -252,6 +253,7 @@ public class AddTrainingWorkActivity extends BaseActivity {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
                                 imgList.get(2).setVisibility(View.VISIBLE);
+                                imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
 
                             });
                     secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -304,7 +306,7 @@ public class AddTrainingWorkActivity extends BaseActivity {
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 Log.d("tag:", "onResponse: "+response.code());
                 if (response.isSuccessful()){
-                    if (response.body().getResultCode()==0){
+                    if (response.body().getResultCode()==0||response.body().getResultCode()==200){
                         //会调数据
 
 //                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);

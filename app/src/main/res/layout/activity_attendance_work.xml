@@ -104,7 +104,7 @@
                       android:layout_marginTop="@dimen/padding_short"
                       android:text="签到"
                       android:textColor="@color/titleColor"
-                      android:textSize="@dimen/text_large_size"/>
+                      android:textSize="@dimen/text_normal_size"/>
 
 
         </RelativeLayout>
@@ -128,7 +128,7 @@
                       android:layout_marginTop="@dimen/padding_short"
                       android:text="签退"
                       android:textColor="@color/titleColor"
-                      android:textSize="@dimen/text_large_size"/>
+                      android:textSize="@dimen/text_normal_size"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -159,7 +159,7 @@
                       android:layout_marginTop="@dimen/padding_short"
                       android:text="加班考勤"
                       android:textColor="@color/titleColor"
-                      android:textSize="@dimen/text_large_size"/>
+                      android:textSize="@dimen/text_normal_size"/>
 
 
         </RelativeLayout>
@@ -183,7 +183,7 @@
                       android:layout_marginTop="@dimen/padding_short"
                       android:text="考勤记录"
                       android:textColor="@color/titleColor"
-                      android:textSize="@dimen/text_large_size"/>
+                      android:textSize="@dimen/text_normal_size"/>
 
 
         </RelativeLayout>

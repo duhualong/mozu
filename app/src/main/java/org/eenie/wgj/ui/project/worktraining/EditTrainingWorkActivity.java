@@ -130,21 +130,44 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
                         break;
                 }
-                for (int i = 0; i < lists.size(); i++) {
-                    int finalI = i;
-                    new Thread() {
-                        public void run() {
-                            downloadImg(lists.get(finalI).getImage(),finalI);
-                        }
-                    }.start();
+                if (lists.size()<=3){
+                    for (int i = 0; i < lists.size(); i++) {
 
-                    if (i < 2) {
-                        imgList.get(i + 1).setVisibility(View.VISIBLE);
+                        int finalI = i;
+                        new Thread() {
+                            public void run() {
+                                downloadImg(lists.get(finalI).getImage(),finalI);
+                            }
+                        }.start();
+
+                        if (i < 2) {
+                            imgList.get(i + 1).setVisibility(View.VISIBLE);
+                        }
+                        Glide.with(context).load(Constant.DOMIN + data.getImage().get(i).getImage())
+                                .centerCrop().into(imgList.get(i));
+
                     }
-                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(i).getImage())
-                            .centerCrop().into(imgList.get(i));
+                }else {
+                    for (int i = 0; i < 3; i++) {
+
+                        int finalI = i;
+                        new Thread() {
+                            public void run() {
+                                downloadImg(lists.get(finalI).getImage(),finalI);
+                            }
+                        }.start();
+
+                        if (i < 2) {
+                            imgList.get(i + 1).setVisibility(View.VISIBLE);
+                        }
+                        Glide.with(context).load(Constant.DOMIN + data.getImage().get(i).getImage())
+                                .centerCrop().into(imgList.get(i));
+
+                    }
 
                 }
+
+
 
             }
 
@@ -286,6 +309,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
                                 imgList.get(1).setVisibility(View.VISIBLE);
+                                imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
 
                             });
                     firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -309,6 +333,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
                                 imgList.get(2).setVisibility(View.VISIBLE);
+                                imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
 
                             });
                     secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -363,7 +388,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 Log.d("tag:", "onResponse: "+response.code());
-                if (response.body().getResultCode()==0){
+                if (response.body().getResultCode()==0||response.body().getResultCode()==200){
                     //会调数据
 
 //                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);

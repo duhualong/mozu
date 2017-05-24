@@ -7,8 +7,11 @@ import android.widget.TextView;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.ui.project.attendance.AttendanceSettingActivity;
+import org.eenie.wgj.ui.project.classmeeting.ClassMeetingSettingActivity;
 import org.eenie.wgj.ui.project.exchangework.ExchangeWorkSettingActivity;
 import org.eenie.wgj.ui.project.keypersonal.KeyPersonalSettingActivity;
+import org.eenie.wgj.ui.project.workpost.WorkPostSettingActivity;
 import org.eenie.wgj.ui.project.worktraining.WorkTrainingSettingActivity;
 
 import butterknife.BindView;
@@ -79,13 +82,23 @@ public class ProjectItemSettingActivity extends BaseActivity {
 
                 break;
             case R.id.rl_set_security:
+                //临保
 
                 break;
             case R.id.rl_set_work_flights:
-
+                mIntent=new Intent(context, ClassMeetingSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(ClassMeetingSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
                 break;
             case R.id.rl_set_attendance:
-
+                //考勤
+                mIntent=new Intent(context, AttendanceSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(AttendanceSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
 
                 break;
             case R.id.rl_set_project_time:
@@ -95,6 +108,13 @@ public class ProjectItemSettingActivity extends BaseActivity {
 
                 break;
             case R.id.rl_set_post:
+                //岗位设置
+                mIntent=new Intent(context, WorkPostSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(WorkPostSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
+
 
                 break;
             case R.id.rl_set_report_post:

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:id="@id/root_view"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="选择城市"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+    </RelativeLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@color/white"
+
+                  android:orientation="vertical">
+        <org.eenie.wgj.search.ClearEditText
+            android:id="@+id/filter_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_height_normal_distance"
+            android:layout_marginBottom="@dimen/padding_bottom"
+            android:layout_marginEnd="@dimen/padding_longer"
+            android:layout_marginLeft="@dimen/padding_longer"
+            android:layout_marginRight="@dimen/padding_longer"
+            android:layout_marginStart="@dimen/padding_longer"
+            android:layout_marginTop="@dimen/padding_bottom"
+            android:background="#E8E8E8"
+            android:drawableLeft="@drawable/search_bar_icon_normal"
+            android:drawablePadding="@dimen/padding_short"
+            android:drawableStart="@drawable/search_bar_icon_normal"
+            android:hint="请输入城市名称"
+            android:lines="1"
+            android:padding="5dp"
+            android:textColor="@color/titleColor"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/tv_location"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/padding_bottom"
+                  android:layout_marginLeft="@dimen/padding_longer"
+                  android:layout_marginStart="@dimen/padding_longer"
+                  android:text="当前定位城市:上海"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@id/fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ListView
+            android:id="@+id/country_lvcountry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:divider="@null"/>
+
+        <TextView
+            android:id="@+id/dialog"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black_light"
+            android:textSize="30sp"
+            android:visibility="invisible"/>
+        <org.eenie.wgj.search.SideBar
+            android:id="@+id/sidrbar"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center"/>
+    </FrameLayout>
+</LinearLayout>

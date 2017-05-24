@@ -15,6 +15,14 @@
     <string-array name="SimpleChineseProvince">
     <item>北京</item>
     </string-array>
+    <string-array name="city">
+        <item>阿尔山</item>
+        <item>安康</item>
+        <item>阿克苏</item>
+        <item>阿里河</item>
+        <item>阿拉山口</item>
+        <item></item>
+    </string-array>
     <string-array name="persons">
         <item>刘德华</item>
         <item>梁朝伟</item>
