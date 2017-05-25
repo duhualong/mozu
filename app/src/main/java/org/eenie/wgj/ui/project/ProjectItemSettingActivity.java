@@ -11,6 +11,9 @@ import org.eenie.wgj.ui.project.attendance.AttendanceSettingActivity;
 import org.eenie.wgj.ui.project.classmeeting.ClassMeetingSettingActivity;
 import org.eenie.wgj.ui.project.exchangework.ExchangeWorkSettingActivity;
 import org.eenie.wgj.ui.project.keypersonal.KeyPersonalSettingActivity;
+import org.eenie.wgj.ui.project.reportpost.ReportPostSettingActivity;
+import org.eenie.wgj.ui.project.roundpoint.RoundPointSettingActivity;
+import org.eenie.wgj.ui.project.roundway.RoundWaySettingActivity;
 import org.eenie.wgj.ui.project.workpost.WorkPostSettingActivity;
 import org.eenie.wgj.ui.project.worktraining.WorkTrainingSettingActivity;
 
@@ -118,14 +121,32 @@ public class ProjectItemSettingActivity extends BaseActivity {
 
                 break;
             case R.id.rl_set_report_post:
+                //报岗设置
 
+                mIntent=new Intent(context, ReportPostSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(ReportPostSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
 
                 break;
             case R.id.rl_set_patrol_point:
+                //巡检点设置
+                mIntent=new Intent(context, RoundPointSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(RoundPointSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
+
 
                 break;
             case R.id.rl_set_patrol_road:
-
+                //巡检线路设置
+                mIntent=new Intent(context, RoundWaySettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(RoundWaySettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
                 break;
             case R.id.rl_set_class_meeting:
 

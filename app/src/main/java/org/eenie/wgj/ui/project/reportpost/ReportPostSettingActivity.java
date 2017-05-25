@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.project.workpost;
+package org.eenie.wgj.ui.project.reportpost;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.PostWorkList;
+import org.eenie.wgj.model.response.ReportPostList;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -31,18 +31,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/24 at 10:15
+ * Created by Eenie on 2017/5/24 at 13:59
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class WorkPostSettingActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class ReportPostSettingActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static final String PROJECT_ID = "project_id";
     private String projectId;
     @BindView(R.id.root_view)
@@ -61,7 +60,7 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_post_work_setting;
+        return R.layout.activity_report_post;
     }
 
     @Override
@@ -93,16 +92,16 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
             case R.id.img_add_contacts:
 
                 Intent intent = new Intent(context,
-                        WorkPostAddActivity.class);
-                intent.putExtra(WorkPostAddActivity.PROJECT_ID, projectId);
+                        ReportPostAddActivity.class);
+                intent.putExtra(ReportPostAddActivity.PROJECT_ID, projectId);
 
                 startActivity(intent);
 
                 break;
             case R.id.ly_add_keyman:
                 Intent intents = new Intent(context,
-                        WorkPostAddActivity.class);
-                intents.putExtra(WorkPostAddActivity.PROJECT_ID, projectId);
+                        ReportPostAddActivity.class);
+                intents.putExtra(ReportPostAddActivity.PROJECT_ID, projectId);
 
                 startActivity(intents);
                 break;
@@ -114,7 +113,7 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
     public void onRefresh() {
         mKeyContactAdapter.clear();
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
-        mSubscription = mRemoteService.getPostList(token, projectId)
+        mSubscription = mRemoteService.getReportPostList(token, projectId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -135,8 +134,8 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
                             if (apiResponse.getData() != null) {
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                List<PostWorkList> postWorkLists = gson.fromJson(jsonArray,
-                                        new TypeToken<List<PostWorkList>>() {
+                                List<ReportPostList> postWorkLists = gson.fromJson(jsonArray,
+                                        new TypeToken<List<ReportPostList>>() {
                                         }.getType());
 
                                 if (postWorkLists != null && !postWorkLists.isEmpty()) {
@@ -186,9 +185,9 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
 
     class KeyContactAdapter extends RecyclerView.Adapter<KeyContactAdapter.KeyContactViewHolder> {
         private Context context;
-        private List<PostWorkList> contactsList;
+        private List<ReportPostList> contactsList;
 
-        public KeyContactAdapter(Context context, List<PostWorkList> contactsList) {
+        public KeyContactAdapter(Context context, List<ReportPostList> contactsList) {
             this.context = context;
             this.contactsList = contactsList;
         }
@@ -196,22 +195,22 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
         @Override
         public KeyContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            View itemView = inflater.inflate(R.layout.item_key_contacts_setting, parent, false);
+            View itemView = inflater.inflate(R.layout.item_report_post, parent, false);
             return new KeyContactViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(KeyContactViewHolder holder, int position) {
             if (contactsList != null && !contactsList.isEmpty()) {
-                PostWorkList data = contactsList.get(position);
+                ReportPostList data = contactsList.get(position);
                 holder.setItem(data);
                 if (data != null) {
-
-                    if (data.getPost() != null && !TextUtils.isEmpty(data.getPost())) {
-                        holder.contactsName.setText(data.getPost());
+                    if (!TextUtils.isEmpty(data.getPostsetting().getPost())) {
+                        holder.reportPost.setText(data.getPostsetting().getPost());
                     }
-                    holder.avatarImg.setVisibility(View.GONE);
-
+                    if (!TextUtils.isEmpty(data.getService().getServicesname())) {
+                        holder.reportClass.setText(data.getService().getServicesname());
+                    }
 
                 }
 
@@ -225,7 +224,7 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
             return contactsList.size();
         }
 
-        public void addAll(List<PostWorkList> contactsList) {
+        public void addAll(List<ReportPostList> contactsList) {
             this.contactsList.addAll(contactsList);
             KeyContactAdapter.this.notifyDataSetChanged();
         }
@@ -236,41 +235,41 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
         }
 
         class KeyContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private TextView contactsName;
-            private CircleImageView avatarImg;
-            private RelativeLayout rlPersonal;
-            private PostWorkList mContactList;
+
+            private TextView reportPost;
+            private TextView reportClass;
+            private RelativeLayout rlReport;
+            private ReportPostList mReportPostList;
 
             public KeyContactViewHolder(View itemView) {
 
                 super(itemView);
 
-                contactsName = ButterKnife.findById(itemView, R.id.item_contacts_name);
-                avatarImg = ButterKnife.findById(itemView, R.id.img_avatar);
-                rlPersonal = ButterKnife.findById(itemView, R.id.rl_key_personal);
-                rlPersonal.setOnClickListener(this);
+                reportPost = ButterKnife.findById(itemView, R.id.item_post);
+                reportClass = ButterKnife.findById(itemView, R.id.item_class);
+                rlReport = ButterKnife.findById(itemView, R.id.rl_key_personal);
+                rlReport.setOnClickListener(this);
+
 
             }
 
-            public void setItem(PostWorkList data) {
-                mContactList = data;
+            public void setItem(ReportPostList data) {
+                mReportPostList = data;
             }
 
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(WorkPostSettingActivity.this,
-                        WorkPostDetailActivity.class);
-                if (mContactList!=null){
-                    intent.putExtra(WorkPostDetailActivity.INFO,mContactList);
-
+                Intent intent = new Intent(ReportPostSettingActivity.this,
+                        ReportPostDetailActivity.class);
+                if (mReportPostList != null) {
+                    intent.putExtra(ReportPostDetailActivity.INFO, mReportPostList);
                 }
-                intent.putExtra(WorkPostDetailActivity.PROJECT_ID,projectId);
+                intent.putExtra(ReportPostDetailActivity.PROJECT_ID, projectId);
                 startActivity(intent);
-
-
 
 
             }
         }
     }
+
 }

@@ -20,6 +20,11 @@ public class PostWorkList implements Parcelable {
         this.jobassignment = jobassignment;
     }
 
+    public PostWorkList(int id, String post) {
+        this.id = id;
+        this.post = post;
+    }
+
     public int getId() {
         return id;
     }

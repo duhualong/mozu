@@ -388,4 +388,22 @@
     <item name="detailAddress" type="id"/>
     <item name="regionAddress" type="id"/>
     <item name="rl_select_detail" type="id"/>
+    <item name="item_post" type="id"/>
+    <item name="item_class" type="id"/>
+    <item name="select_post" type="id"/>
+    <item name="select_time_space" type="id"/>
+    <item name="select_class" type="id"/>
+    <item name="recycler_report_post" type="id"/>
+    <item name="img_time" type="id"/>
+    <item name="rl_select_post" type="id"/>
+    <item name="rl_select_time_space" type="id"/>
+    <item name="rl_select_class" type="id"/>
+    <item name="rl_add_time" type="id"/>
+    <item name="recycler_add_time" type="id"/>
+    <item name="recycler_post_select" type="id"/>
+    <item name="recycler_time_space" type="id"/>
+    <item name="delete_img" type="id"/>
+    <item name="tv_edit" type="id"/>
+    <item name="tv_edit_item" type="id"/>
+    <item name="tv_delete_item" type="id"/>
 </resources>

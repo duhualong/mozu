@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:id="@id/root_view"
+              android:orientation="vertical">
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/report_post_setting"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <TextView android:id="@id/tv_save"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="@string/tv_save"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:id="@id/rl_select_post"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="选择岗位"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/select_post"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_toLeftOf="@id/img_right"
+                  android:layout_toStartOf="@id/img_right"
+                  android:text="1号岗"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+        <ImageView android:id="@id/img_right"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/ic_arrow_right"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:id="@id/rl_select_time_space"
+                    android:layout_marginTop="1dp"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="报岗时间允许差值"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/select_time_space"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_toLeftOf="@id/img_right"
+                  android:layout_toStartOf="@id/img_right"
+                  android:text="10分钟"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+        <ImageView android:id="@id/img_right"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/ic_arrow_right"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:id="@id/rl_select_class"
+                    android:layout_marginTop="1dp"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="选择班次"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/select_class"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_toLeftOf="@id/img_right"
+                  android:layout_toStartOf="@id/img_right"
+                  android:text="白班"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+        <ImageView android:id="@id/img_right"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/ic_arrow_right"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:id="@id/rl_add_time"
+                    android:layout_marginTop="10dp"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="报岗时间"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+
+        <ImageView android:id="@id/img_right"
+                   android:layout_width="24dp"
+                   android:layout_height="24dp"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/ic_add_item"/>
+
+    </RelativeLayout>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+    android:layout_marginTop="1dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/recycler_add_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </FrameLayout>
+</LinearLayout>

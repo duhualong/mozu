@@ -3,14 +3,23 @@ package org.eenie.wgj.ui.project.workpost;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.PostWorkRequest;
 import org.eenie.wgj.util.Constants;
+import org.eenie.wgj.util.RxUtils;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Single;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Eenie on 2017/5/24 at 12:16
@@ -48,7 +57,8 @@ public class WorkPostAddActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_save:
-                if (!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(content)){
+                if (!TextUtils.isEmpty(title)&&!TextUtils.isEmpty(content)&&
+                        !TextUtils.isEmpty(projectId)){
                     PostWorkRequest request=new PostWorkRequest(title,content,projectId);
                     addPostItem(token,request);
 
@@ -60,6 +70,33 @@ public class WorkPostAddActivity extends BaseActivity {
     }
 
     private void addPostItem(String token, PostWorkRequest request) {
+        mSubscription=mRemoteService.addPostItem(token,request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                            Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
+                            Single.just("").delay(1, TimeUnit.SECONDS).
+                                    compose(RxUtils.applySchedulers()).
+                                    subscribe(s -> finish()
+                                    );
+                        }
+
+                    }
+                });
+
 
     }
 }

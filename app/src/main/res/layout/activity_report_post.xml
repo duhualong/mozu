@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white_light"
+                android:id="@id/root_view">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:textSize="@dimen/text_title_size"
+                  android:textColor="@color/white"
+                  android:text="@string/report_post_setting"/>
+
+
+    </RelativeLayout>
+    <LinearLayout android:id="@id/ly_add_keyman"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:gravity="center"
+                  android:layout_marginTop="?android:actionBarSize"
+                  android:orientation="horizontal"
+                  android:visibility="gone">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="还没有任何信息，"
+                  android:textColor="@color/titleColor"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/tv_add"
+                  android:textColor="@color/text_blue"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="信息"
+                  android:textColor="@color/titleColor"
+        />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/img_big"
+                  android:layout_marginTop="?android:actionBarSize"
+                  android:id="@id/lv_data_contacts"
+                  android:orientation="vertical">
+
+
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@id/swipe_refresh_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/padding_bottom"
+
+        >
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_project_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+    <ImageView android:id="@id/img_add_contacts"
+               android:layout_width="48dp"
+               android:layout_height="48dp"
+               android:layout_alignParentBottom="true"
+               android:layout_centerHorizontal="true"
+               android:layout_marginBottom="@dimen/padding_bottom"
+               android:src="@mipmap/ic_add_project_linkman"/>
+</RelativeLayout>

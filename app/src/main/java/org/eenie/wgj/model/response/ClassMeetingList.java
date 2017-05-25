@@ -23,7 +23,6 @@ public class ClassMeetingList implements Parcelable {
     private String starttime;
     private String endtime;
 
-
     public int getId() {
         return id;
     }

@@ -170,6 +170,9 @@
     <string name="tv_class_setting">班次设置</string>
     <string name="tv_attendance_setting">考勤设置</string>
     <string name="post_work_setting">岗位设置</string>
+    <string name="report_post_setting">报岗设置</string>
+    <string name="tv_round_point_setting">巡检点位设置</string>
+    <string name="tv_round_way_setting">巡检线路设置</string>
 
 
 </resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:id="@id/rl_key_personal"
+                android:padding="@dimen/padding_bottom"
+>
+    <TextView android:id="@id/item_post"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerInParent="true"
+              android:text="大堂岗"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+
+</RelativeLayout>

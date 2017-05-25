@@ -114,7 +114,7 @@ public class WorkPostEditActivity extends BaseActivity {
                             PostWorkList list = new PostWorkList(request.getId(),request.getPost(),
                                     request.getJobassignment());
                             Intent mIntent = new Intent();
-                            mIntent.putExtra("info", list);
+                            mIntent.putExtra("post_work", list);
                             // 设置结果，并进行传送
                             setResult(4,mIntent);
                             Toast.makeText(context, "修改成功", Toast.LENGTH_SHORT).show();

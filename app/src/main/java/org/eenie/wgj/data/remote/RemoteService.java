@@ -18,6 +18,7 @@ import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.ModifyInfo;
 import org.eenie.wgj.model.requset.PostWorkRequest;
+import org.eenie.wgj.model.requset.ReportPost;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.ShootList;
@@ -257,6 +258,30 @@ public interface RemoteService {
     //岗位添加
     @POST("postAdd")
     Single<ApiResponse>addPostItem(@Header("token")String token,@Body PostWorkRequest request);
+    //报岗设置
+    @GET("newspaperpostList")
+    Single<ApiResponse>getReportPostList(@Header("token")String token,@Query("projectid")
+            String projectId);
+    //删除报岗设置
+    @GET("newspaperpostDelete")
+    Single<ApiResponse>deleteReportPostItem(@Header("token")String token,@Query("id")int id);
+    //编辑报岗设置
+    @POST("newspaperpostUpdate")
+    Single<ApiResponse>editReportPostList(@Header("token")String token, @Body ReportPost reportPost);
+    @POST("newspaperpostAdd")
+    Single<ApiResponse>addReportPostList(@Header("token")String token,@Body ReportPost reportPost);
+    //巡检点列表
+    @GET("inspectionpointsList")
+    Single<ApiResponse>getRoundPointList(@Header("token")String token,@Query("projectid")
+            String projectId);
+    //巡检点删除
+    @GET("inspectionpointsDelete")
+    Single<ApiResponse>deleteRoundPointItem(@Header("token")String token,@Query("id")int id);
+    //巡检路线
+    @GET("lineList")
+    Single<ApiResponse>getLineList(@Header("token")String token,@Query("projectid")
+            String projectId);
+
 
 
     class Creator {

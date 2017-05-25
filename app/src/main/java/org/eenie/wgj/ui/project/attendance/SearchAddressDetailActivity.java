@@ -1,9 +1,6 @@
 package org.eenie.wgj.ui.project.attendance;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -47,12 +44,9 @@ import static butterknife.ButterKnife.findById;
  * Des:
  */
 
-public class SearchAddressDetailActivity extends BaseActivity implements
-        SwipeRefreshLayout.OnRefreshListener{
+public class SearchAddressDetailActivity extends BaseActivity {
     @BindView(R.id.root_view)
     View rootView;
-    @BindView(R.id.swipe_refresh_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @BindView(R.id.recycler_project_contacts)
     RecyclerView mRecyclerView;
@@ -67,16 +61,9 @@ public class SearchAddressDetailActivity extends BaseActivity implements
     @Override
     protected void updateUI() {
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
         adapter = new LocationAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
         mSearchView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,12 +73,13 @@ public class SearchAddressDetailActivity extends BaseActivity implements
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (!TextUtils.isEmpty(s.toString())) {
-                    searchAddress(s.toString());
-                }else {
-                    searchAddress("");
-                }
+//
+//                if (!TextUtils.isEmpty(s.toString())) {
+//                    adapter.clear();
+//                    searchAddress(s.toString());
+//                }else {
+//                    searchAddress("");
+//                }
             }
 
             @Override
@@ -101,7 +89,7 @@ public class SearchAddressDetailActivity extends BaseActivity implements
                     adapter.clear();
                     searchAddress(s.toString());
                 }else {
-                    searchAddress("");
+                   searchAddress("");
                 }
             }
         });
@@ -120,7 +108,6 @@ public class SearchAddressDetailActivity extends BaseActivity implements
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                cancelRefresh();
                 if (response.body().getStatus() == 0) {
                     Gson gson = new Gson();
                     String jsonArray = gson.toJson(response.body().getResult());
@@ -160,49 +147,12 @@ public class SearchAddressDetailActivity extends BaseActivity implements
     }
 }
 
-    @Override
-    public void onRefresh() {
-        adapter.clear();
 
-        mSearchView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (!TextUtils.isEmpty(s.toString())) {
-                    searchAddress(s.toString());
-                }else {
-                    searchAddress("");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                if (!TextUtils.isEmpty(s.toString())) {
-                    adapter.clear();
-                    searchAddress(s.toString());
-                }else {
-                    searchAddress("");
-                }
-            }
-        });
-
-    }
-    private void cancelRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        onRefresh();
+
     }
     class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ProjectViewHolder> {
         private Context context;

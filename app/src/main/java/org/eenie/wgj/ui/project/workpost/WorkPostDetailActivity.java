@@ -45,26 +45,31 @@ public class WorkPostDetailActivity extends BaseActivity {
     protected void updateUI() {
         data=getIntent().getParcelableExtra(INFO);
         projectId=getIntent().getStringExtra(PROJECT_ID);
+
         if (data!=null){
-            mId=data.getId();
-            if (!TextUtils.isEmpty(data.getPost())){
-                postName.setText(data.getPost());
-            }else {
-                postName.setText("无");
-            }
-            if (!TextUtils.isEmpty(data.getJobassignment())){
-                postContent.setText(data.getJobassignment());
-            }else {
-                postContent.setText("无");
-            }
-
-
+            initUI(data);
 
         }
 
 
 
     }
+
+    private void initUI(PostWorkList mData) {
+        mId=mData.getId();
+        if (!TextUtils.isEmpty(mData.getPost())){
+            postName.setText(mData.getPost());
+        }else {
+            postName.setText("无");
+        }
+        if (!TextUtils.isEmpty(mData.getJobassignment())){
+            postContent.setText(mData.getJobassignment());
+        }else {
+            postContent.setText("无");
+        }
+
+    }
+
     @OnClick({R.id.img_back,R.id.button_delete,R.id.button_edit})public void onClick(View view){
         switch (view.getId()){
             case R.id.img_back:
@@ -96,7 +101,10 @@ public class WorkPostDetailActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 4) {
             PostWorkList mData = data.getParcelableExtra("post_work");
-           // initUI(mData);
+            if (mData!=null){
+                initUI(mData);
+            }
+
         }
 
     }

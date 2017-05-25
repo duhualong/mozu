@@ -263,7 +263,7 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_centerVertical="true"
-                          android:text="报岗设置"
+                          android:text="@string/report_post_setting"
                           android:textColor="@color/titleColor"/>
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
@@ -288,7 +288,7 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_centerVertical="true"
-                          android:text="巡检点位设置"
+                          android:text="@string/tv_round_point_setting"
                           android:textColor="@color/titleColor"/>
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
@@ -313,7 +313,7 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_centerVertical="true"
-                          android:text="巡检线路设置"
+                          android:text="@string/tv_round_way_setting"
                           android:textColor="@color/titleColor"/>
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"

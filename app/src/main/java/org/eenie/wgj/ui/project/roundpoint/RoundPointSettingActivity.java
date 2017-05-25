@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.project.workpost;
+package org.eenie.wgj.ui.project.roundpoint;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.PostWorkList;
+import org.eenie.wgj.model.response.RoundPoint;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -31,19 +30,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/24 at 10:15
+ * Created by Eenie on 2017/5/25 at 15:47
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class WorkPostSettingActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
-    public static final String PROJECT_ID = "project_id";
+public class RoundPointSettingActivity extends BaseActivity  implements
+        SwipeRefreshLayout.OnRefreshListener{
+    public static final String PROJECT_ID="id";
     private String projectId;
     @BindView(R.id.root_view)
     View rootView;
@@ -57,11 +56,11 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_project_contacts)
     RecyclerView mRecyclerView;
-    private KeyContactAdapter mKeyContactAdapter;
+    private RoundPointAdapter mAdapter;
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_post_work_setting;
+        return R.layout.activity_round_point;
     }
 
     @Override
@@ -72,14 +71,14 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mKeyContactAdapter = new KeyContactAdapter(context, new ArrayList<>());
+        mAdapter = new RoundPointAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mRecyclerView.setAdapter(mKeyContactAdapter);
+        mRecyclerView.setAdapter(mAdapter);
 
 
     }
@@ -93,16 +92,16 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
             case R.id.img_add_contacts:
 
                 Intent intent = new Intent(context,
-                        WorkPostAddActivity.class);
-                intent.putExtra(WorkPostAddActivity.PROJECT_ID, projectId);
+                        RoundPointAddActivity.class);
+                intent.putExtra(RoundPointAddActivity.PROJECT_ID, projectId);
 
                 startActivity(intent);
 
                 break;
             case R.id.ly_add_keyman:
                 Intent intents = new Intent(context,
-                        WorkPostAddActivity.class);
-                intents.putExtra(WorkPostAddActivity.PROJECT_ID, projectId);
+                        RoundPointAddActivity.class);
+                intents.putExtra(RoundPointAddActivity.PROJECT_ID, projectId);
 
                 startActivity(intents);
                 break;
@@ -112,9 +111,9 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
 
     @Override
     public void onRefresh() {
-        mKeyContactAdapter.clear();
+        mAdapter.clear();
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
-        mSubscription = mRemoteService.getPostList(token, projectId)
+        mSubscription = mRemoteService.getRoundPointList(token, projectId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -135,16 +134,16 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
                             if (apiResponse.getData() != null) {
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                List<PostWorkList> postWorkLists = gson.fromJson(jsonArray,
-                                        new TypeToken<List<PostWorkList>>() {
+                                List<RoundPoint> postWorkLists = gson.fromJson(jsonArray,
+                                        new TypeToken<List<RoundPoint>>() {
                                         }.getType());
 
                                 if (postWorkLists != null && !postWorkLists.isEmpty()) {
-                                    if (mKeyContactAdapter != null) {
+                                    if (mAdapter != null) {
                                         lyNoPersonal.setVisibility(View.GONE);
                                         imgContacts.setVisibility(View.VISIBLE);
                                         lyNoData.setVisibility(View.VISIBLE);
-                                        mKeyContactAdapter.addAll(postWorkLists);
+                                        mAdapter.addAll(postWorkLists);
                                     }
                                 } else {
                                     lyNoPersonal.setVisibility(View.VISIBLE);
@@ -184,34 +183,36 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
         onRefresh();
     }
 
-    class KeyContactAdapter extends RecyclerView.Adapter<KeyContactAdapter.KeyContactViewHolder> {
+    class RoundPointAdapter extends RecyclerView.Adapter<RoundPointAdapter.RoundPointViewHolder> {
         private Context context;
-        private List<PostWorkList> contactsList;
+        private List<RoundPoint> contactsList;
 
-        public KeyContactAdapter(Context context, List<PostWorkList> contactsList) {
+        public RoundPointAdapter(Context context, List<RoundPoint> contactsList) {
             this.context = context;
             this.contactsList = contactsList;
         }
 
         @Override
-        public KeyContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RoundPointViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            View itemView = inflater.inflate(R.layout.item_key_contacts_setting, parent, false);
-            return new KeyContactViewHolder(itemView);
+            View itemView = inflater.inflate(R.layout.item_round_point, parent, false);
+            return new RoundPointViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(KeyContactViewHolder holder, int position) {
+        public void onBindViewHolder(RoundPointViewHolder holder, int position) {
             if (contactsList != null && !contactsList.isEmpty()) {
-                PostWorkList data = contactsList.get(position);
+                RoundPoint data = contactsList.get(position);
                 holder.setItem(data);
                 if (data != null) {
+                    position=position+1;
+                    if (position<10){
 
-                    if (data.getPost() != null && !TextUtils.isEmpty(data.getPost())) {
-                        holder.contactsName.setText(data.getPost());
+                        holder.reportPost.setText("0"+position+"");
+                    }else {
+                        holder.reportPost.setText(position+"");
                     }
-                    holder.avatarImg.setVisibility(View.GONE);
-
+                    holder.reportClass.setText(data.getInspectionname());
 
                 }
 
@@ -225,49 +226,48 @@ public class WorkPostSettingActivity extends BaseActivity implements SwipeRefres
             return contactsList.size();
         }
 
-        public void addAll(List<PostWorkList> contactsList) {
+        public void addAll(List<RoundPoint> contactsList) {
             this.contactsList.addAll(contactsList);
-            KeyContactAdapter.this.notifyDataSetChanged();
+            RoundPointAdapter.this.notifyDataSetChanged();
         }
 
         public void clear() {
             this.contactsList.clear();
-            KeyContactAdapter.this.notifyDataSetChanged();
+            RoundPointAdapter.this.notifyDataSetChanged();
         }
 
-        class KeyContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private TextView contactsName;
-            private CircleImageView avatarImg;
-            private RelativeLayout rlPersonal;
-            private PostWorkList mContactList;
+        class RoundPointViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            public KeyContactViewHolder(View itemView) {
+            private TextView reportPost;
+            private TextView reportClass;
+            private RelativeLayout rlReport;
+            private RoundPoint mReportPostList;
+
+            public RoundPointViewHolder(View itemView) {
 
                 super(itemView);
 
-                contactsName = ButterKnife.findById(itemView, R.id.item_contacts_name);
-                avatarImg = ButterKnife.findById(itemView, R.id.img_avatar);
-                rlPersonal = ButterKnife.findById(itemView, R.id.rl_key_personal);
-                rlPersonal.setOnClickListener(this);
+                reportPost = ButterKnife.findById(itemView, R.id.item_post);
+                reportClass = ButterKnife.findById(itemView, R.id.item_class);
+                rlReport = ButterKnife.findById(itemView, R.id.rl_key_personal);
+                rlReport.setOnClickListener(this);
+
 
             }
 
-            public void setItem(PostWorkList data) {
-                mContactList = data;
+            public void setItem(RoundPoint data) {
+                mReportPostList = data;
             }
 
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(WorkPostSettingActivity.this,
-                        WorkPostDetailActivity.class);
-                if (mContactList!=null){
-                    intent.putExtra(WorkPostDetailActivity.INFO,mContactList);
-
+                Intent intent = new Intent(RoundPointSettingActivity.this,
+                        RoundPointDetailActivity.class);
+                if (mReportPostList != null) {
+                    intent.putExtra(RoundPointDetailActivity.INFO, mReportPostList);
                 }
-                intent.putExtra(WorkPostDetailActivity.PROJECT_ID,projectId);
+                intent.putExtra(RoundPointDetailActivity.PROJECT_ID, projectId);
                 startActivity(intent);
-
-
 
 
             }

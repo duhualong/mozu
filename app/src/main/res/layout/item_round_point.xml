@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:id="@id/rl_key_personal"
+                android:padding="@dimen/padding_bottom"
+>
+    <TextView android:id="@id/item_post"
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              android:layout_centerVertical="true"
+              android:text="01"
+              android:gravity="center"
+              android:background="@drawable/circle_blue"
+              android:textColor="@color/white"
+              android:textSize="@dimen/text_normal_size"/>
+    <TextView android:id="@id/item_class"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:text="监控器"
+              android:layout_toEndOf="@id/item_post"
+              android:layout_toRightOf="@id/item_post"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+
+    <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:src="@mipmap/ic_arrow_right"/>
+
+
+</RelativeLayout>

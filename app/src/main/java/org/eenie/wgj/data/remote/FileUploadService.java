@@ -72,6 +72,11 @@ public interface FileUploadService {
     //编辑岗位培训设置
     @POST("jobtrainingUpdate")
     Call<ApiResponse>editTrainingWork(@Header("token") String token,@Body RequestBody body);
+    //编辑巡检点设置
+    @POST("inspectionpointsUpdate")
+    Call<ApiResponse>editInspectionItem(@Header("token")String token,@Body RequestBody body);
+    @POST("inspectionpointsAdd")
+    Call<ApiResponse>addInspectionItem(@Header("token")String token,@Body RequestBody body);
 
 
     @POST("register/user")
