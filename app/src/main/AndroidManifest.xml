@@ -300,6 +300,41 @@
         <activity android:name=".ui.project.roundway.RoundWaySettingActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--添加巡检线路-->
+        <activity android:name=".ui.project.roundway.AddRoundWayActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--编辑巡检线路-->
+        <activity android:name=".ui.project.roundway.EditRoundWayActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--巡检圈数设置-->
+        <activity android:name=".ui.project.roundway.CycleNumberSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--巡检圈数详情-->
+        <activity android:name=".ui.project.roundway.CycleNumberDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--编辑巡检圈数item-->
+        <activity android:name=".ui.project.roundway.EditCycleRoundActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--添加巡检圈数-->
+        <activity android:name=".ui.project.roundway.AddCycleRoundActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--项目工时设置-->
+        <activity android:name=".ui.project.projecttime.ProjectTotalTimeSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--项目工时-->
+        <activity android:name=".ui.project.projecttime.ProjectTimeSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--个人工时-->
+        <!--<activity android:name=""-->
+
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService"/>
 

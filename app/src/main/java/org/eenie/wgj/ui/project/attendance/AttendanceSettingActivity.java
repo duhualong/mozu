@@ -1,9 +1,7 @@
 package org.eenie.wgj.ui.project.attendance;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -35,10 +33,6 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.util.PermissionManager;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -69,7 +63,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
 
     @Override
     protected void updateUI() {
-        sHA1(context);
+//        sHA1(context);
         checkLocationPermission();
 
 
@@ -93,6 +87,9 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
     private void setUpMap() {
         // 自定义系统定位小蓝点
         MyLocationStyle myLocationStyle = new MyLocationStyle();
+        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromBitmap(
+                BitmapFactory.decodeResource(getResources(),
+                        R.mipmap.ic_sign_point)));
 
         myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
         myLocationStyle.radiusFillColor(R.color.text_blue);// 设置圆形的填充颜色
@@ -105,32 +102,32 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
     }
 
 
-    public static String sHA1(Context context) {
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(
-                    context.getPackageName(), PackageManager.GET_SIGNATURES);
-            byte[] cert = info.signatures[0].toByteArray();
-            MessageDigest md = MessageDigest.getInstance("SHA1");
-            byte[] publicKey = md.digest(cert);
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < publicKey.length; i++) {
-                String appendString = Integer.toHexString(0xFF & publicKey[i])
-                        .toUpperCase(Locale.US);
-                if (appendString.length() == 1)
-                    hexString.append("0");
-                hexString.append(appendString);
-                hexString.append(":");
-            }
-            String result=hexString.toString();
-            System.out.println("SHA1："+result.substring(0, result.length()-1));
-            return result.substring(0, result.length()-1);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public static String sHA1(Context context) {
+//        try {
+//            PackageInfo info = context.getPackageManager().getPackageInfo(
+//                    context.getPackageName(), PackageManager.GET_SIGNATURES);
+//            byte[] cert = info.signatures[0].toByteArray();
+//            MessageDigest md = MessageDigest.getInstance("SHA1");
+//            byte[] publicKey = md.digest(cert);
+//            StringBuffer hexString = new StringBuffer();
+//            for (int i = 0; i < publicKey.length; i++) {
+//                String appendString = Integer.toHexString(0xFF & publicKey[i])
+//                        .toUpperCase(Locale.US);
+//                if (appendString.length() == 1)
+//                    hexString.append("0");
+//                hexString.append(appendString);
+//                hexString.append(":");
+//            }
+//            String result=hexString.toString();
+//            System.out.println("SHA1："+result.substring(0, result.length()-1));
+//            return result.substring(0, result.length()-1);
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
     @OnClick({R.id.img_back,R.id.tv_save,R.id.rl_sign_in_city,R.id.rl_sign_in_address,
     R.id.rl_sign_in_scope,R.id.rl_sign_in_work_day,R.id.rl_sign_in_fingerprint,
             R.id.rl_sign_in_contract})public void onClick(View view){
@@ -241,10 +238,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
 
 
                     //locationMarker=mAMap.addMarker(markerOptions);
-                    locationMarker = mAMap.addMarker(new MarkerOptions().icon(
-                            BitmapDescriptorFactory.fromBitmap(
-                                    BitmapFactory.decodeResource(getResources(),
-                            R.mipmap.ic_sign_point))).position(latLng).snippet(
+                    locationMarker = mAMap.addMarker(new MarkerOptions().position(latLng).snippet(
                                     aMapLocation.getAddress()).draggable(true).setFlat(true));
                     locationMarker.showInfoWindow();//主动显示indowindow
                     //mAMap.addText(new TextOptions().position(latLng).text(aMapLocation.getAddress()));

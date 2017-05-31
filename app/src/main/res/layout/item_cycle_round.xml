@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="48dp"
+              android:layout_marginBottom="@dimen/padding_bottom"
+              android:background="@color/white"
+             >
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentEnd="true"
+              android:layout_alignParentRight="true"
+              android:text="10:30"
+              android:layout_marginEnd="@dimen/padding_bottom"
+              android:layout_marginRight="@dimen/padding_bottom"
+              android:id="@id/item_round_time"
+              android:textSize="@dimen/text_large_size"
+              android:layout_centerVertical="true"
+              android:textColor="@color/titleColor"
+    />
+    <TextView android:id="@id/item_post"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:gravity="center"
+              android:text="01"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:background="@drawable/background_shape_corner"
+              android:textColor="@color/white"
+              android:textSize="@dimen/text_normal_size"/>
+    <TextView android:id="@id/item_class"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:layout_toEndOf="@id/item_post"
+              android:layout_toRightOf="@id/item_post"
+              android:text="监控器"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+
+</RelativeLayout>

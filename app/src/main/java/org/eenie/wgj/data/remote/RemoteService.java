@@ -19,6 +19,7 @@ import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.ModifyInfo;
 import org.eenie.wgj.model.requset.PostWorkRequest;
 import org.eenie.wgj.model.requset.ReportPost;
+import org.eenie.wgj.model.requset.RoundPointRequest;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.ShootList;
@@ -249,38 +250,99 @@ public interface RemoteService {
     @GET("postList")
     Single<ApiResponse> getPostList(@Header("token") String token, @Query("projectid")
             String projectId);
+
     //岗位设置删除
     @GET("postDelete")
-    Single<ApiResponse>deletePostItem(@Header("token")String token,@Query("id")int id);
+    Single<ApiResponse> deletePostItem(@Header("token") String token, @Query("id") int id);
+
     //岗位设置编辑
     @POST("postUpdate")
-    Single<ApiResponse>editPostItem(@Header("token")String token, @Body PostWorkRequest request);
+    Single<ApiResponse> editPostItem(@Header("token") String token, @Body PostWorkRequest request);
+
     //岗位添加
     @POST("postAdd")
-    Single<ApiResponse>addPostItem(@Header("token")String token,@Body PostWorkRequest request);
+    Single<ApiResponse> addPostItem(@Header("token") String token, @Body PostWorkRequest request);
+
     //报岗设置
     @GET("newspaperpostList")
-    Single<ApiResponse>getReportPostList(@Header("token")String token,@Query("projectid")
+    Single<ApiResponse> getReportPostList(@Header("token") String token, @Query("projectid")
             String projectId);
+
     //删除报岗设置
     @GET("newspaperpostDelete")
-    Single<ApiResponse>deleteReportPostItem(@Header("token")String token,@Query("id")int id);
+    Single<ApiResponse> deleteReportPostItem(@Header("token") String token, @Query("id") int id);
+
     //编辑报岗设置
     @POST("newspaperpostUpdate")
-    Single<ApiResponse>editReportPostList(@Header("token")String token, @Body ReportPost reportPost);
+    Single<ApiResponse> editReportPostList(@Header("token") String token,
+                                           @Body ReportPost reportPost);
+
     @POST("newspaperpostAdd")
-    Single<ApiResponse>addReportPostList(@Header("token")String token,@Body ReportPost reportPost);
+    Single<ApiResponse> addReportPostList(@Header("token") String token,
+                                          @Body ReportPost reportPost);
+
     //巡检点列表
     @GET("inspectionpointsList")
-    Single<ApiResponse>getRoundPointList(@Header("token")String token,@Query("projectid")
+    Single<ApiResponse> getRoundPointList(@Header("token") String token, @Query("projectid")
             String projectId);
+
     //巡检点删除
     @GET("inspectionpointsDelete")
-    Single<ApiResponse>deleteRoundPointItem(@Header("token")String token,@Query("id")int id);
+    Single<ApiResponse> deleteRoundPointItem(@Header("token") String token, @Query("id") int id);
+
     //巡检路线
     @GET("lineList")
-    Single<ApiResponse>getLineList(@Header("token")String token,@Query("projectid")
+    Single<ApiResponse> getLineList(@Header("token") String token, @Query("projectid")
             String projectId);
+
+    //添加巡检路线
+    @POST("lineAdd")
+    @FormUrlEncoded
+    Single<ApiResponse> addLineItem(@Header("token") String token, @Field("projectid")
+            String projectId,
+                                    @Field("name") String name, @Field("difference")
+                                            String timeSpace);
+    //编辑巡检路线
+
+    @POST("lineUpdata")
+    @FormUrlEncoded
+    Single<ApiResponse> editLineItem(@Header("token") String token, @Field("projectid")
+            String projectId,
+                                     @Field("name") String name, @Field("difference")
+                                             String timeSpace,
+                                     @Field("id") int id);
+
+    //删除巡检线路
+    @GET("lineDelete")
+    Single<ApiResponse> deleteLineItem(@Header("token") String token, @Query("id") int id);
+
+    //巡检圈数
+    @GET("inspectiondayList")
+    Single<ApiResponse> getCycleNumber(@Header("token") String token, @Query("projectid")
+            String projectId,
+                                       @Query("lineid") int id);
+
+    //巡检线路删除圈数
+    @GET("inspectiondayDelete")
+    Single<ApiResponse> deleteCycleNumber(@Header("token") String token, @Query("id") int id);
+
+    //添加巡检点
+    @POST("inspectiondayAdd")
+    Single<ApiResponse> addRoundPoint(@Header("token") String token, @Body RoundPointRequest data);
+
+    //编辑巡检点
+    @POST("inspectiondayUpdate")
+    Single<ApiResponse> updateRoundPoint(@Header("token") String token, @Body RoundPointRequest
+            request);
+    //获取项目工时每月
+    @GET("personalHours/UserList")
+    Single<ApiResponse>getProjectTime(@Header("token")String token,@Query("date")String date,
+                                      @Query("projectid")String projectId);
+    //获取每月每天设置的项目工时
+    @GET("hoursList")
+    Single<ApiResponse>getMonthDayTime(@Header("token")String token,@Query("date")String date,
+                                       @Query("projectid")String projectId);
+
 
 
 

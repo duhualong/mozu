@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <TextView android:layout_width="match_parent"
+              android:layout_height="?android:actionBarSize"
+              android:background="@color/colorPrimary"
+              android:gravity="center"
+              android:text="2017-06-01"
+              android:id="@id/tv_title"
+              android:textColor="@color/white"
+              android:textSize="@dimen/text_title_size"/>
+    <android.support.v7.widget.RecyclerView android:id="@id/recycler_add_range"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/margin_height_larger_distance"
+                  android:layout_marginBottom="@dimen/padding_bottom"
+                  android:layout_marginTop="@dimen/margin_height_larger_distance"
+                  android:orientation="horizontal">
+        <Button android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_bottom"
+                android:layout_marginStart="@dimen/padding_bottom"
+                android:layout_weight="1"
+                android:id="@id/btn_cancel"
+                android:background="@mipmap/bg_submit_button"
+                android:text="取消"/>
+        <Button android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_bottom"
+                android:layout_marginStart="@dimen/padding_bottom"
+                android:layout_weight="1"
+                android:id="@id/btn_delete"
+                android:background="@mipmap/ic_button_cancel"
+                android:text="删除"/>
+        <Button android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/padding_bottom"
+                android:layout_marginLeft="@dimen/padding_bottom"
+                android:layout_marginRight="@dimen/padding_bottom"
+                android:layout_marginStart="@dimen/padding_bottom"
+                android:layout_weight="1"
+                android:id="@id/btn_save"
+                android:background="@mipmap/bg_submit_button"
+                android:text="保存"/>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -98,4 +98,5 @@ dependencies {
     compile 'cn.jiguang.sdk:jcore:1.1.2'
     compile 'com.zhy:okhttputils:2.6.2'
     compile files('libs/AMap_Search_V5.1.0_20170517.jar')
+    compile project(path: ':lib-calendar')
 }

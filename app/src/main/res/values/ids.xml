@@ -406,4 +406,23 @@
     <item name="tv_edit" type="id"/>
     <item name="tv_edit_item" type="id"/>
     <item name="tv_delete_item" type="id"/>
+    <item name="tv_time_space" type="id"/>
+    <item name="rl_set_time_space" type="id"/>
+    <item name="tv_round_point" type="id"/>
+    <item name="item_round_time" type="id"/>
+    <item name="item_name" type="id"/>
+    <item name="btn_time" type="id"/>
+    <item name="recycler_round_point" type="id"/>
+    <item name="rl_project_total_time" type="id"/>
+    <item name="tv_time_total" type="id"/>
+    <item name="tv_time_personal" type="id"/>
+    <item name="rl_project_personal_time" type="id"/>
+    <item name="setting_tv" type="id"/>
+    <item name="btnPri" type="id"/>
+    <item name="btnNext" type="id"/>
+    <item name="tv_date" type="id"/>
+    <item name="tv_total_time" type="id"/>
+    <item name="recycler_add_range" type="id"/>
+    <item name="btn_delete" type="id"/>
+    <item name="btn_number" type="id"/>
 </resources>

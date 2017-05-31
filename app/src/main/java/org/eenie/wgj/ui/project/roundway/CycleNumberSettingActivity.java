@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -22,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.CycleNumber;
 import org.eenie.wgj.model.response.RoundWayList;
 import org.eenie.wgj.util.Constants;
 
@@ -36,16 +36,16 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/5/25 at 18:36
+ * Created by Eenie on 2017/5/26 at 11:06
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class RoundWaySettingActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
-    private boolean checkState;
+public class CycleNumberSettingActivity extends BaseActivity implements
+        SwipeRefreshLayout.OnRefreshListener {
     public static final String PROJECT_ID = "id";
-    @BindView(R.id.tv_edit)
-    TextView editState;
+    public static final String INFO = "info";
+
     @BindView(R.id.swipe_refresh_list)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_project_contacts)
@@ -58,15 +58,21 @@ public class RoundWaySettingActivity extends BaseActivity implements SwipeRefres
     LinearLayout lyNoData;
     @BindView(R.id.img_add_contacts)
     ImageView imgContacts;
-
+    private int mLineId;
+    private RoundWayList data;
     @Override
     protected int getContentView() {
-        return R.layout.activity_round_way_setting;
+        return R.layout.activity_cycle_number;
     }
 
     @Override
     protected void updateUI() {
         projectId = getIntent().getStringExtra(PROJECT_ID);
+        data=getIntent().getParcelableExtra(INFO);
+        if (data!=null){
+            mLineId=data.getId();
+        }
+
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -84,37 +90,27 @@ public class RoundWaySettingActivity extends BaseActivity implements SwipeRefres
 
     }
 
-    @OnClick({R.id.img_back, R.id.tv_edit, R.id.img_add_contacts, R.id.ly_add_keyman})
+    @OnClick({R.id.img_back, R.id.img_add_contacts, R.id.ly_add_keyman})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
 
                 onBackPressed();
                 break;
-            case R.id.tv_edit:
-                if (checkState) {
-                    checkState = false;
-                    editState.setText("编辑");
 
-                } else {
-                    checkState = true;
-                    editState.setText("完成");
-                }
-                mAdapter.notifyDataSetChanged();
-
-
-                break;
             case R.id.img_add_contacts:
-                Intent intent=new Intent(context,AddRoundWayActivity.class);
-                intent.putExtra(AddRoundWayActivity.PROJECT_ID,projectId);
+                Intent intent = new Intent(context, AddCycleRoundActivity.class);
+                intent.putExtra(AddCycleRoundActivity.PROJECT_ID, projectId);
+                intent.putExtra(AddCycleRoundActivity.LINE_ID,mLineId+"");
                 startActivity(intent);
 
 
                 break;
             case R.id.ly_add_keyman:
 
-                Intent intents=new Intent(context,AddRoundWayActivity.class);
-                intents.putExtra(AddRoundWayActivity.PROJECT_ID,projectId);
+                Intent intents = new Intent(context, AddCycleRoundActivity.class);
+                intents.putExtra(AddCycleRoundActivity.PROJECT_ID, projectId);
+                intents.putExtra(AddCycleRoundActivity.LINE_ID,mLineId+"");
                 startActivity(intents);
                 break;
 
@@ -127,7 +123,7 @@ public class RoundWaySettingActivity extends BaseActivity implements SwipeRefres
     public void onRefresh() {
         mAdapter.clear();
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
-        mSubscription = mRemoteService.getLineList(token, projectId)
+        mSubscription = mRemoteService.getCycleNumber(token, projectId, mLineId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -148,19 +144,26 @@ public class RoundWaySettingActivity extends BaseActivity implements SwipeRefres
                             if (apiResponse.getData() != null) {
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                List<RoundWayList> postWorkLists = gson.fromJson(jsonArray,
-                                        new TypeToken<List<RoundWayList>>() {
+                                List<CycleNumber> postWorkLists = gson.fromJson(jsonArray,
+                                        new TypeToken<List<CycleNumber>>() {
                                         }.getType());
+                                if (postWorkLists.size()>0) {
+                                    for (int i = 0; i < postWorkLists.size(); i++) {
 
+                                        if (postWorkLists.get(i).getInfo() == null ||
+                                                postWorkLists.get(i).getInfo().isEmpty()) {
+                                            postWorkLists.remove(i);
 
-                                if (postWorkLists != null && !postWorkLists.isEmpty()) {
+                                        }
+                                    }
+
+                                }
                                     if (mAdapter != null) {
                                         lyNoPersonal.setVisibility(View.GONE);
                                         imgContacts.setVisibility(View.VISIBLE);
                                         lyNoData.setVisibility(View.VISIBLE);
                                         mAdapter.addAll(postWorkLists);
-                                    }
-                                } else {
+                                    } else {
                                     lyNoPersonal.setVisibility(View.VISIBLE);
                                     imgContacts.setVisibility(View.GONE);
                                     lyNoData.setVisibility(View.GONE);
@@ -201,9 +204,9 @@ public class RoundWaySettingActivity extends BaseActivity implements SwipeRefres
 
     class RoundWayAdapter extends RecyclerView.Adapter<RoundWayAdapter.RoundWayViewHolder> {
         private Context context;
-        private List<RoundWayList> contactsList;
+        private List<CycleNumber> contactsList;
 
-        public RoundWayAdapter(Context context, List<RoundWayList> contactsList) {
+        public RoundWayAdapter(Context context, List<CycleNumber> contactsList) {
             this.context = context;
             this.contactsList = contactsList;
         }
@@ -211,37 +214,36 @@ public class RoundWaySettingActivity extends BaseActivity implements SwipeRefres
         @Override
         public RoundWayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            View itemView = inflater.inflate(R.layout.item_round_way, parent, false);
+            View itemView = inflater.inflate(R.layout.item_cycle, parent, false);
             return new RoundWayViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(RoundWayViewHolder holder, int position) {
             if (contactsList != null && !contactsList.isEmpty()) {
-                RoundWayList data = contactsList.get(position);
+                CycleNumber data = contactsList.get(position);
                 holder.setItem(data);
+
                 if (data != null) {
+
                     position = position + 1;
-                    if (position<10){
-                        holder.reportPost.setText("线路0" +position);
-                    }else {
-                        holder.reportPost.setText("线路" +position);
+                    if (position < 10) {
+                        holder.reportPost.setText("圈数0" + position);
+                    } else {
+                        holder.reportPost.setText("圈数" + position);
                     }
 
 
-                    holder.reportClass.setText(data.getName());
+                }
+                if (data.getInfo() != null && !data.getInfo().isEmpty()) {
+                    if (data.getInfo().size() > 0) {
+                        holder.itemPoint.setText("共" + data.getInfo().size() + "个巡检点");
+                    } else {
+                        holder.itemPoint.setText("共0个巡检点");
+                    }
+
 
                 }
-                if (checkState) {
-                    holder.itemEdit.setVisibility(View.VISIBLE);
-                    holder.itemDelete.setVisibility(View.VISIBLE);
-                    holder.imgRight.setVisibility(View.GONE);
-                } else {
-                    holder.itemEdit.setVisibility(View.GONE);
-                    holder.itemDelete.setVisibility(View.GONE);
-                    holder.imgRight.setVisibility(View.VISIBLE);
-                }
-
             }
 
         }
@@ -251,7 +253,7 @@ public class RoundWaySettingActivity extends BaseActivity implements SwipeRefres
             return contactsList.size();
         }
 
-        public void addAll(List<RoundWayList> contactsList) {
+        public void addAll(List<CycleNumber> contactsList) {
             this.contactsList.addAll(contactsList);
             RoundWayAdapter.this.notifyDataSetChanged();
         }
@@ -264,102 +266,48 @@ public class RoundWaySettingActivity extends BaseActivity implements SwipeRefres
         class RoundWayViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private TextView reportPost;
-            private TextView reportClass;
             private RelativeLayout rlReport;
-            private TextView itemEdit;
-            private TextView itemDelete;
-            private ImageView imgRight;
-            private RoundWayList mReportPostList;
+            private TextView itemPoint;
+
+            private CycleNumber mCycleNumber;
 
             public RoundWayViewHolder(View itemView) {
 
                 super(itemView);
 
                 reportPost = ButterKnife.findById(itemView, R.id.item_post);
-                reportClass = ButterKnife.findById(itemView, R.id.item_class);
+
                 rlReport = ButterKnife.findById(itemView, R.id.rl_key_personal);
-                itemEdit = ButterKnife.findById(itemView, R.id.tv_edit_item);
-                itemDelete = ButterKnife.findById(itemView, R.id.tv_delete_item);
-                imgRight = ButterKnife.findById(itemView, R.id.img_right);
-                imgRight.setOnClickListener(this);
-                itemDelete.setOnClickListener(this);
-                itemEdit.setOnClickListener(this);
+                itemPoint = ButterKnife.findById(itemView, R.id.tv_round_point);
                 rlReport.setOnClickListener(this);
 
 
             }
 
-            public void setItem(RoundWayList data) {
-                mReportPostList = data;
+            public void setItem(CycleNumber data) {
+                mCycleNumber = data;
             }
 
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_key_personal:
-                        if (!checkState) {
-                            //跳转到圈数详情页面
-                            Intent intent=new Intent(RoundWaySettingActivity.this,
-                                    CycleNumberSettingActivity.class);
-                            intent.putExtra(CycleNumberSettingActivity.PROJECT_ID,projectId);
-                            intent.putExtra(CycleNumberSettingActivity.INFO,mReportPostList);
-                            startActivity(intent);
-                        }
-                        break;
-                    case R.id.img_right:
-                        Intent intent=new Intent(RoundWaySettingActivity.this,
-                                CycleNumberSettingActivity.class);
-                        intent.putExtra(CycleNumberSettingActivity.PROJECT_ID,projectId);
-                        intent.putExtra(CycleNumberSettingActivity.INFO,mReportPostList);
+                        Intent intent=new Intent(CycleNumberSettingActivity.this,
+                                CycleNumberDetailActivity.class);
+                        intent.putExtra(CycleNumberDetailActivity.INFO,mCycleNumber);
+                        intent.putExtra(CycleNumberDetailActivity.PROJECT_ID,projectId);
+                        intent.putExtra(CycleNumberDetailActivity.LINE_ID,String.valueOf(mLineId));
                         startActivity(intent);
-                        break;
-                    case R.id.tv_edit_item:
-                        Intent intents = new Intent(RoundWaySettingActivity.this, EditRoundWayActivity.class);
-                        intents.putExtra(EditRoundWayActivity.INFO, mReportPostList);
-                        intents.putExtra(EditRoundWayActivity.PROJECT_ID, projectId);
-                        startActivity(intents);
+
 
 
                         break;
-                    case R.id.tv_delete_item:
-                        deleteRoundWay(mReportPostList.getId());
 
 
-                        break;
                 }
 
 
             }
         }
     }
-
-    private void deleteRoundWay(int id) {
-        mSubscription = mRemoteService.deleteLineItem(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 0 || apiResponse.getResultCode() == 200) {
-                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
-                            onRefresh();
-                        }
-
-                    }
-                });
-    }
-
-
-
 }

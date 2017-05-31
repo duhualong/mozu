@@ -11,6 +11,7 @@ import org.eenie.wgj.ui.project.attendance.AttendanceSettingActivity;
 import org.eenie.wgj.ui.project.classmeeting.ClassMeetingSettingActivity;
 import org.eenie.wgj.ui.project.exchangework.ExchangeWorkSettingActivity;
 import org.eenie.wgj.ui.project.keypersonal.KeyPersonalSettingActivity;
+import org.eenie.wgj.ui.project.projecttime.ProjectTotalTimeSettingActivity;
 import org.eenie.wgj.ui.project.reportpost.ReportPostSettingActivity;
 import org.eenie.wgj.ui.project.roundpoint.RoundPointSettingActivity;
 import org.eenie.wgj.ui.project.roundway.RoundWaySettingActivity;
@@ -105,6 +106,12 @@ public class ProjectItemSettingActivity extends BaseActivity {
 
                 break;
             case R.id.rl_set_project_time:
+                //项目工时
+                mIntent=new Intent(context, ProjectTotalTimeSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(ProjectTotalTimeSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
 
                 break;
             case R.id.rl_set_arrange_schedual:

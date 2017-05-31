@@ -16,20 +16,10 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:text="@string/tv_round_way_setting"
+                  android:text="巡检线路/圈数设置"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
-        <TextView android:id="@id/tv_edit"
-                  android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_alignParentEnd="true"
-                  android:layout_alignParentRight="true"
-                  android:layout_centerVertical="true"
-                  android:padding="@dimen/padding_bottom"
-                  android:text="编辑"
-                  android:gravity="center"
-                  android:textColor="@color/white"
-                  android:textSize="@dimen/text_title_size"/>
+
 
 
     </RelativeLayout>

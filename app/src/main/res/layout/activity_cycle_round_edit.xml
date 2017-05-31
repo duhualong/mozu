@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="巡检圈数预览"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
+        />
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/img_big"
+                  android:layout_marginTop="?android:actionBarSize"
+                  android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+        >
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_project_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            />
+        </FrameLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/margin_height_larger_distance"
+                  android:layout_alignParentBottom="true"
+                  android:layout_marginBottom="@dimen/padding_bottom"
+                  android:layout_marginEnd="@dimen/padding_longer"
+                  android:layout_marginLeft="@dimen/padding_longer"
+                  android:layout_marginRight="@dimen/padding_longer"
+                  android:layout_marginStart="@dimen/padding_longer"
+                  android:layout_marginTop="@dimen/margin_height_larger_distance"
+                  android:orientation="horizontal">
+        <Button android:id="@id/button_delete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@mipmap/ic_button_cancel"
+                android:text="删除"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_large_size"/>
+        <Button android:id="@id/button_edit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_bottom"
+                android:layout_marginStart="@dimen/padding_bottom"
+                android:layout_weight="1"
+                android:background="@mipmap/ic_button_ok"
+                android:text="编辑"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_large_size"/>
+    </LinearLayout>
+
+</RelativeLayout>

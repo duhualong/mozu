@@ -26,7 +26,24 @@ public class RoundPoint implements Parcelable {
     private int inspectionmethod;
     private String inspectioncontent;
     private ArrayList<ImageBean>image;
+    private String time;
+    private boolean checked;
 
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public int getId() {
         return id;

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="添加巡检线路"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <TextView android:id="@id/tv_save"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="@string/tv_save"
+                  android:textColor="@color/white"/>
+
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingEnd="@dimen/padding_bottom"
+                    android:paddingLeft="@dimen/padding_bottom"
+                    android:paddingRight="@dimen/padding_bottom"
+                    android:paddingStart="@dimen/padding_bottom"
+                    android:paddingTop="@dimen/padding_bottom">
+        <TextView android:id="@id/tv_set_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="巡检点名称"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="@dimen/margin_height_larger_distance"
+                      android:layout_below="@id/tv_set_title"
+                      android:layout_marginBottom="10dp"
+                      android:layout_marginEnd="@dimen/font_size_18sp"
+                      android:layout_marginLeft="@dimen/font_size_18sp"
+                      android:layout_marginRight="@dimen/font_size_18sp"
+                      android:layout_marginStart="@dimen/font_size_18sp"
+                      android:layout_marginTop="@dimen/padding_bottom"
+                      android:background="@drawable/bg_edit_text_light">
+            <EditText
+                android:id="@id/et_input_work_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:hint="例如：文化广场东区"
+                android:lines="1"
+                android:maxLength="15"
+                android:textColor="@color/titleColor"
+                android:textColorHint="@color/gray"
+                android:textSize="@dimen/text_large_size"
+            />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:background="@color/white"
+                    android:id="@id/rl_set_time_space"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="巡检点时间允许差值"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <ImageView android:id="@id/img_right"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/ic_arrow_right"/>
+        <TextView android:id="@id/tv_time_space"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_toLeftOf="@id/img_right"
+                  android:layout_toStartOf="@id/img_right"
+                  android:text="未设置"
+                  android:textColor="@color/text_blue"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

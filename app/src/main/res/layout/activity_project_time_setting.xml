@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="项目工时设置"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/rl_project_total_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="项目总工时"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <ImageView android:id="@id/img_right"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/ic_arrow_right"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_toLeftOf="@id/img_right"
+                  android:layout_toStartOf="@id/img_right"
+                  android:text="去设置"
+                  android:id="@id/tv_time_total"
+                  android:textSize="@dimen/text_large_size"
+                  android:textColor="@color/text_blue"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/rl_project_personal_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="个人工时"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <ImageView android:id="@id/img_right"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/ic_arrow_right"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_toLeftOf="@id/img_right"
+                  android:layout_toStartOf="@id/img_right"
+                  android:text="去设置"
+                  android:id="@id/tv_time_personal"
+                  android:textSize="@dimen/text_large_size"
+                  android:textColor="@color/text_blue"/>
+
+    </RelativeLayout>
+</LinearLayout>

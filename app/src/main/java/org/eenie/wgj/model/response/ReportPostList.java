@@ -25,6 +25,7 @@ public class ReportPostList implements Parcelable {
     private ServiceBean service;
     private PostsettingBean postsetting;
 
+
     public ReportPostList(int id, String reportingtime, String jetlag,
                           ServiceBean service, PostsettingBean postsetting) {
         this.id = id;
@@ -33,6 +34,7 @@ public class ReportPostList implements Parcelable {
         this.service = service;
         this.postsetting = postsetting;
     }
+
 
     public int getId() {
         return id;
@@ -168,6 +170,15 @@ public class ReportPostList implements Parcelable {
 
         private int id;
         private String post;
+        private String selectTime;
+
+        public String getSelectTime() {
+            return selectTime;
+        }
+
+        public void setSelectTime(String selectTime) {
+            this.selectTime = selectTime;
+        }
 
         public PostsettingBean(int id, String post) {
             this.id = id;

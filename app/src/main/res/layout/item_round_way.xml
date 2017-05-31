@@ -3,19 +3,19 @@
                 android:id="@id/rl_key_personal"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
 
 >
     <TextView android:id="@id/item_post"
-              android:layout_width="24dp"
-              android:layout_height="24dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_centerVertical="true"
-              android:background="@drawable/circle_blue"
-              android:gravity="center"
-              android:text="01"
               android:layout_marginLeft="@dimen/padding_bottom"
               android:layout_marginStart="@dimen/padding_bottom"
+              android:gravity="center"
+              android:text="01"
+              android:background="@drawable/background_shape_corner"
               android:textColor="@color/white"
               android:textSize="@dimen/text_normal_size"/>
     <TextView android:id="@id/item_class"
@@ -31,13 +31,15 @@
               android:textSize="@dimen/text_large_size"/>
 
     <ImageView
+        android:id="@id/img_right"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/padding_bottom"
         android:layout_marginRight="@dimen/padding_bottom"
+        android:padding="10dp"
         android:src="@mipmap/ic_arrow_right"/>
     <TextView android:id="@id/tv_edit_item"
               android:layout_width="54dp"
@@ -48,22 +50,22 @@
               android:background="@color/text_blue"
               android:gravity="center"
               android:text="编辑"
-              android:visibility="gone"
               android:textColor="@color/white"
-              android:textSize="@dimen/text_large_size"/>
+              android:textSize="@dimen/text_large_size"
+              android:visibility="gone"/>
     <TextView android:id="@id/tv_delete_item"
               android:layout_width="54dp"
               android:layout_height="32dp"
               android:layout_alignParentEnd="true"
               android:layout_alignParentRight="true"
               android:layout_centerVertical="true"
+              android:layout_marginEnd="@dimen/padding_bottom"
+              android:layout_marginRight="@dimen/padding_bottom"
               android:background="@color/text_red"
               android:gravity="center"
               android:text="删除"
-              android:layout_marginRight="@dimen/padding_bottom"
-              android:layout_marginEnd="@dimen/padding_bottom"
-              android:visibility="gone"
               android:textColor="@color/white"
-              android:textSize="@dimen/text_large_size"/>
+              android:textSize="@dimen/text_large_size"
+              android:visibility="gone"/>
 
 </RelativeLayout>

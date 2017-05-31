@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:padding="@dimen/padding_bottom"
+>
+    <CheckBox
+        android:id="@id/checkbox_password_remember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/padding_bottom"
+        android:layout_marginRight="@dimen/padding_bottom"
+        android:button="@drawable/checkbox_apply_show_state"
+    />
+
+    <TextView android:id="@id/item_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="@dimen/padding_short"
+              android:layout_marginStart="@dimen/padding_short"
+              android:layout_toEndOf="@id/checkbox_password_remember"
+              android:layout_toRightOf="@id/checkbox_password_remember"
+              android:text="日班"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+    <EditText android:id="@id/btn_number"
+              android:layout_width="72dp"
+              android:layout_height="30dp"
+              android:layout_alignParentEnd="true"
+              android:layout_alignParentRight="true"
+              android:layout_centerVertical="true"
+              android:background="@color/white_light"
+              android:gravity="center"
+              android:hint="0"
+              android:inputType="number"
+              android:textColorHint="@color/gray"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginEnd="@dimen/padding_short"
+              android:layout_marginRight="@dimen/padding_short"
+              android:layout_toLeftOf="@id/btn_number"
+              android:layout_toStartOf="@id/btn_number"
+              android:text="人员数量"
+              android:textColor="@color/titleColor"/>
+
+
+</RelativeLayout>
