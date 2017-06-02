@@ -4,10 +4,14 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +24,7 @@ import com.squareup.timessquare.CalendarView;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.ProjectTimeRequest;
 import org.eenie.wgj.model.response.ClassListResponse;
 import org.eenie.wgj.model.response.DayMonthTime;
 import org.eenie.wgj.model.response.ProjectTimeTotal;
@@ -59,6 +64,8 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
     private String projectId = "project_id";
     private ArrayList<DayMonthTime> mDayMonthTimes;
     private ExchangeWorkAdapter mAdapter;
+    private int serviceId;
+    private int count;
 
 
     @Override
@@ -84,7 +91,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
     private void getProjectDayTime(String projectId, String date) {
         mSubscription = mRemoteService.getMonthDayTime(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), "2017-06", projectId)
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), date, projectId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -165,10 +172,21 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 break;
             case R.id.setting_tv:
 
+
+                ArrayList<String> dates = new ArrayList<>();
+                for (int i = 0; i < mCalendarView.getSelectedCells().size(); i++) {
+                    dates.add(new SimpleDateFormat("yyyy-MM-dd").
+                            format(mCalendarView.getSelectedCells().get(i).getTime()));
+                    Log.d("日历", "选择: " + new SimpleDateFormat("yyyy-MM-dd").format(mCalendarView.getSelectedCells().get(i).getTime()));
+                }
+                if (dates.size() > 0) {
+                    getData(dates);
+                }
                 break;
             case R.id.btnPri:
                 mCalendarView.prevMonth();
                 onDateChange();
+
                 break;
             case R.id.btnNext:
                 mCalendarView.nextMonth();
@@ -178,8 +196,85 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         }
     }
 
+    private void getData(ArrayList<String> date) {
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        mSubscription = mRemoteService.getClassWideList(token, projectId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            if (apiResponse.getData() != null) {
+                                Gson gson = new Gson();
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                ArrayList<ClassListResponse> exchangeWorkLists = gson.fromJson(jsonArray,
+                                        new TypeToken<ArrayList<ClassListResponse>>() {
+                                        }.getType());
+
+                                showDateDialogs(date, exchangeWorkLists);
+
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void showDateDialogs(ArrayList<String> date, ArrayList<ClassListResponse> data) {
+        View view = View.inflate(context, R.layout.dialog_show_arrange_time, null);
+        TextView dialogTitle = (TextView) view.findViewById(R.id.tv_title);
+        if (date.size() > 0) {
+            dialogTitle.setText(date.get(0));
+        }
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .setCancelable(true)
+                .create();
+        dialog.show();
+        dialog.getWindow().findViewById(R.id.btn_delete).setVisibility(View.INVISIBLE);
+        RecyclerView recycler = (RecyclerView) dialog.getWindow().findViewById(
+                R.id.recycler_add_range);
+        mAdapter = new ExchangeWorkAdapter(context, data);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        recycler.setLayoutManager(layoutManager);
+        recycler.setAdapter(mAdapter);
+
+//只用下面这一行弹出对话框时需要点击输入框才能弹出软键盘
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+//加上下面这一行弹出对话框时软键盘随之弹出
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
+
+        dialog.getWindow().findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < date.size(); i++) {
+                    addProjectTime(data, date.get(i));
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
     @Override
     public void onHeightDateClick(Date date) {
+
 
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
         mSubscription = mRemoteService.getClassWideList(token, projectId)
@@ -206,33 +301,38 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                                 ArrayList<ClassListResponse> exchangeWorkLists = gson.fromJson(jsonArray,
                                         new TypeToken<ArrayList<ClassListResponse>>() {
                                         }.getType());
+                                Log.d("ArrayList", "onNext: " + exchangeWorkLists.size() + "\n" +
+                                        exchangeWorkLists.toString());
+                                String mDate = new SimpleDateFormat("yyyy-MM-dd").
+                                        format(date) + "";
+                                if (!exchangeWorkLists.isEmpty()) {
 
-                                if (exchangeWorkLists != null && !exchangeWorkLists.isEmpty()) {
                                     for (int i = 0; i < mDayMonthTimes.size(); i++) {
-                                        if (mDayMonthTimes.get(i).getDate().endsWith(
-                                                (new SimpleDateFormat("yyyy-MM-dd").
-                                                format(date) + "").trim())) {
-                                            for (int m=0;m<exchangeWorkLists.size();m++){
-                                                for (int j = 0; j < mDayMonthTimes.get(i).
-                                                        getService().size(); j++) {
-                                                    if (mDayMonthTimes.get(i).
-                                                            getService().get(j).getService().getId()==
-                                                            exchangeWorkLists.get(m).getService().
-                                                                    getId()){
-                                                        exchangeWorkLists.get(m).setChecked(true);
-                                                        exchangeWorkLists.get(m).setService_people
-                                                                (Integer.parseInt(mDayMonthTimes.get(i).
-                                                                getService().get(j).getService_people()));
-                                                    }
+                                        if (mDayMonthTimes.get(i).getDate().equals(mDate.trim())) {
+                                            serviceId = mDayMonthTimes.get(i).getId();
 
+                                            for (int m = 0; m < mDayMonthTimes.get(i).getService().size(); m++) {
+                                                for (int j = 0; j < exchangeWorkLists.size(); j++) {
+                                                    if (mDayMonthTimes.get(i).getService().
+                                                            get(m).getService_id() ==
+                                                            exchangeWorkLists.get(j).getId()) {
+                                                        exchangeWorkLists.get(j).setChecked(true);
+                                                        exchangeWorkLists.get(j).setService_people(
+                                                                Integer.parseInt(mDayMonthTimes.
+                                                                        get(i).getService().
+                                                                        get(m).getService_people()));
+                                                        exchangeWorkLists.get(j).setTime(
+                                                                mDayMonthTimes.get(i).getService().
+                                                                        get(m).getTime());
+
+                                                    }
                                                 }
                                             }
-
 
                                         }
 
                                     }
-                                    showDateDialog(date,exchangeWorkLists);
+                                    showDateDialog(mDate, exchangeWorkLists, serviceId);
                                 }
                             }
                         }
@@ -240,19 +340,14 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 });
 
 
-
     }
 
-    private void showDateDialog(Date date,ArrayList<ClassListResponse>data) {
+
+    private void showDateDialog(String date, ArrayList<ClassListResponse> data, int serviceId) {
         View view = View.inflate(context, R.layout.dialog_show_arrange_time, null);
         TextView dialogTitle = (TextView) view.findViewById(R.id.tv_title);
-        RecyclerView recycler = (RecyclerView) view.findViewById(
-                R.id.recycler_add_range);
-        dialogTitle.setText(new SimpleDateFormat("yyyy-MM-dd").format(date));
-        mAdapter = new ExchangeWorkAdapter(context,data);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recycler.setLayoutManager(layoutManager);
-        recycler.setAdapter(mAdapter);
+
+        dialogTitle.setText(date);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
@@ -260,16 +355,116 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 .setCancelable(true)
                 .create();
         dialog.show();
+        RecyclerView recycler = (RecyclerView) dialog.getWindow().findViewById(
+                R.id.recycler_add_range);
+        mAdapter = new ExchangeWorkAdapter(context, data);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        recycler.setLayoutManager(layoutManager);
+        recycler.setAdapter(mAdapter);
 
+//只用下面这一行弹出对话框时需要点击输入框才能弹出软键盘
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+//加上下面这一行弹出对话框时软键盘随之弹出
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
+        dialog.getWindow().findViewById(R.id.btn_delete).setOnClickListener(v -> {
+            deleteProjectTime(serviceId);
+            dialog.dismiss();
+        });
+        dialog.getWindow().findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addProjectTime(data, date);
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    private void addProjectTime(ArrayList<ClassListResponse> data, String date) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Integer> people = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).isChecked() && data.get(i).getService_people() > 0) {
+                ids.add(data.get(i).getId());
+                people.add(data.get(i).getService_people());
+
+
+            }
+        }
+        ProjectTimeRequest request = new ProjectTimeRequest(date, ids, people, projectId);
+        mSubscription = mRemoteService.addMonthDay(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            Toast.makeText(ProjectTimeSettingActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
+                            mCalendarView.getSelectedCells().clear();
+                            mCalendarView.upCalendarView();
+                            getProjectDayTime(projectId, new SimpleDateFormat("yyyy-MM").
+                                    format(mCalendarView.getDate()) + "");
+                            getProjectTime(projectId, new SimpleDateFormat("yyyy-MM").
+                                    format(mCalendarView.getDate()) + "");
+
+                        }
+
+                    }
+                });
+
+
+    }
+
+    private void deleteProjectTime(int serviceId) {
+        mSubscription = mRemoteService.deleteMonthDay(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), serviceId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                            getProjectTime(projectId, new SimpleDateFormat("yyyy-MM").
+                                    format(mCalendarView.getDate()) + "");
+                            getProjectDayTime(projectId, new SimpleDateFormat("yyyy-MM").
+                                    format(mCalendarView.getDate()) + "");
+                        }
+
+                    }
+                });
 
 
     }
 
     class ExchangeWorkAdapter extends RecyclerView.Adapter<ExchangeWorkAdapter.ExchangeWorkViewHolder> {
         private Context context;
-        private List<ClassListResponse> mClassMeetingLists;
+        private ArrayList<ClassListResponse> mClassMeetingLists;
 
-        public ExchangeWorkAdapter(Context context, List<ClassListResponse> mClassMeetingLists) {
+        public ExchangeWorkAdapter(Context context, ArrayList<ClassListResponse> mClassMeetingLists) {
             this.context = context;
             this.mClassMeetingLists = mClassMeetingLists;
         }
@@ -287,17 +482,47 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 ClassListResponse data = mClassMeetingLists.get(position);
                 holder.setItem(data);
                 if (data != null) {
-                    if (!TextUtils.isEmpty(data.getService().getServicesname())) {
-                        holder.itemName.setText(data.getService().getServicesname());
+                    Gson gson = new Gson();
+                    Log.d("Gson", "onBindViewHolder数据: " + gson.toJson(data));
+                    if (!TextUtils.isEmpty(data.getServicesname())) {
+                        holder.itemName.setText(data.getServicesname());
                     }
+
                     if (data.isChecked()) {
                         holder.mCheckBox.setChecked(true);
                     } else {
-                        holder.mCheckBox.setChecked(true);
+                        holder.mCheckBox.setChecked(false);
                     }
                     if (data.getService_people() > 0) {
-                        holder.etNumber.setText(data.getService_people());
+                        holder.etNumber.setText(String.valueOf(data.getService_people()));
                     }
+                    holder.etNumber.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            if (!TextUtils.isEmpty(s.toString())) {
+                                if (Integer.parseInt(
+                                        holder.etNumber.getText().toString()) > 0) {
+                                    data.setService_people(Integer.parseInt(
+                                            holder.etNumber.getText().toString()));
+                                }
+                            } else {
+                                data.setService_people(0);
+
+                            }
+
+                        }
+                    });
+
                 }
 
 
@@ -335,6 +560,32 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 itemName = ButterKnife.findById(itemView, R.id.item_name);
                 etNumber = ButterKnife.findById(itemView, R.id.btn_number);
                 mCheckBox.setOnClickListener(this);
+                etNumber.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (!TextUtils.isEmpty(s.toString())) {
+                            if (Integer.parseInt(
+                                    etNumber.getText().toString()) > 0) {
+                                mClassMeetingList.setService_people(Integer.parseInt(
+                                        etNumber.getText().toString()));
+                            }
+                        } else {
+                            mClassMeetingList.setService_people(0);
+
+                        }
+
+                    }
+                });
 
             }
 
@@ -347,19 +598,10 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 switch (v.getId()) {
                     case R.id.checkbox_password_remember:
                         if (mCheckBox.isChecked()) {
-                            if (Integer.parseInt(etNumber.getText().toString()) > 0) {
-                                mClassMeetingList.setChecked(true);
-                                mClassMeetingList.setService_people(Integer.parseInt(
-                                        etNumber.getText().toString()));
-                            } else {
-                                Toast.makeText(ProjectTimeSettingActivity.this, "人员数量必须大于零",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
+                            mClassMeetingList.setChecked(true);
                         } else {
                             mClassMeetingList.setChecked(false);
                         }
-
 
                         break;
                 }
@@ -372,13 +614,18 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
     @Override
     public void onChange(Date date) {
-        tvDate.setText(new SimpleDateFormat("yyyy年MM月").format(date));
-        getProjectTime(projectId, new SimpleDateFormat("yyyy-MM").format(date) + "");
+
     }
 
     public void onDateChange() {
         mCalendarView.getSelectedCells().clear();
         mCalendarView.upCalendarView();
+
+        tvDate.setText(new SimpleDateFormat("yyyy年MM月").format(mCalendarView.getDate()));
+        getProjectTime(projectId, new SimpleDateFormat("yyyy-MM").format(mCalendarView.getDate()));
+
+        getProjectDayTime(projectId, new SimpleDateFormat("yyyy-MM").
+                format(mCalendarView.getDate()));
 //        mLaborPresenter.getRankList(projectId);
 //        mLaborPresenter.getLaborList(projectId, new SimpleDateFormat("yyyy-MM-dd").format(mCalendarView.getDate()));
     }

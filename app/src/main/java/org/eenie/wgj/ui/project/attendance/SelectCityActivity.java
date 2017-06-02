@@ -1,8 +1,8 @@
 package org.eenie.wgj.ui.project.attendance;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -58,7 +58,12 @@ public class SelectCityActivity extends BaseActivity {
     TextView dialog;
     @BindView(R.id.filter_edit)
     ClearEditText mClearEditText;
+    @BindView(R.id.tv_location)
+    TextView tvCity;
     private ArrayList<String> mCityList = new ArrayList<>();
+    public static final String CITY = "city";
+    private String city;
+
 
     @Override
     protected int getContentView() {
@@ -67,7 +72,13 @@ public class SelectCityActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+
         initJsonData();
+        city = getIntent().getStringExtra(CITY);
+        if (!TextUtils.isEmpty(city)) {
+            tvCity.setText(city);
+
+        }
 
 
     }
@@ -199,9 +210,12 @@ public class SelectCityActivity extends BaseActivity {
             }
         });
         sortListView.setOnItemClickListener((parent, view, position, id) -> {
-            Snackbar.make(rootView, ((SortModel) adapter.getItem(position)).getName(), Snackbar.LENGTH_SHORT).show();
-
-
+            city = ((SortModel) adapter.getItem(position)).getName();
+            Intent mIntent = new Intent();
+            mIntent.putExtra("city", city);
+            // 设置结果，并进行传送
+            setResult(4, mIntent);
+            SelectCityActivity.this.finish();
         });
     }
 

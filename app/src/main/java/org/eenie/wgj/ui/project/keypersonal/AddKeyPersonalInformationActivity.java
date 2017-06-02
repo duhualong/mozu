@@ -788,7 +788,7 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("image", mAvatarFile.getName(),
                         RequestBody.create(MediaType.parse("image/jpg"), mAvatarFile))
-                .addFormDataPart("projectsId", projectsId)
+                .addFormDataPart("projectid", projectsId)
                 .addFormDataPart("name", name)
                 .addFormDataPart("age", age)
                 .addFormDataPart("height", height)

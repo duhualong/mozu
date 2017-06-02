@@ -173,6 +173,7 @@
     <string name="report_post_setting">报岗设置</string>
     <string name="tv_round_point_setting">巡检点位设置</string>
     <string name="tv_round_way_setting">巡检线路设置</string>
+    <string name="apply_time_work"><u>申请工时</u></string>
 
 
 </resources>

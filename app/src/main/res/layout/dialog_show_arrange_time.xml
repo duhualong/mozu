@@ -36,6 +36,7 @@
                 android:layout_marginStart="@dimen/padding_bottom"
                 android:layout_weight="1"
                 android:id="@id/btn_delete"
+                android:visibility="visible"
                 android:background="@mipmap/ic_button_cancel"
                 android:text="删除"/>
         <Button android:layout_width="0dp"

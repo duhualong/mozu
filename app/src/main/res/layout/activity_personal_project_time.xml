@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="个人工时设置"
+                  android:textColor="@color/white"
+
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:id="@id/tv_save"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="保存"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+        <Button
+            android:id="@id/btnPri"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@mipmap/ic_prev_month"
+        />
+        <TextView
+            android:id="@id/tv_date"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:background="@mipmap/handover_edit_bg"
+            android:gravity="center"
+            android:text="2017年5月"
+            android:textColor="@color/black_light"/>
+        <Button
+            android:id="@id/btnNext"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@mipmap/ic_next_month"
+        />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_horizontal"
+                  android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_circle"
+            android:gravity="center"
+            android:orientation="vertical"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总计工时"
+                android:textColor="@color/titleColor"
+                android:textSize="@dimen/text_normal_size"/>
+
+            <TextView
+                android:id="@id/tv_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_red"
+                android:textSize="@dimen/text_title_size"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/padding_bottom"
+            android:layout_marginStart="@dimen/padding_bottom"
+            android:background="@drawable/shape_circle"
+            android:gravity="center"
+            android:orientation="vertical"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="剩余工时"
+                android:textColor="@color/titleColor"
+                android:textSize="@dimen/text_normal_size"/>
+
+            <TextView
+                android:id="@id/tv_surplus_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_red"
+                android:textSize="@dimen/text_title_size"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/padding_bottom"
+            android:layout_marginStart="@dimen/padding_bottom"
+            android:background="@drawable/shape_circle"
+            android:gravity="center"
+            android:orientation="vertical"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="核定人数"
+                android:textColor="@color/titleColor"
+                android:textSize="@dimen/text_normal_size"/>
+
+            <TextView
+                android:id="@id/tv_total_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_red"
+                android:textSize="@dimen/text_title_size"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/padding_bottom"
+            android:layout_marginStart="@dimen/padding_bottom"
+            android:background="@drawable/shape_circle"
+            android:gravity="center"
+            android:orientation="vertical"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="现有人数"
+                android:textColor="@color/titleColor"
+                android:textSize="@dimen/text_normal_size"/>
+
+            <TextView
+                android:id="@id/tv_people_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_red"
+                android:textSize="@dimen/text_title_size"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/padding_bottom"
+              android:background="@color/white"
+              android:padding="@dimen/padding_bottom"
+              android:text="@string/apply_time_work"
+              android:textColor="@color/text_red"/>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_marginTop="@dimen/padding_bottom">
+        <ExpandableListView android:id="@id/expand_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+        />
+
+    </FrameLayout>
+</LinearLayout>

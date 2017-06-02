@@ -8,6 +8,7 @@ import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.AddKeyPersonalInformation;
+import org.eenie.wgj.model.requset.AddProjectDay;
 import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.BuildNewProject;
 import org.eenie.wgj.model.requset.CaptchaChecked;
@@ -18,9 +19,11 @@ import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.requset.ModifyInfo;
 import org.eenie.wgj.model.requset.PostWorkRequest;
+import org.eenie.wgj.model.requset.ProjectTimeRequest;
 import org.eenie.wgj.model.requset.ReportPost;
 import org.eenie.wgj.model.requset.RoundPointRequest;
 import org.eenie.wgj.model.requset.UserId;
+import org.eenie.wgj.model.response.AttendanceDay;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.ShootList;
 
@@ -246,6 +249,10 @@ public interface RemoteService {
     Single<ApiResponse> getAttendanceInformation(@Header("token") String token, @Query("projectid")
             String projectId);
 
+    //考勤添加编辑
+    @POST("attendanceUpdate")
+    Single<ApiResponse> addAttendanceDaySetting(@Header("token") String token, @Body AttendanceDay request);
+
     //岗位设置
     @GET("postList")
     Single<ApiResponse> getPostList(@Header("token") String token, @Query("projectid")
@@ -334,15 +341,33 @@ public interface RemoteService {
     @POST("inspectiondayUpdate")
     Single<ApiResponse> updateRoundPoint(@Header("token") String token, @Body RoundPointRequest
             request);
+
     //获取项目工时每月
     @GET("personalHours/UserList")
-    Single<ApiResponse>getProjectTime(@Header("token")String token,@Query("date")String date,
-                                      @Query("projectid")String projectId);
+    Single<ApiResponse> getProjectTime(@Header("token") String token, @Query("date") String date,
+                                       @Query("projectid") String projectId);
+
     //获取每月每天设置的项目工时
     @GET("hoursList")
-    Single<ApiResponse>getMonthDayTime(@Header("token")String token,@Query("date")String date,
-                                       @Query("projectid")String projectId);
+    Single<ApiResponse> getMonthDayTime(@Header("token") String token, @Query("date") String date,
+                                        @Query("projectid") String projectId);
 
+    //删除项目工时
+    @GET("hoursDelete")
+    Single<ApiResponse> deleteMonthDay(@Header("token") String token, @Query("id") int id);
+
+    //项目工时添加，编辑
+    @POST("hoursAdd")
+    Single<ApiResponse> addMonthDay(@Header("token") String token, @Body ProjectTimeRequest request);
+
+    //获取当月每个人工时
+    @POST("personalHoursAdd")
+    Single<ApiResponse> addPersonalProjectDay(@Header("token") String token, @Body
+            AddProjectDay request);
+    //获取当月工时
+    @GET("personalHoursList")
+    Single<ApiResponse>getMonthDay(@Header("token")String token,@Query("date")String date,
+                                   @Query("projectid")String projectId);
 
 
 

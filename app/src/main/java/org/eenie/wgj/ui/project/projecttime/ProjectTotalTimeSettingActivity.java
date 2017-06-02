@@ -33,7 +33,9 @@ public class ProjectTotalTimeSettingActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_project_personal_time:
-
+                Intent intents=new Intent(context,ProjectTimePersonalSettingActivity.class);
+                intents.putExtra(ProjectTimePersonalSettingActivity.PROJECT_ID,projectId);
+                startActivity(intents);
 
                 break;
 

@@ -50,15 +50,52 @@ public class DayMonthTime {
          * service_people : 1
          */
 
-        private ServiceBean service;
+
+        private int service_id;
+        private String servicesname;
+        private String starttime;
+        private String endtime;
+        private double time;
         private String service_people;
 
-        public ServiceBean getService() {
-            return service;
+        public int getService_id() {
+            return service_id;
         }
 
-        public void setService(ServiceBean service) {
-            this.service = service;
+        public void setService_id(int service_id) {
+            this.service_id = service_id;
+        }
+
+        public String getServicesname() {
+            return servicesname;
+        }
+
+        public void setServicesname(String servicesname) {
+            this.servicesname = servicesname;
+        }
+
+        public String getStarttime() {
+            return starttime;
+        }
+
+        public void setStarttime(String starttime) {
+            this.starttime = starttime;
+        }
+
+        public String getEndtime() {
+            return endtime;
+        }
+
+        public void setEndtime(String endtime) {
+            this.endtime = endtime;
+        }
+
+        public double getTime() {
+            return time;
+        }
+
+        public void setTime(double time) {
+            this.time = time;
         }
 
         public String getService_people() {
@@ -67,62 +104,6 @@ public class DayMonthTime {
 
         public void setService_people(String service_people) {
             this.service_people = service_people;
-        }
-
-        public static class ServiceBean {
-            /**
-             * id : 132
-             * servicesname : 日班
-             * starttime : 09:00:00
-             * endtime : 19:30:00
-             * time : 10.5
-             */
-
-            private int id;
-            private String servicesname;
-            private String starttime;
-            private String endtime;
-            private double time;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getServicesname() {
-                return servicesname;
-            }
-
-            public void setServicesname(String servicesname) {
-                this.servicesname = servicesname;
-            }
-
-            public String getStarttime() {
-                return starttime;
-            }
-
-            public void setStarttime(String starttime) {
-                this.starttime = starttime;
-            }
-
-            public String getEndtime() {
-                return endtime;
-            }
-
-            public void setEndtime(String endtime) {
-                this.endtime = endtime;
-            }
-
-            public double getTime() {
-                return time;
-            }
-
-            public void setTime(double time) {
-                this.time = time;
-            }
         }
     }
 }

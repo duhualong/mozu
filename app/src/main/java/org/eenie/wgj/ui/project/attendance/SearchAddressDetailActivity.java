@@ -1,12 +1,12 @@
 package org.eenie.wgj.ui.project.attendance;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +19,12 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
-import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.LocationAddress;
+import org.eenie.wgj.model.GaodeResponse;
+import org.eenie.wgj.model.response.GaodeResponses;
 import org.eenie.wgj.search.ClearEditText;
 import org.eenie.wgj.util.Constant;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +44,7 @@ import static butterknife.ButterKnife.findById;
  */
 
 public class SearchAddressDetailActivity extends BaseActivity {
+    public static final String CITY="city";
     @BindView(R.id.root_view)
     View rootView;
 
@@ -52,6 +52,7 @@ public class SearchAddressDetailActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     private LocationAdapter adapter;
     @BindView(R.id.filter_edit)ClearEditText mSearchView;
+    private String city;
 
     @Override
     protected int getContentView() {
@@ -60,6 +61,11 @@ public class SearchAddressDetailActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        city=getIntent().getStringExtra(CITY);
+        if (TextUtils.isEmpty(city)){
+            city="上海市";
+
+        }
 
         adapter = new LocationAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -100,19 +106,20 @@ public class SearchAddressDetailActivity extends BaseActivity {
     private void searchAddress(String address) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.BAIDU_SEARCH)
+                .baseUrl(Constant.SEARCH)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
-        Call<ApiResponse> call = userBiz.getAddressDetail("上海", address, "json");
-        call.enqueue(new Callback<ApiResponse>() {
+
+        Call<GaodeResponse> call = userBiz.getAddressDetail(city, address);
+        call.enqueue(new Callback<GaodeResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.body().getStatus() == 0) {
+            public void onResponse(Call<GaodeResponse> call, Response<GaodeResponse> response) {
+                if (response.body().getStatus().equals("1")) {
                     Gson gson = new Gson();
-                    String jsonArray = gson.toJson(response.body().getResult());
-                    List<LocationAddress> data = gson.fromJson(jsonArray,
-                            new TypeToken<List<LocationAddress>>() {
+                    String jsonArray = gson.toJson(response.body().getPois());
+                    ArrayList<GaodeResponses> data = gson.fromJson(jsonArray,
+                            new TypeToken<ArrayList<GaodeResponses>>() {
                             }.getType());
 
                     if (data != null&&!data.isEmpty()) {
@@ -123,7 +130,6 @@ public class SearchAddressDetailActivity extends BaseActivity {
                     }
 
 
-                    Log.d("test", "onResponse: " + response.body().getResult().toString());
                 }else {
                     adapter.clear();
 
@@ -131,7 +137,7 @@ public class SearchAddressDetailActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<GaodeResponse> call, Throwable t) {
 
             }
         });
@@ -156,9 +162,9 @@ public class SearchAddressDetailActivity extends BaseActivity {
     }
     class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ProjectViewHolder> {
         private Context context;
-        private List<LocationAddress> projectList;
+        private ArrayList<GaodeResponses> projectList;
 
-        public LocationAdapter(Context context, List<LocationAddress> projectList) {
+        public LocationAdapter(Context context, ArrayList<GaodeResponses> projectList) {
             this.context = context;
             this.projectList = projectList;
         }
@@ -173,16 +179,12 @@ public class SearchAddressDetailActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (projectList != null && !projectList.isEmpty()) {
-                LocationAddress data = projectList.get(position);
+                GaodeResponses data = projectList.get(position);
                 holder.setItem(data);
                 if (data != null) {
                     holder.address.setText(data.getName());
 
 
-
-
-
-                    // holder.imgProject.setImageURI(data.get);
                 }
 //设置显示内容
 
@@ -195,7 +197,7 @@ public class SearchAddressDetailActivity extends BaseActivity {
             return projectList.size();
         }
 
-        public void addAll(List<LocationAddress> projectList) {
+        public void addAll(ArrayList<GaodeResponses> projectList) {
             this.projectList.addAll(projectList);
             LocationAdapter.this.notifyDataSetChanged();
         }
@@ -208,7 +210,7 @@ public class SearchAddressDetailActivity extends BaseActivity {
         class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private TextView address;
-            private LocationAddress mLocationAddress;
+            private GaodeResponses mLocationAddress;
             private RelativeLayout selectRl;
 
 
@@ -223,13 +225,23 @@ public class SearchAddressDetailActivity extends BaseActivity {
 
             }
 
-            public void setItem(LocationAddress projectList) {
+            public void setItem(GaodeResponses projectList) {
                 mLocationAddress = projectList;
             }
 
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
+                    case R.id.rl_select_detail:
+                        Intent mIntent = new Intent();
+                        mIntent.putExtra("location_name", mLocationAddress.getName());
+                        mIntent.putExtra("latlng",mLocationAddress.getLocation());
+                        // 设置结果，并进行传送
+                        setResult(6, mIntent);
+                        SearchAddressDetailActivity.this.finish();
+
+
+                        break;
 
 
                 }

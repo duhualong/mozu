@@ -1,12 +1,15 @@
 package org.eenie.wgj.model.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Eenie on 2017/5/23 at 14:45
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class LocationAddress {
+public class LocationAddress implements Parcelable {
 
     /**
      * name : 上海文化广场4号门
@@ -25,6 +28,7 @@ public class LocationAddress {
     private String district;
     private String business;
     private String cityid;
+
 
     public String getName() {
         return name;
@@ -82,7 +86,7 @@ public class LocationAddress {
         this.cityid = cityid;
     }
 
-    public static class LocationBean {
+    public static class LocationBean implements Parcelable {
         /**
          * lat : 31.21758
          * lng : 121.469658
@@ -106,5 +110,77 @@ public class LocationAddress {
         public void setLng(double lng) {
             this.lng = lng;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeDouble(this.lat);
+            dest.writeDouble(this.lng);
+        }
+
+        public LocationBean() {
+        }
+
+        protected LocationBean(Parcel in) {
+            this.lat = in.readDouble();
+            this.lng = in.readDouble();
+        }
+
+        public static final Parcelable.Creator<LocationBean> CREATOR = new Parcelable.Creator<LocationBean>() {
+            @Override
+            public LocationBean createFromParcel(Parcel source) {
+                return new LocationBean(source);
+            }
+
+            @Override
+            public LocationBean[] newArray(int size) {
+                return new LocationBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeParcelable(this.location, flags);
+        dest.writeString(this.uid);
+        dest.writeString(this.city);
+        dest.writeString(this.district);
+        dest.writeString(this.business);
+        dest.writeString(this.cityid);
+    }
+
+    public LocationAddress() {
+    }
+
+    protected LocationAddress(Parcel in) {
+        this.name = in.readString();
+        this.location = in.readParcelable(LocationBean.class.getClassLoader());
+        this.uid = in.readString();
+        this.city = in.readString();
+        this.district = in.readString();
+        this.business = in.readString();
+        this.cityid = in.readString();
+    }
+
+    public static final Parcelable.Creator<LocationAddress> CREATOR = new Parcelable.Creator<LocationAddress>() {
+        @Override
+        public LocationAddress createFromParcel(Parcel source) {
+            return new LocationAddress(source);
+        }
+
+        @Override
+        public LocationAddress[] newArray(int size) {
+            return new LocationAddress[size];
+        }
+    };
 }

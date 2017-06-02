@@ -331,7 +331,10 @@
         <!--项目工时-->
         <activity android:name=".ui.project.projecttime.ProjectTimeSettingActivity"
                   android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustResize"/>
+                  android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.project.projecttime.ProjectTimePersonalSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
         <!--个人工时-->
         <!--<activity android:name=""-->
 

@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,26 +16,15 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
-import org.eenie.wgj.data.remote.FileUploadService;
-import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.LocationAddress;
-import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Eenie on 2017/5/23 at 14:33
@@ -133,39 +121,39 @@ public class SearchAddressActivity extends BaseActivity implements AdapterView.O
 
     private void searchAddress(String address) {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.BAIDU_SEARCH)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        FileUploadService userBiz = retrofit.create(FileUploadService.class);
-        Call<ApiResponse> call = userBiz.getAddressDetail("上海", address, "json");
-        call.enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.body().getStatus() == 0) {
-                    Gson gson = new Gson();
-                    String jsonArray = gson.toJson(response.body().getResult());
-                    List<LocationAddress> data = gson.fromJson(jsonArray,
-                            new TypeToken<List<LocationAddress>>() {
-                            }.getType());
-
-                    if (data != null) {
-                        SearchAddressAdapter
-                                mAdapter = new SearchAddressAdapter(context, data);
-                        mListView.setAdapter(mAdapter);
-
-                    }
-
-
-                    Log.d("test", "onResponse: " + response.body().getResult().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-            }
-        });
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(Constant.BAIDU_SEARCH)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        FileUploadService userBiz = retrofit.create(FileUploadService.class);
+//        Call<ApiResponse> call = userBiz.getAddressDetail("上海", address, "json");
+//        call.enqueue(new Callback<ApiResponse>() {
+//            @Override
+//            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+//                if (response.body().getStatus() == 0) {
+//                    Gson gson = new Gson();
+//                    String jsonArray = gson.toJson(response.body().getResult());
+//                    List<LocationAddress> data = gson.fromJson(jsonArray,
+//                            new TypeToken<List<LocationAddress>>() {
+//                            }.getType());
+//
+//                    if (data != null) {
+//                        SearchAddressAdapter
+//                                mAdapter = new SearchAddressAdapter(context, data);
+//                        mListView.setAdapter(mAdapter);
+//
+//                    }
+//
+//
+//                    Log.d("test", "onResponse: " + response.body().getResult().toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ApiResponse> call, Throwable t) {
+//
+//            }
+//        });
 
 
     }

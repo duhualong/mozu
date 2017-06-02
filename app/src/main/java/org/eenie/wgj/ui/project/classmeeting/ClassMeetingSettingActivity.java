@@ -139,8 +139,8 @@ public class ClassMeetingSettingActivity extends BaseActivity implements
                             if (apiResponse.getData() != null) {
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                List<ClassMeetingList> exchangeWorkLists = gson.fromJson(jsonArray,
-                                        new TypeToken<List<ClassMeetingList>>() {
+                                ArrayList<ClassMeetingList> exchangeWorkLists = gson.fromJson(jsonArray,
+                                        new TypeToken<ArrayList<ClassMeetingList>>() {
                                         }.getType());
 
                                 if (exchangeWorkLists != null && !exchangeWorkLists.isEmpty()) {
@@ -190,9 +190,9 @@ public class ClassMeetingSettingActivity extends BaseActivity implements
 
     class ExchangeWorkAdapter extends RecyclerView.Adapter<ExchangeWorkAdapter.ExchangeWorkViewHolder> {
         private Context context;
-        private List<ClassMeetingList> mClassMeetingLists;
+        private ArrayList<ClassMeetingList> mClassMeetingLists;
 
-        public ExchangeWorkAdapter(Context context, List<ClassMeetingList> mClassMeetingLists) {
+        public ExchangeWorkAdapter(Context context, ArrayList<ClassMeetingList> mClassMeetingLists) {
             this.context = context;
             this.mClassMeetingLists = mClassMeetingLists;
         }

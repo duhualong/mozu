@@ -425,4 +425,13 @@
     <item name="recycler_add_range" type="id"/>
     <item name="btn_delete" type="id"/>
     <item name="btn_number" type="id"/>
+    <item name="tv_surplus_time" type="id"/>
+    <item name="tv_total_people" type="id"/>
+    <item name="tv_people_now" type="id"/>
+    <item name="expand_list" type="id"/>
+    <item name="expand_item_name" type="id"/>
+    <item name="button_add" type="id"/>
+    <item name="et_input_day" type="id"/>
+    <item name="button_sub" type="id"/>
+    <item name="map" type="id"/>
 </resources>

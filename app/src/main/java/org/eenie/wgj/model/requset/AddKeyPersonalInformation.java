@@ -14,7 +14,7 @@ public class AddKeyPersonalInformation {
     private String name;
     private String numberplates;
     private String phone;
-    private String project_id;
+    private String projectid;
     private String sex;
     private String workinghours;
     private int id;
@@ -41,7 +41,7 @@ public class AddKeyPersonalInformation {
 
     public AddKeyPersonalInformation(String age, String height, String image, String job,
                                      String name, String numberplates, String phone,
-                                     String project_id, String sex, String workinghours,
+                                     String projectid, String sex, String workinghours,
                                      String remarks,int id) {
         this.age = age;
         this.height = height;
@@ -50,7 +50,7 @@ public class AddKeyPersonalInformation {
         this.name = name;
         this.numberplates = numberplates;
         this.phone = phone;
-        this.project_id = project_id;
+        this.projectid = projectid;
         this.sex = sex;
         this.workinghours = workinghours;
         this.remarks=remarks;

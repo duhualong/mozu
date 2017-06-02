@@ -2,6 +2,7 @@ package org.eenie.wgj.data.remote;
 
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.GaodeResponse;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.Token;
 
@@ -84,9 +85,8 @@ public interface FileUploadService {
 
     @POST("login")
     Call<ApiResponse> login(@Body RequestBody body);
-@GET("suggestion?ak=Q55T7roT63eXRPsKtbGraUcI")
-Call<ApiResponse>getAddressDetail(@Query("region")String region,@Query("query")String query,@Query("output")
-                                  String output);
+@GET("text?output=json&offset=10&page=1&key=0324d52a856294adda99f218c7a09ad1&extensions=all")
+Call<GaodeResponse>getAddressDetail(@Query("city")String city, @Query("keywords")String keywords);
 
 
     @GET("register/checkuser")

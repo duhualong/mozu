@@ -106,7 +106,6 @@
                       android:textColor="@color/titleColor"
                       android:textSize="@dimen/text_normal_size"/>
 
-
         </RelativeLayout>
         <RelativeLayout android:layout_width="0dp"
                         android:layout_height="80dp"
