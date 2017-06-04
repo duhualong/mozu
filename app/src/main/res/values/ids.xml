@@ -434,4 +434,5 @@
     <item name="et_input_day" type="id"/>
     <item name="button_sub" type="id"/>
     <item name="map" type="id"/>
+    <item name="img_expend" type="id"/>
 </resources>

@@ -176,13 +176,15 @@
               android:text="@string/apply_time_work"
               android:textColor="@color/text_red"/>
     <FrameLayout android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="@dimen/padding_bottom">
+                 android:layout_height="match_parent">
+
         <ExpandableListView android:id="@id/expand_list"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+
 
         />
-
     </FrameLayout>
 </LinearLayout>

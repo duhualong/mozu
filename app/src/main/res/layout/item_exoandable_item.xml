@@ -11,18 +11,20 @@
               android:layout_height="wrap_content"
               android:layout_centerVertical="true"
               android:text="日班"
+              android:layout_marginLeft="5dp"
+              android:layout_marginStart="5dp"
               android:textColor="@color/titleColor"
               android:textSize="@dimen/text_large_size"/>
 
 
-    <Button android:id="@id/button_add"
+    <TextView android:id="@id/button_add"
             android:layout_width="48dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@mipmap/ic_normal_but_add"/>
-    <EditText android:id="@id/et_input_day"
+    <TextView android:id="@id/et_input_day"
               android:layout_width="40dp"
               android:layout_height="30dp"
               android:layout_centerVertical="true"
@@ -32,11 +34,10 @@
               android:layout_toStartOf="@id/button_add"
               android:textColor="@color/titleColor"
               android:textSize="@dimen/text_large_size"
-              android:textColorHint="@color/gray"
-              android:hint="0天"
               android:gravity="center"
+              android:text="0天"
               android:background="@color/white_light"/>
-    <Button android:id="@id/button_sub"
+    <TextView android:id="@id/button_sub"
             android:layout_width="48dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
