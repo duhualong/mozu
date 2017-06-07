@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
@@ -18,6 +22,7 @@ import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -40,7 +45,7 @@ public class CycleNumberDetailActivity extends BaseActivity {
     public static final String LINE_ID="line";
     private CycleNumber data;
     private RoundWayAdapter mAdapter;
-    private ArrayList<CycleNumber.Info>mInfoBeen=new ArrayList<>();
+
     private int mId;
     private String projectId;
     private  String lineId;
@@ -57,7 +62,13 @@ public class CycleNumberDetailActivity extends BaseActivity {
         data=getIntent().getParcelableExtra(INFO);
         projectId=getIntent().getStringExtra(PROJECT_ID);
          lineId=getIntent().getStringExtra(LINE_ID);
+        initUI(data);
 
+
+    }
+
+    private void initUI(CycleNumber data) {
+        ArrayList<CycleNumber.Info>mInfoBeen=new ArrayList<>();
         if (data!=null){
             mId=data.getInspectiondayid();
 
@@ -66,13 +77,20 @@ public class CycleNumberDetailActivity extends BaseActivity {
                     mInfoBeen.add(data.getInfo().get(i));
                 }
 
+            }
         }
+
+        if (mAdapter!=null){
+            mAdapter.clear();
+
         }
+        Log.d("数据：", "initUI: "+new Gson().toJson(data));
         mAdapter = new RoundWayAdapter(context, mInfoBeen);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
+
     @OnClick({R.id.img_back,R.id.button_edit,R.id.button_delete})public void onClick(View view){
         switch (view.getId()){
             case R.id.img_back:
@@ -101,10 +119,78 @@ public class CycleNumberDetailActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1 && resultCode == 4) {
-//            KeyContactList mData = data.getParcelableExtra("info");
-//            initUI(mData);
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == 6) {
+          CycleNumber mdata= data.getParcelableExtra("info");
+            getLineWay(mdata.getInspectiondayid());
+//            if (!TextUtils.isEmpty(data.getStringExtra(lineId))){
+//                lineId= data.getStringExtra("lineId");
+//                System.out.println("lineId:"+lineId);
+//
+//            }else {
+//                System.out.println("sbsbsbsbbb");
+//            }
+
         }
+    }
+
+
+    private void getLineWay(int pointId) {
+        mSubscription = mRemoteService.getCycleNumber(
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN,""), projectId, Integer.parseInt(lineId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            if (apiResponse.getData() != null) {
+                                Gson gson = new Gson();
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                List<CycleNumber> postWorkLists = gson.fromJson(jsonArray,
+                                        new TypeToken<List<CycleNumber>>() {
+                                        }.getType());
+                                if (postWorkLists.size() > 0) {
+                                    for (int i = 0; i < postWorkLists.size(); i++) {
+
+                                        if (postWorkLists.get(i).getInfo() == null ||
+                                                postWorkLists.get(i).getInfo().isEmpty()) {
+                                            postWorkLists.remove(i);
+
+                                        }
+
+                                        if (postWorkLists.get(i).getInspectiondayid()==pointId){
+                                            int finalI = i;
+                                            new Thread() {
+                                                public void run() {
+                                                    runOnUiThread(() -> {
+                                                        initUI(postWorkLists.get(finalI));
+                                                    });
+                                                }
+                                            }.start();
+
+                                        }
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+
+                });
     }
 
     private void deleteCycleNumber(int id) {

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -549,6 +550,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
             private CheckBox mCheckBox;
             private TextView itemName;
             private EditText etNumber;
+            private RelativeLayout mRelativeLayout;
             private ClassListResponse mClassMeetingList;
 
 
@@ -559,7 +561,9 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 mCheckBox = ButterKnife.findById(itemView, R.id.checkbox_password_remember);
                 itemName = ButterKnife.findById(itemView, R.id.item_name);
                 etNumber = ButterKnife.findById(itemView, R.id.btn_number);
+                mRelativeLayout=ButterKnife.findById(itemView,R.id.rl_select_class_date);
                 mCheckBox.setOnClickListener(this);
+                mRelativeLayout.setOnClickListener(this);
                 etNumber.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -602,8 +606,13 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                         } else {
                             mClassMeetingList.setChecked(false);
                         }
+                        etNumber.requestFocus();
+                        break;
+                    case R.id.rl_select_class_date:
+                        etNumber.requestFocus();
 
                         break;
+
                 }
 
 

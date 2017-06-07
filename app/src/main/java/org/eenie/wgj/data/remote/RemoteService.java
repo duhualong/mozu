@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.NewResponse;
+import org.eenie.wgj.model.requset.AddArrangeClass;
 import org.eenie.wgj.model.requset.AddKeyPersonalInformation;
 import org.eenie.wgj.model.requset.AddProjectDay;
 import org.eenie.wgj.model.requset.BirthdayDetail;
@@ -22,6 +23,7 @@ import org.eenie.wgj.model.requset.PostWorkRequest;
 import org.eenie.wgj.model.requset.ProjectTimeRequest;
 import org.eenie.wgj.model.requset.ReportPost;
 import org.eenie.wgj.model.requset.RoundPointRequest;
+import org.eenie.wgj.model.requset.UpdateRoundPoint;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceDay;
 import org.eenie.wgj.model.response.MApi;
@@ -296,6 +298,10 @@ public interface RemoteService {
     //巡检点删除
     @GET("inspectionpointsDelete")
     Single<ApiResponse> deleteRoundPointItem(@Header("token") String token, @Query("id") int id);
+    //更新巡检点
+    @POST("inspectionpointsUpdate")
+    Single<ApiResponse>updateRoundItem(@Header("token")String token, @Body
+            UpdateRoundPoint updateRoundPoint);
 
     //巡检路线
     @GET("lineList")
@@ -368,6 +374,15 @@ public interface RemoteService {
     @GET("personalHoursList")
     Single<ApiResponse>getMonthDay(@Header("token")String token,@Query("date")String date,
                                    @Query("projectid")String projectId);
+
+   //排班设置列表
+    @GET("schedulingList")
+   Single<ApiResponse>getArrangeClassList(@Header("token")String token,@Query("date")String date,
+                                       @Query("projectid")String projectId);
+    //排班设置添加
+    @POST("schedulingAdd")
+    Single<ApiResponse>addArrangeClassItem(@Header("token")String token, @Body AddArrangeClass
+            addArrangeClass);
 
 
 

@@ -5,6 +5,7 @@
                 android:layout_marginBottom="1dp"
                 android:background="@color/white"
                 android:padding="@dimen/padding_bottom"
+                android:id="@id/rl_select_class_date"
 >
     <CheckBox
         android:id="@id/checkbox_password_remember"

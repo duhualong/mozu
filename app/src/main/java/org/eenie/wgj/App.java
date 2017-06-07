@@ -10,7 +10,6 @@ import org.eenie.wgj.data.local.HomeModule;
 import org.eenie.wgj.di.component.ApplicationComponent;
 import org.eenie.wgj.di.component.DaggerApplicationComponent;
 import org.eenie.wgj.di.module.ApplicationModule;
-import org.eenie.wgj.realm.RealmController;
 import org.eenie.wgj.ui.attendance.AttendanceActivity;
 import org.eenie.wgj.ui.project.ProjectSettingActivity;
 
@@ -30,10 +29,8 @@ import io.realm.RealmMigration;
 public class App extends Application {
 
   private ApplicationComponent mApplicationComponent;
-  private static Application sApplicationContext;
   private static Stack<Activity> sActivityStack;
 
-  private static RealmController realmController;
 
 
   RealmConfiguration.Builder builder;
@@ -50,14 +47,9 @@ public class App extends Application {
     mApplicationComponent.inject(this);
     JPushInterface.setDebugMode(true);
     JPushInterface.init(this);
-//    MultiActionsNotificationBuilder notificationBuilder = new MultiActionsNotificationBuilder(this);
-//    JPushInterface.initCrashHandler(this);
-//    JPushInterface.setPushNotificationBuilder(2, notificationBuilder);
-    sApplicationContext = this;
-    realmController=new RealmController(getApplicationContext());
+
     sActivityStack = new Stack<>();
     Fresco.initialize(getApplicationContext());
-    //sRefWatcher = LeakCanary.install(this);
 
     builder = new RealmConfiguration.Builder(this);
     builder.name("youchi.realm")
@@ -74,13 +66,7 @@ public class App extends Application {
               }
             }).deleteRealmIfMigrationNeeded();
     Realm.setDefaultConfiguration(builder.build());
-//
-//    Realm.init(this);
-//    RealmConfiguration config = new  RealmConfiguration.Builder()
-//            .name("myRealm.realm")
-//            .deleteRealmIfMigrationNeeded()
-//            .build();
-//    Realm.setDefaultConfiguration(config);
+
   }
 
   private void saveModule(Realm realm) {
@@ -119,11 +105,6 @@ public class App extends Application {
       sActivityStack.add(activity);
     }
   }
-
-  public static RealmController getRealmController() {
-    return realmController;
-  }
-
 
   public static void clearStack() {
     if (sActivityStack != null && !sActivityStack.isEmpty()) {

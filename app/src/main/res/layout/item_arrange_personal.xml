@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_bottom">
+    <ImageView android:id="@id/item_img"
+               android:layout_width="24dp"
+               android:layout_height="24dp"
+               android:layout_centerVertical="true"
+               android:src="@mipmap/ic_home_bottom_tab_me_selected"/>
+    <TextView android:id="@id/item_personal_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:layout_toEndOf="@id/item_img"
+              android:layout_toRightOf="@id/item_img"
+              android:text="测试"
+              android:textColor="@color/gray"
+              android:textSize="@dimen/text_normal_size"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerInParent="true"
+              android:text="@string/add_round_line"
+              android:padding="@dimen/padding_short"
+              android:id="@id/tv_add_round_line"
+              android:textColor="@color/text_blue"
+              android:textSize="@dimen/text_normal_size"/>
+    <ImageView android:layout_width="24dp"
+               android:layout_height="24dp"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:id="@id/img_delete"
+               android:src="@mipmap/ic_delete_time"/>
+
+
+</RelativeLayout>

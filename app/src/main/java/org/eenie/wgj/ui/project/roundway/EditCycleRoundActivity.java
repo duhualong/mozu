@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.project.roundway;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,13 +26,16 @@ import org.eenie.wgj.model.requset.RoundPointRequest;
 import org.eenie.wgj.model.response.CycleNumber;
 import org.eenie.wgj.model.response.RoundPoint;
 import org.eenie.wgj.util.Constants;
+import org.eenie.wgj.util.RxUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -129,8 +133,18 @@ public class EditCycleRoundActivity extends BaseActivity {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
-                            Toast.makeText(context, "编辑成功！", Toast.LENGTH_LONG).show();
-                            finish();
+                            Toast.makeText(context, "更新成功！", Toast.LENGTH_LONG).show();
+                            Intent mIntent = new Intent();
+                            mIntent.putExtra("info", data);
+                            // 设置结果，并进行传送
+                            setResult(6, mIntent);
+
+                            Single.just("").delay(1, TimeUnit.SECONDS).
+                                    compose(RxUtils.applySchedulers()).
+                                    subscribe(s -> finish()
+                                    );
+
+
                         } else {
                             Toast.makeText(context, apiResponse.getResultMessage(),
                                     Toast.LENGTH_LONG).show();
@@ -413,7 +427,15 @@ public class EditCycleRoundActivity extends BaseActivity {
                     } else {
                         dialog.dismiss();
                         data.setTime(hour + ":" + minute);
+                        if (Integer.parseInt(hour) <= 9 && hour.length() == 1) {
+                            hour = "0" + hour;
+                        }
+                        if (Integer.parseInt(minute) <= 9 && minute.length() == 1) {
+                            minute = "0" + minute;
+                        }
                         textView.setText(hour + ":" + minute);
+
+
                     }
                 }
             } else {

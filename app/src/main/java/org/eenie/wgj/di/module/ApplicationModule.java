@@ -5,7 +5,6 @@ import android.content.Context;
 import android.webkit.WebView;
 
 import org.eenie.wgj.data.local.PreferencesHelper;
-import org.eenie.wgj.data.local.UserDao;
 import org.eenie.wgj.data.remote.HttpClient;
 import org.eenie.wgj.data.remote.RemoteService;
 import org.eenie.wgj.di.ApplicationContext;
@@ -46,16 +45,12 @@ import dagger.Provides;
     return new PreferencesHelper(application);
   }
 
-  @Provides @Singleton
-  UserDao provideUserDao() {
-    return new UserDao(application);
-  }
+
 
   @Provides @Singleton
   RealmController provideRealmController() {
     return new RealmController(application);
   }
-
   @Provides @Singleton
   WebView provideWebView(@ApplicationContext Context context) {
     return new WebView(context);

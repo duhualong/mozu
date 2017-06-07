@@ -26,6 +26,7 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.Circle;
 import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
@@ -64,7 +65,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
     private AMap mAMap;
     private Marker locationMarker;
     private String mLatLog;
-
+    double radius = 0d;
     @BindView(R.id.map_view)
     MapView mapView;
     @BindView(R.id.tv_sign_in_city)
@@ -88,6 +89,8 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
     private String projectId;
     private String mAddress;
     private LatLng mLatLng;
+    //考勤范围
+    Circle mLocationCircle;
 
 
     @Override
@@ -441,12 +444,15 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                 tvScope.setText(content + "米");
                 tvScope.setTextColor(ContextCompat.getColor
                         (context, R.color.titleColor));
+                if (Double.parseDouble(mScope)>0){
+                    mLocationCircle.setRadius(Double.parseDouble(mScope));
+
+                }
                 mDialogs.dismiss();
             } else {
                 Toast.makeText(AttendanceSettingActivity.this, "请设置考勤范围",
                         Toast.LENGTH_SHORT).show();
             }
-
 
         });
 
@@ -507,14 +513,25 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
      */
     private void moveCamera(LatLng latLng) {
         if (mAMap != null) {
-            mAMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+//            mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+
             LatLngBounds bounds = new LatLngBounds.Builder().include(latLng).build();
-            mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
-            mAMap.addCircle(new CircleOptions().
-                    center(latLng).
-                    radius(100).
-                    fillColor(Color.argb(25, 0, 0, 255))
-                    .strokeWidth(0));
+            mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 16));
+            if (Double.parseDouble(mScope)>0){
+                mLocationCircle= mAMap.addCircle(new CircleOptions().
+                        center(latLng).
+                        radius(Double.parseDouble(mScope)).
+                        fillColor(Color.argb(25, 0, 0, 255))
+                        .strokeWidth(0));
+            }else {
+                mLocationCircle= mAMap.addCircle(new CircleOptions().
+                        center(latLng).
+                        radius(100).
+                        fillColor(Color.argb(25, 0, 0, 255))
+                        .strokeWidth(0));
+            }
+            mLocationCircle.setCenter(latLng);
+
         }
     }
 
@@ -570,7 +587,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                 tvCity.setTextColor(ContextCompat.getColor
                         (context, R.color.titleColor));
                 //添加Marker显示定位位置
-                mAMap.addCircle(new CircleOptions().
+                mLocationCircle= mAMap.addCircle(new CircleOptions().
                         center(mLatLng).
                         radius(100).
                         fillColor(Color.argb(25, 0, 0, 255))
@@ -589,7 +606,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                     locationMarker.setPosition(mLatLng);
                 }
                 //然后可以移动到定位点,使用animateCamera就有动画效果
-                mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));//参数提示:1.经纬度 2.缩放级别
+                mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 16));//参数提示:1.经纬度 2.缩放级别
             } else {
                 //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                 Log.e("AmapError", "location Error, ErrCode:" + aMapLocation.getErrorCode() + ", " +
@@ -631,7 +648,10 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
         //设置定位间隔,单位毫秒,默认为2000ms
         option.setInterval(10 * 1000L);
     }
-
+    public void onRangeChange(double radius) {
+        this.radius = radius;
+        mLocationCircle.setRadius(radius);
+    }
 
     /**
      * MapView 方法必须重写

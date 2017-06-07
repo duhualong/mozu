@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class AddProjectDay {
     private String projectid;
-    private ArrayList<Integer> userid[];
-    private ArrayList<String> serviceid[];
-    private ArrayList<String> day[];
+    private ArrayList<Integer> userid;
+    private ArrayList<String> serviceid;
+    private ArrayList<String> day;
     private String date;
 
-    public AddProjectDay(String projectid, ArrayList<Integer>[] userid,
-                         ArrayList<String>[] serviceid, ArrayList<String>[] day, String date) {
+    public AddProjectDay(String projectid, ArrayList<Integer> userid,
+                         ArrayList<String> serviceid, ArrayList<String> day, String date) {
         this.projectid = projectid;
         this.userid = userid;
         this.serviceid = serviceid;
@@ -32,27 +32,27 @@ public class AddProjectDay {
         this.projectid = projectid;
     }
 
-    public ArrayList<Integer>[] getUserid() {
+    public ArrayList<Integer> getUserid() {
         return userid;
     }
 
-    public void setUserid(ArrayList<Integer>[] userid) {
+    public void setUserid(ArrayList<Integer> userid) {
         this.userid = userid;
     }
 
-    public ArrayList<String>[] getServiceid() {
+    public ArrayList<String> getServiceid() {
         return serviceid;
     }
 
-    public void setServiceid(ArrayList<String>[] serviceid) {
+    public void setServiceid(ArrayList<String> serviceid) {
         this.serviceid = serviceid;
     }
 
-    public ArrayList<String>[] getDay() {
+    public ArrayList<String> getDay() {
         return day;
     }
 
-    public void setDay(ArrayList<String>[] day) {
+    public void setDay(ArrayList<String> day) {
         this.day = day;
     }
 

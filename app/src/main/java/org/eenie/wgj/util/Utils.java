@@ -18,8 +18,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -216,5 +220,54 @@ public static String getStr(List<String> strList) {
             }
         }
         return sb.toString();
+    }
+
+
+    public static Calendar covertTime(String time) {
+        Calendar dayc1 = new GregorianCalendar();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date daystart = null;
+        try {
+            daystart = df.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        dayc1.setTime(daystart);
+        return dayc1;
+    }
+
+
+    public static String covertWeek(String date) {
+
+        String week = "";
+        switch (covertTime(date).get(Calendar.DAY_OF_WEEK)) {
+            case 1:
+                week = "周日";
+                break;
+            case 2:
+                week = "周一";
+                break;
+            case 3:
+                week = "周二";
+                break;
+            case 4:
+                week = "周三";
+                break;
+            case 5:
+                week = "周四";
+                break;
+            case 6:
+                week = "周五";
+                break;
+            case 7:
+                week = "周六";
+                break;
+
+            default:
+                week = "未知";
+                break;
+        }
+        return week;
+
     }
 }

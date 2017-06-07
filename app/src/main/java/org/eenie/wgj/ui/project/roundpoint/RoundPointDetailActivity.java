@@ -53,6 +53,12 @@ public class RoundPointDetailActivity extends BaseActivity {
     protected void updateUI() {
        mRoundPoint= getIntent().getParcelableExtra(INFO);
         projectId=getIntent().getStringExtra(PROJECT_ID);
+        initUI(mRoundPoint);
+
+
+    }
+
+    private void initUI(RoundPoint mRoundPoint) {
         if (mRoundPoint!=null){
             id=mRoundPoint.getId();
             inspectionName.setText(mRoundPoint.getInspectionname());
@@ -75,8 +81,8 @@ public class RoundPointDetailActivity extends BaseActivity {
                 }
             }
         }
-
     }
+
     @OnClick({R.id.img_back,R.id.button_delete,R.id.button_edit})public void onClick(View view){
         switch (view.getId()){
             case R.id.img_back:
@@ -89,10 +95,22 @@ public class RoundPointDetailActivity extends BaseActivity {
                 Intent intent=new Intent(context,RoundPointEditActivity.class);
                 intent.putExtra(RoundPointEditActivity.INFO,mRoundPoint);
                 intent.putExtra(RoundPointEditActivity.PROJECT_ID,projectId);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
 
 
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 4) {
+            RoundPoint mData = data.getParcelableExtra("info");
+            if (mData!=null){
+                initUI(mData);
+
+            }
         }
     }
 

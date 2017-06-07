@@ -435,4 +435,22 @@
     <item name="button_sub" type="id"/>
     <item name="map" type="id"/>
     <item name="img_expend" type="id"/>
+    <item name="tv_setting" type="id"/>
+    <item name="recycle_arrange_class" type="id"/>
+    <item name="rv_arrange_date" type="id"/>
+    <item name="tv_apply_time" type="id"/>
+    <item name="tv_date_arrange" type="id"/>
+    <item name="rl_tv" type="id"/>
+    <item name="item_date" type="id"/>
+    <item name="item_week" type="id"/>
+    <item name="rl_arrange_date" type="id"/>
+    <item name="tv_tip" type="id"/>
+    <item name="item_arrange_name" type="id"/>
+    <item name="item_personal" type="id"/>
+    <item name="item_img" type="id"/>
+    <item name="item_personal_name" type="id"/>
+    <item name="rl_item" type="id"/>
+    <item name="rl_select_date" type="id"/>
+    <item name="tv_add_round_line" type="id"/>
+    <item name="rl_select_class_date" type="id"/>
 </resources>

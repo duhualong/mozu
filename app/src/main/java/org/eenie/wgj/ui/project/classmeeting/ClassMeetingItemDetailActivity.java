@@ -370,7 +370,12 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
 
                                 break;
                         }
-
+                        if (Integer.parseInt(hour)<=9&&hour.length()<=1){
+                            hour="0"+hour;
+                        }
+                        if (Integer.parseInt(minute)<=9&&minute.length()<=1){
+                            minute="0"+minute;
+                        }
                         textView.setText(hour + ":" + minute);
                         textView.setTextColor(ContextCompat.getColor
                                 (context, R.color.titleColor));

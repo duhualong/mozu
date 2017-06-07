@@ -57,6 +57,7 @@ dependencies {
     // dagger2
     compile "com.google.dagger:dagger:${daggerVersion}"
     provided "com.google.dagger:dagger-compiler:${daggerVersion}"
+    compile 'org.glassfish:javax.annotation:10.0-b28'
     // Retrofit2
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     compile "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"

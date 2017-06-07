@@ -15,6 +15,7 @@ import org.eenie.wgj.ui.project.projecttime.ProjectTotalTimeSettingActivity;
 import org.eenie.wgj.ui.project.reportpost.ReportPostSettingActivity;
 import org.eenie.wgj.ui.project.roundpoint.RoundPointSettingActivity;
 import org.eenie.wgj.ui.project.roundway.RoundWaySettingActivity;
+import org.eenie.wgj.ui.project.sortclass.SortClassSettingActivity;
 import org.eenie.wgj.ui.project.workpost.WorkPostSettingActivity;
 import org.eenie.wgj.ui.project.worktraining.WorkTrainingSettingActivity;
 
@@ -115,6 +116,13 @@ public class ProjectItemSettingActivity extends BaseActivity {
 
                 break;
             case R.id.rl_set_arrange_schedual:
+                //排班设置
+                mIntent=new Intent(context, SortClassSettingActivity.class);
+                if (!TextUtils.isEmpty(projectId)){
+                    mIntent.putExtra(SortClassSettingActivity.PROJECT_ID,projectId);
+                }
+                startActivity(mIntent);
+
 
                 break;
             case R.id.rl_set_post:

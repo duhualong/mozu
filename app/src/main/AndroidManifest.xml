@@ -335,6 +335,10 @@
         <activity android:name=".ui.project.projecttime.ProjectTimePersonalSettingActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustPan"/>
+        <!--排班设置-->
+        <activity android:name=".ui.project.sortclass.SortClassSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--个人工时-->
         <!--<activity android:name=""-->
 

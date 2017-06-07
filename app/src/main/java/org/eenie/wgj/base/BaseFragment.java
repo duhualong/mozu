@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import org.eenie.wgj.App;
 import org.eenie.wgj.data.local.PreferencesHelper;
-import org.eenie.wgj.data.local.UserDao;
 import org.eenie.wgj.data.remote.RemoteService;
 
 import javax.inject.Inject;
@@ -35,8 +34,8 @@ public abstract class BaseFragment extends Fragment {
     protected RemoteService mRemoteService;
     @Inject
     protected PreferencesHelper mPrefsHelper;
-    @Inject
-    protected UserDao mUserDao;
+//    @Inject
+//    protected UserDao mUserDao;
     protected Subscription mSubscription;
 
     // 获取子类布局

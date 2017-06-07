@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
@@ -23,6 +25,7 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.UpdateRoundPoint;
 import org.eenie.wgj.model.response.RoundPoint;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
@@ -46,6 +49,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Single;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -56,15 +60,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class RoundPointEditActivity extends BaseActivity {
-    private static final int REQUEST_CAMERA_FIRST=0x101;
-    private static final int REQUEST_CAMERA_SECOND=0x102;
-    private static final int REQUEST_CAMERA_THIRD=0x103;
-    private static final int REQUEST_PHOTO_FIRST=0x104;
-    private static final int REQUEST_PHOTO_SECOND=0x105;
-    private static final int REQUEST_PHOTO_THIRD=0x106;
-    private static final int RESPONSE_CODE_FIRST=0x107;
-    private static final int RESPONSE_CODE_SECOND=0x108;
-    private static final int RESPONSE_CODE_THIRD=0x109;
+    private static final int REQUEST_CAMERA_FIRST = 0x101;
+    private static final int REQUEST_CAMERA_SECOND = 0x102;
+    private static final int REQUEST_CAMERA_THIRD = 0x103;
+    private static final int REQUEST_PHOTO_FIRST = 0x104;
+    private static final int REQUEST_PHOTO_SECOND = 0x105;
+    private static final int REQUEST_PHOTO_THIRD = 0x106;
+    private static final int RESPONSE_CODE_FIRST = 0x107;
+    private static final int RESPONSE_CODE_SECOND = 0x108;
+    private static final int RESPONSE_CODE_THIRD = 0x109;
     public static final String INFO = "info";
     public static final String PROJECT_ID = "id";
     @BindView(R.id.root_view)
@@ -89,7 +93,8 @@ public class RoundPointEditActivity extends BaseActivity {
     private File secondFile;
     private File thirdFile;
     List<File> files = new ArrayList<>();
-    List<String>imgPath=new ArrayList<>();
+    List<String> imgPath = new ArrayList<>();
+    ArrayList<RoundPoint.ImageBean> mImageBeen = new ArrayList<>();
 
     @Override
     protected int getContentView() {
@@ -112,31 +117,26 @@ public class RoundPointEditActivity extends BaseActivity {
                 mInputContent.setText(mContent);
             }
             if (lists.size() > 0) {
-                switch (lists.size()){
+                switch (lists.size()) {
                     case 1:
-                        firstPath=lists.get(0).getImage();
+                        firstPath = lists.get(0).getImage();
 
                         break;
                     case 2:
-                        firstPath=lists.get(0).getImage();
-                        secondPath=lists.get(1).getImage();
+                        firstPath = lists.get(0).getImage();
+                        secondPath = lists.get(1).getImage();
 
                         break;
                     case 3:
-                        firstPath=lists.get(0).getImage();
-                        secondPath=lists.get(1).getImage();
-                        thirdPath=lists.get(2).getImage();
+                        firstPath = lists.get(0).getImage();
+                        secondPath = lists.get(1).getImage();
+                        thirdPath = lists.get(2).getImage();
 
 
                         break;
                 }
                 for (int i = 0; i < lists.size(); i++) {
-                    int finalI = i;
-                    new Thread() {
-                        public void run() {
-                            downloadImg(lists.get(finalI).getImage(),finalI);
-                        }
-                    }.start();
+
 
                     if (i < 2) {
                         imgList.get(i + 1).setVisibility(View.VISIBLE);
@@ -156,36 +156,48 @@ public class RoundPointEditActivity extends BaseActivity {
     @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
     public void onClick(View view) {
         mContent = mInputContent.getText().toString();
-        mTitleName=mInputTitle.getText().toString();
+        mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.tv_save:
-                if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName))
+                if (!TextUtils.isEmpty(mContent) && !TextUtils.isEmpty(mTitleName))
 
 
-                    if (firstFile!=null){
-                        files.add(0,firstFile);
+                    if (!TextUtils.isEmpty(firstPath)) {
+                        imgPath.add(0, firstPath);
+                        RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(firstPath);
+                        mImageBeen.add(0, imageBean);
+
                     }
-                if (secondFile!=null){
-                    files.add(1,secondFile);
+                if (!TextUtils.isEmpty(secondPath)) {
+                    imgPath.add(1, secondPath);
+                    RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(firstPath);
+                    mImageBeen.add(1, imageBean);
                 }
-                if (thirdFile!=null){
-                    files.add(2,thirdFile);
+                if (!TextUtils.isEmpty(thirdPath)) {
+                    imgPath.add(2, thirdPath);
+                    RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(firstPath);
+                    mImageBeen.add(2, imageBean);
+
                 }
-                if (files!=null){
-                    new Thread() {
-                        public void run() {
-                            editData(getMultipartBody(files,mProjectId,mTitleName,mContent,mId+""),
-                                    mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
+                new Thread() {
+                    public void run() {
+                        if (!TextUtils.isEmpty(mTitleName) && !TextUtils.isEmpty(mContent)) {
+
+                            UpdateRoundPoint roundPoint = new
+                                    UpdateRoundPoint(mProjectId, mTitleName, mContent, imgPath, mId);
+                            updateItem(roundPoint, mImageBeen);
+                        } else {
+                            Toast.makeText(context, "请补全内容", Toast.LENGTH_SHORT).show();
                         }
-                    }.start();
 
-                }
-
-
+//                            editData(getMultipartBody(files,mProjectId,mTitleName,mContent,mId+""),
+//                                    mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
+                    }
+                }.start();
 
 
 //                ExchangeWorkList list=new ExchangeWorkList(1,"s","s",lists);
@@ -196,22 +208,23 @@ public class RoundPointEditActivity extends BaseActivity {
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
 
                 break;
         }
     }
-    private void showUploadDialog(int camera,int photo) {
+
+    private void showUploadDialog(int camera, int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
@@ -285,11 +298,12 @@ public class RoundPointEditActivity extends BaseActivity {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
                                 imgList.get(1).setVisibility(View.VISIBLE);
+                                imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+
 
                             });
-                    firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    firstFile=new File(firstPath);
-
+                    firstFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
+                    uploadFile(firstFile, 0);
 
 
                     break;
@@ -308,10 +322,11 @@ public class RoundPointEditActivity extends BaseActivity {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
                                 imgList.get(2).setVisibility(View.VISIBLE);
+                                imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
 
                             });
-                    secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    secondFile=new File(secondPath);
+                    secondFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
+                    uploadFile(secondFile, 1);
 
 
                     break;
@@ -334,20 +349,54 @@ public class RoundPointEditActivity extends BaseActivity {
 
 
                             });
-                    thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    thirdFile=new File(thirdPath);
-
-
-
-//                    }
-
+                    thirdFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
+                    uploadFile(thirdFile, 2);
                     break;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void editData(RequestBody body, String token){
+    private void updateItem(UpdateRoundPoint updateRoundPoint, ArrayList<RoundPoint.ImageBean> imageBeanArrayList) {
+        mSubscription = mRemoteService.updateRoundItem(
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), updateRoundPoint)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            RoundPoint roundPoint = new RoundPoint(updateRoundPoint.getId(),
+                                    updateRoundPoint.getInspectionname(),
+                                    updateRoundPoint.getInspectioncontent(),imageBeanArrayList);
+                            Intent mIntent = new Intent();
+                            mIntent.putExtra("info", roundPoint);
+                            // 设置结果，并进行传送
+                            setResult(4, mIntent);
+                            Toast.makeText(context, "修改成功", Toast.LENGTH_SHORT).show();
+
+                            Single.just("").delay(1, TimeUnit.SECONDS).
+                                    compose(RxUtils.applySchedulers()).
+                                    subscribe(s -> finish()
+                                    );
+
+                        }
+
+                    }
+                });
+    }
+
+    private void editData(RequestBody body, String token) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -355,14 +404,12 @@ public class RoundPointEditActivity extends BaseActivity {
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
 
 
-
-
-        Call<ApiResponse> call = userBiz.editInspectionItem(token,body);
+        Call<ApiResponse> call = userBiz.editInspectionItem(token, body);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                Log.d("tag:", "onResponse: "+response.code());
-                if (response.body().getResultCode()==200){
+                Log.d("tag:", "onResponse: " + response.code());
+                if (response.body().getResultCode() == 200) {
                     //会调数据
 
 //                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
@@ -377,7 +424,7 @@ public class RoundPointEditActivity extends BaseActivity {
                             subscribe(s ->
                                     startActivity(new Intent(context,
                                             RoundPointSettingActivity.class).putExtra(
-                                                    RoundPointSettingActivity.PROJECT_ID,
+                                            RoundPointSettingActivity.PROJECT_ID,
                                             PROJECT_ID))
                             );
 
@@ -391,25 +438,27 @@ public class RoundPointEditActivity extends BaseActivity {
             }
         });
     }
-    public static MultipartBody getMultipartBody(List<File> files,String projectId,String title,
-                                                 String content,String id){
-        MultipartBody.Builder builder=new MultipartBody.Builder();
-        for (int i=0;i<files.size();i++){
-            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
-            builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
+
+    public static MultipartBody getMultipartBody(List<File> files, String projectId, String title,
+                                                 String content, String id) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        for (int i = 0; i < files.size(); i++) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), files.get(i));
+            builder.addFormDataPart("image[]", files.get(i).getName(), requestBody);
 
         }
-        builder.addFormDataPart("projectid",projectId);
-        builder.addFormDataPart("inspectionname",title);
-        builder.addFormDataPart("inspectioncontent",content);
-        builder.addFormDataPart("id",id);
+        builder.addFormDataPart("projectid", projectId);
+        builder.addFormDataPart("inspectionname", title);
+        builder.addFormDataPart("inspectioncontent", content);
+        builder.addFormDataPart("id", id);
         builder.setType(MultipartBody.FORM);
         return builder.build();
 
     }
+
     //下载
-    private void downloadImg(String imgUrl,int position) {
-        OkHttpUtils.get().url(Constant.DOMIN+imgUrl)
+    private void downloadImg(String imgUrl, int position) {
+        OkHttpUtils.get().url(Constant.DOMIN + imgUrl)
                 .build()
                 .execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), "a.jpg") {
                     @Override
@@ -419,25 +468,87 @@ public class RoundPointEditActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(File response, int id) {
-                        System.out.println("response"+response.length());
-                        switch (position){
+                        System.out.println("response" + response.length());
+                        switch (position) {
                             case 0:
-                                firstFile=response;
+                                firstFile = response;
 
                                 break;
                             case 1:
-                                secondFile=response;
+                                secondFile = response;
 
                                 break;
                             case 2:
-                                thirdFile=response;
+                                thirdFile = response;
                                 break;
 
                         }
-                        System.out.println("fileName:"+response.getName());
+                        System.out.println("fileName:" + response.getName());
 
 
                     }
                 });
+    }
+
+    private void uploadFile(File file, int type) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://118.178.88.132:8000/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FileUploadService userBiz = retrofit.create(FileUploadService.class);
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("filename", file.getName(),
+                        RequestBody.create(MediaType.parse("image/jpg"), file))
+                .build();
+        Call<ApiResponse> call = userBiz.uploadFile(requestBody);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getResultCode() == 200) {
+
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(response.body().getData());
+                        String fileUrl = gson.fromJson(jsonArray,
+                                new TypeToken<String>() {
+                                }.getType());
+                        System.out.println("file:" + fileUrl);
+                        switch (type) {
+                            case 0:
+                                firstPath = fileUrl;
+
+                                break;
+
+                            case 1:
+                                secondPath = fileUrl;
+
+                                break;
+
+                            case 2:
+                                thirdPath = fileUrl;
+
+                                break;
+                        }
+
+
+                    } else {
+                        Toast.makeText(context, response.body().getResultMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, "请检查网络！",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+
+            }
+        });
+
+
     }
 }

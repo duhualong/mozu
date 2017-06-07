@@ -29,6 +29,13 @@ public class RoundPoint implements Parcelable {
     private String time;
     private boolean checked;
 
+    public RoundPoint(int id, String inspectionname, String inspectioncontent, ArrayList<ImageBean> image) {
+        this.id = id;
+        this.inspectionname = inspectionname;
+        this.inspectioncontent = inspectioncontent;
+        this.image = image;
+    }
+
     public boolean isChecked() {
         return checked;
     }
@@ -87,11 +94,16 @@ public class RoundPoint implements Parcelable {
 
     public static class ImageBean implements Parcelable {
 
+
         /**
          * image : /images/readilyShoot/20170406/20170406160650YC392002694.jpg
          */
 
         private String image;
+
+        public ImageBean(String image) {
+            this.image = image;
+        }
 
         public String getImage() {
             return image;

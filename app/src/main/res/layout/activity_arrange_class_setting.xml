@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:id="@id/root_view"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="排班设置"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+        <Button
+            android:id="@id/btnPri"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@mipmap/ic_prev_month"
+        />
+        <TextView
+            android:id="@id/tv_date"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:background="@mipmap/handover_edit_bg"
+            android:gravity="center"
+            android:text="2017年6月"
+            android:textColor="@color/black_light"/>
+        <Button
+            android:id="@id/btnNext"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@mipmap/ic_next_month"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/rv_arrange_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_height_distance"
+        />
+
+        <RelativeLayout android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_marginStart="@dimen/padding_bottom"
+                      android:layout_marginLeft="@dimen/padding_bottom"
+                      android:orientation="vertical"
+                        android:visibility="visible"
+                        android:id="@id/rl_select_date"
+                      android:layout_weight="2">
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@id/rl_tv"
+            android:background="@color/white">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/black_light"
+                          android:layout_centerHorizontal="true"
+                          android:textSize="@dimen/text_normal_size"
+                          android:id="@id/tv_date_arrange"
+                          android:layout_marginTop="5dp"
+                android:text=""/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/tv_date_arrange"
+                          android:layout_centerHorizontal="true"
+                          android:textColor="@color/black_light"
+                          android:layout_marginBottom="5dp"
+                          android:textSize="@dimen/text_normal_size"
+                          android:id="@id/tv_tip"
+                android:text=""/>
+            </RelativeLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/recycle_arrange_class"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_tv"
+            android:layout_above="@id/btn_save"
+            android:layout_marginTop="@dimen/padding_bottom"
+         />
+            <Button android:layout_width="120dp"
+                    android:layout_height="36dp"
+                    android:id="@id/btn_save"
+                    android:layout_marginTop="@dimen/margin_height_distance"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/tv_save"
+                    android:layout_marginBottom="@dimen/margin_height_distance"
+            android:background="@mipmap/bg_submit_button"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
