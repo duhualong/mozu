@@ -339,6 +339,43 @@
         <activity android:name=".ui.project.sortclass.SortClassSettingActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.project.sortclass.SortClassSettingTestActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.project.sortclass.SelectLineActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--添加班次人员-->
+        <activity android:name=".ui.project.sortclass.AddPersonalClassActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.project.sortclass.TestWebView"/>
+
+
+
+        <!--工作秀-->
+        <activity android:name=".ui.workshow.WorkShowListActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--添加工作秀-->
+        <activity android:name=".ui.workshow.AddWorkShowActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+
+        <!--随手拍-->
+        <activity android:name=".ui.takephoto.TakePhotoSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--所手拍详情-->
+        <activity android:name=".ui.takephoto.TakePhotoDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.takephoto.AddTakePhotoActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.takephoto.SelectReportPeopleActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--个人工时-->
         <!--<activity android:name=""-->
 

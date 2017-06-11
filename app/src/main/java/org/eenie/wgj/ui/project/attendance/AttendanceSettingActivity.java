@@ -32,7 +32,6 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.MyLocationStyle;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -190,23 +189,23 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
         }
     }
 
-    /**
-     * 设置一些amap的属性
-     */
-    private void setUpMap() {
-        // 自定义系统定位小蓝点
-        MyLocationStyle myLocationStyle = new MyLocationStyle();
-
+//    /**
+//     * 设置一些amap的属性
+//     */
+//    private void setUpMap() {
+//        // 自定义系统定位小蓝点
+//        MyLocationStyle myLocationStyle = new MyLocationStyle();
 //
-
-        myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
-        myLocationStyle.radiusFillColor(R.color.text_blue);// 设置圆形的填充颜色
-        // myLocationStyle.anchor(int,int)//设置小蓝点的锚点
-        myLocationStyle.strokeWidth(1.0f);// 设置圆形的边框粗细
-        mAMap.setMyLocationStyle(myLocationStyle);
-        mAMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
-        mAMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
-    }
+////
+//
+//        myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
+//        myLocationStyle.radiusFillColor(R.color.text_blue);// 设置圆形的填充颜色
+//        // myLocationStyle.anchor(int,int)//设置小蓝点的锚点
+//        myLocationStyle.strokeWidth(1.0f);// 设置圆形的边框粗细
+//        mAMap.setMyLocationStyle(myLocationStyle);
+//        mAMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
+//        mAMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+//    }
 
 
     @OnClick({R.id.img_back, R.id.tv_save, R.id.rl_sign_in_city, R.id.rl_sign_in_address,

@@ -453,4 +453,37 @@
     <item name="rl_select_date" type="id"/>
     <item name="tv_add_round_line" type="id"/>
     <item name="rl_select_class_date" type="id"/>
+    <item name="tv_no_select" type="id"/>
+    <item name="recycler_select_line" type="id"/>
+    <item name="item_line" type="id"/>
+    <item name="item_number" type="id"/>
+    <item name="rl_select_line" type="id"/>
+    <item name="recycler_personal" type="id"/>
+    <item name="checkbox_select" type="id"/>
+    <item name="tv_personal_name" type="id"/>
+    <item name="tv_number" type="id"/>
+    <item name="tv_alert" type="id"/>
+    <item name="webView" type="id"/>
+    <item name="img_add_show" type="id"/>
+    <item name="img_crown" type="id"/>
+    <item name="rl_img" type="id"/>
+    <item name="rl_first_img" type="id"/>
+    <item name="recycler_my_show" type="id"/>
+    <item name="recycler_other_show" type="id"/>
+    <item name="item_avatar" type="id"/>
+    <item name="item_praise_img" type="id"/>
+    <item name="item_praise_number" type="id"/>
+    <item name="img_first_praise" type="id"/>
+    <item name="img_second_praise" type="id"/>
+    <item name="img_third_praise" type="id"/>
+    <item name="tv_sort_number" type="id"/>
+    <item name="item_content" type="id"/>
+    <item name="img_background" type="id"/>
+    <item name="tv_send" type="id"/>
+    <item name="recycler_take_photo" type="id"/>
+    <item name="item_title" type="id"/>
+    <item name="img_add_photo" type="id"/>
+    <item name="rl_take_photo" type="id"/>
+    <item name="et_input_work_content" type="id"/>
+    <item name="expendlistview" type="id"/>
 </resources>

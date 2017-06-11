@@ -21,6 +21,11 @@ public class RoundWayList implements Parcelable {
     private String name;
     private String difference;
 
+    public RoundWayList(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
@@ -59,6 +64,7 @@ public class RoundWayList implements Parcelable {
 
     public RoundWayList() {
     }
+
 
     protected RoundWayList(Parcel in) {
         this.id = in.readInt();

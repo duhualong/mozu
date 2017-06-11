@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="选择巡检线路"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <TextView android:id="@id/tv_no_select"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:drawableLeft="@drawable/circle_red"
+              android:drawablePadding="@dimen/padding_bottom"
+              android:drawableStart="@drawable/circle_red"
+              android:gravity="center_vertical"
+              android:padding="@dimen/padding_bottom"
+              android:text="不选择路线"
+              android:visibility="gone"
+              android:textColor="@color/titleColor"/>
+    <android.support.v7.widget.RecyclerView android:id="@id/recycler_select_line"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_marginTop="1dp"/>
+
+
+</LinearLayout>

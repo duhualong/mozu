@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@id/root_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white_light"
+>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="工作秀"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_add_show"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_work_show_menu_send"/>
+    </RelativeLayout>
+
+    <RelativeLayout android:id="@id/rl_first_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginTop="?android:actionBarSize"
+                 >
+        <ImageView android:layout_width="match_parent"
+                   android:layout_height="160dp"
+                   android:scaleType="centerCrop"
+                   android:id="@id/img_background"
+                   android:src="@mipmap/home_banner_default_bg3"/>
+        <RelativeLayout android:id="@id/rl_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_bottom"
+                        android:layout_marginStart="@dimen/padding_bottom"
+                        android:layout_marginTop="@dimen/padding_long"
+        >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@id/img_avatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_yellow"
+                android:padding="@dimen/padding_bottom"
+                android:src="@mipmap/home_banner_default_bg2"/>
+            <ImageView android:id="@id/img_crown"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentLeft="true"
+                       android:layout_alignParentStart="true"
+                       android:src="@mipmap/ic_crown"/>
+
+        </RelativeLayout>
+        <TextView android:layout_width="60dp"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/rl_img"
+                  android:layout_marginLeft="@dimen/padding_bottom"
+                  android:layout_marginStart="@dimen/padding_bottom"
+                  android:gravity="center"
+                  android:text="测试"
+                  android:id="@id/tv_name"
+                  android:textColor="@color/text_yellow"/>
+
+
+    </RelativeLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/rl_first_img"
+    >
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+
+                      android:orientation="vertical">
+
+
+            <android.support.v7.widget.RecyclerView android:id="@id/recycler_my_show"
+                                                    android:visibility="gone"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginTop="@dimen/padding_bottom"/>
+
+            <android.support.v7.widget.RecyclerView android:id="@id/recycler_other_show"
+                                                    android:layout_width="match_parent"
+                                                    android:visibility="gone"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginBottom="@dimen/padding_bottom"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

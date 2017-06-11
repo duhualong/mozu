@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:id="@id/rl_item"
+                android:padding="@dimen/padding_bottom">
+
+    <CheckBox
+        android:id="@id/checkbox_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/padding_bottom"
+        android:layout_marginRight="@dimen/padding_bottom"
+        android:button="@drawable/checkbox_apply_show_state"
+        android:checked="false"
+    />
+    <TextView android:id="@id/tv_personal_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:layout_toEndOf="@id/checkbox_select"
+              android:layout_toRightOf="@id/checkbox_select"
+              android:text="测试"
+              android:textColor="@color/black_light"
+    />
+    <TextView android:id="@id/tv_number"
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              android:layout_alignParentEnd="true"
+              android:layout_alignParentRight="true"
+              android:layout_centerVertical="true"
+              android:background="@mipmap/ic_select_background"
+              android:gravity="center"
+              android:text="1"
+              android:textColor="@color/text_blue"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginEnd="@dimen/padding_bottom"
+              android:layout_marginRight="@dimen/padding_bottom"
+              android:layout_toLeftOf="@id/tv_number"
+              android:layout_toStartOf="@id/tv_number"
+              android:text="剩余班次"
+              android:textColor="@color/gray"/>
+
+
+</RelativeLayout>

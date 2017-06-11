@@ -1,6 +1,6 @@
 package org.eenie.wgj.model.requset;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Eenie on 2017/6/5 at 16:28
@@ -10,9 +10,10 @@ import java.util.List;
 
 public class AddArrangeClass {
     private String projectid;
-    private InfoArrange info;
+    private InfoArrange infos;
+    private String info;
 
-    public AddArrangeClass(String projectid, InfoArrange info) {
+    public AddArrangeClass(String projectid, String info) {
         this.projectid = projectid;
         this.info = info;
     }
@@ -25,11 +26,18 @@ public class AddArrangeClass {
         this.projectid = projectid;
     }
 
-    public InfoArrange getInfo() {
+    public InfoArrange getInfos() {
+        return infos;
+    }
+    public void setInfos(InfoArrange infos) {
+        this.infos = infos;
+    }
+
+    public String getInfo() {
         return info;
     }
 
-    public void setInfo(InfoArrange info) {
+    public void setInfo(String info) {
         this.info = info;
     }
 
@@ -38,12 +46,18 @@ public class AddArrangeClass {
 
         /**
          * date : 2017-06-08
-         * ranks : [{"users":[],"name":"日班","serviceid":132},{"users":[{"id":"19","name":"韩红","lineid":16},{"id":"7","name":"何潇潇","lineid":17}],"name":"夜班","serviceid":133},{"users":[{"id":"6","name":"唐海斌"}],"name":"测试数据","serviceid":156}]
+         * ranks : [{"users":[],"name":"日班","serviceid":132},{"users":
+         * [{"id":"19","name":"韩红","lineid":16},{"id":"7","name":"何潇潇","lineid":17}],
+         * "name":"夜班","serviceid":133},{"users":[{"id":"6","name":"唐海斌"}],"name":"测试数据","serviceid":156}]
          */
 
         private String date;
-        private List<RanksBean> ranks;
+        private ArrayList<RanksBean> ranks;
 
+        public InfoArrange(String date, ArrayList<RanksBean> ranks) {
+            this.date = date;
+            this.ranks = ranks;
+        }
 
         public String getDate() {
             return date;
@@ -53,11 +67,11 @@ public class AddArrangeClass {
             this.date = date;
         }
 
-        public List<RanksBean> getRanks() {
+        public ArrayList<RanksBean> getRanks() {
             return ranks;
         }
 
-        public void setRanks(List<RanksBean> ranks) {
+        public void setRanks(ArrayList<RanksBean> ranks) {
             this.ranks = ranks;
         }
 
@@ -70,11 +84,24 @@ public class AddArrangeClass {
 
             private String name;
             private int serviceid;
-            private List<UserInfo> users;
+            private ArrayList<UserInfo> users;
+
+            public RanksBean(String name, int serviceid, ArrayList<UserInfo> users) {
+                this.name = name;
+                this.serviceid = serviceid;
+                this.users = users;
+            }
+
             public static class UserInfo{
                 private int id;
                 private String name;
                 private int lineid;
+
+                public UserInfo(int id, String name, int lineid) {
+                    this.id = id;
+                    this.name = name;
+                    this.lineid = lineid;
+                }
 
                 public int getId() {
                     return id;

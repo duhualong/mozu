@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +19,7 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.MonthTimeWorkingArrange;
 import org.eenie.wgj.model.response.sortclass.ArrangeClassResponse;
+import org.eenie.wgj.model.response.sortclass.ArrangeClassUserResponse;
 import org.eenie.wgj.model.response.sortclass.ArrangeProjectDate;
 import org.eenie.wgj.model.response.sortclass.ArrangeProjectDateTotal;
 import org.eenie.wgj.model.response.sortclass.ArrangeServiceTotal;
@@ -270,184 +269,7 @@ public class SortClassSettingActivity extends BaseActivity {
                 });
     }
 
-    private void getMonthArrangeWork(String mDate) {
 
-        mSubscription = mRemoteService.getMonthDayTime(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), mDate, projectId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
-                            Gson gson = new Gson();
-                            String jsonArray = gson.toJson(apiResponse.getData());
-                            mDayMonthTimes = gson.fromJson(jsonArray,
-                                    new TypeToken<ArrayList<MonthTimeWorkingArrange>>() {
-                                    }.getType());
-                            for (int n = 0; n < mDayMonthTimes.size(); n++) {
-                                for (int m = 0; m < mDayMonthTimes.get(n).getService().size(); m++) {
-                                    mDayMonthTimes.get(n).getService().get(m).setUser(null);
-                                }
-
-
-                            }
-                            Log.d("ArrayList", "onNext: " + gson.toJson(mDayMonthTimes));
-                            if (mDayMonthTimes != null && !mDayMonthTimes.isEmpty()) {
-//                                rlSelectDate.setVisibility(View.VISIBLE);
-//                                recyclerDate.setVisibility(View.VISIBLE);
-//                                adapter = new MyAdapter(context, mDayMonthTimes);
-//                                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-//                                recyclerDate.setLayoutManager(layoutManager);
-//                                recyclerDate.setHasFixedSize(true);
-//                                recyclerDate.setAdapter(adapter);
-
-                                adapter.setOnItemClickListener((view, position) -> {
-
-                                    for (int i = 0; i < mDayMonthTimes.size(); i++) {
-                                        mDayMonthTimes.get(i).setSelect(false);
-                                    }
-                                    mDayMonthTimes.get(position).setSelect(true);
-                                    adapter.notifyDataSetChanged();
-                                    Log.d("mDayMonthTimes", "onItemClick: " +
-                                            gson.toJson(mDayMonthTimes.get(position).getService()));
-
-                                    new Thread() {
-                                        public void run() {
-                                            runOnUiThread(() -> {
-
-                                                if (mDayMonthTimes.get(position).getService() != null) {
-                                                    //getArrangeDate(mDayMonthTimes.get(position));
-
-                                                }
-                                            });
-
-                                        }
-                                    }.start();
-
-                                });
-
-                            } else {
-                                mDayMonthTimes = null;
-                                rlSelectDate.setVisibility(View.INVISIBLE);
-                                recyclerDate.setVisibility(View.INVISIBLE);
-                                recyclerArrangeClass.setVisibility(View.INVISIBLE);
-
-                            }
-
-
-                        } else {
-                            mDayMonthTimes = null;
-                            rlSelectDate.setVisibility(View.INVISIBLE);
-                            recyclerDate.setVisibility(View.INVISIBLE);
-
-                            Toast.makeText(context, apiResponse.getResultMessage(),
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }
-                });
-    }
-
-//    private void getArrangeDate(MonthTimeWorkingArrange monthTimeWorkingArrange) {
-//        mSubscription = mRemoteService.getArrangeClassList(mPrefsHelper.getPrefs().
-//                getString(Constants.TOKEN, ""), monthTimeWorkingArrange.getDate(), projectId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<ApiResponse>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(ApiResponse apiResponse) {
-//                        if (apiResponse.getResultCode() == 200 ||
-//                                apiResponse.getResultCode() == 0) {
-//                            Gson gson = new Gson();
-//                            String jsonArray = gson.toJson(apiResponse.getData());
-//                            ArrayList<ArrangeDateResponse> arrangeDate = gson.fromJson(jsonArray,
-//                                    new TypeToken<ArrayList<ArrangeDateResponse>>() {
-//                                    }.getType());
-//                            if (arrangeDate != null) {
-////
-////                                for (int i = 0; i < arrangeDate.size(); i++) {
-////                                    if (arrangeDate.get(i).getDay().equals(monthTimeWorkingArrange.getDate())) {
-////                                        tvArrangeDate.setText(monthTimeWorkingArrange.getDate());
-////                                        tvTip.setText("班次及巡检线路安排");
-////
-////                                        mDateAdapter = new
-////                                                DateMyAdapter(context,
-////                                                monthTimeWorkingArrange.getService(),
-////                                                arrangeDate.get(i).getService());
-////                                        LinearLayoutManager layoutManager1 =
-////                                                new LinearLayoutManager(
-////                                                        context);
-////                                        recyclerArrangeClass.setLayoutManager(layoutManager1);
-////                                        recyclerArrangeClass.setAdapter(mDateAdapter);
-////
-////                                    } else {
-////                                        tvArrangeDate.setText(monthTimeWorkingArrange.getDate());
-////                                        tvTip.setText("班次及巡检线路安排");
-////
-////                                        mDateAdapter = new
-////                                                DateMyAdapter(context,
-////                                                monthTimeWorkingArrange.getService());
-////                                        LinearLayoutManager layoutManager1 =
-////                                                new LinearLayoutManager(
-////                                                        context);
-////                                        recyclerArrangeClass.setLayoutManager(layoutManager1);
-////                                        recyclerArrangeClass.setAdapter(mDateAdapter);
-////
-////
-////                                    }
-////                                    else {
-////
-////                                        tvArrangeDate.setText(monthTimeWorkingArrange.getDate());
-////                                        tvTip.setText("班次及巡检线路安排");
-////
-////                                        mDateAdapter = new
-////                                                DateMyAdapter(context,
-////                                                monthTimeWorkingArrange.getService(),
-////                                               null);
-////                                        LinearLayoutManager layoutManager1 =
-////                                                new LinearLayoutManager(
-////                                                        context);
-////                                        recyclerArrangeClass.setLayoutManager(layoutManager1);
-////                                        recyclerArrangeClass.setAdapter(mDateAdapter);
-////
-////
-////
-////                                    }
-//
-//                                }
-//                            } else {
-//
-//
-//                            }
-//
-//
-//                        }
-//
-//                    }
-//                });
-//    }
 
     @OnClick({R.id.img_back, R.id.btn_save, R.id.btnPri, R.id.btnNext})
     public void onClick(View view) {
@@ -464,6 +286,8 @@ public class SortClassSettingActivity extends BaseActivity {
                 mCalendar.add(Calendar.MONTH, -1);
                 if (mDateAdapter != null) {
                     mDateAdapter.clear();
+                    tvArrangeDate.setText("");
+                    tvTip.setText("");
                 }
                 if (adapter != null) {
                     adapter.clear();
@@ -514,6 +338,11 @@ public class SortClassSettingActivity extends BaseActivity {
                     if (data.getUser() != null && !data.getUser().isEmpty()) {
                         holder.itemName.setText(data.getServiceName() +
                                 "(" + data.getUser().size() + "/" + data.getServicePeople() + ")");
+                        KeyContactAdapter keyContactAdapter=new KeyContactAdapter(context,data.getUser());
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                        holder.itemPersonal.setLayoutManager(layoutManager);
+                        holder.itemPersonal.setAdapter(keyContactAdapter);
+
                     } else {
                         holder.itemName.setText(data.getServiceName() +
                                 "(" + "0" + "/" + data.getServicePeople() + ")");
@@ -546,7 +375,7 @@ public class SortClassSettingActivity extends BaseActivity {
         class DateViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView itemName;
             private ImageView imgAdd;
-            private ListView itemPersonal;
+            private RecyclerView itemPersonal;
             private ArrangeServiceTotal mServiceBean;
 
 
@@ -567,6 +396,10 @@ public class SortClassSettingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
+                    case R.id.img_add_contacts:
+
+
+                        break;
 
                 }
 
@@ -578,11 +411,12 @@ public class SortClassSettingActivity extends BaseActivity {
 
     class KeyContactAdapter extends RecyclerView.Adapter<KeyContactAdapter.KeyContactViewHolder> {
         private Context context;
-        private ArrayList<String> mStrings;
+        private ArrayList<ArrangeClassUserResponse> mArrangeClassUserResponses;
 
-        public KeyContactAdapter(Context context, ArrayList<String> mStrings) {
+        public KeyContactAdapter(Context context,
+                                 ArrayList<ArrangeClassUserResponse> mArrangeClassUserResponses) {
             this.context = context;
-            this.mStrings = mStrings;
+            this.mArrangeClassUserResponses = mArrangeClassUserResponses;
         }
 
         @Override
@@ -594,9 +428,17 @@ public class SortClassSettingActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(KeyContactViewHolder holder, int position) {
-            if (mStrings != null && !mStrings.isEmpty()) {
-                String data = mStrings.get(position);
+            if (mArrangeClassUserResponses != null && !mArrangeClassUserResponses.isEmpty()) {
+                ArrangeClassUserResponse data = mArrangeClassUserResponses.get(position);
                 holder.setItem(data);
+                if (data!=null){
+                    holder.itemPersonalName.setText(data.getName());
+                    if (data.getLine()!=null){
+                        holder.tvAddRoundlLine.setText(data.getLine().getName());
+                    }else {
+                        holder.tvAddRoundlLine.setText(R.string.add_round_line);
+                    }
+                }
 
 
             }
@@ -605,16 +447,16 @@ public class SortClassSettingActivity extends BaseActivity {
 
         @Override
         public int getItemCount() {
-            return mStrings.size();
+            return mArrangeClassUserResponses.size();
         }
 
-        public void addAll(ArrayList<String> contactsList) {
-            this.mStrings.addAll(contactsList);
+        public void addAll(ArrayList<ArrangeClassUserResponse> contactsList) {
+            this.mArrangeClassUserResponses.addAll(contactsList);
             KeyContactAdapter.this.notifyDataSetChanged();
         }
 
         public void clear() {
-            this.mStrings.clear();
+            this.mArrangeClassUserResponses.clear();
             KeyContactAdapter.this.notifyDataSetChanged();
         }
 
@@ -623,7 +465,7 @@ public class SortClassSettingActivity extends BaseActivity {
             private TextView tvAddRoundlLine;
             private ImageView imgDelete;
 
-            private String mString;
+            private ArrangeClassUserResponse mArrangeClassUserResponse;
 
             public KeyContactViewHolder(View itemView) {
                 super(itemView);
@@ -634,14 +476,21 @@ public class SortClassSettingActivity extends BaseActivity {
 
             }
 
-            public void setItem(String data) {
-                mString = data;
+            public void setItem(ArrangeClassUserResponse data) {
+                mArrangeClassUserResponse = data;
             }
 
             @Override
             public void onClick(View v) {
-                mStrings.remove(mString);
-                KeyContactAdapter.this.notifyDataSetChanged();
+                switch (v.getId()){
+                    case R.id.img_delete:
+                        mArrangeClassUserResponses.remove(mArrangeClassUserResponse);
+                        KeyContactAdapter.this.notifyDataSetChanged();
+
+                        break;
+
+                }
+
 
 
             }

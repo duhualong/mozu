@@ -383,6 +383,19 @@ public interface RemoteService {
     @POST("schedulingAdd")
     Single<ApiResponse>addArrangeClassItem(@Header("token")String token, @Body AddArrangeClass
             addArrangeClass);
+    //工作秀列表
+    @GET("workshowList")
+    Single<ApiResponse> getWorkShowList(@Header("token")String token);
+    //点赞工作秀
+    @GET("workshowLike")
+    Single<ApiResponse> thumbUp(@Header("token")String token,@Query("workshowid")int id);
+    //随手拍列表
+    @GET("readilyShootList")
+    Single<ApiResponse> getTakePhoto(@Header("token")String token);
+    //获取部门的人员
+    @GET("readilyShootNumberlist")
+    Single<ApiResponse>getShootNumber(@Header("token")String token);
+
 
 
 

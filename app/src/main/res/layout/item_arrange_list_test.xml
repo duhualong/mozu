@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_light"
+                android:layout_height="48dp"
+                android:background="@color/white"
+                android:padding="10dp"
 >
-    <RelativeLayout android:id="@id/rl_item"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="@color/white"
-                    android:padding="@dimen/padding_bottom">
+
         <TextView android:id="@id/item_arrange_name"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -24,14 +21,6 @@
                    android:layout_alignParentRight="true"
                    android:layout_centerVertical="true"
                    android:src="@mipmap/ic_add_item"/>
-    </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@id/item_personal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_item"
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="1dp"/>
 
 
 </RelativeLayout>

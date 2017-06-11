@@ -17,6 +17,16 @@ public class ClassListWorkTime {
 
     private ServiceBean service;
     private String day;
+    private int addDay;
+
+    public int getAddDay() {
+        return addDay;
+    }
+
+    public void setAddDay(int addDay) {
+        this.addDay = addDay;
+    }
+
     public ClassListWorkTime(ServiceBean service, String day) {
         this.service = service;
         this.day = day;
@@ -52,6 +62,7 @@ public class ClassListWorkTime {
         private String starttime;
         private String endtime;
         private double time;
+
 
         public int getId() {
             return id;

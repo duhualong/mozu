@@ -12,6 +12,8 @@ import org.eenie.wgj.di.component.DaggerApplicationComponent;
 import org.eenie.wgj.di.module.ApplicationModule;
 import org.eenie.wgj.ui.attendance.AttendanceActivity;
 import org.eenie.wgj.ui.project.ProjectSettingActivity;
+import org.eenie.wgj.ui.takephoto.TakePhotoSettingActivity;
+import org.eenie.wgj.ui.workshow.WorkShowListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,10 +85,10 @@ public class App extends Application {
             "项目设置", false, 7, true));
     mModules.add(new HomeModule("ic_repair", "维修", false, 10, false));
     mModules.add(new HomeModule( "ic_training", "培训", false, 11, false));
-    mModules.add(new HomeModule("ic_work_show", "工作秀", false, 12, false));
+    mModules.add(new HomeModule(WorkShowListActivity.class,"ic_work_show", "工作秀", false, 12, false));
     mModules.add(new HomeModule( "ic_submitted_post", "报岗", false, 13, false));
     mModules.add(new HomeModule("ic_submitted_post_statistics", "报岗统计", false, 14, false));
-    mModules.add(new HomeModule("ic_snapshot", "随手拍", false, 15, false));
+    mModules.add(new HomeModule(TakePhotoSettingActivity.class,"ic_snapshot", "随手拍", false, 15, false));
     mModules.add(new HomeModule("ic_training_statistics", "培训统计", false, 16, false));
     realm.insertOrUpdate(mModules);
   }

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="随手拍"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <TextView android:id="@id/tv_save"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="@string/tv_save"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingEnd="@dimen/padding_bottom"
+                    android:paddingLeft="@dimen/padding_bottom"
+                    android:paddingRight="@dimen/padding_bottom"
+                    android:paddingStart="@dimen/padding_bottom"
+                    android:paddingTop="@dimen/padding_bottom">
+        <TextView android:id="@id/tv_set_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="标题"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="@dimen/margin_height_larger_distance"
+                      android:layout_below="@id/tv_set_title"
+                      android:layout_marginBottom="10dp"
+                      android:layout_marginEnd="@dimen/font_size_18sp"
+                      android:layout_marginLeft="@dimen/font_size_18sp"
+                      android:layout_marginRight="@dimen/font_size_18sp"
+                      android:layout_marginStart="@dimen/font_size_18sp"
+                      android:layout_marginTop="@dimen/padding_bottom"
+                      android:background="@drawable/bg_edit_text_light">
+            <EditText
+                android:id="@id/et_input_work_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:hint="例如：队列问题"
+                android:lines="1"
+                android:maxLength="15"
+                android:textColor="@color/titleColor"
+                android:textColorHint="@color/gray"
+                android:textSize="@dimen/text_large_size"
+            />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:paddingEnd="@dimen/padding_bottom"
+                    android:paddingLeft="@dimen/padding_bottom"
+                    android:paddingRight="@dimen/padding_bottom"
+                    android:paddingStart="@dimen/padding_bottom"
+                    android:paddingTop="@dimen/padding_bottom">
+        <TextView android:id="@id/tv_set_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="说明"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="120dp"
+                      android:layout_below="@id/tv_set_title"
+                      android:layout_marginBottom="10dp"
+                      android:layout_marginEnd="@dimen/font_size_18sp"
+                      android:layout_marginLeft="@dimen/font_size_18sp"
+                      android:layout_marginRight="@dimen/font_size_18sp"
+                      android:layout_marginStart="@dimen/font_size_18sp"
+                      android:layout_marginTop="@dimen/padding_bottom"
+                      android:background="@drawable/bg_edit_text_light">
+            <EditText
+                android:id="@id/et_input_work_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="@dimen/padding_bottom"
+                android:layout_marginLeft="@dimen/padding_bottom"
+                android:layout_marginRight="@dimen/padding_bottom"
+                android:layout_marginStart="@dimen/padding_bottom"
+                android:layout_marginTop="5dp"
+                android:background="@null"
+                android:gravity="start|left"
+                android:hint="例如：\n1.队列散懒\n2.排列参差不齐"
+                android:lineSpacingExtra="5dp"
+                android:lines="6"
+                android:maxLength="176"
+                android:paddingTop="5dp"
+                android:textColor="@color/titleColor"
+                android:textColorHint="@color/gray"
+                android:textSize="@dimen/text_large_size"
+            />
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/padding_bottom"
+                  android:layout_marginTop="@dimen/padding_nor"
+                  android:orientation="horizontal">
+        <ImageView android:id="@id/img_first"
+                   android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:layout_marginLeft="@dimen/font_size_14sp"
+                   android:layout_marginStart="@dimen/font_size_14sp"
+                   android:background="@color/white"
+                   android:scaleType="center"
+                   android:src="@mipmap/ic_upload_photo"
+                   android:visibility="visible"/>
+        <ImageView android:id="@id/img_second"
+                   android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:layout_marginLeft="@dimen/font_size_14sp"
+                   android:layout_marginStart="@dimen/font_size_14sp"
+                   android:background="@color/white"
+                   android:scaleType="center"
+                   android:src="@mipmap/ic_home_module_casual"
+                   android:visibility="gone"/>
+        <ImageView android:id="@id/img_third"
+                   android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:layout_marginLeft="@dimen/font_size_14sp"
+                   android:layout_marginStart="@dimen/font_size_14sp"
+                   android:background="@color/white"
+                   android:scaleType="center"
+                   android:src="@mipmap/ic_upload_photo"
+                   android:visibility="gone"
+        />
+
+    </LinearLayout>
+</LinearLayout>

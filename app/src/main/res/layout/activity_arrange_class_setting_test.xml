@@ -94,16 +94,17 @@
             </RelativeLayout>
 
 
-        <android.support.v7.widget.RecyclerView
+        <ExpandableListView
             android:id="@id/recycle_arrange_class"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rl_tv"
             android:layout_above="@id/btn_save"
             android:layout_marginTop="@dimen/padding_bottom"
+
          />
 
-            <Button android:layout_width="120dp"
+            <Button android:layout_width="150dp"
                     android:layout_height="36dp"
                     android:id="@id/btn_save"
                     android:layout_marginTop="@dimen/margin_height_distance"
