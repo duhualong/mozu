@@ -28,6 +28,7 @@ public class ReportWorkActivity extends BaseActivity {
     @BindView(R.id.checkbox_attendance)CheckBox checkBoxAttendance;
     @BindView(R.id.tv_title)
     TextView title;
+    @BindView(R.id.tv_attendance)TextView tvAlert;
 
     @Override
     protected int getContentView() {
@@ -37,6 +38,7 @@ public class ReportWorkActivity extends BaseActivity {
     @Override
     protected void updateUI() {
         title.setText(R.string.report_alert);
+        tvAlert.setText("开启报岗提醒");
     }
 
     @OnClick({R.id.img_back, R.id.checkbox_attendance, R.id.tv_save,

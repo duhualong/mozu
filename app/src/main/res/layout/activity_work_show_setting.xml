@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@id/root_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white_light"
+              android:orientation="vertical"
 >
 
     <RelativeLayout android:layout_width="match_parent"
@@ -34,7 +35,7 @@
     <RelativeLayout android:id="@id/rl_first_img"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:layout_marginTop="?android:actionBarSize"
+
                  >
         <ImageView android:layout_width="match_parent"
                    android:layout_height="160dp"
@@ -80,7 +81,6 @@
     </RelativeLayout>
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/rl_first_img"
     >
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -103,4 +103,4 @@
 
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+</LinearLayout>

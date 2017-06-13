@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@id/root_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white_background"
-              android:id="@id/root_view"
               android:orientation="vertical">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
@@ -54,48 +54,54 @@
 
     </LinearLayout>
     <!--<noman.weekcalendar.WeekCalendar-->
-        <!--android:id="@+id/weekCalendar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:layout_marginTop="1dp"-->
-        <!--app:dayNameLength="threeLetters"-->
-        <!--app:daysBackgroundColor="#fcfcfc"-->
-        <!--app:daysTextColor="@color/titleColor"-->
-        <!--app:selectedBgColor="@color/text_blue"-->
-        <!--app:todaysDateBgColor="@color/text_red"-->
-        <!--app:weekBackgroundColor="#ffffff"-->
-        <!--app:weekTextColor="#000"-->
-        <!--app:weekTextSize="10sp"/>-->
+    <!--android:id="@+id/weekCalendar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:layout_marginTop="1dp"-->
+    <!--app:dayNameLength="threeLetters"-->
+    <!--app:daysBackgroundColor="#fcfcfc"-->
+    <!--app:daysTextColor="@color/titleColor"-->
+    <!--app:selectedBgColor="@color/text_blue"-->
+    <!--app:todaysDateBgColor="@color/text_red"-->
+    <!--app:weekBackgroundColor="#ffffff"-->
+    <!--app:weekTextColor="#000"-->
+    <!--app:weekTextSize="10sp"/>-->
     <com.loonggg.weekcalendar.view.WeekCalendar
         android:id="@+id/week_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="10dp"
-        app:hideTodayName="false"
-        app:daysSelectedBackground="@drawable/green_bg"
+        app:cornerMarkBg="@drawable/ic_class_circler_red"
         app:isCornerMark="true"
-        app:isShowMonth="false"
-         />
+        app:daysSelectedBackground="@drawable/green_bg"
+        app:hideTodayName="false"
+        app:isShowMonth="true"
+    />
+    <!--app:cornerMarkBg="@drawable/ic_class_circler_red"
+            app:isCornerMark="true"
+
+    -->
+
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginTop="@dimen/padding_bottom"
-
                   android:layout_marginEnd="@dimen/padding_long"
                   android:layout_marginLeft="@dimen/padding_long"
                   android:layout_marginRight="@dimen/padding_long"
                   android:layout_marginStart="@dimen/padding_long"
+                  android:layout_marginTop="@dimen/padding_bottom"
                   android:orientation="horizontal">
-        <RelativeLayout android:layout_width="0dp"
-                        android:layout_height="80dp"
+        <RelativeLayout android:id="@id/rl_sign_in"
+                        android:layout_width="0dp"
+                        android:layout_height="90dp"
                         android:layout_weight="1"
-                        android:id="@id/rl_sign_in"
-                        android:background="@color/white">
+                        android:background="@drawable/ic_white_shape_background"
+        >
             <ImageView android:id="@id/img_attendance"
                        android:layout_width="30dp"
                        android:layout_height="30dp"
                        android:layout_centerHorizontal="true"
-                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:layout_marginTop="@dimen/padding_long"
                        android:src="@mipmap/ic_attendance_sign_in"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -107,18 +113,19 @@
                       android:textSize="@dimen/text_normal_size"/>
 
         </RelativeLayout>
-        <RelativeLayout android:layout_width="0dp"
-                        android:layout_height="80dp"
+        <RelativeLayout android:id="@id/rl_sign_off"
+                        android:layout_width="0dp"
+                        android:layout_height="90dp"
                         android:layout_marginLeft="@dimen/padding_bottom"
                         android:layout_marginStart="@dimen/padding_bottom"
                         android:layout_weight="1"
-                        android:id="@id/rl_sign_off"
-                        android:background="@color/white">
+                        android:background="@drawable/ic_white_shape_background"
+        >
             <ImageView android:id="@id/img_attendance"
                        android:layout_width="30dp"
                        android:layout_height="30dp"
                        android:layout_centerHorizontal="true"
-                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:layout_marginTop="@dimen/padding_long"
                        android:src="@mipmap/ic_attendance_sign_off"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -140,40 +147,18 @@
                   android:layout_marginStart="@dimen/padding_long"
                   android:layout_marginTop="@dimen/padding_bottom"
                   android:orientation="horizontal">
-        <RelativeLayout android:layout_width="0dp"
-                        android:layout_height="80dp"
+
+        <RelativeLayout android:id="@id/rl_work_recoder"
+                        android:layout_width="0dp"
+                        android:layout_height="90dp"
                         android:layout_weight="1"
-                        android:id="@id/rl_work_overtime"
-                        android:background="@color/white">
+                        android:background="@drawable/ic_white_shape_background"
+        >
             <ImageView android:id="@id/img_attendance"
                        android:layout_width="30dp"
                        android:layout_height="30dp"
                        android:layout_centerHorizontal="true"
-                       android:layout_marginTop="@dimen/padding_bottom"
-                       android:src="@mipmap/ic_attendance_work_overtime"/>
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@id/img_attendance"
-                      android:layout_centerHorizontal="true"
-                      android:layout_marginTop="@dimen/padding_short"
-                      android:text="加班考勤"
-                      android:textColor="@color/titleColor"
-                      android:textSize="@dimen/text_normal_size"/>
-
-
-        </RelativeLayout>
-        <RelativeLayout android:layout_width="0dp"
-                        android:layout_height="80dp"
-                        android:layout_marginLeft="@dimen/padding_bottom"
-                        android:layout_marginStart="@dimen/padding_bottom"
-                        android:layout_weight="1"
-                        android:id="@id/rl_work_recoder"
-                        android:background="@color/white">
-            <ImageView android:id="@id/img_attendance"
-                       android:layout_width="30dp"
-                       android:layout_height="30dp"
-                       android:layout_centerHorizontal="true"
-                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:layout_marginTop="@dimen/padding_long"
                        android:src="@mipmap/ic_attendance_work_recoder"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -185,6 +170,30 @@
                       android:textSize="@dimen/text_normal_size"/>
 
 
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/rl_work_overtime"
+                        android:layout_width="0dp"
+                        android:layout_height="90dp"
+                        android:layout_marginLeft="@dimen/padding_bottom"
+
+                        android:layout_marginStart="@dimen/padding_bottom"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_white_shape_background"
+                        android:visibility="invisible">
+            <ImageView android:id="@id/img_attendance"
+                       android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_long"
+                       android:src="@mipmap/ic_attendance_work_overtime"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/img_attendance"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginTop="@dimen/padding_short"
+                      android:text="加班考勤"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_normal_size"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

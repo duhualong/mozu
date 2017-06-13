@@ -485,5 +485,22 @@
     <item name="img_add_photo" type="id"/>
     <item name="rl_take_photo" type="id"/>
     <item name="et_input_work_content" type="id"/>
-    <item name="expendlistview" type="id"/>
+
+    <item name="expend_list_report" type="id"/>
+    <item name="checkbox_select_all" type="id"/>
+    <item name="rl_select_all" type="id"/>
+    <item name="item_checkbox_select_all" type="id"/>
+    <item name="tv_report_department" type="id"/>
+    <item name="item_checkbox_select_item" type="id"/>
+    <item name="item_report_name" type="id"/>
+    <item name="item_img_expend" type="id"/>
+    <item name="item_report_department" type="id"/>
+    <item name="tv_sel_rank" type="id"/>
+    <item name="btn_take_photo" type="id"/>
+    <item name="tv_position_name" type="id"/>
+    <item name="day_view" type="id"/>
+    <item name="tv_sign_state" type="id"/>
+    <item name="tv_state_des" type="id"/>
+    <item name="calendar_view" type="id"/>
+    <item name="tv_check_info" type="id"/>
 </resources>

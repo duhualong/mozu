@@ -28,7 +28,7 @@ public class RountingWorkActivity extends BaseActivity {
     @BindView(R.id.checkbox_attendance)CheckBox checkBoxAttendance;
     @BindView(R.id.tv_title)
     TextView title;
-
+    @BindView(R.id.tv_attendance)TextView tvAlert;
     @Override
     protected int getContentView() {
         return R.layout.activity_attendance_alert;
@@ -37,6 +37,7 @@ public class RountingWorkActivity extends BaseActivity {
     @Override
     protected void updateUI() {
         title.setText(R.string.routing_alert);
+        tvAlert.setText("开启巡检提醒");
     }
 
     @OnClick({R.id.img_back, R.id.checkbox_attendance, R.id.tv_save,

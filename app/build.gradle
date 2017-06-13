@@ -94,10 +94,14 @@ dependencies {
     //    周日历
     compile 'noman.weekcalendar:weekcalendar:1.0.6'
     compile 'com.github.loonggg:WeekCalendar:v1.4'
+
     //极光推送
     compile 'cn.jiguang.sdk:jpush:3.0.5'
     compile 'cn.jiguang.sdk:jcore:1.1.2'
     compile 'com.zhy:okhttputils:2.6.2'
     compile files('libs/AMap_Search_V5.1.0_20170517.jar')
     compile project(path: ':lib-calendar')
+    compile 'com.github.hotchemi:permissionsdispatcher:2.1.3'
+    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.3'
+
 }

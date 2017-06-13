@@ -134,7 +134,7 @@
                    android:layout_marginStart="@dimen/font_size_14sp"
                    android:background="@color/white"
                    android:scaleType="center"
-                   android:src="@mipmap/ic_upload_photo"
+                   android:src="@mipmap/ic_carmer_first"
                    android:visibility="visible"/>
         <ImageView android:id="@id/img_second"
                    android:layout_width="100dp"
@@ -143,7 +143,7 @@
                    android:layout_marginStart="@dimen/font_size_14sp"
                    android:background="@color/white"
                    android:scaleType="center"
-                   android:src="@mipmap/ic_home_module_casual"
+                   android:src="@mipmap/ic_carmer_first"
                    android:visibility="gone"/>
         <ImageView android:id="@id/img_third"
                    android:layout_width="100dp"
@@ -152,7 +152,7 @@
                    android:layout_marginStart="@dimen/font_size_14sp"
                    android:background="@color/white"
                    android:scaleType="center"
-                   android:src="@mipmap/ic_upload_photo"
+                   android:src="@mipmap/ic_carmer_first"
                    android:visibility="gone"
         />
     </LinearLayout>

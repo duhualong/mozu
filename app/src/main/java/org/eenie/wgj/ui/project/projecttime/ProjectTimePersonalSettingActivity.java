@@ -329,8 +329,6 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
             GroupViewHolder gvh;
-
-
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_expandable_listview, null);
                 gvh = new GroupViewHolder();
@@ -389,7 +387,10 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
             return false;
         }
 
-
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
         @Override
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                                  View convertView, ViewGroup parent) {
@@ -438,7 +439,6 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                     mData.get(groupPosition).getInfo().get(childPosition).setDay(String.valueOf(subDay));
                 }
 
-
             });
 
             return convertView;
@@ -452,10 +452,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
 
         }
 
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
-        }
+
     }
 
 }

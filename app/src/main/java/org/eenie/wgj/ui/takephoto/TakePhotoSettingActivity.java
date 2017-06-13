@@ -76,6 +76,7 @@ public class TakePhotoSettingActivity extends BaseActivity implements SwipeRefre
                 break;
 
             case R.id.img_add_photo:
+                startActivity(new Intent(context,AddTakePhotoActivity.class));
 
 
                 break;

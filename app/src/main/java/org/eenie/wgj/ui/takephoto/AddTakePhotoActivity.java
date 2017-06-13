@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,28 +16,14 @@ import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
-import org.eenie.wgj.data.remote.FileUploadService;
-import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.ImageUtils;
-import org.eenie.wgj.util.RxUtils;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -70,10 +55,6 @@ public class AddTakePhotoActivity extends BaseActivity {
     private String firstPath;
     private String secondPath;
     private String thirdPath;
-    private File firstFile;
-    private File secondFile;
-    private File thirdFile;
-    List<File> files = new ArrayList<>();
     @Override
     protected int getContentView() {
         return R.layout.activity_add_take_photo;
@@ -98,17 +79,14 @@ public class AddTakePhotoActivity extends BaseActivity {
             case R.id.tv_save:
                 if (!TextUtils.isEmpty(mTitleName)){
                     if (!TextUtils.isEmpty(mContent)){
-                        if (firstFile!=null){
-                            files.add(0,firstFile);
-                        }
-                        if (secondFile!=null){
-                            files.add(1,secondFile);
-                        }
-                        if (thirdFile!=null){
-                            files.add(2,thirdFile);
-                        }
-                        if (files!=null){
-                           startActivity(new Intent(context, SelectReportPeopleActivity.class));
+                        if (!TextUtils.isEmpty(firstPath)){
+                            Intent intent =new Intent(context,SelectReportPeopleActivity.class);
+                            intent.putExtra(SelectReportPeopleActivity.TITLE,mTitleName);
+                            intent.putExtra(SelectReportPeopleActivity.CONTENT,mContent);
+                            intent.putExtra(SelectReportPeopleActivity.FIRST_URL,firstPath);
+                            intent.putExtra(SelectReportPeopleActivity.SECOND_URL,secondPath);
+                            intent.putExtra(SelectReportPeopleActivity.THIRD_URL,thirdPath);
+                            startActivityForResult(intent,1);
 
                         }else {
                             Toast.makeText(context,"请至少上传一张图片",Toast.LENGTH_SHORT).show();
@@ -124,15 +102,6 @@ public class AddTakePhotoActivity extends BaseActivity {
                     Toast.makeText(context,"请输入标题",Toast.LENGTH_SHORT).show();
                 }
 
-
-
-
-
-//                ExchangeWorkList list=new ExchangeWorkList(1,"s","s",lists);
-//                Intent mIntent = new Intent();
-//                mIntent.putExtra("exchange_work", list);
-//                // 设置结果，并进行传送
-//                setResult(4,mIntent);
 
                 break;
             case R.id.img_first:
@@ -151,6 +120,7 @@ public class AddTakePhotoActivity extends BaseActivity {
                 break;
         }
     }
+
     private void showUploadDialog(int camera,int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -228,7 +198,7 @@ public class AddTakePhotoActivity extends BaseActivity {
 
                             });
                     firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    firstFile=new File(firstPath);
+                  //  firstFile=new File(firstPath);
 
 
 
@@ -251,7 +221,7 @@ public class AddTakePhotoActivity extends BaseActivity {
 
                             });
                     secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    secondFile=new File(secondPath);
+                    //secondFile=new File(secondPath);
 
 
                     break;
@@ -275,7 +245,7 @@ public class AddTakePhotoActivity extends BaseActivity {
 
                             });
                     thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    thirdFile=new File(thirdPath);
+                   //thirdFile=new File(thirdPath);
 
 
 
@@ -284,59 +254,14 @@ public class AddTakePhotoActivity extends BaseActivity {
                     break;
             }
         }
+        //回调结果
+        if (requestCode==1&&resultCode==4){
+            finish();
+
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void addData(RequestBody body, String token){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.DOMIN_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        FileUploadService userBiz = retrofit.create(FileUploadService.class);
 
-        Call<ApiResponse> call = userBiz.addShootPhotoItem(token,body);
-        call.enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                Log.d("tag:", "onResponse: "+response.code());
-                if (response.body().getResultCode()==200){
-                    //会调数据
-
-//                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
-//                Intent mIntent = new Intent();
-//                mIntent.putExtra("exchange_work", list);
-//                // 设置结果，并进行传送
-//                setResult(4,mIntent);
-                    Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
-
-                    Single.just("").delay(1, TimeUnit.SECONDS).
-                            compose(RxUtils.applySchedulers()).
-                            subscribe(s ->
-                                    finish()
-                            );
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-            }
-        });
-    }
-    public static MultipartBody getMultipartBody(List<File> files,String title,
-                                                 String content ){
-        MultipartBody.Builder builder=new MultipartBody.Builder();
-        for (int i=0;i<files.size();i++){
-            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
-            builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
-
-        }
-        builder.addFormDataPart("data","");
-
-        builder.setType(MultipartBody.FORM);
-        return builder.build();
-
-    }
 }

@@ -395,6 +395,15 @@ public interface RemoteService {
     //获取部门的人员
     @GET("readilyShootNumberlist")
     Single<ApiResponse>getShootNumber(@Header("token")String token);
+    //获取考勤班次
+    @GET("userSchedulingList")
+    Single<ApiResponse>getAttendanceList(@Header("token")String token,@Query("date")String date);
+    //获取当月每天的考勤情况
+    @GET("attendance/statistics")
+    Single<ApiResponse>getAttendanceDayOfMonth(@Header("token")String token,@Query("date")
+            String date,@Query("userid")int userId);
+
+
 
 
 

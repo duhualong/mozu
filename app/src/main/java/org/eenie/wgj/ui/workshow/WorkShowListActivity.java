@@ -84,6 +84,20 @@ public class WorkShowListActivity extends BaseActivity {
 
 
     }
+    @OnClick({R.id.img_back,R.id.img_add_show})public void onClick(View view){
+        switch (view.getId()){
+            case R.id.img_back:
+            onBackPressed();
+                break;
+            case R.id.img_add_show:
+                startActivity(new Intent(context,AddWorkShowActivity.class));
+
+                break;
+
+        }
+    }
+
+
 
     @Override
     public void onResume() {
@@ -152,8 +166,6 @@ public class WorkShowListActivity extends BaseActivity {
                                     if (myAdapter != null) {
                                         myAdapter.addAll(myWorkShowList);
                                     }
-
-
 
 
                                 }else {
@@ -229,20 +241,6 @@ public class WorkShowListActivity extends BaseActivity {
                     }
                 });
 
-    }
-
-    @OnClick({R.id.img_back, R.id.img_add_show})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.img_back:
-                onBackPressed();
-
-                break;
-            case R.id.img_add_show:
-                startActivity(new Intent(context,AddWorkShowActivity.class));
-
-                break;
-        }
     }
 
 

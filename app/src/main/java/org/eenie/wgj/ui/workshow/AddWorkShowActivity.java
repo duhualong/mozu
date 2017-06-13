@@ -87,6 +87,7 @@ public class AddWorkShowActivity extends BaseActivity {
 
 
 
+
     }
 
     @OnClick({R.id.img_back, R.id.tv_send, R.id.img_first, R.id.img_second, R.id.img_third})
@@ -311,7 +312,8 @@ public class AddWorkShowActivity extends BaseActivity {
         Gson gson=new Gson();
         MultipartBody.Builder builder=new MultipartBody.Builder();
         for (int i=0;i<files.size();i++){
-            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
+            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),
+                    files.get(i));
             builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
         }
         builder.addFormDataPart("data",gson.toJson(addWorkShow));

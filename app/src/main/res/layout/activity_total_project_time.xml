@@ -87,7 +87,7 @@
             android:background="@mipmap/ic_next_month"
         />
     </LinearLayout>
-    <com.squareup.timessquare.CalendarView android:id="@+id/calendar_view"
+    <com.squareup.timessquare.CalendarView android:id="@id/calendar_view"
                                            android:layout_width="match_parent"
                                            android:layout_height="wrap_content"
                                            app:ysquare_dividerColor="@color/white"

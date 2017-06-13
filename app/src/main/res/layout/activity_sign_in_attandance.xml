@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_light"
+    android:orientation="vertical"
+
+>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="签到"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
+        />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@id/tv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawableLeft="@mipmap/ic_sign_point"
+        android:drawableStart="@mipmap/ic_sign_point"
+        android:textSize="@dimen/text_large_size"
+        android:textColor="@color/black_light"
+        android:drawablePadding="@dimen/padding_bottom"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_bottom"
+        android:lines="2"
+        android:text="位置：永嘉路36号"
+    />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+    >
+        <com.amap.api.maps.MapView
+            android:id="@id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
+        </com.amap.api.maps.MapView>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:padding="@dimen/dp_10"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="选择考勤班次"
+                android:textColor="@color/black_light"
+                android:textSize="@dimen/text_large_size"
+            />
+            <TextView
+                android:id="@id/tv_sel_rank"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/dp_14"
+                android:layout_marginRight="@dimen/dp_14"
+                android:background="@mipmap/handover_edit_bg"
+                android:gravity="center"
+                android:text="选择班次"
+                android:textColor="@color/titleColor"
+                android:lines="1"
+                android:textSize="@dimen/text_large_size"/>
+        </RelativeLayout>
+        <Button
+            android:id="@id/btn_take_photo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="18dp"
+            android:background="@mipmap/bg_fetch_sms_code_button"
+            android:text="去拍照"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+
+</LinearLayout>

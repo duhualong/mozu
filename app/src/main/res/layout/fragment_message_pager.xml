@@ -49,7 +49,7 @@
             android:layout_marginLeft="@dimen/personal_padding"
             android:layout_marginRight="@dimen/personal_margin"
             android:layout_marginStart="@dimen/personal_padding"
-            android:src="@mipmap/ic_notice"
+            android:src="@mipmap/ic_notice_message"
         />
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"

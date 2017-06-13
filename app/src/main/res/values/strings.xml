@@ -176,5 +176,7 @@
     <string name="apply_time_work"><u>申请工时</u></string>
     <string name="add_round_line"><u>添加巡检线路</u></string>
 
-
+    <string name="look_error_labor">
+        <u>查看异常情况</u>
+    </string>
 </resources>
