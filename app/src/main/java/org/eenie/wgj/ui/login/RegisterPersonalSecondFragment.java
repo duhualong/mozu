@@ -24,7 +24,6 @@ import com.google.gson.Gson;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.EmergencyContactMod;
 import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.requset.ModifyInfo;
@@ -250,9 +249,7 @@ public class RegisterPersonalSecondFragment extends BaseFragment {
         ModifyInfo info = new ModifyInfo(height, educate, marry, address, contact, industry, skill,
                 channel);
         Log.d(TAG, "applyInformation: " + info);
-//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTQzODc3Mj" +
-//                "QsIm5iZiI6MTQ5NDM4NzcyNSwiZXhwIjoxNTI1NDkxNzI1LCJkYXRhIjp7ImlkIjo1MX1" +
-//                "9.b11u3hIOMu8swf6sVbKJZsYIsk8Zkw1ikXdPj7csLqk";
+
         mSubscription = mRemoteService.modifyInforById(mToken, info)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -269,7 +266,9 @@ public class RegisterPersonalSecondFragment extends BaseFragment {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+
+
                             joinCompany(mUserId, mCompanyId);
 
                         } else {
@@ -284,19 +283,14 @@ public class RegisterPersonalSecondFragment extends BaseFragment {
 
     private void joinCompany(int userId, int companyId) {
         JoinCompany joinCompany = new JoinCompany(userId, companyId);
-//
-//        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTQzODc3Mj" +
-//                "QsIm5iZiI6MTQ5NDM4NzcyNSwiZXhwIjoxNTI1NDkxNzI1LCJkYXRhIjp7ImlkIjo1MX1" +
-//                "9.b11u3hIOMu8swf6sVbKJZsYIsk8Zkw1ikXdPj7csLqk";
 
         mSubscription = mRemoteService.joinCompany(mToken, joinCompany)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NewResponse>() {
+                .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
-//                        Snackbar.make(rootView, "解析错误",
-//                                Snackbar.LENGTH_SHORT).show();
+
 
                     }
 
@@ -306,18 +300,17 @@ public class RegisterPersonalSecondFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(NewResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200) {
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             registerSuccessDialog();
 
                         } else {
-                            Snackbar.make(rootView, apiResponse.getResultMessage(),
-                                    Snackbar.LENGTH_SHORT).show();
+                            Toast.makeText(context, apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 });
-
 
     }
 
@@ -336,7 +329,6 @@ public class RegisterPersonalSecondFragment extends BaseFragment {
                     .replace(R.id.fragment_login_container,
                             new LoginFragment())
                     .commit();
-
 
         });
     }

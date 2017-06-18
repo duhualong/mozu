@@ -47,7 +47,7 @@ public class App extends Application {
     super.onCreate();
     mApplicationComponent = prepareApplicationComponent().build();
     mApplicationComponent.inject(this);
-    JPushInterface.setDebugMode(true);
+
     JPushInterface.init(this);
 
     sActivityStack = new Stack<>();

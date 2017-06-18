@@ -39,8 +39,6 @@ import permissions.dispatcher.RuntimePermissions;
 public abstract class BaseAttendanceActivity extends BaseActivity implements LocationSource,
         AMapLocationListener,
         AMap.OnMarkerClickListener {
-
-
     AMap mMap;
     //地图的UI
     UiSettings mMapUiSetting;
@@ -78,6 +76,9 @@ public abstract class BaseAttendanceActivity extends BaseActivity implements Loc
         mMapView.onCreate(savedInstanceState);
         mMap = mMapView.getMap();
         initMapSettingUI();
+
+       // startLocation();
+
         if (fetchLastLocation() != null) {
             LatLng latLng = new LatLng(fetchLastLocation().getLatitude(), fetchLastLocation().getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
@@ -144,7 +145,7 @@ public abstract class BaseAttendanceActivity extends BaseActivity implements Loc
             markerOptions.position(latLng);
             markerOptions.title("考勤点");
             markerOptions.snippet(info);
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_check_point_mark));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_attendance_point));
 
 
             mSignMarker = mMap.addMarker(markerOptions);
@@ -229,6 +230,8 @@ public abstract class BaseAttendanceActivity extends BaseActivity implements Loc
      */
     @NeedsPermission({Manifest.permission.ACCESS_COARSE_LOCATION})
     public void startLocation() {
+
+
         onLocationStart();
         mLocationClient.startLocation();
     }

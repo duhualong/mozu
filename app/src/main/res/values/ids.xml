@@ -503,4 +503,34 @@
     <item name="tv_state_des" type="id"/>
     <item name="calendar_view" type="id"/>
     <item name="tv_check_info" type="id"/>
+    <item name="date_background" type="id"/>
+    <item name="rl_attendance_error" type="id"/>
+    <item name="recycler_attendance_abnormal" type="id"/>
+    <item name="attendance_time" type="id"/>
+    <item name="attendance_time_scope" type="id"/>
+    <item name="abnormal_cause" type="id"/>
+    <item name="abnormal_cause_content" type="id"/>
+    <item name="attendance_address" type="id"/>
+    <item name="attendance_start_address" type="id"/>
+    <item name="attendance_end_cause" type="id"/>
+    <item name="attendance_end_cause_content" type="id"/>
+    <item name="attendance_end_address" type="id"/>
+    <item name="attendance_end_address_content" type="id"/>
+    <item name="activity_main" type="id"/>
+    <item name="btn_capture" type="id"/>
+    <item name="surface_camera" type="id"/>
+    <item name="date_title" type="id"/>
+    <item name="start_time" type="id"/>
+    <item name="end_time" type="id"/>
+    <item name="end_time_result" type="id"/>
+    <item name="start_time_result" type="id"/>
+    <item name="end_attendance_address" type="id"/>
+    <item name="start_attendance_address" type="id"/>
+    <item name="rl_attendance_info" type="id"/>
+    <item name="line_attendance_other" type="id"/>
+    <item name="activity_map" type="id"/>
+    <item name="rl_add_personal" type="id"/>
+    <item name="recycler_project_personal" type="id"/>
+    <item name="rl_set_project_personal" type="id"/>
+    <item name="recycler_add_personal" type="id"/>
 </resources>

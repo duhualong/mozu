@@ -31,6 +31,7 @@
         android:padding="@dimen/padding_bottom"
         android:text="Eenie | 保安经理 "
         android:textColor="@color/titleColor"
+        android:background="@color/white"
         android:textSize="16sp"/>
     <org.eenie.wgj.ui.attendance.SignCalendar android:id="@id/calendar_view"
                                               android:layout_width="match_parent"
@@ -39,14 +40,29 @@
                                               app:sign_dayTextColor="@drawable/sign_calendar_statistic_day_text_selector"
                                               app:sign_dividerColor="#ffffff">
     </org.eenie.wgj.ui.attendance.SignCalendar>
-    <TextView
-        android:id="@id/tv_check_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_margin="@dimen/padding_bottom"
-        android:text="@string/look_error_labor"
-        android:textColor="@color/text_red"
-    />
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:id="@id/rl_attendance_error"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:padding="@dimen/padding_bottom">
+        <TextView
+            android:id="@id/tv_check_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/look_error_labor"
+            android:textColor="@color/titleColor"
+            android:textSize="@dimen/text_large_size"
+
+        />
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:src="@mipmap/ic_arrow_right"/>
+
+    </RelativeLayout>
+
 
 </LinearLayout>

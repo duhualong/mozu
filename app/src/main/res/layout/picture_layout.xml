@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+>
+    <TextView
+        android:id="@+id/advance_edit_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="照片预览"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"/>
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:id="@+id/crop_picture_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"/>
+
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/advance_edit_dialog_cancel_button"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="10dp"
+            android:text="重拍"
+            android:textColor="@android:color/white"
+            android:background="@mipmap/bg_fetch_sms_code_button"/>
+
+        <Button
+            android:id="@+id/advance_edit_dialog_confirm_button"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:text="确定"
+            android:textColor="@android:color/white"
+            android:background="@mipmap/bg_fetch_sms_code_button"/>
+
+    </LinearLayout>
+
+</LinearLayout>

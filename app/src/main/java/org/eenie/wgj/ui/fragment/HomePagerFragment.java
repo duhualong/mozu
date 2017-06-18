@@ -31,8 +31,8 @@ public class HomePagerFragment extends BaseSupportFragment {
     R.mipmap.ic_inspection,R.mipmap.ic_inspection_statistics,
             R.mipmap.ic_training,R.mipmap.ic_training_statistics,
             R.mipmap.ic_submitted_post,R.mipmap.ic_submitted_post_statistics};
-    private Integer[] ids = {R.mipmap.home_banner_default_bg6, R.mipmap.home_banner_default_bg1,
-            R.mipmap.home_banner_default_bg2, R.mipmap.home_banner_default_bg3};
+    private Integer[] ids = {R.mipmap.ic_home_banner_one, R.mipmap.ic_home_banner_two,
+            R.mipmap.ic_home_banner_three, R.mipmap.home_banner_default_bg3};
     private Integer[]idBottom={R.mipmap.home_banner_default_bg4,R.mipmap.home_banner_default_bg5};
     @BindView(R.id.banner_top)
     BannerLayout bannerTop;

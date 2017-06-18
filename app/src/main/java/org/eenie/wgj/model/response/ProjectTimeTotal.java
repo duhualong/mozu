@@ -1,6 +1,6 @@
 package org.eenie.wgj.model.response;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Eenie on 2017/5/31 at 14:57
@@ -17,7 +17,7 @@ public class ProjectTimeTotal {
      */
 
     private HoursBean hours;
-    private List<PersonBean> person;
+    private ArrayList<PersonBean> person;
 
     public HoursBean getHours() {
         return hours;
@@ -27,11 +27,11 @@ public class ProjectTimeTotal {
         this.hours = hours;
     }
 
-    public List<PersonBean> getPerson() {
+    public ArrayList<PersonBean> getPerson() {
         return person;
     }
 
-    public void setPerson(List<PersonBean> person) {
+    public void setPerson(ArrayList<PersonBean> person) {
         this.person = person;
     }
 

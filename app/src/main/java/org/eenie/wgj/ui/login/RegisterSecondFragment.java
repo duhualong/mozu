@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +39,7 @@ import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.Infomation;
 import org.eenie.wgj.model.response.RegisterSuccessData;
+import org.eenie.wgj.ui.mytest.MyTestMain;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.PermissionManager;
@@ -46,11 +48,14 @@ import org.eenie.wgj.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
@@ -150,7 +155,9 @@ public class RegisterSecondFragment extends BaseFragment {
                 break;
 
             case R.id.btn_positive:
-                checkPermission(TAKE_PHOTO_REQUEST_ONE, REQUEST_CAMERA_PERMISSION);
+                //startActivityForResult(new Intent(context,MyTestMain.class),111);
+
+               checkPermission(TAKE_PHOTO_REQUEST_ONE, REQUEST_CAMERA_PERMISSION);
                 break;
 
             case R.id.btn_negative:
@@ -280,6 +287,21 @@ public class RegisterSecondFragment extends BaseFragment {
                                 }.getType());
 
                         Toast.makeText(context, "注册成功，请选择公司！", Toast.LENGTH_LONG).show();
+//                        Log.d("Token", "myToken: "+gson.toJson(data));
+//                        Log.d("token", "myTokens: "+data.getToken());
+
+                        Set<String> tags = new HashSet<>();
+                        tags.add(Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
+                        JPushInterface.setTags(context, tags, (i, s, set) -> {
+                            System.out.println("dddd:" + i);
+                            if (i == 0) {
+
+                                System.out.println("打印code" + i + "set:" + set);
+                            }else {
+//                                System.out.println("打印i:"+i);
+//                                System.out.println("tag:"+tags);
+                            }
+                        });
 
                         Single.just("").delay(2, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
                                 subscribe(s ->
@@ -328,14 +350,33 @@ public class RegisterSecondFragment extends BaseFragment {
             boolean hasPermission = PermissionManager.checkCameraPermission(context)
                     && PermissionManager.checkWriteExternalStoragePermission(context);
             if (hasPermission) {
-                startCapturePhoto(code);
+                switch (code){
+                    case TAKE_PHOTO_REQUEST_ONE:
+                        startActivityForResult(new Intent(context,MyTestMain.class),111);
+                        break;
+                    case TAKE_PHOTO_REQUEST_ONES:
+                        startActivityForResult(new Intent(context,MyTestMain.class),222);
+
+                        break;
+
+                }
+
+               // startCapturePhoto(code);
 
             } else {
                 showRequestPermissionDialog(permission);
             }
         } else {
-            startCapturePhoto(code);
+            switch (code){
+                case TAKE_PHOTO_REQUEST_ONE:
+                    startActivityForResult(new Intent(context,MyTestMain.class),111);
+                    break;
+                case TAKE_PHOTO_REQUEST_ONES:
+                    startActivityForResult(new Intent(context,MyTestMain.class),222);
 
+                    break;
+
+            }
         }
     }
 
@@ -386,7 +427,9 @@ public class RegisterSecondFragment extends BaseFragment {
                     }
                 }
                 if (isCanCapturePhoto) {
-                    startCapturePhoto(TAKE_PHOTO_REQUEST_ONE);
+                    startActivityForResult(new Intent(context,MyTestMain.class),111);
+
+                   // startCapturePhoto(TAKE_PHOTO_REQUEST_ONE);
                 } else {
                     Snackbar.make(rootView, "请完整的权限，以预览裁剪图片!", Snackbar.LENGTH_SHORT).show();
                 }
@@ -402,7 +445,9 @@ public class RegisterSecondFragment extends BaseFragment {
                     }
                 }
                 if (isCanCapturePhotos) {
-                    startCapturePhoto(TAKE_PHOTO_REQUEST_ONES);
+                   // startCapturePhoto(TAKE_PHOTO_REQUEST_ONES);
+                    startActivityForResult(new Intent(context,MyTestMain.class),222);
+
                 } else {
                     Snackbar.make(rootView, "请完整的权限，以预览裁剪图片!", Snackbar.LENGTH_SHORT).show();
                 }
@@ -423,8 +468,8 @@ public class RegisterSecondFragment extends BaseFragment {
     private void startCropImage(Uri resUri, int requestCode) {
         File cropFile = new File(context.getCacheDir(), "a.jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(3, 2)
-                .withMaxResultSize(positiveImg.getWidth(), positiveImg.getHeight())
+                .withAspectRatio(8, 5)
+                .withMaxResultSize(480, 300)
                 .start(context, this, requestCode);
     }
 
@@ -439,12 +484,37 @@ public class RegisterSecondFragment extends BaseFragment {
                 .build()
                 .compressToFile(file);
     }
+    public static Uri getImageContentUri(Context context, String filePath) {
 
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID }, MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            Uri baseUri = Uri.parse("content://media/external/images/media");
+            return Uri.withAppendedPath(baseUri, "" + id);
+        } else {
+
+                return null;
+
+        }
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
+                case 111:
+
+                    String url= data.getStringExtra("uri");
+
+                   startCropImage(Uri.parse(url),RESPONSE_CODE_POSITIVE);
+                    break;
+                case 222:
+                    String urls= data.getStringExtra("uri");
+                    startCropImage(Uri.parse(urls),RESPONSE_CODE_NEGIVITE);
+                    break;
                 case TAKE_PHOTO_REQUEST_ONE:
                     startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
 
@@ -460,7 +530,7 @@ public class RegisterSecondFragment extends BaseFragment {
 
                     Snackbar.make(rootView, "身份证正面上传成功！", Snackbar.LENGTH_LONG).show();
                     fileCardFront = new File(frontUrl);
-                    uploadFile(compressior(fileCardFront), 0);
+                    uploadFile(fileCardFront, 0);
 
                     new Thread() {
                         public void run() {
@@ -490,7 +560,7 @@ public class RegisterSecondFragment extends BaseFragment {
 
                     Snackbar.make(rootView, "身份证背面上传成功！", Snackbar.LENGTH_LONG).show();
                     fileCardBack = new File(backUrl);
-                    uploadFile(compressior(fileCardFront), 1);
+                    uploadFile(fileCardFront, 1);
 
                     new Thread() {
                         public void run() {

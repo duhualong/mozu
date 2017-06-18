@@ -20,6 +20,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        JPushInterface.setDebugMode(false);
+        JPushInterface.init(this);
         JPushInterface.resumePush(getApplicationContext());
         Fragment fragment = fragmentMgr.findFragmentById(R.id.fragment_login_container);
         if (fragment == null) {

@@ -3,8 +3,6 @@ package org.eenie.wgj.ui.attendance;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 /**
  * Created by Eenie on 2017/6/13 at 16:55
  * Email: 472279981@qq.com
@@ -13,24 +11,6 @@ import java.util.List;
 
 public class StatisticsInfoEntity {
 
-    private int resultCode;
-    private List<ResultMessageBean> resultMessage;
-
-    public int getResultCode() {
-        return resultCode;
-    }
-
-    public void setResultCode(int resultCode) {
-        this.resultCode = resultCode;
-    }
-
-    public List<ResultMessageBean> getResultMessage() {
-        return resultMessage;
-    }
-
-    public void setResultMessage(List<ResultMessageBean> resultMessage) {
-        this.resultMessage = resultMessage;
-    }
 
     public static class ResultMessageBean implements Parcelable {
         /**

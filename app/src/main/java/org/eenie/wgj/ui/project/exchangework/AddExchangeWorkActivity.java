@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +24,7 @@ import org.eenie.wgj.model.requset.ExchangeWorkList;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
+import org.eenie.wgj.util.PhotoUtil;
 import org.eenie.wgj.util.RxUtils;
 
 import java.io.File;
@@ -31,7 +33,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,6 +46,8 @@ import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static org.eenie.wgj.R.id.tv_camera_personal;
+
 /**
  * Created by Eenie on 2017/5/21 at 14:23
  * Email: 472279981@qq.com
@@ -52,15 +55,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class AddExchangeWorkActivity extends BaseActivity {
-    private static final int REQUEST_CAMERA_FIRST=0x101;
-    private static final int REQUEST_CAMERA_SECOND=0x102;
-    private static final int REQUEST_CAMERA_THIRD=0x103;
-    private static final int REQUEST_PHOTO_FIRST=0x104;
-    private static final int REQUEST_PHOTO_SECOND=0x105;
-    private static final int REQUEST_PHOTO_THIRD=0x106;
-    private static final int RESPONSE_CODE_FIRST=0x107;
-    private static final int RESPONSE_CODE_SECOND=0x108;
-    private static final int RESPONSE_CODE_THIRD=0x109;
+    private static final int REQUEST_CAMERA_FIRST=11;
+    private static final int REQUEST_CAMERA_SECOND=12;
+    private static final int REQUEST_CAMERA_THIRD=13;
+    private static final int REQUEST_PHOTO_FIRST=14;
+    private static final int REQUEST_PHOTO_SECOND=15;
+    private static final int REQUEST_PHOTO_THIRD=16;
+    private static final int RESPONSE_CODE_FIRST=17;
+    private static final int RESPONSE_CODE_SECOND=18;
+    private static final int RESPONSE_CODE_THIRD=19;
     public static final String INFO = "info";
     public static final String PROJECT_ID = "id";
     @BindView(R.id.root_view)
@@ -71,13 +74,19 @@ public class AddExchangeWorkActivity extends BaseActivity {
     EditText mInputTitle;
     @BindView(R.id.et_input_exchange_work_content)
     EditText mInputContent;
-    @BindViews({R.id.img_first, R.id.img_second, R.id.img_third})
-    List<ImageView> imgList;
+
+    @BindView(R.id.img_first)ImageView imgFist;
+    @BindView(R.id.img_second)ImageView imgSecond;
+    @BindView(R.id.img_third)ImageView imgThird;
+
     private int mId;
     private String mProjectId;
     private String mTitleName;
     private String mContent;
     private Uri mImageUri;
+    private Uri mSecondUri;
+    private Uri mThirdUri;
+    private Uri mFirstUri;
     private String firstPath;
     private String secondPath;
     private String thirdPath;
@@ -109,7 +118,6 @@ public class AddExchangeWorkActivity extends BaseActivity {
             case R.id.tv_save:
                 if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName))
 
-
                     if (firstFile!=null){
                         files.add(0,firstFile);
                     }
@@ -130,14 +138,6 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 }
 
 
-
-
-//                ExchangeWorkList list=new ExchangeWorkList(1,"s","s",lists);
-//                Intent mIntent = new Intent();
-//                mIntent.putExtra("exchange_work", list);
-//                // 设置结果，并进行传送
-//                setResult(4,mIntent);
-
                 break;
             case R.id.img_first:
                 showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
@@ -155,6 +155,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 break;
         }
     }
+
     private void showUploadDialog(int camera,int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -162,12 +163,14 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 .setView(view) //自定义的布局文件
                 .create();
         dialog.show();
-        dialog.getWindow().findViewById(R.id.tv_camera_personal).setOnClickListener(v -> {
+        dialog.getWindow().findViewById(tv_camera_personal).setOnClickListener(v -> {
             dialog.dismiss();
             showPhotoSelectDialog(camera);
+           // startCapturePhoto(camera);
 
 
         });
+
         dialog.getWindow().findViewById(R.id.tv_photo_personal).setOnClickListener(v -> {
             dialog.dismiss();
             startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"),
@@ -178,11 +181,39 @@ public class AddExchangeWorkActivity extends BaseActivity {
     }
 
     private void showPhotoSelectDialog(int camera) {
-        mImageUri = createImageUri(context);
-        Intent intent = new Intent();
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
-        startActivityForResult(intent, camera);
+        switch (camera){
+            case REQUEST_CAMERA_FIRST:
+                mFirstUri = createImageUri(context);
+                Intent intent = new Intent();
+                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, mFirstUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
+                startActivityForResult(intent, camera);
+
+                break;
+            case REQUEST_CAMERA_SECOND:
+                mSecondUri = createImageUri(context);
+                Intent intents = new Intent();
+                intents.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                intents.putExtra(MediaStore.EXTRA_OUTPUT, mSecondUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
+                startActivityForResult(intents, camera);
+
+
+                break;
+
+            case REQUEST_CAMERA_THIRD:
+                mThirdUri = createImageUri(context);
+                Intent intentes = new Intent();
+                intentes.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                intentes.putExtra(MediaStore.EXTRA_OUTPUT, mThirdUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
+                startActivityForResult(intentes, camera);
+                break;
+
+
+
+        }
+
+
+
     }
 
     private static Uri createImageUri(Context context) {
@@ -207,53 +238,76 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 .withAspectRatio(1, 1)
                 .withMaxResultSize(100, 100)
                 .start(AddExchangeWorkActivity.this, requestCode);
+
+
+
     }
+
+
+
+    /**
+     * 调用系统相机
+     */
+    private void startCapturePhoto(int requestCode) {
+        File photoFile = PhotoUtil.createImageFile();
+        boolean isCanCapturePhoto = PhotoUtil.isCanCapturePhoto(context, photoFile);
+        if (isCanCapturePhoto) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+           Uri mPhotoUri = Uri.fromFile(photoFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri);
+            startActivityForResult(intent, requestCode);
+        } else {
+            Snackbar.make(rootView, "您的手机暂不支持相机拍摄，请选择相册图片！", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK ) {
 
             switch (requestCode) {
                 case REQUEST_CAMERA_FIRST:
-                    startCropImage(mImageUri, RESPONSE_CODE_FIRST);
+                    startCropImage(mFirstUri, RESPONSE_CODE_FIRST);
 
                     break;
                 case REQUEST_PHOTO_FIRST:
                     startCropImage(data.getData(), RESPONSE_CODE_FIRST);
                     break;
                 case RESPONSE_CODE_FIRST:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgFist))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
-                                imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
-                                imgList.get(0).setImageBitmap(bitmap);
-                                imgList.get(1).setVisibility(View.VISIBLE);
+                                imgFist.setScaleType(ImageView.ScaleType.FIT_XY);
+                                imgFist.setImageBitmap(bitmap);
+                                imgSecond.setVisibility(View.VISIBLE);
 
                             });
                     firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     firstFile=new File(firstPath);
 
-
-
                     break;
                 case REQUEST_CAMERA_SECOND:
-                    startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    startCropImage(mSecondUri, RESPONSE_CODE_SECOND);
+                    break;
 
                 case REQUEST_PHOTO_SECOND:
                     startCropImage(data.getData(), RESPONSE_CODE_SECOND);
                     break;
 
                 case RESPONSE_CODE_SECOND:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgSecond))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
-                                imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
-                                imgList.get(1).setImageBitmap(bitmap);
-                                imgList.get(2).setVisibility(View.VISIBLE);
+                                imgSecond.setScaleType(ImageView.ScaleType.FIT_XY);
+                                imgSecond.setImageBitmap(bitmap);
+                               imgThird.setVisibility(View.VISIBLE);
 
                             });
+
                     secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     secondFile=new File(secondPath);
 
@@ -261,21 +315,19 @@ public class AddExchangeWorkActivity extends BaseActivity {
                     break;
 
                 case REQUEST_CAMERA_THIRD:
-                    startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+                    startCropImage(mThirdUri, RESPONSE_CODE_THIRD);
+                    break;
 
                 case REQUEST_PHOTO_THIRD:
                     startCropImage(data.getData(), RESPONSE_CODE_THIRD);
                     break;
-
-
                 case RESPONSE_CODE_THIRD:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),imgThird))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
-                                imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
-                                imgList.get(2).setImageBitmap(bitmap);
-
+                                imgThird.setScaleType(ImageView.ScaleType.FIT_XY);
+                                imgThird.setImageBitmap(bitmap);
 
                             });
                     thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -290,6 +342,15 @@ public class AddExchangeWorkActivity extends BaseActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    private void fitImageHolder(Intent intent, ImageView imageHolder) {
+        Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(intent), imageHolder))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(imageHolder::setImageBitmap);
+    }
+
+
 
     private void addData(RequestBody body, String token){
         Retrofit retrofit = new Retrofit.Builder()

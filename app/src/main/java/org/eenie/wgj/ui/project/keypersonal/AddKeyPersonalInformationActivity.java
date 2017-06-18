@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.text.method.ReplacementTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -298,6 +299,8 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
         EditText etDialog = (EditText) view.findViewById(R.id.et_input_content);
         etDialog.setHint("请输入车牌号");
         dialogTitle.setText("设置车牌号");
+        etDialog.setTransformationMethod((new AllCapTransformationMethod ()));
+
         if (!TextUtils.isEmpty(mCarNumber)) {
             etDialog.setText(mCarNumber);
         }
@@ -323,6 +326,23 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
             }
 
         });
+
+    }
+    public class AllCapTransformationMethod extends ReplacementTransformationMethod {
+
+        @Override
+        protected char[] getOriginal() {
+            char[] aa = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m',
+                    'n','o','p','q','r','s','t','u','v','w','x','y','z' };
+            return aa;
+        }
+
+        @Override
+        protected char[] getReplacement() {
+            char[] cc = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N',
+                    'O','P','Q','R','S','T','U','V','W','X','Y','Z' };
+            return cc;
+        }
 
     }
 

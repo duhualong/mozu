@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 
 import org.eenie.wgj.model.Api;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.AddArrangeClass;
 import org.eenie.wgj.model.requset.AddKeyPersonalInformation;
 import org.eenie.wgj.model.requset.AddProjectDay;
@@ -14,6 +13,7 @@ import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.BuildNewProject;
 import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.requset.ClassMeetingRequest;
+import org.eenie.wgj.model.requset.CompanyPersonalRequest;
 import org.eenie.wgj.model.requset.CreataCompanyRequest;
 import org.eenie.wgj.model.requset.GiveBirthday;
 import org.eenie.wgj.model.requset.JoinCompany;
@@ -26,7 +26,6 @@ import org.eenie.wgj.model.requset.RoundPointRequest;
 import org.eenie.wgj.model.requset.UpdateRoundPoint;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceDay;
-import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.ShootList;
 
 import java.io.File;
@@ -151,7 +150,7 @@ public interface RemoteService {
 
     //创建公司
     @POST("company/create")
-    Single<MApi>
+    Single<ApiResponse>
     createCompany(@Header("token") String token, @Body CreataCompanyRequest creataCompanyRequest);
 
     //获取所有公司列表
@@ -164,7 +163,7 @@ public interface RemoteService {
 
     //加入公司
     @POST("company/join")
-    Single<NewResponse> joinCompany(@Header("token") String token, @Body JoinCompany joinCompany);
+    Single<ApiResponse> joinCompany(@Header("token") String token, @Body JoinCompany joinCompany);
 
     //查询加入申请公司状态
     @POST("user/apply")
@@ -253,6 +252,10 @@ public interface RemoteService {
 
     //考勤添加编辑
     @POST("attendanceUpdate")
+    Single<ApiResponse> UpdateAttendanceDaySetting(@Header("token") String token, @Body AttendanceDay request);
+
+    //添加接口
+    @POST("attendanceAdd")
     Single<ApiResponse> addAttendanceDaySetting(@Header("token") String token, @Body AttendanceDay request);
 
     //岗位设置
@@ -298,9 +301,10 @@ public interface RemoteService {
     //巡检点删除
     @GET("inspectionpointsDelete")
     Single<ApiResponse> deleteRoundPointItem(@Header("token") String token, @Query("id") int id);
+
     //更新巡检点
     @POST("inspectionpointsUpdate")
-    Single<ApiResponse>updateRoundItem(@Header("token")String token, @Body
+    Single<ApiResponse> updateRoundItem(@Header("token") String token, @Body
             UpdateRoundPoint updateRoundPoint);
 
     //巡检路线
@@ -352,7 +356,6 @@ public interface RemoteService {
     @GET("personalHours/UserList")
     Single<ApiResponse> getProjectTime(@Header("token") String token, @Query("date") String date,
                                        @Query("projectid") String projectId);
-
     //获取每月每天设置的项目工时
     @GET("hoursList")
     Single<ApiResponse> getMonthDayTime(@Header("token") String token, @Query("date") String date,
@@ -370,44 +373,73 @@ public interface RemoteService {
     @POST("personalHoursAdd")
     Single<ApiResponse> addPersonalProjectDay(@Header("token") String token, @Body
             AddProjectDay request);
+
     //获取当月工时
     @GET("personalHoursList")
-    Single<ApiResponse>getMonthDay(@Header("token")String token,@Query("date")String date,
-                                   @Query("projectid")String projectId);
+    Single<ApiResponse> getMonthDay(@Header("token") String token, @Query("date") String date,
+                                    @Query("projectid") String projectId);
 
-   //排班设置列表
+    //排班设置列表
     @GET("schedulingList")
-   Single<ApiResponse>getArrangeClassList(@Header("token")String token,@Query("date")String date,
-                                       @Query("projectid")String projectId);
+    Single<ApiResponse> getArrangeClassList(@Header("token") String token, @Query("date") String date,
+                                            @Query("projectid") String projectId);
+
     //排班设置添加
     @POST("schedulingAdd")
-    Single<ApiResponse>addArrangeClassItem(@Header("token")String token, @Body AddArrangeClass
+    Single<ApiResponse> addArrangeClassItem(@Header("token") String token, @Body AddArrangeClass
             addArrangeClass);
+
     //工作秀列表
     @GET("workshowList")
-    Single<ApiResponse> getWorkShowList(@Header("token")String token);
+    Single<ApiResponse> getWorkShowList(@Header("token") String token);
+
     //点赞工作秀
     @GET("workshowLike")
-    Single<ApiResponse> thumbUp(@Header("token")String token,@Query("workshowid")int id);
+    Single<ApiResponse> thumbUp(@Header("token") String token, @Query("workshowid") int id);
+
     //随手拍列表
     @GET("readilyShootList")
-    Single<ApiResponse> getTakePhoto(@Header("token")String token);
+    Single<ApiResponse> getTakePhoto(@Header("token") String token);
+
     //获取部门的人员
     @GET("readilyShootNumberlist")
-    Single<ApiResponse>getShootNumber(@Header("token")String token);
+    Single<ApiResponse> getShootNumber(@Header("token") String token);
+
     //获取考勤班次
     @GET("userSchedulingList")
-    Single<ApiResponse>getAttendanceList(@Header("token")String token,@Query("date")String date);
+    Single<ApiResponse> getAttendanceList(@Header("token") String token, @Query("date") String date);
+
     //获取当月每天的考勤情况
     @GET("attendance/statistics")
-    Single<ApiResponse>getAttendanceDayOfMonth(@Header("token")String token,@Query("date")
-            String date,@Query("userid")int userId);
+    Single<ApiResponse> getAttendanceDayOfMonth(@Header("token") String token, @Query("date")
+            String date, @Query("userid") String userId);
+
+    //获取当天的考勤地点和范围
+    @GET("check/attendanceList")
+    Single<ApiResponse> getAttendanceAddress(@Header("token") String token);
+
+    //获取项目总工时
+    @GET("project_total_hours_per_month")
+    Single<ApiResponse> getProjectTotalTime(@Header("token") String token, @Query("projectid")
+            String projectId, @Query("date") String date);
+
+    @GET("project_person_lists")
+    Single<ApiResponse> getCompanyPersonalListAll(@Header("token") String token,
+                                                  @Query("companyid") String companyId,
+                                                  @Query("projectid") String projectId);
+
+    //添加项目下的人员
+    @POST("project_person_add")
+    Single<ApiResponse> addProjectPersonal(@Header("token")String token,
+                                           @Body CompanyPersonalRequest request);
+    //删除项目下的人员
+    @POST("project_person_del")
+    Single<ApiResponse> deleteProjectPersonal(@Header("token")String token,
+                                              @Body CompanyPersonalRequest request);
 
 
 
-
-
-
+    //获取个人考勤情况
     class Creator {
 
         @Inject

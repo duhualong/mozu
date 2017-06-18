@@ -3,6 +3,7 @@ package org.eenie.wgj.ui.attendance;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,7 +14,9 @@ import com.loonggg.weekcalendar.view.WeekCalendar;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceListResponse;
+import org.eenie.wgj.model.response.UserInforById;
 import org.eenie.wgj.util.Constants;
 
 import java.text.SimpleDateFormat;
@@ -38,7 +41,19 @@ public class AttendanceActivity extends BaseActivity {
     WeekCalendar mWeekCalendar;
     @BindView(R.id.title_attendance)
     TextView mTitle;
+    @BindView(R.id.attendance_name)TextView attendanceName;
     private Gson gson = new Gson();
+    private   String username;
+    private  ArrayList<AttendanceListResponse> attendanceResponse=new ArrayList<>();
+    @BindView(R.id.rl_attendance_info)RelativeLayout rlAttendanceInfo;
+    @BindView(R.id.date_title)TextView tvDateTitle;
+    @BindView(R.id.start_time)TextView tvStartTime;
+    @BindView(R.id.end_time)TextView tvEndTime;
+    @BindView(R.id.start_time_result)TextView tvStartTimeAttendance;
+    @BindView(R.id.end_time_result)TextView tvEndTimeAttendance;
+    @BindView(R.id.start_attendance_address)TextView tvStartAttendanceAddress;
+    @BindView(R.id.end_attendance_address)TextView tvEndAttendanceAddress;
+
 
     @Override
     protected int getContentView() {
@@ -47,24 +62,124 @@ public class AttendanceActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        mTitle.setText(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
+        getUserInfo();
+        mTitle.setText(new SimpleDateFormat("yyyy年MM月").format(Calendar.getInstance().getTime()));
+        mWeekCalendar.showToday();
         getAttendanceList(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
 
-//        if (mWeekCalendar.showToday()) {
-//
-//            System.out.println("sss");
-//
-//        }
-//点击当前日期time：2017-05-18
-        mWeekCalendar.setOnDateClickListener(time ->
-                Toast.makeText(context, time, Toast.LENGTH_SHORT).show());
-
+        mWeekCalendar.setOnDateClickListener(this::showAttendanceInfo
+        );
         mWeekCalendar.setOnCurrentMonthDateListener((year, month) -> {
             mTitle.setText(year + "年" + month + "月");
         });
 
+    }
+
+    private void showAttendanceInfo(String date) {
+        System.out.println("data"+date);
+        Log.d("list", "showAttendanceInfo: "+gson.toJson(attendanceResponse));
+        if (attendanceResponse!=null){
+            boolean result=false;
+            int position=0;
+            for (int j=0;j<attendanceResponse.size();j++){
+               if (date.equals(attendanceResponse.get(j).getDay())){
+                   result=true;
+                   position=j;
+               }
+            }
+
+                if (result){
+                    AttendanceListResponse attendanceData= attendanceResponse.get(position);
+                    Log.d("TAG", "showAttendanceInfo: "+gson.toJson(attendanceData));
+                    rlAttendanceInfo.setVisibility(View.VISIBLE);
+                    if (attendanceData!=null){
+                        String startTime="08:30";
+                        String endTime="18:30";
+                        if (attendanceData.getService().getStarttime()!=null){
+
+                            if (attendanceData.getService().getStarttime().length()>5){
+                                startTime=attendanceData.getService().getStarttime().substring(0,5);
+
+                            }else {
+                                startTime=attendanceData.getService().getStarttime();
+
+                            }
+                        }
+                        if (attendanceData.getService().getEndtime()!=null){
+                            if (attendanceData.getService().getEndtime().length()>5){
+                                endTime=attendanceData.getService().getEndtime().substring(0,5);
+                            }else {
+                                endTime=attendanceData.getService().getEndtime();
+                            }
+                        }
+                        tvDateTitle.setText(date+" "+"考勤详情   "+
+                                startTime+
+                                "-"+endTime);
+                        if (attendanceData.getCheckin().getTime()!=null){
+                            tvStartTime.setText("上班时间："+
+                                    attendanceData.getCheckin().getTime());
+                        } else {
+                            tvStartTime.setText("上班时间：");
+                        }
+                        if (attendanceData.getCheckin().getAttendance()!=null){
+                            tvStartTimeAttendance.setText("考勤情况："+
+                                    attendanceData.getCheckin().getAttendance());
+                        }else {
+                            tvStartTimeAttendance.setText("考勤情况：");
+                        }
+
+                        if (attendanceData.getCheckin().getAddress()!=null){
+                            tvStartAttendanceAddress.setText("地址："+
+                                    attendanceData.getCheckin().getAddress());
+                        }else {
+                            tvStartAttendanceAddress.setText("地址：");
+
+                        }
+
+
+                        if (attendanceData.getSignback().getTime()!=null){
+                            tvEndTime.setText("上班时间："+
+                                    attendanceData.getSignback().getTime());
+                        }else {
+                            tvEndTime.setText("上班时间：");
+                        }
+
+                        if (attendanceData.getSignback().getAttendance()!=null){
+                            tvEndTimeAttendance.setText("考勤情况："+
+                                    attendanceData.getSignback().getAttendance());
+                        }else {
+                            tvEndTimeAttendance.setText("考勤情况：");
+                        }
+                        if (attendanceData.getSignback().getAddress()!=null){
+                            tvEndAttendanceAddress.setText("地址："+
+                                    attendanceData.getSignback().getAddress());
+
+                        }else {
+                            tvEndAttendanceAddress.setText("地址：");
+
+                        }
+
+                    }else {
+                        rlAttendanceInfo.setVisibility(View.GONE);
+                        Toast.makeText(context,"今天暂无考勤信息",Toast.LENGTH_LONG).show();
+                    }
+
+                }else {
+                    rlAttendanceInfo.setVisibility(View.GONE);
+                    Toast.makeText(context,"今天暂无考勤信息",Toast.LENGTH_LONG).show();
+
+                }
+
+
+
+        }else {
+            rlAttendanceInfo.setVisibility(View.GONE);
+            Toast.makeText(context,"没有考勤信息",Toast.LENGTH_SHORT).show();
+        }
+
 
     }
+
 
     private void getAttendanceList(String time) {
         mSubscription = mRemoteService.getAttendanceList(
@@ -88,10 +203,11 @@ public class AttendanceActivity extends BaseActivity {
                                 apiResponse.getResultCode() == 0) {
                             if (apiResponse.getData() != null) {
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                               ArrayList<AttendanceListResponse> attendanceResponse =
+                            attendanceResponse =
                                         gson.fromJson(jsonArray,
                                                 new TypeToken<ArrayList<AttendanceListResponse>>() {
                                                 }.getType());
+
 
                                 List<String> list = new ArrayList<>();
                                 if (attendanceResponse!=null){
@@ -117,19 +233,69 @@ public class AttendanceActivity extends BaseActivity {
     }
 
     @OnClick({R.id.img_back, R.id.rl_sign_in, R.id.rl_sign_off, R.id.rl_work_overtime,
-            R.id.rl_work_recoder})
+            R.id.rl_work_recoder,R.id.line_attendance_other,R.id.rl_attendance_info})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_attendance_info:
+                if (rlAttendanceInfo.getVisibility()==View.VISIBLE){
+                    rlAttendanceInfo.setVisibility(View.GONE);
+                }
+
+                break;
+            case R.id.line_attendance_other:
+                if (rlAttendanceInfo.getVisibility()==View.VISIBLE){
+                    rlAttendanceInfo.setVisibility(View.GONE);
+                }
+
+
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.rl_sign_in:
+              String todayDate=
+                      new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                boolean select=false;
+                int position=0;
+                if (attendanceResponse!=null){
+                    for (int i=0;i<attendanceResponse.size();i++){
+                        if (todayDate.equals(attendanceResponse.get(i).getDay())){
+                            select=true;
+                            position=i;
+                            Log.d("tick", "onClick: "+gson.toJson(attendanceResponse.get(i)));
+                        }
+                    }
+                    if (select){
+                        if (attendanceResponse.get(position).getCheckin().getTime()!=null){
+                            Toast.makeText(context,"今日已过签到",Toast.LENGTH_SHORT).show();
+
+                        }else {
+                            startActivity(new Intent(context,AttendanceTestSignInActivity.class)
+                            .putExtra(AttendanceTestSignInActivity.INFO,
+                                    attendanceResponse.get(position)));
+                        }
+
+
+
+                    }else {
+                        Toast.makeText(context,"今日无考勤,无需签到",Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+                }else {
+                    Toast.makeText(context,"本月无考勤",Toast.LENGTH_SHORT).show();
+                }
+
+
+
 
 
                 break;
 
             case R.id.rl_sign_off:
-
+                //startActivity(new Intent(context,MyTestMain.class));
 
                 break;
 
@@ -138,10 +304,47 @@ public class AttendanceActivity extends BaseActivity {
 
                 break;
             case R.id.rl_work_recoder:
-                startActivity(new Intent(context,AttendanceRecordActivity.class));
-
+                startActivity(new Intent(context,AttendanceRecordActivity.class).putExtra(
+                        AttendanceRecordActivity.USER_NAME,username));
 
                 break;
         }
     }
+
+
+    private void getUserInfo() {
+        UserId mUser = new UserId(mPrefsHelper.getPrefs().getString(Constants.UID, ""));
+        mSubscription = mRemoteService.getUserInfoById(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN,""), mUser)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(apiResponse.getData());
+                        UserInforById mData = gson.fromJson(jsonArray,
+                                new TypeToken<UserInforById>() {
+                                }.getType());
+                        if (mData != null) {
+                            username=mData.getName();
+                            attendanceName.setText(username);
+                        }
+                    }
+                });
+
+    }
+
+
+
 }

@@ -84,7 +84,6 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
         mRecyclerView.setAdapter(mProjectAdapter);
         checkPermission();
 
-
     }
 
     @OnClick({R.id.img_back, R.id.tv_new_rebuild})

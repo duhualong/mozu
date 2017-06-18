@@ -51,15 +51,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class RoundPointAddActivity extends BaseActivity {
-    private static final int REQUEST_CAMERA_FIRST=0x101;
-    private static final int REQUEST_CAMERA_SECOND=0x102;
-    private static final int REQUEST_CAMERA_THIRD=0x103;
-    private static final int REQUEST_PHOTO_FIRST=0x104;
-    private static final int REQUEST_PHOTO_SECOND=0x105;
-    private static final int REQUEST_PHOTO_THIRD=0x106;
-    private static final int RESPONSE_CODE_FIRST=0x107;
-    private static final int RESPONSE_CODE_SECOND=0x108;
-    private static final int RESPONSE_CODE_THIRD=0x109;
+    private static final int REQUEST_CAMERA_FIRST = 0x101;
+    private static final int REQUEST_CAMERA_SECOND = 0x102;
+    private static final int REQUEST_CAMERA_THIRD = 0x103;
+    private static final int REQUEST_PHOTO_FIRST = 0x104;
+    private static final int REQUEST_PHOTO_SECOND = 0x105;
+    private static final int REQUEST_PHOTO_THIRD = 0x106;
+    private static final int RESPONSE_CODE_FIRST = 0x107;
+    private static final int RESPONSE_CODE_SECOND = 0x108;
+    private static final int RESPONSE_CODE_THIRD = 0x109;
     public static final String PROJECT_ID = "id";
     @BindView(R.id.root_view)
     View rootView;
@@ -80,6 +80,7 @@ public class RoundPointAddActivity extends BaseActivity {
     private File secondFile;
     private File thirdFile;
     List<File> files = new ArrayList<>();
+
     @Override
     protected int getContentView() {
         return R.layout.activity_round_point_edit;
@@ -95,36 +96,34 @@ public class RoundPointAddActivity extends BaseActivity {
     @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
     public void onClick(View view) {
         mContent = mInputContent.getText().toString();
-        mTitleName=mInputTitle.getText().toString();
+        mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.tv_save:
-                if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName))
+                if (!TextUtils.isEmpty(mContent) && !TextUtils.isEmpty(mTitleName))
 
 
-                    if (firstFile!=null){
-                        files.add(0,firstFile);
+                    if (firstFile != null) {
+                        files.add(0, firstFile);
                     }
-                if (secondFile!=null){
-                    files.add(1,secondFile);
+                if (secondFile != null) {
+                    files.add(1, secondFile);
                 }
-                if (thirdFile!=null){
-                    files.add(2,thirdFile);
+                if (thirdFile != null) {
+                    files.add(2, thirdFile);
                 }
-                if (files!=null){
+                if (files != null) {
                     new Thread() {
                         public void run() {
-                            addData(getMultipartBody(files,mProjectId,mTitleName,mContent),
-                                    mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
+                            addData(getMultipartBody(files, mProjectId, mTitleName, mContent),
+                                    mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
                         }
                     }.start();
 
                 }
-
-
 
 
 //                ExchangeWorkList list=new ExchangeWorkList(1,"s","s",lists);
@@ -135,22 +134,23 @@ public class RoundPointAddActivity extends BaseActivity {
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
 
                 break;
         }
     }
-    private void showUploadDialog(int camera,int photo) {
+
+    private void showUploadDialog(int camera, int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
@@ -217,7 +217,8 @@ public class RoundPointAddActivity extends BaseActivity {
                     startCropImage(data.getData(), RESPONSE_CODE_FIRST);
                     break;
                 case RESPONSE_CODE_FIRST:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),
+                            imgList.get(0)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
@@ -226,21 +227,22 @@ public class RoundPointAddActivity extends BaseActivity {
                                 imgList.get(1).setVisibility(View.VISIBLE);
 
                             });
-                    firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    firstFile=new File(firstPath);
-
+                    firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    firstFile = new File(firstPath);
 
 
                     break;
                 case REQUEST_CAMERA_SECOND:
                     startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    break;
 
                 case REQUEST_PHOTO_SECOND:
                     startCropImage(data.getData(), RESPONSE_CODE_SECOND);
                     break;
 
                 case RESPONSE_CODE_SECOND:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),
+                            imgList.get(1)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
@@ -249,22 +251,23 @@ public class RoundPointAddActivity extends BaseActivity {
                                 imgList.get(2).setVisibility(View.VISIBLE);
 
                             });
-                    secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    secondFile=new File(secondPath);
+                    secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    secondFile = new File(secondPath);
 
 
                     break;
 
                 case REQUEST_CAMERA_THIRD:
                     startCropImage(mImageUri, RESPONSE_CODE_THIRD);
-
+                    break;
                 case REQUEST_PHOTO_THIRD:
                     startCropImage(data.getData(), RESPONSE_CODE_THIRD);
                     break;
 
 
                 case RESPONSE_CODE_THIRD:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),
+                            imgList.get(2)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
@@ -273,9 +276,8 @@ public class RoundPointAddActivity extends BaseActivity {
 
 
                             });
-                    thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    thirdFile=new File(thirdPath);
-
+                    thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    thirdFile = new File(thirdPath);
 
 
 //                    }
@@ -286,19 +288,19 @@ public class RoundPointAddActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void addData(RequestBody body, String token){
+    private void addData(RequestBody body, String token) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
 
-        Call<ApiResponse> call = userBiz.addInspectionItem(token,body);
+        Call<ApiResponse> call = userBiz.addInspectionItem(token, body);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                Log.d("tag:", "onResponse: "+response.code());
-                if (response.body().getResultCode()==200||response.body().getResultCode()==0){
+                Log.d("tag:", "onResponse: " + response.code());
+                if (response.body().getResultCode() == 200 || response.body().getResultCode() == 0) {
                     //会调数据
 
 //                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
@@ -324,17 +326,18 @@ public class RoundPointAddActivity extends BaseActivity {
             }
         });
     }
+
     public static MultipartBody getMultipartBody(List<File> files, String projectId, String title,
-                                                 String content){
-        MultipartBody.Builder builder=new MultipartBody.Builder();
-        for (int i=0;i<files.size();i++){
-            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
-            builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
+                                                 String content) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        for (int i = 0; i < files.size(); i++) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), files.get(i));
+            builder.addFormDataPart("image[]", files.get(i).getName(), requestBody);
 
         }
-        builder.addFormDataPart("projectid",projectId);
-        builder.addFormDataPart("inspectionname",title);
-        builder.addFormDataPart("inspectioncontent",content);
+        builder.addFormDataPart("projectid", projectId);
+        builder.addFormDataPart("inspectionname", title);
+        builder.addFormDataPart("inspectioncontent", content);
         builder.setType(MultipartBody.FORM);
         return builder.build();
 

@@ -20,7 +20,7 @@ public class AttendanceDay {
      * area : 上海市
      */
 
-    private int project_id;
+
     private String address;
     private String attendance;
     private String attendancescope;
@@ -45,12 +45,12 @@ public class AttendanceDay {
         this.projectid = projectid;
     }
 
-    public int getProject_id() {
-        return project_id;
+    public String getProjectid() {
+        return projectid;
     }
 
-    public void setProject_id(int project_id) {
-        this.project_id = project_id;
+    public void setProjectid(String projectid) {
+        this.projectid = projectid;
     }
 
     public String getAddress() {

@@ -28,7 +28,7 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.ProjectTimeRequest;
 import org.eenie.wgj.model.response.ClassListResponse;
 import org.eenie.wgj.model.response.DayMonthTime;
-import org.eenie.wgj.model.response.ProjectTimeTotal;
+import org.eenie.wgj.model.response.TotalTimeProject;
 import org.eenie.wgj.util.Constants;
 
 import java.text.DateFormat;
@@ -81,7 +81,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         mCalendarView.setOnHeightDateClickListener(this);
         tvDate.setText(new SimpleDateFormat("yyyy年MM月").format(mCalendarView.getDate()));
         if (!TextUtils.isEmpty(projectId)) {
-            getProjectTime(projectId, new SimpleDateFormat("yyyy-MM").
+            getProjectTime(projectId, new SimpleDateFormat("yyyy-MM-dd").
                     format(mCalendarView.getDate()) + "");
             getProjectDayTime(projectId, new SimpleDateFormat("yyyy-MM").
                     format(mCalendarView.getDate()) + "");
@@ -128,8 +128,9 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
     }
 
     private void getProjectTime(String projectId, String date) {
-        mSubscription = mRemoteService.getProjectTime(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), date, projectId)
+
+        mSubscription = mRemoteService.getProjectTotalTime(
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),projectId,date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -145,18 +146,19 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                        if (apiResponse.getCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                            ProjectTimeTotal data = gson.fromJson(jsonArray,
-                                    new TypeToken<ProjectTimeTotal>() {
+                            TotalTimeProject data = gson.fromJson(jsonArray,
+                                    new TypeToken<TotalTimeProject>() {
                                     }.getType());
-                            tvTotalTime.setText(String.valueOf(data.getHours().
-                                    getWorkinghours()));
+                            tvTotalTime.setText(data.getTotal());
 
                         } else {
-                            Toast.makeText(context, apiResponse.getResultMessage(),
+                            Toast.makeText(context, apiResponse.getMessage(),
                                     Toast.LENGTH_SHORT).show();
+                            tvTotalTime.setText("0");
+
 
                         }
 
@@ -172,7 +174,6 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 onBackPressed();
                 break;
             case R.id.setting_tv:
-
 
                 ArrayList<String> dates = new ArrayList<>();
                 for (int i = 0; i < mCalendarView.getSelectedCells().size(); i++) {
@@ -275,7 +276,6 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
     @Override
     public void onHeightDateClick(Date date) {
-
 
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
         mSubscription = mRemoteService.getClassWideList(token, projectId)
@@ -404,7 +404,6 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                     public void onCompleted() {
 
                     }
-
                     @Override
                     public void onError(Throwable e) {
 
@@ -420,12 +419,10 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                                     format(mCalendarView.getDate()) + "");
                             getProjectTime(projectId, new SimpleDateFormat("yyyy-MM").
                                     format(mCalendarView.getDate()) + "");
-
                         }
 
                     }
                 });
-
 
     }
 

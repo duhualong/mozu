@@ -81,7 +81,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
     @BindView(R.id.tv_sign_in_contract)
     TextView tvContractDay;
     private AlertDialog mDialogs;
-    private String mScope;
+    private String mScope="100";
     private String mAttendanceDay;
     private String mFingerTime;
     private String mContractDay;
@@ -90,6 +90,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
     private LatLng mLatLng;
     //考勤范围
     Circle mLocationCircle;
+    boolean result=false;
 
 
     @Override
@@ -99,6 +100,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
 
     @Override
     protected void updateUI() {
+
         projectId = getIntent().getStringExtra(PROJECT_ID);
         getAttendaceDay();
 
@@ -123,6 +125,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            result=true;
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             AttendanceDay attendance = gson.fromJson(jsonArray,
@@ -164,12 +167,12 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                                     addMarkersToMap(mLatLng, attendance.getAddress());
                                 }
 
-                            }else {
-                                checkLocationPermission();
                             }
 
 
                         }else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),Toast.LENGTH_SHORT).show();
+                            result=false;
                             checkLocationPermission();
                         }
 
@@ -185,27 +188,13 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
         mapView.onCreate(savedInstanceState);
         if (mAMap == null) {
             mAMap = mapView.getMap();
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+
+
 
         }
     }
 
-//    /**
-//     * 设置一些amap的属性
-//     */
-//    private void setUpMap() {
-//        // 自定义系统定位小蓝点
-//        MyLocationStyle myLocationStyle = new MyLocationStyle();
-//
-////
-//
-//        myLocationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
-//        myLocationStyle.radiusFillColor(R.color.text_blue);// 设置圆形的填充颜色
-//        // myLocationStyle.anchor(int,int)//设置小蓝点的锚点
-//        myLocationStyle.strokeWidth(1.0f);// 设置圆形的边框粗细
-//        mAMap.setMyLocationStyle(myLocationStyle);
-//        mAMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
-//        mAMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
-//    }
 
 
     @OnClick({R.id.img_back, R.id.tv_save, R.id.rl_sign_in_city, R.id.rl_sign_in_address,
@@ -221,7 +210,12 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                     AttendanceDay request=new AttendanceDay(mAddress,mAttendanceDay,mScope,
                             mFingerTime,mContractDay, mLatLng.longitude+"",
                             mLatLng.latitude+"",mCity,projectId);
-                    addAttendanceDay(request);
+                    if (result){
+                        updateAttendanceDay(request);
+                    }else {
+                        addAttendanceDay(request);
+
+                    }
                 }
 
                 break;
@@ -268,6 +262,38 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
         }
 
     }
+    private void updateAttendanceDay(AttendanceDay data) {
+        mRemoteService.UpdateAttendanceDaySetting(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                            Toast.makeText(AttendanceSettingActivity.this,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
+
+                        }else {
+                            Toast.makeText(AttendanceSettingActivity.this,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+    }
 
     private void addAttendanceDay(AttendanceDay data) {
         mRemoteService.addAttendanceDaySetting(mPrefsHelper.getPrefs().
@@ -288,10 +314,13 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
-                           Toast.makeText(AttendanceSettingActivity.this,"编辑成功！",
+                           Toast.makeText(AttendanceSettingActivity.this,apiResponse.getResultMessage(),
                                    Toast.LENGTH_SHORT).show();
                            finish();
 
+                       }else {
+                           Toast.makeText(AttendanceSettingActivity.this,apiResponse.getResultMessage(),
+                                   Toast.LENGTH_SHORT).show();
                        }
 
                     }
@@ -443,7 +472,10 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                 tvScope.setText(content + "米");
                 tvScope.setTextColor(ContextCompat.getColor
                         (context, R.color.titleColor));
-                if (Double.parseDouble(mScope)>0){
+
+                if (Double.parseDouble(mScope)>0&&mScope!=null){
+
+
                     mLocationCircle.setRadius(Double.parseDouble(mScope));
 
                 }
@@ -485,7 +517,6 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                 mLatLng = new LatLng(Double.parseDouble(sourceStrArray[1]),
                         Double.parseDouble(sourceStrArray[0]));//取出经纬度
             }
-
             // mLocationCircle.setCenter(latLng);
             moveCamera(mLatLng);
             addMarkersToMap(mLatLng,mAddress);
@@ -498,11 +529,17 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
      * 向地图添加Marker
      */
     private void addMarkersToMap(LatLng latLng, String markerTitle) {
-        Marker marker = mAMap.addMarker(new MarkerOptions().position(latLng)
+
+        if (locationMarker!=null){
+            locationMarker=null;
+
+        }
+        locationMarker = mAMap.addMarker(new MarkerOptions().position(latLng)
                 .title(markerTitle)
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_sign_point))
                 .draggable(true));
-        marker.showInfoWindow();
+        locationMarker.showInfoWindow();
+
     }
 
     /**
@@ -511,17 +548,26 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
      * @param latLng 经纬度对象
      */
     private void moveCamera(LatLng latLng) {
-        if (mAMap != null) {
-//            mAMap.moveCamera(CameraUpdateFactory.zoomTo(16));
 
+        if (mAMap != null) {
+            mAMap.clear();
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(14));
             LatLngBounds bounds = new LatLngBounds.Builder().include(latLng).build();
-            mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 16));
-            if (Double.parseDouble(mScope)>0){
-                mLocationCircle= mAMap.addCircle(new CircleOptions().
-                        center(latLng).
-                        radius(Double.parseDouble(mScope)).
-                        fillColor(Color.argb(25, 0, 0, 255))
-                        .strokeWidth(0));
+            mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 14));
+            if (mScope!=null){
+                if (Double.parseDouble(mScope)>0){
+                    mLocationCircle= mAMap.addCircle(new CircleOptions().
+                            center(latLng).
+                            radius(Double.parseDouble(mScope)).
+                            fillColor(Color.argb(25, 0, 0, 255))
+                            .strokeWidth(0));
+                }else {
+                    mLocationCircle= mAMap.addCircle(new CircleOptions().
+                            center(latLng).
+                            radius(100).
+                            fillColor(Color.argb(25, 0, 0, 255))
+                            .strokeWidth(0));
+                }
             }else {
                 mLocationCircle= mAMap.addCircle(new CircleOptions().
                         center(latLng).
@@ -529,6 +575,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                         fillColor(Color.argb(25, 0, 0, 255))
                         .strokeWidth(0));
             }
+
             mLocationCircle.setCenter(latLng);
 
         }
@@ -539,25 +586,27 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
      */
     private void checkLocationPermission() {
         if (PermissionManager.checkLocation(this)) {
-            //定位
-            startLocation();
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Snackbar.make(rootView, "请提供完整权限，以定位您当前位置!", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("OK", v -> {
-                            PermissionManager.requestLocation(this, REQUEST_LOCATION_CODE);
-                        });
+                //定位
+                startLocation();
             } else {
-                PermissionManager.requestLocation(this, REQUEST_LOCATION_CODE);
-            }
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Snackbar.make(rootView, "请提供完整权限，以定位您当前位置!", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("OK", v -> {
+                                PermissionManager.requestLocation(this, REQUEST_LOCATION_CODE);
+                            });
+                } else {
+                    PermissionManager.requestLocation(this, REQUEST_LOCATION_CODE);
+                }
         }
     }
 
     private void startLocation() {
+
         // 初始化定位Client
         mLocationClient = new AMapLocationClient(context);
         mLocationClient.setLocationListener(this);
+
 
         // 初始化定位参数
         AMapLocationClientOption option = new AMapLocationClientOption();
@@ -567,6 +616,8 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
         mLocationClient.setLocationOption(option);
         //启动定位
         mLocationClient.startLocation();
+
+
     }
 
     /**
@@ -591,7 +642,6 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                         radius(100).
                         fillColor(Color.argb(25, 0, 0, 255))
                         .strokeWidth(0));
-
                 if (locationMarker == null) {
                     locationMarker = mAMap.addMarker(new MarkerOptions().icon(
                             BitmapDescriptorFactory.fromBitmap(
@@ -605,27 +655,14 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                     locationMarker.setPosition(mLatLng);
                 }
                 //然后可以移动到定位点,使用animateCamera就有动画效果
-                mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 16));//参数提示:1.经纬度 2.缩放级别
+                mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 14));//参数提示:1.经纬度 2.缩放级别
             } else {
                 //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                 Log.e("AmapError", "location Error, ErrCode:" + aMapLocation.getErrorCode() + ", " +
                         "errInfo:" + aMapLocation.getErrorInfo());
             }
         }
-//        if (aMapLocation != null && aMapLocation.getErrorCode() == 0) { // Location is ok
-//            // 定位成功获取相关信息
-//            double latitude = aMapLocation.getLatitude();
-//            double longitude = aMapLocation.getLongitude();
-//            String city = aMapLocation.getCity();
-//
-//                System.out.println("latitude:"+latitude+"\nlongitude:"+longitude+"\ncity:"+city);
-//
-//                // Stop 定位
-//                if (mLocationClient != null) {
-//                    mLocationClient.stopLocation(); // 停止定位
-//
-//            }
-//        }
+
     }
 
     /**

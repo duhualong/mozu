@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -188,8 +189,8 @@ public class RegisterFirstFragment extends BaseFragment {
                     public void onNext(ApiResponse apiResponse) {
                         switch (apiResponse.getResultCode()) {
                             case 100:
-                                Snackbar.make(rootView, "该手机号已注册，请登录!",
-                                        Snackbar.LENGTH_LONG).show();
+                                Toast.makeText(context, "该手机号已注册，请登录!",
+                                        Toast.LENGTH_LONG).show();
                                 Single.just("").delay(1, TimeUnit.SECONDS).
                                         compose(RxUtils.applySchedulers()).
                                         subscribe(s -> {
@@ -228,9 +229,7 @@ public class RegisterFirstFragment extends BaseFragment {
             mResult = false;
             Snackbar.make(rootView, "请输入4~6位的验证码！", Snackbar.LENGTH_LONG).show();
         }
-        if (mResult) {
 
-        }
         if (mResult && TextUtils.isEmpty(password)) {
             mResult = false;
             Snackbar.make(rootView, "设置的密码不能为空！", Snackbar.LENGTH_LONG).show();

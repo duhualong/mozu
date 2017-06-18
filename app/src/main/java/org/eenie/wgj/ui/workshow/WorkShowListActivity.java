@@ -47,7 +47,7 @@ public class WorkShowListActivity extends BaseActivity {
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.rl_first_img)
-    RelativeLayout rlFierstImg;
+    RelativeLayout rlFirstImg;
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.img_crown)
@@ -130,6 +130,7 @@ public class WorkShowListActivity extends BaseActivity {
                                     new TypeToken<ArrayList<WorkShowList>>() {
                                     }.getType());
                             if (mDataList != null) {
+                                rlFirstImg.setVisibility(View.VISIBLE);
 
                                 getUserInfo();
                                 ArrayList<WorkShowList> otherWorkShowList=new ArrayList<>();
@@ -188,12 +189,12 @@ public class WorkShowListActivity extends BaseActivity {
 
                             } else {
 
-                                rlFierstImg.setVisibility(View.GONE);
+                                rlFirstImg.setVisibility(View.GONE);
 
 
                             }
                         }else {
-                            rlFierstImg.setVisibility(View.GONE);
+                            rlFirstImg.setVisibility(View.GONE);
                             Toast.makeText(context,apiResponse.
                                     getResultMessage(),Toast.LENGTH_SHORT).show();
 

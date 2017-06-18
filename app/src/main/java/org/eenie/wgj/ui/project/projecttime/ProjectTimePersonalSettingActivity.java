@@ -22,6 +22,7 @@ import org.eenie.wgj.model.requset.AddProjectDay;
 import org.eenie.wgj.model.response.ClassListWorkTime;
 import org.eenie.wgj.model.response.PersonalWorkDayMonthList;
 import org.eenie.wgj.model.response.ProjectTimeTotal;
+import org.eenie.wgj.model.response.TotalTimeProject;
 import org.eenie.wgj.util.Constants;
 
 import java.text.SimpleDateFormat;
@@ -76,9 +77,48 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
     }
 
     private void onMonthChange(Date time) {
-        String mDate = new SimpleDateFormat("yyyy-MM").format(time);
+        String mDate = new SimpleDateFormat("yyyy-MM-dd").format(time);
         String date = new SimpleDateFormat("yyyy年MM月").format(time);
         tvDate.setText(date);
+        mSubscription = mRemoteService.getProjectTotalTime(
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
+                projectId,mDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getCode()==0){
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(apiResponse.getData());
+                            TotalTimeProject data = gson.fromJson(jsonArray,
+                                    new TypeToken<TotalTimeProject>() {
+                                    }.getType());
+                            if (data != null) {
+                                tvTotalTime.setText(data.getTotal());
+                                tvSuplusTime.setText(data.getRemain());
+                            }
+                        }else {
+                            Toast.makeText(context,apiResponse.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            tvTotalTime.setText("0");
+                            tvSuplusTime.setText("0");
+                        }
+
+
+                    }
+                });
         mSubscription = mRemoteService.getProjectTime(
                 mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
                 mDate, projectId)
@@ -98,30 +138,32 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        Gson gson = new Gson();
-                        String jsonArray = gson.toJson(apiResponse.getData());
-                        ProjectTimeTotal data = gson.fromJson(jsonArray,
-                                new TypeToken<ProjectTimeTotal>() {
-                                }.getType());
-                        if (data != null) {
-                            tvTotalTime.setText(String.valueOf(data.getHours().getWorkinghours()));
-                            tvSuplusTime.setText(String.valueOf(data.getHours().getRemaininghours()));
-                            tvTotalPeople.setText(String.valueOf(data.getHours().getApproved()));
-                            tvNowPeople.setText(String.valueOf(data.getHours().getActual()));
-                            List<ProjectTimeTotal.PersonBean> personBeanArrayList = data.getPerson();
+                        if (apiResponse.getResultCode()==200) {
 
-                            getWorkingHoursList(mDate, personBeanArrayList);
-
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(apiResponse.getData());
+                            ProjectTimeTotal data = gson.fromJson(jsonArray,
+                                    new TypeToken<ProjectTimeTotal>() {
+                                    }.getType());
+                            if (data != null) {
+                                tvTotalPeople.setText(String.valueOf(data.getHours().getApproved()));
+                                tvNowPeople.setText(String.valueOf(data.getHours().getActual()));
+                                ArrayList<ProjectTimeTotal.PersonBean> personBeanArrayList = data.getPerson();
+                                Log.d("mytest", "onNext: "+gson.toJson(personBeanArrayList));
+                                if (personBeanArrayList != null) {
+                                    getWorkingHoursList(mDate, personBeanArrayList);
+                                }
+                            }
+                        }else {
+                          Toast.makeText(context,apiResponse.getMessage(),Toast.LENGTH_SHORT).show();
 
                         }
-
                     }
                 });
-
-
     }
 
-    private void getWorkingHoursList(String date, List<ProjectTimeTotal.PersonBean> mData) {
+    private void getWorkingHoursList(String date, ArrayList<ProjectTimeTotal.PersonBean> mPersonalList) {
+
         mSubscription = mRemoteService.getMonthDay(mPrefsHelper.getPrefs().
                 getString(Constants.TOKEN, ""), date, projectId)
                 .subscribeOn(Schedulers.io())
@@ -140,33 +182,35 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
-                            mExpandableListView.setVisibility(View.VISIBLE);
 
-                            System.out.println("cout" + mData.size());
+
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             personalData = gson.fromJson(jsonArray,
                                     new TypeToken<ArrayList<PersonalWorkDayMonthList>>() {
                                     }.getType());
-                            if (personalData.size() > 0) {
+                            if (personalData!=null) {
+                                if (adapter!=null){
+                                    adapter.clear();
+                                }
                                 adapter = new ExpandAdapter(context, personalData);
                                 mExpandableListView.setAdapter(adapter);
-
                             } else {
-                                getClassList(mData);
+                                getClassList(mPersonalList);
                             }
-
-
                         } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            getClassList(mPersonalList);
 
-                            mExpandableListView.setVisibility(View.INVISIBLE);
-                            personalData = null;
-                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 });
     }
+
+
+
 
     private void getClassList(List<ProjectTimeTotal.PersonBean> mPersonal) {
         mSubscription = mRemoteService.getClassWideList(mPrefsHelper.getPrefs().
@@ -190,7 +234,6 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
 
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             ArrayList<ClassListWorkTime> mClass = new ArrayList<>();
-                            System.out.println("Mcout" + mPersonal.size());
                             if (apiResponse.getData() != null) {
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
@@ -206,19 +249,28 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                                                     new ClassListWorkTime(exchangeWorkLists.get(i), "0");
                                             mClass.add(classListWorkTime);
                                         }
+                                        ArrayList<PersonalWorkDayMonthList>mData=new ArrayList<>();
 
                                         for (int j = 0; j < mPersonal.size(); j++) {
 
                                             PersonalWorkDayMonthList mPersonalDay = new
-                                                    PersonalWorkDayMonthList(String.valueOf(mPersonal.get(j).getId()),
+                                                    PersonalWorkDayMonthList(String.valueOf(
+                                                            mPersonal.get(j).getId()),
                                                     mPersonal.get(j).getName(), mClass);
-                                            personalData.add(mPersonalDay);
+                                            mData.add(mPersonalDay);
 
                                         }
+                                        if (adapter!=null){
+                                            adapter.clear();
+                                        }
+                                        personalData=mData;
+                                        Log.d("Arraylist{}", "onNext: "+gson.toJson(personalData));
                                         adapter = new ExpandAdapter(context, personalData);
                                         mExpandableListView.setAdapter(adapter);
-                                    } else {
 
+                                    } else {
+//                                        adapter = new ExpandAdapter(context, personalData);
+//                                        mExpandableListView.setAdapter(adapter);
 
                                     }
 
@@ -263,6 +315,8 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
         ArrayList<Integer> userId = new ArrayList<>();
         ArrayList<String> serviceId = new ArrayList<>();
         ArrayList<String> dayList = new ArrayList<>();
+        Gson mGson=new Gson();
+        Log.d("测试数据", "onNext: "+mGson.toJson(personalData));
         if (personalData != null) {
             for (int i = 0; i < personalData.size(); i++) {
                 userId.add(Integer.valueOf(personalData.get(i).getUser_id()));
@@ -326,6 +380,8 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
             mData = data;
         }
 
+
+
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
             GroupViewHolder gvh;
@@ -351,7 +407,10 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
             TextView groupText;
             ImageView imgExpend;
         }
-
+        public  void clear(){
+            this.mData.clear();
+            notifyDataSetChanged();
+        }
         @Override
         public int getGroupCount() {
             return mData.size();
@@ -437,7 +496,9 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                 } else {
                     ivh.mEditText.setText(subDay + "天");
                     mData.get(groupPosition).getInfo().get(childPosition).setDay(String.valueOf(subDay));
+
                 }
+
 
             });
 

@@ -28,10 +28,34 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical">
+            <RelativeLayout android:id="@id/rl_set_project_personal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="@string/project_personal_setting"
+                          android:textColor="@color/titleColor"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去设置"
+                          android:textColor="@color/text_blue"/>
+
+
+            </RelativeLayout>
             <RelativeLayout android:id="@id/rl_set_key_personal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
+                            android:layout_marginTop="1dp"
                             android:padding="@dimen/padding_bottom">
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"

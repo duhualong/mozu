@@ -8,12 +8,12 @@
                 android:padding="@dimen/padding_bottom"
 >
     <TextView android:id="@id/item_post"
-              android:layout_width="24dp"
-              android:layout_height="24dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_centerVertical="true"
               android:text="01"
               android:gravity="center"
-              android:background="@drawable/circle_blue"
+              android:background="@drawable/background_shape_corner"
               android:textColor="@color/white"
               android:textSize="@dimen/text_normal_size"/>
     <TextView android:id="@id/item_class"

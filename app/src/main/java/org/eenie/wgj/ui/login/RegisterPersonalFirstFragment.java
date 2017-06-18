@@ -70,7 +70,6 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
-
     private boolean isLoaded = false;
     /**
      */
@@ -181,7 +180,7 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
                             if (mData != null && !mData.isEmpty()) {
                                 for (CompanyList company : mData) {
                                     mStrArray.add(company.getCompany_name());
-                                    mCompanyId.add(company.getCompanyid());
+                                    mCompanyId.add(company.getId());
                                 }
 
                                 //initViews();
@@ -350,7 +349,7 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
             SortModel sortModel = new SortModel();
             sortModel.setName(data.get(i).getCompany_name());
 
-            sortModel.setCompanyId(data.get(i).getCompanyid());
+            sortModel.setCompanyId(data.get(i).getId());
 
 
             String pinyin = characterParser.getSelling(data.get(i).getCompany_name());

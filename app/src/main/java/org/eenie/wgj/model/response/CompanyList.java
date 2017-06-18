@@ -9,6 +9,7 @@ package org.eenie.wgj.model.response;
 public class CompanyList {
 
 
+
     /**
      * companyid : 1
      * user_id : 43
@@ -25,7 +26,7 @@ public class CompanyList {
      * status : 1
      */
 
-    private int companyid;
+    private int id;
     private int user_id;
     private String company_name;
     private String email;
@@ -39,12 +40,12 @@ public class CompanyList {
     private String updated_at;
     private int status;
 
-    public int getCompanyid() {
-        return companyid;
+    public int getId() {
+        return id;
     }
 
-    public void setCompanyid(int companyid) {
-        this.companyid = companyid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getUser_id() {

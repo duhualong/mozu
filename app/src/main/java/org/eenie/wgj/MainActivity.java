@@ -22,7 +22,7 @@ import butterknife.BindViews;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
-    private static final String[] titles = {"苏宁天御", "通讯录", "消息中心", "应用", "我的"};
+    private static final String[] titles = {"上海宏伊置业有限公司", "通讯录", "消息中心", "应用", "我的"};
     private static final int NAVIGATOR_COUNT = 5;
     private static final String TAG ="MainActivity" ;
     int[] navigatorMipmapNormal = {R.mipmap.ic_home_bottom_tab_main,

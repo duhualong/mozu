@@ -120,12 +120,11 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                     Snackbar.make(rootView, "输入的班次名称不能为空", Snackbar.LENGTH_SHORT).show();
                 }
 
-
                 break;
             case R.id.button_delete:
-                if (!TextUtils.isEmpty(projectId)) {
+                if (!TextUtils.isEmpty(mId)) {
                     //删除班次
-                    deleteClassMeetingItem(token, projectId);
+                    deleteClassMeetingItem(token, mId);
 
                 }
 
@@ -222,8 +221,8 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                 });
     }
 
-    private void deleteClassMeetingItem(String token, String projectId) {
-        mSubscription = mRemoteService.deleteClassItem(token, Integer.parseInt(projectId))
+    private void deleteClassMeetingItem(String token, String id) {
+        mSubscription = mRemoteService.deleteClassItem(token, Integer.parseInt(id))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {

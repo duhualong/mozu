@@ -23,7 +23,6 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.NewResponse;
 import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.response.CompanyList;
 import org.eenie.wgj.ui.bean.JsonBean;
@@ -147,7 +146,7 @@ public class TestMyActivity extends BaseActivity {
                             if (mData != null && !mData.isEmpty()) {
                                 for (CompanyList company : mData) {
                                     mStrArray.add(company.getCompany_name());
-                                    mCompanyId.add(company.getCompanyid());
+                                    mCompanyId.add(company.getId());
                                 }
 
                                 //initViews();
@@ -315,7 +314,7 @@ public class TestMyActivity extends BaseActivity {
             SortModel sortModel = new SortModel();
             sortModel.setName(data.get(i).getCompany_name());
 
-            sortModel.setCompanyId(data.get(i).getCompanyid());
+            sortModel.setCompanyId(data.get(i).getId());
 
 
             String pinyin = characterParser.getSelling(data.get(i).getCompany_name());
@@ -524,7 +523,7 @@ public class TestMyActivity extends BaseActivity {
         mSubscription = mRemoteService.joinCompany(token, joinCompany)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NewResponse>() {
+                .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
 //                        Snackbar.make(rootView, "解析错误",
@@ -538,7 +537,7 @@ public class TestMyActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(NewResponse apiResponse) {
+                    public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200) {
                             Snackbar.make(rootView, apiResponse.getResultMessage(),
                                     Snackbar.LENGTH_SHORT).show();

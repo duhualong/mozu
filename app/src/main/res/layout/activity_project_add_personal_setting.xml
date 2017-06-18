@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/project_personal_setting"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <TextView android:id="@id/tv_save"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="编辑"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
+                  android:visibility="visible"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:src="@mipmap/ic_back"
+        android:padding="@dimen/padding_bottom"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/rl_add_personal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="项目人员"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"
+        />
+        <ImageView android:layout_width="24dp"
+                   android:layout_height="24dp"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@mipmap/ic_add_item"/>
+    </RelativeLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@id/swipe_refresh_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/padding_bottom"
+    >
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/recycler_project_personal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

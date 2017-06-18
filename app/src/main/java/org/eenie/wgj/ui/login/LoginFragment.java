@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -208,7 +209,6 @@ public class LoginFragment extends BaseFragment {
     }
 
     public void checkedLogined(String phone, String password) {
-
         MLogin login = new MLogin(phone, Utils.md5(password));
         mSubscription = mRemoteService.logined(login)
                 .subscribeOn(Schedulers.io())
@@ -221,72 +221,58 @@ public class LoginFragment extends BaseFragment {
                     @Override
                     public void onError(Throwable e) {
 
-
                     }
-
                     @Override
                     public void onNext(ApiResponse testLoginApiResponse) {
                         if (testLoginApiResponse.getResultCode() == 200) {
-
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(testLoginApiResponse.getData());
                             LoginData data = gson.fromJson(jsonArray,
                                     new TypeToken<LoginData>() {
                                     }.getType());
+                             if (data.getType()<=0){
+                                 Toast.makeText(context,"账号正在审核。。。",Toast.LENGTH_LONG).show();
+                             }else {
+                                 mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
+                                         .putString(Constants.UID, data.getUser_id() + "")
+                                         .putString(Constants.PHONE, phone)
+                                         .putBoolean(Constants.IS_LOGIN, true).apply();
+                                 Set<String> tags = new HashSet<>();
+                                 tags.add(Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
+                                 JPushInterface.setTags(context, tags, new TagAliasCallback() {
+                                     @Override
+                                     public void gotResult(int i, String s, Set<String> set) {
+                                         System.out.println("dddd:" + i);
+                                         if (i == 0) {
+                                             System.out.println("打印code" + i + "set:" + set);
+                                         }else {
+                                                 System.out.println("打印i:"+i);
+                                                 System.out.println("tag:"+tags);
 
-                        // checkCompanyState(data.getToken());
-                            mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
-                                    .putString(Constants.UID, data.getUser_id() + "")
-                                    .putString(Constants.PHONE, phone)
-                                    .putBoolean(Constants.IS_LOGIN, true).apply()
-                            ;
-                            Set<String> tags = new HashSet<>();
-                            tags.add(Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
-                            JPushInterface.setTags(context, tags, new TagAliasCallback() {
-                                @Override
-                                public void gotResult(int i, String s, Set<String> set) {
-                                    System.out.println("dddd:"+i);
-                                    if (i==0){
-                                        System.out.println("打印code"+i+"set:"+set);
-                                    }
+                                         }
+                                     }
+                                 });
+                                 System.out.println("uid" + data.getToken() + "\n" + data.getUser_id());
+                                 if (isLogin) {
+                                     mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, password)
+                                             .apply();
+                                 } else {
+                                     mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, "")
+                                             .apply();
+                                 }
+                                 Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
 
+                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                                         subscribe(s ->
+                                                 checkCompanyState(data.getToken())
+                                         );
 
-                                }
-                            });
-//                            JPushInterface.setAliasAndTags(context, null, tags, new TagAliasCallback() {
-//                                @Override
-//                                public void gotResult(int i, String s, Set<String> set) {
-//                                    System.out.println("dddd:"+i);
-//                                    if (i==0){
-//                                        System.out.println("打印code"+i);
-//                                    }
-//
-//
-//                                }
-//                            });
+                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+                                         subscribe(s ->
+                                                 startActivity(new Intent(context, MainActivity.class))
+                                         );
 
-                            System.out.println("uid" + data.getToken() + "\n" + data.getUser_id());
-                            if (isLogin) {
-                                mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, password)
-                                        .apply();
-                            } else {
-                                mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, "")
-                                        .apply();
-                            }
-                            Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
-
-                            Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                                    subscribe(s ->
-                                            checkCompanyState(data.getToken())
-                                    );
-
-                            Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                                    subscribe(s ->
-                                            startActivity(new Intent(context, MainActivity.class))
-                                    );
-
-
-
+                             }
                         } else {
                             Snackbar.make(rootView, testLoginApiResponse.getResultMessage(),
                                     Snackbar.LENGTH_SHORT).show();

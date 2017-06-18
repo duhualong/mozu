@@ -28,6 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static android.content.ContentValues.TAG;
+import static org.eenie.wgj.R.id.et_company_email;
 
 /**
  * Created by Eenie on 2017/5/8 at 14:57
@@ -61,7 +62,7 @@ public class CreateCompanyFragment extends BaseFragment {
     EditText inputCompanyPersonal;
     @BindView(R.id.et_company_phone)
     EditText inputCompanyPhone;
-    @BindView(R.id.et_company_email)
+    @BindView(et_company_email)
     EditText inputCompanyEmail;
     @BindView(R.id.et_company_address)
     EditText inputCompanyAddress;
@@ -97,7 +98,6 @@ public class CreateCompanyFragment extends BaseFragment {
         if (getArguments() != null) {
             userId = getArguments().getInt(UID);
             token = getArguments().getString(TOKEN);
-
 
         }
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -200,9 +200,10 @@ public class CreateCompanyFragment extends BaseFragment {
     public void onClick(View view) {
         String companyName = inputCompanyName.getText().toString();
         String companyPersonal = inputCompanyPersonal.getText().toString();
-        String companyPhone = inputCompanyPhone.getText().toString();
-        String companyEmail = inputCompanyPhone.getText().toString();
+//        String companyPhone = inputCompanyPhone.getText().toString();
+        String companyEmail = inputCompanyEmail.getText().toString();
         String companyAddress = inputCompanyAddress.getText().toString();
+
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
@@ -250,10 +251,7 @@ public class CreateCompanyFragment extends BaseFragment {
             Snackbar.make(rootView, "请输入联系人姓名", Snackbar.LENGTH_LONG).show();
             result = false;
         }
-//        if (result && TextUtils.isEmpty(companyPhone)) {
-//            Snackbar.make(rootView, "请输入电话", Snackbar.LENGTH_LONG).show();
-//            result = false;
-//        }
+
         if (result && TextUtils.isEmpty(companyEmail)) {
             Snackbar.make(rootView, "请输入邮箱", Snackbar.LENGTH_LONG).show();
             result = false;

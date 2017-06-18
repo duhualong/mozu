@@ -131,14 +131,12 @@ public class RoundPointEditActivity extends BaseActivity {
                         firstPath = lists.get(0).getImage();
                         secondPath = lists.get(1).getImage();
                         thirdPath = lists.get(2).getImage();
-
-
                         break;
                 }
                 for (int i = 0; i < lists.size(); i++) {
 
 
-                    if (i < 2) {
+                    if (i <2) {
                         imgList.get(i + 1).setVisibility(View.VISIBLE);
                     }
                     Glide.with(context).load(Constant.DOMIN + data.getImage().get(i).getImage())
@@ -152,6 +150,8 @@ public class RoundPointEditActivity extends BaseActivity {
         }
 
     }
+
+
 
     @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
     public void onClick(View view) {
@@ -174,12 +174,12 @@ public class RoundPointEditActivity extends BaseActivity {
                     }
                 if (!TextUtils.isEmpty(secondPath)) {
                     imgPath.add(1, secondPath);
-                    RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(firstPath);
+                    RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(secondPath);
                     mImageBeen.add(1, imageBean);
                 }
                 if (!TextUtils.isEmpty(thirdPath)) {
                     imgPath.add(2, thirdPath);
-                    RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(firstPath);
+                    RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(thirdPath);
                     mImageBeen.add(2, imageBean);
 
                 }
@@ -309,13 +309,14 @@ public class RoundPointEditActivity extends BaseActivity {
                     break;
                 case REQUEST_CAMERA_SECOND:
                     startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    break;
 
                 case REQUEST_PHOTO_SECOND:
                     startCropImage(data.getData(), RESPONSE_CODE_SECOND);
                     break;
 
                 case RESPONSE_CODE_SECOND:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(1)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
@@ -333,6 +334,7 @@ public class RoundPointEditActivity extends BaseActivity {
 
                 case REQUEST_CAMERA_THIRD:
                     startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+                    break;
 
                 case REQUEST_PHOTO_THIRD:
                     startCropImage(data.getData(), RESPONSE_CODE_THIRD);
@@ -340,7 +342,7 @@ public class RoundPointEditActivity extends BaseActivity {
 
 
                 case RESPONSE_CODE_THIRD:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(2)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {

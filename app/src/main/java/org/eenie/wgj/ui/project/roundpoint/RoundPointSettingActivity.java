@@ -205,15 +205,14 @@ public class RoundPointSettingActivity extends BaseActivity  implements
                 RoundPoint data = contactsList.get(position);
                 holder.setItem(data);
                 if (data != null) {
-                    position=position+1;
-                    if (position<10){
 
-                        holder.reportPost.setText("0"+position+"");
+                    position = position + 1;
+                    if (position<10){
+                        holder.reportPost.setText("点位0" +position);
                     }else {
-                        holder.reportPost.setText(position+"");
+                        holder.reportPost.setText("点位" +position);
                     }
                     holder.reportClass.setText(data.getInspectionname());
-
                 }
 
 

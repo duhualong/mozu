@@ -75,13 +75,22 @@ public class ExchangeWorkDetailActivity extends BaseActivity {
                 tvMatter.setText("无");
             }
             if (!data.getImage().isEmpty()&&data.getImage()!=null){
-                for (int i=0;i<data.getImage().size();i++){
-                    imgList.get(i).setVisibility(View.VISIBLE);
-                    Glide.with(context).load(Constant.DOMIN+data.getImage().get(i).getImage())
-                            .centerCrop().into(imgList.get(i));
+                if (data.getImage().size()<=3){
+                    for (int i=0;i<data.getImage().size();i++){
+                        imgList.get(i).setVisibility(View.VISIBLE);
+                        Glide.with(context).load(Constant.DOMIN+data.getImage().get(i).getImage())
+                                .centerCrop().into(imgList.get(i));
 
 
+                    }
+                }else {
+                    for (int i=0;i<3;i++){
+                        imgList.get(i).setVisibility(View.VISIBLE);
+                        Glide.with(context).load(Constant.DOMIN+data.getImage().get(i).getImage())
+                                .centerCrop().into(imgList.get(i));
+                    }
                 }
+
             }
 
         }

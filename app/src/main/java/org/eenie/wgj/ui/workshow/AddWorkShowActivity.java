@@ -228,13 +228,14 @@ public class AddWorkShowActivity extends BaseActivity {
                     break;
                 case REQUEST_CAMERA_SECOND:
                     startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    break;
 
                 case REQUEST_PHOTO_SECOND:
                     startCropImage(data.getData(), RESPONSE_CODE_SECOND);
                     break;
 
                 case RESPONSE_CODE_SECOND:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(1)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
@@ -251,13 +252,14 @@ public class AddWorkShowActivity extends BaseActivity {
 
                 case REQUEST_CAMERA_THIRD:
                     startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+                    break;
 
                 case REQUEST_PHOTO_THIRD:
                     startCropImage(data.getData(), RESPONSE_CODE_THIRD);
                     break;
 
                 case RESPONSE_CODE_THIRD:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(2)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {

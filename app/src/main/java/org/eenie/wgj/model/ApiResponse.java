@@ -13,6 +13,15 @@ public class ApiResponse<T> {
     private int status;
     private String message;
     private T result;
+    private int code;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 
     public int getStatus() {
         return status;

@@ -114,7 +114,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.img_scan, R.id.rl_avatar_img, R.id.rl_identity_card,
+    @OnClick({R.id.img_back, R.id.rl_scan, R.id.rl_avatar_img, R.id.rl_identity_card,
             R.id.rl_personal_information, R.id.rl_bank_card, R.id.rl_security_certificate,
             R.id.btn_logout})
     public void onClick(View view) {
@@ -123,7 +123,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
                 onBackPressed();
                 break;
-            case R.id.img_scan:
+            case R.id.rl_scan:
                 startActivity(new Intent(context, PersonalBarcodeActivity.class));
                 break;
             case R.id.rl_avatar_img:
@@ -299,7 +299,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
         File cropFile = new File(context.getCacheDir(), "a.jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
-                .withMaxResultSize(avatar.getWidth(), avatar.getHeight())
+                .withMaxResultSize(100, 100)
                 .start(PersonalBaseInfoActivity.this, requestCode);
     }
 
@@ -322,7 +322,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                     avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
 
                     File fileCardFront = new File(avatarUrl);
-                    uploadFile(compressior(fileCardFront));
+                    uploadFile(fileCardFront);
 
                     break;
                 case REQUEST_GALLERY_PHOTO:

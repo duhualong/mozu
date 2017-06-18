@@ -191,11 +191,11 @@ public class RountingWorkActivity extends BaseActivity {
                         Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
                     } else {
                         dialog.dismiss();
-                        if (Integer.parseInt(hour) <= 9) {
+                        if (hour.length()<=1&&Integer.parseInt(hour) <= 9) {
                             hour = "0" + hour;
 
                         }
-                        if (Integer.parseInt(minute) <= 9) {
+                        if (minute.length()<=1&&Integer.parseInt(minute) <= 9) {
                             minute = "0" + minute;
                         }
                         endTime.setText(hour + ":" + minute);
@@ -317,11 +317,11 @@ public class RountingWorkActivity extends BaseActivity {
                         Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
                     } else {
                         dialog.dismiss();
-                        if (Integer.parseInt(hour) <= 9) {
+                        if (hour.length()<=1&&Integer.parseInt(hour) <= 9) {
                             hour = "0" + hour;
 
                         }
-                        if (Integer.parseInt(minute) <= 9) {
+                        if (minute.length()<=1&&Integer.parseInt(minute) <= 9) {
                             minute = "0" + minute;
                         }
                         startTime.setText(hour + ":" + minute);

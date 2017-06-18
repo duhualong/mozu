@@ -69,8 +69,6 @@ public class RoundPointDetailActivity extends BaseActivity {
                         imgList.get(i).setVisibility(View.VISIBLE);
                         Glide.with(context).load(Constant.DOMIN + mRoundPoint.getImage().get(i).getImage())
                                 .centerCrop().into(imgList.get(i));
-
-
                     }
                 }else {
                     for (int i = 0; i < mRoundPoint.getImage().size(); i++) {
@@ -108,7 +106,8 @@ public class RoundPointDetailActivity extends BaseActivity {
         if (requestCode == 1 && resultCode == 4) {
             RoundPoint mData = data.getParcelableExtra("info");
             if (mData!=null){
-                initUI(mData);
+                mRoundPoint=mData;
+                initUI(mRoundPoint);
 
             }
         }

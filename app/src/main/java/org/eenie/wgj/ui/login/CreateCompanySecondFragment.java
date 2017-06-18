@@ -33,7 +33,6 @@ import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.CreataCompanyRequest;
-import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.PermissionManager;
 
@@ -173,7 +172,7 @@ public class CreateCompanySecondFragment extends BaseFragment {
         mSubscription = mRemoteService.createCompany(token, request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MApi>() {
+                .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -186,19 +185,24 @@ public class CreateCompanySecondFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(MApi mApi) {
-                        if (mApi.getResultCode() == 200) {
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200||apiResponse.getResultCode()==0) {
                           registerSuccessDialog();
 
-                        }else {
-                            Snackbar.make(rootView,mApi.getResultMessage(),Snackbar.LENGTH_LONG).show();
-                        }
 
+                        }else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            fragmentMgr.beginTransaction()
+                                    .addToBackStack(TAG)
+                                    .replace(R.id.fragment_login_container,
+                                            new LoginFragment())
+                                    .commit();
+                        }
 
                     }
                 });
     }
-
 
     private void registerSuccessDialog() {
         View view = View.inflate(context, R.layout.dialog_company_success_register, null);

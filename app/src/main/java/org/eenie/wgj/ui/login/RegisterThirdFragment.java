@@ -27,7 +27,7 @@ import com.google.gson.GsonBuilder;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.data.remote.FileUploadService;
-import org.eenie.wgj.model.NewResponse;
+import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.EmergencyContactMod;
 import org.eenie.wgj.model.requset.JoinCompany;
 import org.eenie.wgj.model.response.MApi;
@@ -1206,7 +1206,7 @@ public class RegisterThirdFragment extends BaseFragment {
                 "b11u3hIOMu8swf6sVbKJZsYIsk8Zkw1ikXdPj7csLqk", joinCompany)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NewResponse>() {
+                .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
                         Snackbar.make(rootView, "网络请求失败",
@@ -1219,7 +1219,7 @@ public class RegisterThirdFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(NewResponse apiResponse) {
+                    public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200) {
                             registerSuccessDialog();
 

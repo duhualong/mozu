@@ -56,17 +56,16 @@ public class ImageUtils {
    * @param imageHolder image file place
    * @return photo bitmap
    */
+//  public static Bitmap getScaledBitmap(Context context, Uri uri, ImageView imageHolder) {
+//    String imagePath = getRealPath(context, uri);
+//    return getScaledBitmap(imagePath, imageHolder);
+//  }
+
   public static Bitmap getScaledBitmap(Context context, Uri uri, ImageView imageHolder) {
     String imagePath = getRealPath(context, uri);
     return getScaledBitmap(imagePath, imageHolder);
   }
 
-  /**
-   * Get a scaled bitmap
-   *
-   * @param path image file path
-   * @return target size scaled bitmap
-   */
   public static Bitmap getScaledBitmap(String path, ImageView imageHolder) {
     Bitmap bitmap;
     BitmapFactory.Options options = new BitmapFactory.Options();
@@ -74,12 +73,32 @@ public class ImageUtils {
     BitmapFactory.decodeFile(path, options);
     // Determine how much to scale down the image
     options.inSampleSize = Math.min(options.outWidth / imageHolder.getWidth(),
-        options.outHeight / imageHolder.getHeight());
+            options.outHeight / imageHolder.getHeight());
     // Decode the image file into a Bitmap sized to fill the View;
     options.inJustDecodeBounds = false;
     bitmap = BitmapFactory.decodeFile(path, options);
     return bitmap;
   }
+
+  /**
+   * Get a scaled bitmap
+   *
+   * @param path image file path
+   * @return target size scaled bitmap
+//   */
+//  public static Bitmap getScaledBitmap(String path, ImageView imageHolder) {
+//    Bitmap bitmap;
+//    BitmapFactory.Options options = new BitmapFactory.Options();
+//    options.inJustDecodeBounds = true;
+//    BitmapFactory.decodeFile(path, options);
+//    // Determine how much to scale down the image
+//    options.inSampleSize = Math.min(options.outWidth / imageHolder.getWidth(),
+//        options.outHeight / imageHolder.getHeight());
+//    // Decode the image file into a Bitmap sized to fill the View;
+//    options.inJustDecodeBounds = false;
+//    bitmap = BitmapFactory.decodeFile(path, options);
+//    return bitmap;
+//  }
 
   /**
    * Get a scaled bitmap from photo file.

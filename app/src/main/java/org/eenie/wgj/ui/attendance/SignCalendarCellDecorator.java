@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.attendance;
 
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.timessquare.CalendarCellDecorator;
@@ -14,8 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.eenie.wgj.R.id.tv_state_des;
 
 /**
  * Created by Eenie on 2017/6/13 at 15:22
@@ -35,7 +34,8 @@ public class SignCalendarCellDecorator implements CalendarCellDecorator {
     public void decorate(CalendarCellView cellView, Date date) {
 
         TextView textView = (TextView) cellView.findViewById(R.id.tv_sign_state);
-        TextView desText = (TextView) cellView.findViewById(tv_state_des);
+        TextView desText = (TextView) cellView.findViewById(R.id.tv_state_des);
+        RelativeLayout rlBackground=(RelativeLayout) cellView.findViewById(R.id.date_background);
         StatisticsInfoEntity.ResultMessageBean bean = getBean(new SimpleDateFormat("yyyy-MM-dd").format(date));
 
 
@@ -56,6 +56,23 @@ public class SignCalendarCellDecorator implements CalendarCellDecorator {
 //                LogUtil.json(bean);
 
                 desText.setText(bean.getService().getServicesname());
+                switch (bean.getService().getServicesname()){
+                    case "日班":
+                        rlBackground.setBackgroundResource(R.color.white_light);
+
+
+                        break;
+                    case "夜班":
+                        rlBackground.setBackgroundResource(R.color.textHintColor);
+                        break;
+                    case "测试数据":
+                        rlBackground.setBackgroundResource(R.color.textHintColor);
+
+                        break;
+                    default:
+                        rlBackground.setBackgroundResource(R.color.background_rest);
+                        break;
+                }
                 cellView.setHoliday(false);
                 cellView.setBackgroundColor(mRankItemColorAgent.
                         getColorByRankName(bean.getService().getServicesname()));
@@ -64,6 +81,7 @@ public class SignCalendarCellDecorator implements CalendarCellDecorator {
             } else {
                 desText.setText("休息");
                 cellView.setHoliday(true);
+                rlBackground.setBackgroundResource(R.color.background_rest);
 //                cellView.setHighlighted(false);
             }
         } else {
