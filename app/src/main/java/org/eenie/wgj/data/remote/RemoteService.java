@@ -436,6 +436,19 @@ public interface RemoteService {
     @POST("project_person_del")
     Single<ApiResponse> deleteProjectPersonal(@Header("token")String token,
                                               @Body CompanyPersonalRequest request);
+    //获取签退的信息
+    @GET("signOff")
+    Single<ApiResponse>getSignOutInfor(@Header("token")String token);
+    //获取项目下的每月考勤信息
+    @GET("total/date")
+    Single<ApiResponse>getProjectAttendanceMonth(@Header("token")String token,@Query("project_id")
+                                                 String projectId);
+    //获取所有的年月考勤统计
+    @GET("total/indexlist")
+    Single<ApiResponse>getMonthSortItem(@Header("token")String token,@Query("projectid")String projectId,
+                                        @Query("date")String date);
+
+
 
 
 

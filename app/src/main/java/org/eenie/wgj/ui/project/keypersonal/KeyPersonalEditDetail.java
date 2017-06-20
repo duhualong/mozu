@@ -293,8 +293,6 @@ public class KeyPersonalEditDetail extends BaseActivity {
 
                 updatePersonalInformation(mAvatarUrl, token, mAge, mHeight, mId, mPost, mName, mCarNumber,
                         mPhone, projectId, mSex, mOther, mWorkTime);
-
-
                 break;
         }
     }

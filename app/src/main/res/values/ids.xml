@@ -533,4 +533,57 @@
     <item name="recycler_project_personal" type="id"/>
     <item name="rl_set_project_personal" type="id"/>
     <item name="recycler_add_personal" type="id"/>
+    <item name="edit_cause" type="id"/>
+    <item name="recycler_month" type="id"/>
+    <item name="rl_attendance_statics_month" type="id"/>
+
+
+
+    <!--考勤记录-->
+    <item name="tv_date_one" type="id"/>
+    <item name="img_avatar_first" type="id"/>
+    <item name="tv_all_first_gold" type="id"/>
+    <item name="img_avatar_all_first" type="id"/>
+    <item name="img_avatar_all_second" type="id"/>
+    <item name="tv_all_second_gold" type="id"/>
+    <item name="tv_all_third_gold" type="id"/>
+    <item name="img_avatar_all_third" type="id"/>
+    <item name="rl_sort_all" type="id"/>
+    <item name="rl_first_all_gold" type="id"/>
+    <item name="rl_second_all_gold" type="id"/>
+    <item name="rl_third_all_gold" type="id"/>
+    <item name="rl_sort_team" type="id"/>
+    <item name="tv_date_two" type="id"/>
+    <item name="rl_first_team_gold" type="id"/>
+    <item name="img_avatar_team_first" type="id"/>
+    <item name="img_avatar_team_third" type="id"/>
+    <item name="tv_team_third_gold" type="id"/>
+    <item name="rl_third_team_gold" type="id"/>
+    <item name="tv_team_second_gold" type="id"/>
+    <item name="img_avatar_team_second" type="id"/>
+    <item name="rl_second_team_gold" type="id"/>
+    <item name="tv_team_first_gold" type="id"/>
+    <item name="tv_date_three" type="id"/>
+    <item name="rl_fighting_team" type="id"/>
+    <item name="rl_first_fighting_gold" type="id"/>
+    <item name="tv_fighting_first_gold" type="id"/>
+    <item name="img_avatar_fighting_first" type="id"/>
+    <item name="rl_second_fighting_gold" type="id"/>
+    <item name="img_avatar_fighting_second" type="id"/>
+    <item name="rl_third_fighting_gold" type="id"/>
+    <item name="img_avatar_fighting_third" type="id"/>
+    <item name="rl_team_attendance_status" type="id"/>
+    <item name="tv_late_count" type="id"/>
+    <item name="tv_leave_early_count" type="id"/>
+    <item name="tv_outside_count" type="id"/>
+    <item name="tv_leave_count" type="id"/>
+    <item name="tv_absent_count" type="id"/>
+    <item name="tv_second_count" type="id"/>
+    <item name="tv_overtime_count" type="id"/>
+    <item name="tv_date_four" type="id"/>
+    <item name="tv_date_five" type="id"/>
+    <item name="donut_progress" type="id"/>
+    <item name="tv_leave_people" type="id"/>
+    <item name="tv_add_people" type="id"/>
+    <item name="tv_experience_count" type="id"/>
 </resources>

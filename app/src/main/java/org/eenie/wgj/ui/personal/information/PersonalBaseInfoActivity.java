@@ -420,11 +420,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                                 mPrefsHelper.getPrefs().edit().putString
                                         (Constants.PERSONAL_AVATAR, Constant.DOMIN+avatarUrl)
                                         .apply();
-//                                Glide.with(context)
-//                                        .load(avatarUrl)
-//                                        .asBitmap()
-//                                        .centerCrop()
-//                                        .into(avatar);
+
                             }
 
 

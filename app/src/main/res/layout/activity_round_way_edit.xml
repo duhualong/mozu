@@ -43,7 +43,7 @@
         <TextView android:id="@id/tv_set_title"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="巡检点名称"
+                  android:text="巡检线路名称"
                   android:textColor="@color/black_light"
                   android:textSize="@dimen/text_large_size"/>
         <LinearLayout android:layout_width="match_parent"

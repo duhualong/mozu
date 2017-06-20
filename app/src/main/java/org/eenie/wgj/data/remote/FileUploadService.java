@@ -95,6 +95,12 @@ public interface FileUploadService {
     //添加随手拍
     @POST("readilyShootAdd")
     Call<ApiResponse>addShootPhotoItem(@Header("token")String token,@Body RequestBody body);
+    //签到
+    @POST("checkInAdd")
+    Call<ApiResponse>signInAttendance(@Header("token")String token,@Body RequestBody body);
+    //签退
+    @POST("signbackAdd")
+    Call<ApiResponse>signOutAttendance(@Header("token")String token,@Body RequestBody body);
 
 
     @POST("register/user")

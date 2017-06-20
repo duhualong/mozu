@@ -16,7 +16,10 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceListResponse;
+import org.eenie.wgj.model.response.SignOutInfor;
 import org.eenie.wgj.model.response.UserInforById;
+import org.eenie.wgj.ui.attendance.sign.AttendanceTestSignInActivity;
+import org.eenie.wgj.ui.attendance.signout.AttendanceSignOutActivity;
 import org.eenie.wgj.util.Constants;
 
 import java.text.SimpleDateFormat;
@@ -295,7 +298,7 @@ public class AttendanceActivity extends BaseActivity {
                 break;
 
             case R.id.rl_sign_off:
-                //startActivity(new Intent(context,MyTestMain.class));
+                checkSignOff();
 
                 break;
 
@@ -309,6 +312,52 @@ public class AttendanceActivity extends BaseActivity {
 
                 break;
         }
+    }
+
+    private void checkSignOff() {
+
+
+
+            mSubscription=mRemoteService.getSignOutInfor(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ApiResponse>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(ApiResponse apiResponse) {
+                            if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                                Gson gson=new Gson();
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                SignOutInfor data = gson.fromJson(jsonArray,
+                                        new TypeToken<SignOutInfor>() {
+                                        }.getType());
+                                if (data!=null){
+                                    startActivity(new Intent(context,AttendanceSignOutActivity.class)
+                                    .putExtra(AttendanceSignOutActivity.INFO,data));
+
+                                }else {
+                                    Toast.makeText(context,"获取签退信息失败",Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(context,apiResponse.getResultMessage(),
+                                        Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    });
+
+
+
     }
 
 
@@ -345,6 +394,10 @@ public class AttendanceActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAttendanceList(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
 
-
+    }
 }

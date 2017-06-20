@@ -11,6 +11,7 @@ import org.eenie.wgj.di.component.ApplicationComponent;
 import org.eenie.wgj.di.component.DaggerApplicationComponent;
 import org.eenie.wgj.di.module.ApplicationModule;
 import org.eenie.wgj.ui.attendance.AttendanceActivity;
+import org.eenie.wgj.ui.attendancestatistics.AttendanceStatisticsActivity;
 import org.eenie.wgj.ui.project.ProjectSettingActivity;
 import org.eenie.wgj.ui.takephoto.TakePhotoSettingActivity;
 import org.eenie.wgj.ui.workshow.WorkShowListActivity;
@@ -75,7 +76,8 @@ public class App extends Application {
     List<HomeModule> mModules = new ArrayList<>();
     mModules.add(new HomeModule(AttendanceActivity.class,"ic_home_attendance", "考勤",
             false, 0, true));
-    mModules.add(new HomeModule( "ic_home_attendance_statistics", "考勤统计", false, 1, true));
+    mModules.add(new HomeModule(AttendanceStatisticsActivity.class,
+            "ic_home_attendance_statistics", "考勤统计", false, 1, true));
     mModules.add(new HomeModule("ic_inspection", "巡检", false, 2, true));
     mModules.add(new HomeModule( "ic_inspection_statistics", "巡检统计", false, 3, true));
     mModules.add(new HomeModule("ic_home_module_form_up", "表单上传", false, 4, true));

@@ -55,7 +55,7 @@ public class PictureFragment extends DialogFragment {
 //            mOriginPicBitmap = data.getParcelable(ORIGIN_PICTURE);
             mCropPicBitmap = data.getParcelable(CROP_PICTURE);
             mCropPicBitmap = drawTextToBitmap(getActivity(), mCropPicBitmap,
-                    "物管家 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()));
+                    "摩助 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()));
         }
     }
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:id="@id/rl_attendance_statics_month"
+                android:padding="@dimen/padding_bottom"
+>
+    <TextView android:id="@id/item_date"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:text="2016年12月"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+    <ImageView android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:src="@mipmap/ic_arrow_right"/>
+
+
+</RelativeLayout>
