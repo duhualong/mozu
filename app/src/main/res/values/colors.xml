@@ -61,5 +61,6 @@
     
     
     <color name="background_rest">#FFC5C5</color>
+    <color name="gray_deep">#e8e8e8</color>
 
 </resources>

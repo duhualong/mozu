@@ -1,15 +1,20 @@
 package org.eenie.wgj.util;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Environment;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
 import android.util.Base64;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import org.eenie.wgj.R;
 
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
@@ -46,7 +51,17 @@ public class Utils {
             return String.format("%s:0%s", minute, second);
         }
     }
-
+    public static int getThemeColor(@NonNull Context context) {
+        return getThemeAttrColor(context, R.attr.colorPrimary);
+    }
+    public static int getThemeAttrColor(@NonNull Context context, @AttrRes int attr) {
+        TypedArray a = context.obtainStyledAttributes(null, new int[]{attr});
+        try {
+            return a.getColor(0, 0);
+        } finally {
+            a.recycle();
+        }
+    }
     /**
      * 获取两点间距离
      *

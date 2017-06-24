@@ -74,6 +74,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
         projectId = getIntent().getStringExtra(PROJECT_ID);
         mCalendar = Calendar.getInstance();
         onMonthChange(mCalendar.getTime());
+
     }
 
     private void onMonthChange(Date time) {
@@ -138,7 +139,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode()==200) {
+                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0) {
 
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
@@ -269,8 +270,6 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                                         mExpandableListView.setAdapter(adapter);
 
                                     } else {
-//                                        adapter = new ExpandAdapter(context, personalData);
-//                                        mExpandableListView.setAdapter(adapter);
 
                                     }
 
@@ -301,7 +300,18 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                 break;
             case R.id.btnPri:
                 mCalendar.add(Calendar.MONTH, -1);
-                onMonthChange(mCalendar.getTime());
+                String mDate = new SimpleDateFormat("yyyy-MM").format(mCalendar.getTime());
+                String mDates=new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime());
+                if (Integer.parseInt(mDate.substring(0,4))>Integer.parseInt(mDates.substring(0,4))){
+
+                    onMonthChange(mCalendar.getTime());
+                }else if (Integer.parseInt(mDate.substring(6,mDate.length()))>=
+                        Integer.parseInt(mDates.substring(6,mDates.length()))){
+                    onMonthChange(mCalendar.getTime());
+                }else {
+                    mCalendar.add(Calendar.MONTH, 1);
+                }
+
                 break;
             case R.id.btnNext:
                 mCalendar.add(Calendar.MONTH, 1);

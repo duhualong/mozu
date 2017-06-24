@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tv_position_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:padding="10dp"
+        android:text="保安经理 | Eenie"
+        android:textSize="16sp"/>
+    <org.eenie.wgj.ui.attendance.SignCalendar
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:sign_dividerColor="#ffffff"
+        app:sign_dayBackground="@drawable/sign_calendar_statistic_day_bg_selector"
+        app:sign_dayTextColor="@color/sign_calendar_statistic_day_text_selector">
+    </org.eenie.wgj.ui.attendance.SignCalendar>
+
+
+
+</LinearLayout>

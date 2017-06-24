@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:background="@color/white_light"
+    android:orientation="vertical"
+
+>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="6dp"
+                        android:background="@color/white">
+            <ImageView android:id="@id/item_img_old"
+                       android:layout_width="match_parent"
+                       android:layout_height="48dp"
+                       android:scaleType="centerCrop"
+                       android:src="@mipmap/ic_home_banner_one"
+            />
+            <TextView android:id="@id/item_old_time"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/item_img_old"
+                      android:layout_margin="@dimen/padding_bottom"
+                      android:text="时间:11:00"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+            <TextView android:id="@id/item_old_address"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/item_old_time"
+                      android:layout_marginLeft="@dimen/padding_bottom"
+                      android:layout_marginStart="@dimen/padding_bottom"
+                      android:text="地点:测试"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentEnd="true"
+                      android:layout_alignParentRight="true"
+                      android:layout_alignParentBottom="true"
+                      android:text="@string/tv_detail"
+                      android:textSize="@dimen/text_normal_size"
+                      android:padding="@dimen/padding_short"
+                      android:textColor="@color/text_blue"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           >
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="#a0a0a0"
+            />
+            <TextView
+                android:id="@+id/tv_position"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/circle_blue"
+                android:gravity="center"
+                android:text="01"
+                android:textColor="#f5f5f5"
+                android:textSize="@dimen/text_normal_size"/>
+
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="6dp"
+                        android:background="@color/white">
+            <ImageView android:id="@id/item_img_new"
+                       android:layout_width="match_parent"
+                       android:layout_height="48dp"
+                       android:scaleType="centerCrop"
+                       android:src="@mipmap/ic_home_banner_one"
+            />
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+                       android:id="@id/img_nothing"
+                       android:visibility="gone"
+            android:src="@mipmap/ic_take_photo"/>
+            <TextView android:id="@id/item_new_time"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/item_img_new"
+                      android:layout_margin="@dimen/padding_bottom"
+                      android:text="时间:11:00"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+            <TextView android:id="@id/item_new_address"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="@dimen/padding_bottom"
+                      android:layout_marginStart="@dimen/padding_bottom"
+                      android:layout_below="@id/item_new_time"
+                      android:text="地点:测试"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentEnd="true"
+                      android:layout_alignParentRight="true"
+                      android:layout_alignParentBottom="true"
+                      android:text="@string/tv_detail"
+                      android:id="@id/item_detail"
+                      android:textSize="@dimen/text_normal_size"
+                      android:padding="@dimen/padding_short"
+                      android:textColor="@color/text_blue"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

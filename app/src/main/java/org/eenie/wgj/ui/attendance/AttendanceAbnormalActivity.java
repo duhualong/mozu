@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,9 +42,16 @@ import rx.schedulers.Schedulers;
 
 public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.swipe_refresh_list)SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.recycler_attendance_abnormal)RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh_list)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.recycler_attendance_abnormal)
+    RecyclerView mRecyclerView;
     private AbnormalAdapter mAdapter;
+    public static final String DATE = "date";
+    public static final String UID = "uid";
+    private String date;
+    private String uid;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_attendance_abnormal;
@@ -51,7 +59,8 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
 
     @Override
     protected void updateUI() {
-       // getIntent().getStringExtra()
+        date = getIntent().getStringExtra(DATE);
+        uid = getIntent().getStringExtra(UID);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -69,10 +78,13 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
 
 
     private void getAttendanceList(String date) {
+        if (TextUtils.isEmpty(uid)) {
+            uid = mPrefsHelper.getPrefs().getString(Constants.UID, "");
+        }
 
         mSubscription = mRemoteService.getAttendanceDayOfMonth(
                 mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
-                date,mPrefsHelper.getPrefs().getString(Constants.UID,""))
+                date, uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -100,28 +112,28 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
                                                 }.getType());
                                 if (data != null) {
 
-                                        if (mAdapter != null) {
-                                            ArrayList<AttendanceAbnormal>
-                                                    mData=new ArrayList<>();
-                                            for (int i=0;i<data.size();i++){
-                                                if (data.get(i).getStateCode()==1){
-                                                    mData.add(data.get(i));
-                                                }
+                                    if (mAdapter != null) {
+                                        ArrayList<AttendanceAbnormal>
+                                                mData = new ArrayList<>();
+                                        for (int i = 0; i < data.size(); i++) {
+                                            if (data.get(i).getStateCode() == 1) {
+                                                mData.add(data.get(i));
                                             }
-                                            Log.d("test", "data: "+gson.toJson(mData));
-
-                                                mAdapter.addAll(mData);
-
                                         }
+                                        Log.d("test", "data: " + gson.toJson(mData));
+
+                                        mAdapter.addAll(mData);
+
+                                    }
 
                                 }
 
 
                             }
 
-                        }else {
+                        } else {
                             Toast.makeText(context,
-                                    apiResponse.getResultMessage(),Toast.LENGTH_SHORT).show();
+                                    apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -142,14 +154,20 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
         onRefresh();
     }
 
-    @OnClick(R.id.img_back)public void onClick(){
+    @OnClick(R.id.img_back)
+    public void onClick() {
         onBackPressed();
     }
 
     @Override
     public void onRefresh() {
         mAdapter.clear();
-        getAttendanceList(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
+        if (TextUtils.isEmpty(date)) {
+            getAttendanceList(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
+
+        } else {
+            getAttendanceList(date);
+        }
 
 
     }
@@ -178,9 +196,14 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
 
 
                 if (data != null) {
-                    holder.attendanceTimeScope.setText(data.getDate()+" "+
-                            data.getService().getStarttime()+"-"+data.getService().getEndtime());
-                    if (data.getCheckin().getLate()==0&&data.getSignback().getLate()==0){
+                    if (data.getService().getStarttime()!=null){
+                        holder.attendanceTimeScope.setText(data.getDate() + " " +
+                                data.getService().getStarttime() + "-" + data.getService().getEndtime());
+                    }else {
+                        holder.attendanceTimeScope.setText(data.getDate());
+                    }
+
+                    if (data.getCheckin().getLate() == 0 && data.getSignback().getLate() == 0) {
                         holder.attendanceStartCause.setText(data.getStateDes());
                         holder.attendanceStartAddress.setText("无");
                         holder.attendanceEndCause.setVisibility(View.GONE);
@@ -188,11 +211,11 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
                         holder.attendanceEndAddress.setVisibility(View.GONE);
                         holder.attendanceEndAddressContent.setVisibility(View.GONE);
 
-                    }else if (data.getCheckin().getLate()==2&&data.getSignback().getLate()==2){
+                    } else if (data.getCheckin().getLate() == 2 && data.getSignback().getLate() == 2) {
                         holder.attendanceStartCause.setText(data.getCheckin().getStatus());
-                        if (data.getCheckin().getAddress()!=null){
+                        if (data.getCheckin().getAddress() != null) {
                             holder.attendanceStartAddress.setText(data.getCheckin().getAddress());
-                        }else {
+                        } else {
                             holder.attendanceStartAddress.setText("无");
 
                         }
@@ -202,13 +225,12 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
                         holder.attendanceEndCauseContent.setText(data.getSignback().getStatus());
                         holder.attendanceEndAddress.setVisibility(View.VISIBLE);
                         holder.attendanceEndAddressContent.setVisibility(View.VISIBLE);
-                        if (data.getSignback().getAddress()!=null){
+                        if (data.getSignback().getAddress() != null) {
                             holder.attendanceEndAddressContent.setText(data.getSignback().getAddress());
-                        }else {
+                        } else {
                             holder.attendanceEndAddressContent.setText("无");
 
                         }
-
 
                     }
 
@@ -249,11 +271,11 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
                 attendanceTimeScope = ButterKnife.findById(itemView, R.id.attendance_time_scope);
                 attendanceStartCause = ButterKnife.findById(itemView, R.id.abnormal_cause_content);
                 attendanceStartAddress = ButterKnife.findById(itemView, R.id.attendance_address);
-                attendanceEndCause=ButterKnife.findById(itemView,R.id.attendance_end_cause);
-                attendanceEndCauseContent= ButterKnife.findById(itemView,
+                attendanceEndCause = ButterKnife.findById(itemView, R.id.attendance_end_cause);
+                attendanceEndCauseContent = ButterKnife.findById(itemView,
                         R.id.attendance_end_cause_content);
-                attendanceEndAddress=ButterKnife.findById(itemView,R.id.attendance_end_address);
-                attendanceEndAddressContent=ButterKnife.findById(itemView,
+                attendanceEndAddress = ButterKnife.findById(itemView, R.id.attendance_end_address);
+                attendanceEndAddressContent = ButterKnife.findById(itemView,
                         R.id.attendance_end_address_content);
 
             }

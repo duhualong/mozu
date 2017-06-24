@@ -244,9 +244,7 @@ public class RegisterSecondFragment extends BaseFragment {
 
         });
 
-
     }
-
     private void registerInformationApply(String username, String password, String name,
                                           String gender, String birthday, String address,
                                           String number, String publisher, String validate,
@@ -469,7 +467,7 @@ public class RegisterSecondFragment extends BaseFragment {
         File cropFile = new File(context.getCacheDir(), "a.jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(8, 5)
-                .withMaxResultSize(480, 300)
+                .withMaxResultSize(640, 400)
                 .start(context, this, requestCode);
     }
 
@@ -485,7 +483,6 @@ public class RegisterSecondFragment extends BaseFragment {
                 .compressToFile(file);
     }
     public static Uri getImageContentUri(Context context, String filePath) {
-
         Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[] { MediaStore.Images.Media._ID }, MediaStore.Images.Media.DATA + "=? ",
                 new String[] { filePath }, null);
@@ -503,7 +500,6 @@ public class RegisterSecondFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK) {
-
             switch (requestCode) {
                 case 111:
 
@@ -539,14 +535,11 @@ public class RegisterSecondFragment extends BaseFragment {
                         }
                     }.start();
 
-
                     break;
                 case TAKE_PHOTO_REQUEST_ONES:
                     startCropImage(imageUri, RESPONSE_CODE_NEGIVITE);
 
-
                     break;
-
                 case RESPONSE_CODE_NEGIVITE:
                     Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), negativeImg))
                             .subscribeOn(Schedulers.io())
@@ -557,15 +550,12 @@ public class RegisterSecondFragment extends BaseFragment {
                     backUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     // String imgUrls = ImageUtils.getRealPath(context, imageUri);
                     // negativeImg.setImageURI(imageUri);
-
                     Snackbar.make(rootView, "身份证背面上传成功！", Snackbar.LENGTH_LONG).show();
                     fileCardBack = new File(backUrl);
                     uploadFile(fileCardFront, 1);
-
                     new Thread() {
                         public void run() {
                             initData(Compressor.getDefault(context).compressToFile(fileCardBack), "3");
-
 
                         }
                     }.start();
@@ -782,7 +772,6 @@ public class RegisterSecondFragment extends BaseFragment {
                                     }
                                     System.out.println("endTime:" + endTime);
                                     break;
-
 
                             }
                         }

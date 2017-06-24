@@ -56,18 +56,29 @@
 
     </LinearLayout>
 
+    <!--<com.loonggg.weekcalendar.view.WeekCalendar-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:paddingBottom="10dp"-->
+        <!--app:cornerMarkBg="@drawable/ic_class_circler_red"-->
+        <!--app:daysSelectedBackground="@drawable/green_bg"-->
+        <!--app:hideTodayName="false"-->
+        <!--app:isCornerMark="false"-->
+        <!--app:isShowMonth="false"-->
+    <!--/>-->
     <com.loonggg.weekcalendar.view.WeekCalendar
         android:id="@+id/week_calendar"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="#ffffff"
         android:paddingBottom="10dp"
-        app:cornerMarkBg="@drawable/ic_class_circler_red"
         app:daysSelectedBackground="@drawable/green_bg"
-        app:hideTodayName="false"
-        app:isCornerMark="false"
+        app:isCornerMark="true"
         app:isShowMonth="false"
-    />
+        app:weekTextColor="#666"
+        app:monthBackgroundColor="#8F83F1"
+       />
     <RelativeLayout android:id="@id/rl_attendance_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

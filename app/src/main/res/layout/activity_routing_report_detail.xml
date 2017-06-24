@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="上报信息"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <TextView android:id="@id/report_order"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/text_blue"
+              android:padding="@dimen/padding_bottom"
+              android:text="报修单  "
+              android:textColor="@color/white"
+              android:textSize="@dimen/text_large_size"/>
+    <TextView android:id="@id/report_name"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:padding="@dimen/padding_bottom"
+              android:text="上报人员"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+    <TextView android:id="@id/report_time"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="1dp"
+              android:background="@color/white"
+              android:padding="@dimen/padding_bottom"
+              android:text="巡检时间"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+    <TextView android:id="@id/report_status"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="1dp"
+              android:background="@color/white"
+              android:padding="@dimen/padding_bottom"
+              android:text="巡检情况"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+    <TextView android:id="@id/report_address"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="1dp"
+              android:background="@color/white"
+              android:padding="@dimen/padding_bottom"
+              android:text="巡检地点"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:id="@+id/text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="异常详情"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/report_content"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/padding_short"
+                  android:layout_marginStart="@dimen/padding_short"
+                  android:layout_toEndOf="@+id/text"
+                  android:layout_toRightOf="@+id/text"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="1dp"
+                  android:background="@color/white"
+                  android:orientation="horizontal"
+                  android:id="@id/line_img"
+                  android:padding="@dimen/padding_bottom">
+        <ImageView android:layout_width="72dp"
+                   android:layout_height="72dp"
+                   android:id="@id/img_first"/>
+        <ImageView android:layout_width="72dp"
+                   android:layout_height="72dp"
+                   android:id="@id/img_second"
+                   android:layout_marginStart="@dimen/padding_bottom"
+                   android:layout_marginLeft="@dimen/padding_bottom"
+                  />
+        <ImageView android:layout_width="72dp"
+                   android:layout_height="72dp"
+                   android:id="@id/img_third"
+                   android:layout_marginStart="@dimen/padding_bottom"
+                   android:layout_marginLeft="@dimen/padding_bottom"
+                  />
+
+
+    </LinearLayout>
+</LinearLayout>

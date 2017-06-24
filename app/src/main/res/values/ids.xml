@@ -586,4 +586,44 @@
     <item name="tv_leave_people" type="id"/>
     <item name="tv_add_people" type="id"/>
     <item name="tv_experience_count" type="id"/>
+    <item name="tv_fighting_second_gold" type="id"/>
+    <item name="tv_fighting_third_gold" type="id"/>
+    <item name="recycler_sort" type="id"/>
+    <item name="img_sort" type="id"/>
+    <item name="img_gold_number" type="id"/>
+    <item name="tv_gold_number" type="id"/>
+    <item name="attendance_day" type="id"/>
+    <item name="attendance_first" type="id"/>
+    <item name="attendance_first_count" type="id"/>
+    <item name="rest_day" type="id"/>
+    <item name="rest_day_two" type="id"/>
+    <item name="rest_day_three" type="id"/>
+    <item name="rest_day_four" type="id"/>
+    <item name="item_cause" type="id"/>
+    <item name="recycler_view" type="id"/>
+    <item name="rl_add_employees" type="id"/>
+    <item name="rl_leave_people" type="id"/>
+    <item name="tv_routing_line_name" type="id"/>
+    <item name="rl_routing_start" type="id"/>
+    <item name="rl_routing_report" type="id"/>
+    <item name="rl_routing_record" type="id"/>
+    <item name="line_detail" type="id"/>
+    <item name="report_name" type="id"/>
+    <item name="report_order" type="id"/>
+    <item name="report_time" type="id"/>
+    <item name="report_status" type="id"/>
+    <item name="report_address" type="id"/>
+    <item name="report_content" type="id"/>
+    <item name="line_img" type="id"/>
+    <item name="item_number_circle" type="id"/>
+    <item name="item_point_number" type="id"/>
+    <item name="item_img_old" type="id"/>
+    <item name="item_old_time" type="id"/>
+    <item name="item_old_address" type="id"/>
+    <item name="item_new_time" type="id"/>
+    <item name="item_new_old" type="id"/>
+    <item name="item_img_new" type="id"/>
+    <item name="item_new_address" type="id"/>
+    <item name="item_detail" type="id"/>
+    <item name="img_nothing" type="id"/>
 </resources>

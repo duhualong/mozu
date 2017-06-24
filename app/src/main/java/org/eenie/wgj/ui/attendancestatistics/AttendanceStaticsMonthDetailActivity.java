@@ -1,10 +1,12 @@
 package org.eenie.wgj.ui.attendancestatistics;
 
+import android.content.Intent;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.lzyzsd.circleprogress.DonutProgress;
@@ -89,6 +91,14 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
 
     @BindView(R.id.rl_fighting_team)RelativeLayout rlFightingSort;
     @BindView(R.id.rl_first_fighting_gold) RelativeLayout rlFightingFirst;
+    @BindView(R.id.img_avatar_fighting_first)CircleImageView avatarFirstFighting;
+    @BindView(R.id.tv_fighting_first_gold)TextView tvFightingFirst;
+    @BindView(R.id.rl_second_fighting_gold)RelativeLayout rlFightingSecond;
+    @BindView(R.id.img_avatar_fighting_second)CircleImageView avatarSecondFighting;
+    @BindView(R.id.tv_fighting_second_gold)TextView tvFightingSecond;
+    @BindView(R.id.rl_third_fighting_gold)RelativeLayout rlFightingThird;
+    @BindView(R.id.tv_fighting_third_gold)TextView tvFightingThird;
+    @BindView(R.id.img_avatar_fighting_third)CircleImageView avatarThirdFighting;
 
 
 
@@ -109,6 +119,111 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
         }
         getAttendanceData(projectId, date);
 
+    }
+
+    @OnClick({R.id.img_back, R.id.rl_sort_all,R.id.rl_sort_team,R.id.rl_fighting_team,
+            R.id.tv_late_count,R.id.tv_absent_count,R.id.tv_leave_early_count,R.id.rl_add_employees,
+    R.id.tv_leave_count,R.id.tv_outside_count,R.id.tv_second_count,R.id.tv_experience_count,
+            R.id.tv_overtime_count,R.id.rl_leave_people})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+
+                onBackPressed();
+                break;
+            case R.id.rl_sort_all:
+                startActivity(new Intent(context,AttendanceSortMonthActivity.class)
+                .putExtra(AttendanceSortMonthActivity.DATE,date)
+                .putExtra(AttendanceSortMonthActivity.PROJECT_ID,projectId));
+
+
+                break;
+            case R.id.rl_sort_team:
+                startActivity(new Intent(context,AttendanceSortTeamMonthActivity.class)
+                .putExtra(AttendanceSortTeamMonthActivity.PROJECT_ID,projectId)
+                .putExtra(AttendanceSortTeamMonthActivity.DATE,date));
+                break;
+            case R.id.rl_fighting_team:
+                startActivity(new Intent(context,AttendanceFightingSortActivity.class)
+                        .putExtra(AttendanceFightingSortActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendanceFightingSortActivity.DATE,date));
+                break;
+            case R.id.tv_late_count:
+
+                startActivity(new Intent(context,AttendanceCauseActivity.class)
+                        .putExtra(AttendanceCauseActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendanceCauseActivity.DATE,date));
+                break;
+            case R.id.tv_absent_count:
+                //旷工
+                startActivity(new Intent(context,AttendanceAbsoluteActivity.class)
+                        .putExtra(AttendanceAbsoluteActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendanceAbsoluteActivity.DATE,date));
+
+                break;
+            case R.id.tv_leave_early_count:
+                //早退
+                startActivity(new Intent(context,AttendanceLeaveEarlyActivity.class)
+                        .putExtra(AttendanceLeaveEarlyActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendanceLeaveEarlyActivity.DATE,date));
+
+                break;
+            //新增人员
+            case R.id.rl_add_employees:
+                startActivity(new Intent(context,AttendanceNewEmplyeesActivity.class)
+                        .putExtra(AttendanceNewEmplyeesActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendanceNewEmplyeesActivity.DATE,date));
+
+                break;
+            //请假人员
+            case R.id.tv_leave_count:
+
+                startActivity(new Intent(context,AttendanceLeaveActivity.class)
+                        .putExtra(AttendanceLeaveActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendanceLeaveActivity.DATE,date));
+
+                break;
+            //外出人员
+            case R.id.tv_outside_count:
+
+                startActivity(new Intent(context,AttendanceGoOutActivity.class)
+                        .putExtra(AttendanceGoOutActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendanceGoOutActivity.DATE,date));
+
+
+                break;
+
+
+
+            //借调人员
+            case R.id.tv_second_count:
+
+                startActivity(new Intent(context,AttendanceSecondedActivity.class)
+                        .putExtra(AttendanceSecondedActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendanceSecondedActivity.DATE,date));
+
+                break;
+            //实习人员
+            case R.id.tv_experience_count:
+                startActivity(new Intent(context,AttendancePracticeActivity.class)
+                        .putExtra(AttendancePracticeActivity.PROJECT_ID,projectId)
+                        .putExtra(AttendancePracticeActivity.DATE,date));
+
+                break;
+            case R.id.rl_leave_people:
+
+                Toast.makeText(context,"离职人员暂无数据",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_overtime_count:
+
+                Toast.makeText(context,"加班考勤暂无数据",Toast.LENGTH_SHORT).show();
+                break;
+
+
+
+
+
+        }
     }
 
     private void getAttendanceData(String projectId, String date) {
@@ -165,14 +280,20 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                 if (data.getMonth_rank()!=null){
                                     updateTeamUI(data.getMonth_rank());
                                 }else {
+                                    rlSortTeam.setClickable(false);
                                     rlTeamFirst.setVisibility(View.GONE);
                                     rlTeamSecond.setVisibility(View.GONE);
                                     rlTeamThird.setVisibility(View.GONE);
 
                                 }
                                 if (data.getMonth_refuel()!=null){
+                                    updateFightingUI(data.getMonth_refuel());
 
                                 }else {
+                                    rlFightingSort.setClickable(false);
+                                    rlFightingFirst.setVisibility(View.GONE);
+                                    rlFightingSecond.setVisibility(View.GONE);
+                                    rlFightingThird.setVisibility(View.GONE);
 
                                 }
 
@@ -256,18 +377,76 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                         rlAllFirst.setVisibility(View.GONE);
                                         rlAllSecond.setVisibility(View.GONE);
                                         rlAllThird.setVisibility(View.GONE);
-
                                     }
                                 }
                             }
                         }
-
                 });
 
     }
 
+    private void updateFightingUI(List<AttendanceMonthItem.MonthRefuelBean> mData) {
+        if (mData.size()==1){
+            rlFightingFirst.setVisibility(View.VISIBLE);
+            rlFightingSecond.setVisibility(View.GONE);
+            rlFightingThird.setVisibility(View.GONE);
+            if (mData.get(0).getId_card_head_image()!=null){
+                Glide.with(context).load(Constant.DOMIN+
+                        mData.get(0).
+                                getId_card_head_image())
+                        .centerCrop().into(avatarFirstFighting);
+            }
+            tvFightingFirst.setText(mData.get(0).getName());
+
+        }else if (mData.size()==2){
+            rlFightingFirst.setVisibility(View.VISIBLE);
+            rlFightingSecond.setVisibility(View.VISIBLE);
+            rlFightingThird.setVisibility(View.GONE);
+            if (mData.get(0).getId_card_head_image()!=null){
+                Glide.with(context).load(Constant.DOMIN+
+                        mData.get(0).
+                                getId_card_head_image())
+                        .centerCrop().into(avatarFirstFighting);
+            }
+            tvFightingFirst.setText(mData.get(0).getName());
+            if (mData.get(1).getId_card_head_image()!=null){
+                Glide.with(context).load(Constant.DOMIN+
+                        mData.get(1).
+                                getId_card_head_image())
+                        .centerCrop().into(avatarSecondFighting);
+            }
+            tvFightingSecond.setText(mData.get(1).getName());
+
+        }else if (mData.size()>=3){
+            rlFightingFirst.setVisibility(View.VISIBLE);
+            rlFightingSecond.setVisibility(View.VISIBLE);
+            rlFightingThird.setVisibility(View.VISIBLE);
+            if (mData.get(0).getId_card_head_image()!=null){
+                Glide.with(context).load(Constant.DOMIN+
+                        mData.get(0).
+                                getId_card_head_image())
+                        .centerCrop().into(avatarFirstFighting);
+            }
+            tvFightingFirst.setText(mData.get(0).getName());
+            if (mData.get(1).getId_card_head_image()!=null){
+                Glide.with(context).load(Constant.DOMIN+
+                        mData.get(1).
+                                getId_card_head_image())
+                        .centerCrop().into(avatarSecondFighting);
+            }
+            tvFightingSecond.setText(mData.get(1).getName());
+            if (mData.get(2).getId_card_head_image()!=null){
+                Glide.with(context).load(Constant.DOMIN+
+                        mData.get(2).
+                                getId_card_head_image())
+                        .centerCrop().into(avatarThirdFighting);
+            }
+            tvFightingThird.setText(mData.get(2).getName());
+
+        }
+    }
+
     private void updateTeamUI(List<AttendanceMonthItem.MonthRankBean> mData) {
-        if (mData!=null){
             if (mData.size()==1){
                 rlTeamFirst.setVisibility(View.VISIBLE);
                 rlTeamSecond.setVisibility(View.GONE);
@@ -337,22 +516,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                         get(2).getName());
             }
 
-        }else {
 
-        }
     }
 
-    @OnClick({R.id.img_back, R.id.rl_sort_all})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.img_back:
-
-                onBackPressed();
-                break;
-            case R.id.rl_sort_all:
-
-
-                break;
-        }
-    }
 }

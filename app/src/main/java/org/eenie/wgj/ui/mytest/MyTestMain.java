@@ -41,7 +41,8 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
     private int screenWidth, screenHeight;
 
     private FocusSurfaceView previewSFV;
-    private Button mTakeBT, mThreeFourBT, mFourThreeBT, mNineSixteenBT, mSixteenNineBT, mFitImgBT, mCircleBT, mFreeBT, mSquareBT,
+    private Button mTakeBT, mThreeFourBT, mFourThreeBT, mNineSixteenBT,
+            mSixteenNineBT, mFitImgBT, mCircleBT, mFreeBT, mSquareBT,
             mCircleSquareBT, mCustomBT;
 
     private Camera mCamera;
@@ -151,6 +152,7 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
             try {
                 mCamera = android.hardware.Camera.open(0);//1:采集指纹的摄像头. 0:拍照的摄像头.
                 mCamera.setPreviewDisplay(mHolder);
+                mCamera.cancelAutoFocus();
             } catch (Exception e) {
                 Snackbar.make(mTakeBT, "camera open failed!", Snackbar.LENGTH_SHORT).show();
                 finish();
@@ -162,7 +164,8 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
     }
 
     private boolean checkPermission() {
-        return ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA) ==
+                PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {
@@ -223,7 +226,6 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
         try {
             Camera.Parameters parameters = mCamera.getParameters();
 
-
             int w = 0;
             int h = 0;
 
@@ -233,9 +235,7 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
                     w = size.width;
                     h = size.height;
                 }
-//                LogUtil.e(String.format("PreviewSize w = %s h = %s", size.width, size.height));
             }
-
 
             int pw = 0;
             int ph = 0;
@@ -246,15 +246,7 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
                     ph = size.height;
                 }
             }
-
-
-//            Camera.Size size = parameters.getSupportedPreviewSizes().get(0);
-
             int orientation = judgeScreenOrientation();
-
-//            System.out.println("orientation " + orientation);
-
-
             if (Surface.ROTATION_0 == orientation) {
                 mCamera.setDisplayOrientation(90);
                 parameters.setRotation(270);
@@ -268,7 +260,6 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
                 mCamera.setDisplayOrientation(180);
                 parameters.setRotation(180);
             }
-
             LogUtil.e(String.format("PreviewSize w = %s h = %s", w, h));
             parameters.setPictureSize(pw, ph);
             parameters.setPreviewSize(w, h);
@@ -280,6 +271,28 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
     }
 
 
+    /**
+     * 按比例缩放图片
+     *
+     * @param origin 原图
+     * @param ratio  比例
+     * @return 新的bitmap
+     */
+    private Bitmap scaleBitmap(Bitmap origin, float ratio) {
+        if (origin == null) {
+            return null;
+        }
+        int width = origin.getWidth();
+        int height = origin.getHeight();
+        Matrix matrix = new Matrix();
+        matrix.preScale(ratio, ratio);
+        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
+        if (newBM.equals(origin)) {
+            return newBM;
+        }
+        origin.recycle();
+        return newBM;
+    }
 
 
     @Override
@@ -302,8 +315,15 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+        //实现自动对焦
+       mCamera.autoFocus(new Camera.AutoFocusCallback() {
+           @Override
+           public void onAutoFocus(boolean success, Camera camera) {
+               camera.cancelAutoFocus();//只有加上了这一句，才会自动对
+           }
+       });
 
-    }
+        }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
@@ -382,27 +402,38 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
                         public void onPictureTaken(byte[] data, Camera camera) {
                             Bitmap originBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                             Bitmap cropBitmap = previewSFV.getPicture(data);
-//                            rotateBitmap(cropBitmap,90);
-                            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),rotateBitmap(cropBitmap,90), null,null));
+                            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+                                    rotateBitmap(cropBitmap,90), null,null));
                             Intent intent=new Intent();
                             intent.putExtra("uri",uri.toString());
                             setResult(RESULT_OK,intent);
 
                             finish();
-//                            PictureFragment pictureFragment = new PictureFragment();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putParcelable(ORIGIN_PICTURE, originBitmap);
-//                            bundle.putParcelable(CROP_PICTURE, cropBitmap);
-//                            pictureFragment.setArguments(bundle);
-                          //  pictureFragment.show(getFragmentManager(), null);
 
-//                            mCamera.startPreview();
                         }
                     });
                 }
             }
         });
     }
+    private Bitmap scaleBitmap(Bitmap origin, int newWidth, int newHeight) {
+        if (origin == null) {
+            return null;
+        }
+        int height = origin.getHeight();
+        int width = origin.getWidth();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);// 使用后乘
+        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
+        if (!origin.isRecycled()) {
+            origin.recycle();
+        }
+        return newBM;
+    }
+
+
 
     private Bitmap rotateBitmap(Bitmap origin, float alpha) {
         if (origin == null) {

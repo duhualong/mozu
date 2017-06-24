@@ -25,7 +25,6 @@ import org.eenie.wgj.util.Constants;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,6 +55,8 @@ public class AttendanceActivity extends BaseActivity {
     @BindView(R.id.end_time_result)TextView tvEndTimeAttendance;
     @BindView(R.id.start_attendance_address)TextView tvStartAttendanceAddress;
     @BindView(R.id.end_attendance_address)TextView tvEndAttendanceAddress;
+    private ArrayList<String> mList=new ArrayList<>();
+    private ArrayList<String>mLists=new ArrayList<>();
 
 
     @Override
@@ -65,18 +66,93 @@ public class AttendanceActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+      initUI();
+        if (mList==null||mLists==null){
+            mList.add("2017-06-19");
+            mList.add("2017-06-20");
+            mList.add("2017-06-21");
+            mList.add("2017-06-23");
+            mList.add("2017-06-24");
+            mLists.add("日班");
+            mLists.add("日班");
+            mLists.add("日班");
+            mLists.add("常日班加班");
+            mLists.add("常日班加班");
+            mWeekCalendar.setSelectDates(mList,mLists);
+        }else {
+            mWeekCalendar.setSelectDates(mList,mLists);
+        }
+//
+
         getUserInfo();
         mTitle.setText(new SimpleDateFormat("yyyy年MM月").format(Calendar.getInstance().getTime()));
         mWeekCalendar.showToday();
-        getAttendanceList(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
+        mWeekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
+            @Override
+            public void onDateClick(String time) {
+                showAttendanceInfo(time);
+            }
+        });
 
-        mWeekCalendar.setOnDateClickListener(this::showAttendanceInfo
-        );
         mWeekCalendar.setOnCurrentMonthDateListener((year, month) -> {
             mTitle.setText(year + "年" + month + "月");
         });
 
+
     }
+
+    private void initUI() {
+        System.out.println("ssss");
+            mSubscription = mRemoteService.getAttendanceList(
+                    mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
+                    new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ApiResponse>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(ApiResponse apiResponse) {
+                            if (apiResponse.getResultCode() == 200 ||
+                                    apiResponse.getResultCode() == 0) {
+                                if (apiResponse.getData() != null) {
+                                    String jsonArray = gson.toJson(apiResponse.getData());
+                                    attendanceResponse =
+                                            gson.fromJson(jsonArray,
+                                                    new TypeToken<ArrayList<AttendanceListResponse>>() {
+                                                    }.getType());
+
+
+                                    if (attendanceResponse!=null){
+                                        for (int i=0;i<attendanceResponse.size();i++){
+                                            mList.add(attendanceResponse.get(i).getDay());
+                                            mLists.add(attendanceResponse.get(i).getService().getServicesname());
+                                        }
+                                        Log.d("Test数组", "onNext: "+gson.toJson(mList));
+                                        mWeekCalendar.setSelectDates(mList,mLists);
+                                    }
+
+                                }
+
+//传入已经预约或者曾经要展示选中的时间列表
+
+
+                            }
+
+                        }
+                    });
+
+
+    }
+
 
     private void showAttendanceInfo(String date) {
         System.out.println("data"+date);
@@ -172,9 +248,6 @@ public class AttendanceActivity extends BaseActivity {
                     Toast.makeText(context,"今天暂无考勤信息",Toast.LENGTH_LONG).show();
 
                 }
-
-
-
         }else {
             rlAttendanceInfo.setVisibility(View.GONE);
             Toast.makeText(context,"没有考勤信息",Toast.LENGTH_SHORT).show();
@@ -184,56 +257,7 @@ public class AttendanceActivity extends BaseActivity {
     }
 
 
-    private void getAttendanceList(String time) {
-        mSubscription = mRemoteService.getAttendanceList(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),time)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200 ||
-                                apiResponse.getResultCode() == 0) {
-                            if (apiResponse.getData() != null) {
-                                String jsonArray = gson.toJson(apiResponse.getData());
-                            attendanceResponse =
-                                        gson.fromJson(jsonArray,
-                                                new TypeToken<ArrayList<AttendanceListResponse>>() {
-                                                }.getType());
-
-
-                                List<String> list = new ArrayList<>();
-                                if (attendanceResponse!=null){
-                                    for (int i=0;i<attendanceResponse.size();i++){
-                                        list.add(attendanceResponse.get(i).getDay());
-                                    }
-                                    Log.d("list", "onNext: "+gson.toJson(list));
-
-                                    mWeekCalendar.setSelectDates(list);
-
-                                }
-
-                            }
-
-
-//传入已经预约或者曾经要展示选中的时间列表
-
-
-                        }
-
-                    }
-                });
-    }
 
     @OnClick({R.id.img_back, R.id.rl_sign_in, R.id.rl_sign_off, R.id.rl_work_overtime,
             R.id.rl_work_recoder,R.id.line_attendance_other,R.id.rl_attendance_info})
@@ -316,8 +340,6 @@ public class AttendanceActivity extends BaseActivity {
 
     private void checkSignOff() {
 
-
-
             mSubscription=mRemoteService.getSignOutInfor(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -397,7 +419,7 @@ public class AttendanceActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getAttendanceList(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
+      //  getAttendanceList(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
 
     }
 }

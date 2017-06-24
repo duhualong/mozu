@@ -13,6 +13,7 @@ import org.eenie.wgj.di.module.ApplicationModule;
 import org.eenie.wgj.ui.attendance.AttendanceActivity;
 import org.eenie.wgj.ui.attendancestatistics.AttendanceStatisticsActivity;
 import org.eenie.wgj.ui.project.ProjectSettingActivity;
+import org.eenie.wgj.ui.routinginspection.RoutingInspectionActivity;
 import org.eenie.wgj.ui.takephoto.TakePhotoSettingActivity;
 import org.eenie.wgj.ui.workshow.WorkShowListActivity;
 
@@ -78,7 +79,7 @@ public class App extends Application {
             false, 0, true));
     mModules.add(new HomeModule(AttendanceStatisticsActivity.class,
             "ic_home_attendance_statistics", "考勤统计", false, 1, true));
-    mModules.add(new HomeModule("ic_inspection", "巡检", false, 2, true));
+    mModules.add(new HomeModule(RoutingInspectionActivity.class,"ic_inspection", "巡检", false, 2, true));
     mModules.add(new HomeModule( "ic_inspection_statistics", "巡检统计", false, 3, true));
     mModules.add(new HomeModule("ic_home_module_form_up", "表单上传", false, 4, true));
     mModules.add(new HomeModule("ic_visitor_pass", "访客通行", false, 5, true));

@@ -93,16 +93,12 @@ public class AttendanceRecordActivity extends BaseActivity {
                                     mSignCalendar.setSignCalendarCellDecorator(mDecorator);
                                     mSignCalendar.initMonthView();
                                 }
-
-
                             }
 
                         }
 
                     }
                 });
-
-
     }
 
     @OnClick({R.id.img_back, R.id.rl_attendance_error})
@@ -112,7 +108,9 @@ public class AttendanceRecordActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.rl_attendance_error:
-                startActivity(new Intent(context, AttendanceAbnormalActivity.class));
+                startActivity(new Intent(context, AttendanceAbnormalActivity.class)
+                .putExtra(AttendanceAbnormalActivity.DATE,"")
+                .putExtra(AttendanceAbnormalActivity.UID,""));
                 break;
         }
     }

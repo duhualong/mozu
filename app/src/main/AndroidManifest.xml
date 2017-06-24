@@ -425,7 +425,61 @@
         <activity android:name=".ui.attendancestatistics.AttendanceStaticsMonthDetailActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
-
+        <!--月度综合排名详情-->
+        <activity android:name=".ui.attendancestatistics.AttendanceSortMonthActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--月度团队排名-->
+        <activity android:name=".ui.attendancestatistics.AttendanceSortTeamMonthActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendancestatistics.AttendanceRecorderMonthActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--月加油榜-->
+        <activity android:name=".ui.attendancestatistics.AttendanceFightingSortActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--考勤的原因-->
+        <activity android:name=".ui.attendancestatistics.AttendanceCauseActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendancestatistics.AttendanceLeaveEarlyActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendancestatistics.AttendanceNewEmplyeesActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendancestatistics.AttendanceLeaveActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendancestatistics.AttendanceGoOutActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendancestatistics.AttendanceSecondedActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendancestatistics.AttendancePracticeActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendancestatistics.AttendanceAbsoluteActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--巡检-->
+        <activity android:name=".ui.routinginspection.RoutingInspectionActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--上报信息-->
+        <activity android:name=".ui.routinginspection.ReportInformationActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--上报异常信息详情-->
+        <activity android:name=".ui.routinginspection.report.DetailShowActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.routinginspection.startrouting.RoutingStartSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--个人工时-->
         <!--<activity android:name=""-->
 

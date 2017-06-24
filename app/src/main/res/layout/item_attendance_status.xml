@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginBottom="@dimen/padding_bottom"
+>
+    <TextView android:id="@id/item_title"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/padding_bottom"
+              android:text="考勤人员  测试"
+              android:textSize="@dimen/text_large_size"
+
+              android:textColor="@color/black_light"/>
+    <View android:id="@+id/view" android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:layout_below="@id/item_title"
+          android:background="@color/white_light"/>
+
+    <TextView android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/view"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"
+              android:paddingLeft="@dimen/padding_bottom"
+              android:paddingStart="@dimen/padding_bottom"
+              android:paddingRight="@dimen/padding_bottom"
+              android:paddingEnd="@dimen/padding_bottom"
+              android:paddingTop="@dimen/padding_bottom"
+              android:text="考勤时间  2017-12-06 12:00"
+              android:id="@id/item_date"
+
+
+    />
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/item_date"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"
+              android:paddingLeft="@dimen/padding_bottom"
+              android:paddingStart="@dimen/padding_bottom"
+              android:paddingRight="@dimen/padding_bottom"
+              android:paddingEnd="@dimen/padding_bottom"
+              android:layout_marginTop="@dimen/padding_short"
+              android:layout_marginBottom="@dimen/padding_short"
+              android:text="迟到时长  15分钟"
+              android:id="@id/item_cause"
+
+
+    />
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/item_cause"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"
+              android:paddingLeft="@dimen/padding_bottom"
+              android:paddingStart="@dimen/padding_bottom"
+              android:paddingRight="@dimen/padding_bottom"
+              android:paddingEnd="@dimen/padding_bottom"
+              android:layout_marginBottom="@dimen/padding_short"
+              android:text="迟到时长  15分钟"
+              android:id="@id/item_post"
+              android:visibility="gone"
+
+
+    />
+</RelativeLayout>

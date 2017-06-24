@@ -356,6 +356,7 @@ public interface RemoteService {
     @GET("personalHours/UserList")
     Single<ApiResponse> getProjectTime(@Header("token") String token, @Query("date") String date,
                                        @Query("projectid") String projectId);
+
     //获取每月每天设置的项目工时
     @GET("hoursList")
     Single<ApiResponse> getMonthDayTime(@Header("token") String token, @Query("date") String date,
@@ -430,23 +431,92 @@ public interface RemoteService {
 
     //添加项目下的人员
     @POST("project_person_add")
-    Single<ApiResponse> addProjectPersonal(@Header("token")String token,
+    Single<ApiResponse> addProjectPersonal(@Header("token") String token,
                                            @Body CompanyPersonalRequest request);
+
     //删除项目下的人员
     @POST("project_person_del")
-    Single<ApiResponse> deleteProjectPersonal(@Header("token")String token,
+    Single<ApiResponse> deleteProjectPersonal(@Header("token") String token,
                                               @Body CompanyPersonalRequest request);
+
     //获取签退的信息
     @GET("signOff")
-    Single<ApiResponse>getSignOutInfor(@Header("token")String token);
+    Single<ApiResponse> getSignOutInfor(@Header("token") String token);
+
     //获取项目下的每月考勤信息
     @GET("total/date")
-    Single<ApiResponse>getProjectAttendanceMonth(@Header("token")String token,@Query("project_id")
-                                                 String projectId);
+    Single<ApiResponse> getProjectAttendanceMonth(@Header("token") String token, @Query("project_id")
+            String projectId);
+
     //获取所有的年月考勤统计
     @GET("total/indexlist")
-    Single<ApiResponse>getMonthSortItem(@Header("token")String token,@Query("projectid")String projectId,
-                                        @Query("date")String date);
+    Single<ApiResponse> getMonthSortItem(@Header("token") String token, @Query("projectid") String projectId,
+                                         @Query("date") String date);
+
+    //获取月度综合排名
+    @GET("month/integrated")
+    Single<ApiResponse> getMonthAllSort(@Header("token") String token, @Query("projectid") String projectId,
+                                        @Query("date") String date);
+
+    //月度团队排名
+    @GET("month/rank")
+    Single<ApiResponse> getMonthTeamSort(@Header("token") String token, @Query("date") String date,
+                                         @Query("projectid") String projectId);
+
+    //月度加油榜
+    @GET("month/refue")
+    Single<ApiResponse> getMonthFightingSort(@Header("token") String token, @Query("date") String date,
+                                             @Query("projectid") String projectId);
+
+    //考勤迟到
+    @GET("month/late")
+    Single<ApiResponse> getLateInformation(@Header("token") String token, @Query("date") String date,
+                                           @Query("projectid") String projectId);
+
+    //考勤旷工
+    @GET("month/absenteeism")
+    Single<ApiResponse> getAbsentInformation(@Header("token") String token, @Query("date") String date,
+                                             @Query("projectid") String projectId);
+
+    //考勤早退
+    @GET("month/early")
+    Single<ApiResponse> getEarlyInformation(@Header("token") String token, @Query("date") String date,
+                                            @Query("projectid") String projectId);
+
+    //考勤外出
+    @GET("month/goout")
+    Single<ApiResponse>getOutInformation(@Header("token") String token, @Query("date") String date,
+                      @Query("projectid") String projectId);
+
+    //考勤请假
+    @GET("month/leave")
+    Single<ApiResponse>getLeaveInformation(@Header("token") String token, @Query("date") String date,
+                                           @Query("projectid") String projectId);
+    //考勤借调
+    @GET("month/seconded")
+    Single<ApiResponse>getSecondInformation(@Header("token")String token,@Query("date") String date,
+                                            @Query("projectid") String projectId);
+    //考勤实习
+    @GET("month/practice")
+    Single<ApiResponse>getPracticeInformation(@Header("token")String token,@Query("date") String date,
+                                            @Query("projectid") String projectId);
+    //考勤新增人员
+    @GET("month/newemployees")
+    Single<ApiResponse>getNewEmployees(@Header("token")String token,@Query("date") String date,
+                                       @Query("projectid") String projectId);
+    //巡检线路
+    @GET("inspection/lineList")
+    Single<ApiResponse>getRoutingLineList(@Header("token")String token);
+    //获取巡检线路的详情
+    @GET("inspectionRate")
+    Single<ApiResponse>getLineDetail(@Header("token")String token,@Query("lineid")String lineId);
+    //获取巡检上报信息的记录
+    @GET("warrantyList")
+    Single<ApiResponse>getReportRoutingList(@Header("token")String token,@Query("type")int type);
+    //获取巡检路线上的点位
+    @GET("inspectionList")
+    Single<ApiResponse>getRoutingByLine(@Header("token")String token,@Query("lineid")String lineId);
+
 
 
 
