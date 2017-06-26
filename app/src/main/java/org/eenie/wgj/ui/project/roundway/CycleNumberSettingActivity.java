@@ -107,7 +107,6 @@ public class CycleNumberSettingActivity extends BaseActivity implements
 
                 break;
             case R.id.ly_add_keyman:
-
                 Intent intents = new Intent(context, AddCycleRoundActivity.class);
                 intents.putExtra(AddCycleRoundActivity.PROJECT_ID, projectId);
                 intents.putExtra(AddCycleRoundActivity.LINE_ID,mLineId+"");
@@ -188,7 +187,6 @@ public class CycleNumberSettingActivity extends BaseActivity implements
 
     }
 
-
     private void cancelRefresh() {
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);
@@ -241,7 +239,6 @@ public class CycleNumberSettingActivity extends BaseActivity implements
                     } else {
                         holder.itemPoint.setText("共0个巡检点");
                     }
-
 
                 }
             }
@@ -298,7 +295,6 @@ public class CycleNumberSettingActivity extends BaseActivity implements
                         intent.putExtra(CycleNumberDetailActivity.PROJECT_ID,projectId);
                         intent.putExtra(CycleNumberDetailActivity.LINE_ID,String.valueOf(mLineId));
                         startActivity(intent);
-
 
 
                         break;

@@ -21,9 +21,9 @@
 
 
     <RelativeLayout
-        android:layout_width="54dp"
+        android:layout_width="60dp"
         android:layout_height="54dp"
-        android:id="@+id/rl_test"
+        android:id="@+id/rl_date_week"
         android:layout_gravity="center_horizontal">
 
         <TextView
@@ -45,6 +45,7 @@
                   android:textSize="10sp"
                   android:textColor="#666"
                   android:lines="1"
+                  android:visibility="visible"
         android:layout_centerHorizontal="true"/>
 
         <ImageView

@@ -107,8 +107,6 @@ public class CycleNumberDetailActivity extends BaseActivity {
                 }
                 startActivityForResult(intent, 1);
 
-
-
                 break;
             case R.id.button_delete:
                 //删除圈数

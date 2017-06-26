@@ -480,6 +480,16 @@
         <activity android:name=".ui.routinginspection.startrouting.RoutingStartSettingActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.routinginspection.startrouting.RoutingCircleNumberDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.routinginspection.startrouting.RoutingPointDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.routinginspection.startrouting.RoutingPointUploadActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--个人工时-->
         <!--<activity android:name=""-->
 
@@ -487,31 +497,6 @@
         <service android:name="com.amap.api.location.APSService"/>
 
 
-        <!--<provider-->
-        <!--android:name="android.support.v4.content.FileProvider"-->
-        <!--android:authorities="org.eenie.wgj.fileprovider"-->
-        <!--android:grantUriPermissions="true"-->
-        <!--android:exported="false">-->
-        <!--<meta-data-->
-        <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-        <!--android:resource="@xml/filepaths" />-->
-        <!--</provider>-->
-        <!--<service android:name="cn.jpush.android.service.PushService"-->
-        <!--android:process=":multiprocess"-->
-        <!--tools:node="replace" >-->
-
-        <!--</service>-->
-        <!--<service-->
-        <!--android:name="cn.jpush.android.service.PushService"-->
-        <!--android:enabled="true"-->
-        <!--android:exported="false">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="cn.jpush.android.intent.REGISTER" />-->
-        <!--<action android:name="cn.jpush.android.intent.REPORT" />-->
-        <!--<action android:name="cn.jpush.android.intent.PushService" />-->
-        <!--<action android:name="cn.jpush.android.intent.PUSH_TIME" />-->
-        <!--</intent-filter>-->
-        <!--</service>-->
 
 
         <receiver

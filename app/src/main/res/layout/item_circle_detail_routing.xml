@@ -13,6 +13,7 @@
         <RelativeLayout android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:id="@id/rl_old_circle_detail"
                         android:layout_marginBottom="6dp"
                         android:background="@color/white">
             <ImageView android:id="@id/item_img_old"
@@ -53,6 +54,10 @@
             android:id="@+id/layout_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
            >
             <View
                 android:layout_width="4dp"
@@ -74,6 +79,7 @@
         <RelativeLayout android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:id="@id/rl_new_circle_detail"
                         android:layout_marginBottom="6dp"
                         android:background="@color/white">
             <ImageView android:id="@id/item_img_new"
@@ -82,12 +88,7 @@
                        android:scaleType="centerCrop"
                        android:src="@mipmap/ic_home_banner_one"
             />
-            <ImageView android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-                       android:id="@id/img_nothing"
-                       android:visibility="gone"
-            android:src="@mipmap/ic_take_photo"/>
+
             <TextView android:id="@id/item_new_time"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -115,7 +116,14 @@
                       android:textSize="@dimen/text_normal_size"
                       android:padding="@dimen/padding_short"
                       android:textColor="@color/text_blue"/>
-
+            <ImageView android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_centerInParent="true"
+                       android:id="@id/img_nothing"
+                       android:background="@color/gray_light"
+                       android:scaleType="center"
+                       android:visibility="gone"
+                       android:src="@mipmap/ic_take_photo"/>
         </RelativeLayout>
     </LinearLayout>
 

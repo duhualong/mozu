@@ -74,6 +74,7 @@ public class WeekCalendar extends LinearLayout {
      * 初始化View
      */
     private void init(Context context, AttributeSet attrs) {
+
         this.context = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_calender, this, true);
@@ -120,6 +121,7 @@ public class WeekCalendar extends LinearLayout {
         theDayForShow = today;
         getWholeMonthDatas(theDayOfSelected);
         weekPosition = WeekCalendarUtil.getTheWeekPosition(weeks, theDayOfSelected);
+        //setSelectDates(selectDateList,selectDateThing);
     }
 
     /**
@@ -174,7 +176,7 @@ public class WeekCalendar extends LinearLayout {
      */
     private GridView addDayView() {
         LayoutParams params = new LayoutParams(
-                AbsListView.LayoutParams.FILL_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
+                AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
         final GridView gridView = new GridView(context);
         gridView.setNumColumns(7);
         gridView.setGravity(Gravity.CENTER_VERTICAL);
@@ -188,6 +190,7 @@ public class WeekCalendar extends LinearLayout {
     public void setSelectDates(ArrayList<String> list,ArrayList<String> stringList) {
         selectDateList = list;
         selectDateThing=stringList;
+
     }
 
 
@@ -314,12 +317,12 @@ public class WeekCalendar extends LinearLayout {
 
         @Override
         public View getItemView(final int position, View convertView, final ViewHolder viewHolder) {
-            final CalendarData calendar = (CalendarData) getItem(position);
-            final TextView dayView = (TextView) viewHolder.getView(R.id.tv_calendar_day);
-            final TextView weekView = (TextView) viewHolder.getView(R.id.tv_calendar_week);
+             CalendarData calendar = (CalendarData) getItem(position);
+             TextView dayView = (TextView) viewHolder.getView(R.id.tv_calendar_day);
+             TextView weekView = (TextView) viewHolder.getView(R.id.tv_calendar_week);
             ImageView corner_mark_iv = (ImageView) viewHolder.getView(R.id.corner_mark_iv);
-            final TextView dayThing=(TextView)viewHolder.getView(R.id.tv_thing);
-            final RelativeLayout rlSelect=(RelativeLayout)viewHolder.getView(R.id.rl_test);
+             TextView dayThing=(TextView)viewHolder.getView(R.id.tv_thing);
+             RelativeLayout rlSelect=(RelativeLayout)viewHolder.getView(R.id.rl_date_week);
             weekView.setText(WeekCalendarUtil.getWeekString(mContext).get(position));
             dayView.setTextSize(daysTextSize);
             weekView.setTextSize(weekTextSize);

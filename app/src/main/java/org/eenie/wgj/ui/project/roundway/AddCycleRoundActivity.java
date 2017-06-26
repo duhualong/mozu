@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -80,8 +79,7 @@ public class AddCycleRoundActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_save:
-
-
+                Log.d("测试", "ArrayList[]: "+new Gson().toJson(mPostWorkLists));
                 for (int i = 0; i < mPostWorkLists.size(); i++) {
                     if (mPostWorkLists.get(i).isChecked()&&!TextUtils.isEmpty(mPostWorkLists.get(i).getTime())) {
                         addData = new
@@ -89,12 +87,9 @@ public class AddCycleRoundActivity extends BaseActivity {
                                 mPostWorkLists.get(i).getTime());
                         mData.add(addData);
 
-                    }else {
-                        Toast.makeText(context,"请选择巡检时间",Toast.LENGTH_SHORT).show();
-                        return;
                     }
                 }
-                Log.d("打印", "数组: "+mData.size());
+
 
                 if (!TextUtils.isEmpty(projectId)&&!TextUtils.isEmpty(lineId)&&mData.size()>0){
                     mRoundPointRequest = new RoundPointRequest(Integer.parseInt(projectId),
@@ -102,8 +97,6 @@ public class AddCycleRoundActivity extends BaseActivity {
 
                     addPoint(mRoundPointRequest);
                 }
-
-
 
                 break;
 
@@ -279,11 +272,13 @@ public class AddCycleRoundActivity extends BaseActivity {
                             infoBean.setChecked(true);
                         } else {
                             infoBean.setChecked(false);
-                        }
+                      }
+                        notifyDataSetChanged();
 
                         break;
                     case R.id.btn_time:
                         showTimeDialog(tvTime, infoBean);
+                        notifyDataSetChanged();
                         break;
                 }
 
@@ -347,7 +342,6 @@ public class AddCycleRoundActivity extends BaseActivity {
 
             });
 
-
             addMinute.setOnClickListener(v -> {
                 String minute = editMinute.getText().toString();
 
@@ -399,6 +393,12 @@ public class AddCycleRoundActivity extends BaseActivity {
                             Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
                         } else {
                             dialog.dismiss();
+                            if (hour.length()==1&&Integer.parseInt(hour)<=9){
+                                hour="0"+hour;
+                            }
+                            if (minute.length()==1&&Integer.parseInt(minute)<=9){
+                                minute="0"+minute;
+                            }
                             data.setTime(hour + ":" + minute);
                             textView.setText(hour + ":" + minute);
                         }

@@ -407,7 +407,7 @@ public class ReportPostAddActivity extends BaseActivity {
     private void addReportPost() {
         ReportPost reportPost = new ReportPost(timeSpace, mPostId + "", projectId, mClassId + "",
                 com.alibaba.fastjson.JSON.toJSONString(mList));
-        mSubscription = mRemoteService.editReportPostList(
+        mSubscription = mRemoteService.addReportPostList(
                 mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), reportPost)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -653,6 +653,13 @@ public class ReportPostAddActivity extends BaseActivity {
                         Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
                     } else {
                         dialog.dismiss();
+                        if (hour.length()==1&&Integer.valueOf(hour)<=9){
+                            hour="0"+hour;
+
+                        }
+                        if (minute.length()==1&&Integer.valueOf(minute)<=9){
+                            minute="0"+minute;
+                        }
                         mList.add(hour + ":" + minute);
 
                         LinearLayoutManager layoutManager = new LinearLayoutManager(context);

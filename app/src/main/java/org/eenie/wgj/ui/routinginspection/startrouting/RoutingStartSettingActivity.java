@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.routinginspection.startrouting;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -140,6 +141,8 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
         onRefresh();
     }
 
+
+
     class RoutingAdapter extends RecyclerView.Adapter<RoutingAdapter.ProjectViewHolder> {
         private Context context;
         private List<StartRoutingResponse> mReportRoutingReponses;
@@ -160,7 +163,7 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (mReportRoutingReponses != null && !mReportRoutingReponses.isEmpty()) {
                 StartRoutingResponse data = mReportRoutingReponses.get(position);
-                holder.setItem(data,position);
+                holder.setItem(data, position);
                 if (data != null) {
                     int mPosition = position + 1;
                     if (mPosition <= 9) {
@@ -210,16 +213,20 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
                 mRelativeLayout.setOnClickListener(this);
             }
 
-            public void setItem(StartRoutingResponse projectList,int position) {
+            public void setItem(StartRoutingResponse projectList, int position) {
                 mRoutingReponse = projectList;
-                position=position;
+                position = position;
             }
 
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_item:
-
+                        startActivity(new Intent(context, RoutingCircleNumberDetailActivity.class)
+                                .putExtra(RoutingCircleNumberDetailActivity.POSITION, String.valueOf(position))
+                        .putExtra(RoutingCircleNumberDetailActivity.ROUTING_ID,
+                                String.valueOf(mRoutingReponse.getId()))
+                        .putExtra(RoutingCircleNumberDetailActivity.LINE_ID,lineId));
 
                         break;
                 }
@@ -227,5 +234,7 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
             }
         }
     }
+
+
 
 }

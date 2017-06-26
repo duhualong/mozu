@@ -257,8 +257,8 @@ public class ReportPostEditActivity extends BaseActivity {
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0){
                             ReportPostList reportPostList = new ReportPostList(mId,
-                                    com.alibaba.fastjson.JSON.toJSONString(mList),
-                                    timeSpace, new ReportPostList.ServiceBean(mClassId,mServiceName),
+                                   mList, timeSpace,
+                                    new ReportPostList.ServiceBean(mClassId,mServiceName),
                                     new ReportPostList.PostsettingBean(mPostId,mPostName));
                             Intent mIntent = new Intent();
                             mIntent.putExtra("report_post", reportPostList);

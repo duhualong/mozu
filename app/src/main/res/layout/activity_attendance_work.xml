@@ -69,12 +69,11 @@
     <!--/>-->
     <com.loonggg.weekcalendar.view.WeekCalendar
         android:id="@+id/week_calendar"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:paddingBottom="10dp"
         app:daysSelectedBackground="@drawable/green_bg"
-        app:isCornerMark="true"
         app:isShowMonth="false"
         app:weekTextColor="#666"
         app:monthBackgroundColor="#8F83F1"

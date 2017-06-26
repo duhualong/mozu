@@ -102,6 +102,8 @@ public interface FileUploadService {
     @POST("signbackAdd")
     Call<ApiResponse>signOutAttendance(@Header("token")String token,@Body RequestBody body);
 
+    @POST("inspectionAdd")
+    Call<ApiResponse> uploadRoutingPointInfo(@Header("token")String token,@Body RequestBody body);
 
     @POST("register/user")
     Call<MApi> applyInformation(@Body RequestBody body);

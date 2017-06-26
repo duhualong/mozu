@@ -626,4 +626,17 @@
     <item name="item_new_address" type="id"/>
     <item name="item_detail" type="id"/>
     <item name="img_nothing" type="id"/>
+    <item name="rl_old_circle_detail" type="id"/>
+    <item name="rl_new_circle_detail" type="id"/>
+    <item name="routing_time" type="id"/>
+    <item name="routing_address" type="id"/>
+    <item name="routing_content" type="id"/>
+    <item name="checkbox_select_normal" type="id"/>
+    <item name="checkbox_select_abnormal" type="id"/>
+    <item name="edit_abnormal_content" type="id"/>
+    <item name="img_one" type="id"/>
+    <item name="img_two" type="id"/>
+    <item name="img_three" type="id"/>
+    <item name="rl_select_notice" type="id"/>
+    <item name="line_abnormal" type="id"/>
 </resources>

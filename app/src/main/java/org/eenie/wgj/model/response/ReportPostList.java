@@ -3,6 +3,8 @@ package org.eenie.wgj.model.response;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by Eenie on 2017/5/24 at 14:25
  * Email: 472279981@qq.com
@@ -20,13 +22,16 @@ public class ReportPostList implements Parcelable {
      */
 
     private int id;
-    private String reportingtime;
+    private List<String> reportingtime;
     private String jetlag;
+    private String latitude;
+    private String longitude;
     private ServiceBean service;
     private PostsettingBean postsetting;
 
 
-    public ReportPostList(int id, String reportingtime, String jetlag,
+
+    public ReportPostList(int id, List<String> reportingtime, String jetlag,
                           ServiceBean service, PostsettingBean postsetting) {
         this.id = id;
         this.reportingtime = reportingtime;
@@ -35,6 +40,21 @@ public class ReportPostList implements Parcelable {
         this.postsetting = postsetting;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 
     public int getId() {
         return id;
@@ -44,11 +64,11 @@ public class ReportPostList implements Parcelable {
         this.id = id;
     }
 
-    public String getReportingtime() {
+    public List<String> getReportingtime() {
         return reportingtime;
     }
 
-    public void setReportingtime(String reportingtime) {
+    public void setReportingtime(List<String> reportingtime) {
         this.reportingtime = reportingtime;
     }
 
@@ -233,6 +253,7 @@ public class ReportPostList implements Parcelable {
         };
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -241,19 +262,20 @@ public class ReportPostList implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeString(this.reportingtime);
+        dest.writeStringList(this.reportingtime);
         dest.writeString(this.jetlag);
+        dest.writeString(this.latitude);
+        dest.writeString(this.longitude);
         dest.writeParcelable(this.service, flags);
         dest.writeParcelable(this.postsetting, flags);
     }
 
-    public ReportPostList() {
-    }
-
     protected ReportPostList(Parcel in) {
         this.id = in.readInt();
-        this.reportingtime = in.readString();
+        this.reportingtime = in.createStringArrayList();
         this.jetlag = in.readString();
+        this.latitude = in.readString();
+        this.longitude = in.readString();
         this.service = in.readParcelable(ServiceBean.class.getClassLoader());
         this.postsetting = in.readParcelable(PostsettingBean.class.getClassLoader());
     }

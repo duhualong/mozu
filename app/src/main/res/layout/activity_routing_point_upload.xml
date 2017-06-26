@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:id="@id/root_view"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:id="@id/tv_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="点位"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
+        />
+        <TextView android:id="@id/tv_apply_ok"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="确定"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/padding_bottom">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom"
+            >
+                <TextView android:id="@id/routing_time"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检时间："
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom"
+            >
+                <TextView android:id="@id/routing_address"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检地点："
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom"
+            >
+                <TextView android:id="@+id/text"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检内容："
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <TextView android:id="@id/routing_content"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_toEndOf="@+id/text"
+                          android:layout_toRightOf="@+id/text"
+                          android:text=""
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="1dp"
+                          android:background="@color/white"
+                          android:padding="@dimen/padding_bottom">
+                <ImageView android:id="@id/img_first"
+                           android:layout_width="72dp"
+                           android:layout_height="72dp"
+                           android:background="@drawable/bg_rectangle_line_gray"
+                           android:scaleType="center"
+                           android:src="@mipmap/ic_upload_carmera"/>
+                <ImageView android:id="@id/img_second"
+                           android:layout_width="72dp"
+                           android:layout_height="72dp"
+                           android:layout_marginLeft="@dimen/padding_bottom"
+                           android:layout_marginStart="@dimen/padding_bottom"
+                           android:background="@drawable/bg_rectangle_line_gray"
+                           android:scaleType="center"
+                           android:src="@mipmap/ic_upload_carmera"
+                           android:visibility="gone"/>
+                <ImageView android:id="@id/img_third"
+                           android:layout_width="72dp"
+                           android:layout_height="72dp"
+                           android:layout_marginLeft="@dimen/padding_bottom"
+                           android:layout_marginStart="@dimen/padding_bottom"
+                           android:background="@drawable/bg_rectangle_line_gray"
+                           android:scaleType="center"
+                           android:src="@mipmap/ic_upload_carmera"
+                           android:visibility="gone"/>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_bottom"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@+id/tv_routing_status"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检状况："
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <CheckBox
+                    android:id="@id/checkbox_select_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/padding_bottom"
+                    android:layout_marginLeft="@dimen/padding_longer"
+                    android:layout_marginRight="@dimen/padding_bottom"
+                    android:layout_marginStart="@dimen/padding_longer"
+                    android:layout_toEndOf="@+id/tv_routing_status"
+                    android:layout_toRightOf="@+id/tv_routing_status"
+                    android:button="@drawable/checkbox_apply_show_state"
+                    android:checked="false"
+                />
+                <TextView android:id="@+id/tv_normal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:layout_toEndOf="@id/checkbox_select_normal"
+                          android:layout_toRightOf="@id/checkbox_select_normal"
+                          android:text="正常"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <CheckBox
+                    android:id="@id/checkbox_select_abnormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/padding_bottom"
+                    android:layout_marginLeft="@dimen/padding_longer"
+                    android:layout_marginRight="@dimen/padding_bottom"
+                    android:layout_marginStart="@dimen/padding_longer"
+                    android:layout_toEndOf="@+id/tv_normal"
+                    android:layout_toRightOf="@+id/tv_normal"
+                    android:button="@drawable/checkbox_apply_show_state"
+                    android:checked="false"
+                />
+                <TextView android:id="@+id/tv_abnormal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:layout_toEndOf="@id/checkbox_select_abnormal"
+                          android:layout_toRightOf="@id/checkbox_select_abnormal"
+                          android:text="异常"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+            </RelativeLayout>
+            <LinearLayout android:id="@id/line_abnormal"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:orientation="vertical"
+                          android:visibility="visible">
+
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/padding_bottom"
+                                android:background="@color/white"
+                                android:padding="@dimen/padding_bottom">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="异常情况"
+                              android:textColor="@color/black_light"/>
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="120dp"
+                                  android:layout_marginEnd="@dimen/font_size_18sp"
+                                  android:layout_marginLeft="@dimen/font_size_18sp"
+                                  android:layout_marginRight="@dimen/font_size_18sp"
+                                  android:layout_marginStart="@dimen/font_size_18sp"
+                                  android:layout_marginTop="36dp"
+                                  android:background="@mipmap/bg_edit_text_light">
+                        <EditText
+                            android:id="@id/edit_abnormal_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@null"
+                            android:gravity="start|left"
+                            android:hint="请填写巡检中发生的异常情况"
+                            android:lines="5"
+                            android:textColor="@color/titleColor"
+                            android:textColorHint="@color/gray"
+                            android:textSize="@dimen/text_large_size"
+                        />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="1dp"
+                              android:background="@color/white"
+                              android:padding="@dimen/padding_bottom">
+                    <ImageView android:id="@id/img_one"
+                               android:layout_width="72dp"
+                               android:layout_height="72dp"
+                               android:background="@drawable/bg_rectangle_line_gray"
+                               android:scaleType="center"
+                               android:src="@mipmap/ic_upload_carmera"/>
+                    <ImageView android:id="@id/img_two"
+                               android:layout_width="72dp"
+                               android:layout_height="72dp"
+                               android:layout_marginLeft="@dimen/padding_bottom"
+                               android:layout_marginStart="@dimen/padding_bottom"
+                               android:background="@drawable/bg_rectangle_line_gray"
+                               android:scaleType="center"
+                               android:src="@mipmap/ic_upload_carmera"
+                               android:visibility="gone"/>
+                    <ImageView android:id="@id/img_three"
+                               android:layout_width="72dp"
+                               android:layout_height="72dp"
+                               android:layout_marginLeft="@dimen/padding_bottom"
+                               android:layout_marginStart="@dimen/padding_bottom"
+                               android:background="@drawable/bg_rectangle_line_gray"
+                               android:scaleType="center"
+                               android:src="@mipmap/ic_upload_carmera"
+                               android:visibility="gone"/>
+                </LinearLayout>
+                <RelativeLayout android:id="@id/rl_select_notice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:background="@color/white"
+                                android:padding="@dimen/padding_bottom">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerVertical="true"
+                              android:text="选择通知人员"
+                              android:textColor="@color/black_light"/>
+                    <ImageView android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentEnd="true"
+                               android:layout_alignParentRight="true"
+                               android:layout_centerVertical="true"
+                               android:src="@mipmap/ic_arrow_right"/>
+
+                </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="1dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

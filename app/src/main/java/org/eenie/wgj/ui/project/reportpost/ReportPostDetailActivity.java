@@ -17,10 +17,9 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.ReportPostList;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -51,8 +50,7 @@ public class ReportPostDetailActivity extends BaseActivity {
     public static final String PROJECT_ID = "project_id";
     private ReportPostList data;
     private String projectId;
-    private String time;
-    private ArrayList<String> times = new ArrayList<>();
+    private List<String> time=new ArrayList<>();
     private KeyContactAdapter mAdapter;
     private int id;
 
@@ -77,24 +75,15 @@ public class ReportPostDetailActivity extends BaseActivity {
     private void initUI(ReportPostList data) {
         if (data != null) {
             id=data.getId();
-
             time = data.getReportingtime();
             selectPost.setText(data.getPostsetting().getPost());
             selectTimneSpace.setText(data.getJetlag());
             selectClass.setText(data.getService().getServicesname());
-            try {
-                JSONArray ts = new JSONArray(time);
-                for (int i = 0; i < ts.length(); i++) {
-                    times.add(ts.getString(i));
-                    System.out.println("ts:"+ts.getString(i));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(context);
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter=new KeyContactAdapter(context,times);
+            mAdapter=new KeyContactAdapter(context,time);
             mRecyclerView.setAdapter(mAdapter);
 
         }
@@ -170,9 +159,9 @@ public class ReportPostDetailActivity extends BaseActivity {
 
     class KeyContactAdapter extends RecyclerView.Adapter<KeyContactAdapter.KeyContactViewHolder> {
         private Context context;
-        private ArrayList<String> mStrings;
+        private List<String> mStrings;
 
-        public KeyContactAdapter(Context context, ArrayList<String> mStrings) {
+        public KeyContactAdapter(Context context, List<String> mStrings) {
             this.context = context;
             this.mStrings = mStrings;
         }
