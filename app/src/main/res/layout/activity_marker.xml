@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="300dp"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="2"
+                      android:orientation="vertical">
+            <TextView android:id="@id/marker_point"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/padding_short"
+                      android:padding="@dimen/padding_short"
+                      android:text="巡检点：01"
+                      android:textSize="@dimen/text_large_size"
+                      android:textColor="@color/black_light"/>
+            <TextView android:id="@id/marker_personal"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/padding_short"
+                      android:text="巡检人员："
+                      android:textSize="@dimen/text_large_size"
+                      android:textColor="@color/black_light"/>
+            <TextView android:id="@id/marker_time"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/padding_short"
+                      android:text="巡检时间："
+                      android:textSize="@dimen/text_large_size"
+                      android:textColor="@color/black_light"/>
+            <TextView android:id="@id/marker_status"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/padding_short"
+                      android:text="巡检情况："
+                      android:textSize="@dimen/text_large_size"
+                      android:textColor="@color/black_light"/>
+            <TextView android:id="@id/marker_location"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/padding_short"
+                      android:text="巡检地点："
+                      android:textSize="@dimen/text_large_size"
+                      android:textColor="@color/black_light"/>
+        </LinearLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@id/img_avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="@dimen/padding_bottom"
+            android:src="@mipmap/ic_default_header"/>
+
+    </LinearLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_short"
+    >
+        <TextView android:id="@+id/text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+
+                  android:padding="@dimen/padding_short"
+                  android:layout_centerVertical="true"
+                  android:text="实时位置："
+                  android:textSize="@dimen/text_large_size"
+                  android:textColor="@color/black_light"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_toEndOf="@+id/text"
+                  android:layout_toRightOf="@+id/text"
+                  android:text="测试"
+                  android:id="@id/marker_address"
+                  android:layout_marginEnd="@dimen/padding_short"
+                  android:layout_marginRight="@dimen/padding_short"
+                  android:layout_centerVertical="true"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+    </RelativeLayout>
+
+</LinearLayout>

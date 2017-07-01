@@ -179,6 +179,7 @@
     <string name="look_error_labor">异常详情</string>
     <string name="project_personal_setting">项目人员设置</string>
     <string name="tv_detail"><u>详细</u></string>
+    <string name="tv_detail_look"><u>查看详细</u></string>
     <string name="tv_leave_people"><u>离职人员</u></string>
     <string name="tv_add_people"><u>新增人员</u></string>
 </resources>

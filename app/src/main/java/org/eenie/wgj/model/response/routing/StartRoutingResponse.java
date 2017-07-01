@@ -23,6 +23,7 @@ public class StartRoutingResponse implements Parcelable {
     private int id;
     private List<InfoBean> info;
 
+
     public int getId() {
         return id;
     }
@@ -56,6 +57,7 @@ public class StartRoutingResponse implements Parcelable {
         private String inspectioncontent;
         private List<ImageBean> image;
         private InspectionBean inspection;
+
 
         public InspectionBean getInspection() {
             return inspection;
@@ -113,6 +115,82 @@ public class StartRoutingResponse implements Parcelable {
             this.image = image;
         }
 
+        public static class Warranty implements Parcelable {
+            private int id;
+            private String content;
+            private String uniqueid;
+            private List<ImageBean> image;
+
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getContent() {
+                return content;
+            }
+
+            public void setContent(String content) {
+                this.content = content;
+            }
+
+            public String getUniqueid() {
+                return uniqueid;
+            }
+
+            public void setUniqueid(String uniqueid) {
+                this.uniqueid = uniqueid;
+            }
+
+            public List<ImageBean> getImage() {
+                return image;
+            }
+
+            public void setImage(List<ImageBean> image) {
+                this.image = image;
+            }
+
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.id);
+                dest.writeString(this.content);
+                dest.writeString(this.uniqueid);
+                dest.writeTypedList(this.image);
+            }
+
+            public Warranty() {
+            }
+
+            protected Warranty(Parcel in) {
+                this.id = in.readInt();
+                this.content = in.readString();
+                this.uniqueid = in.readString();
+                this.image = in.createTypedArrayList(ImageBean.CREATOR);
+            }
+
+            public static final Parcelable.Creator<Warranty> CREATOR = new Parcelable.Creator<Warranty>() {
+                @Override
+                public Warranty createFromParcel(Parcel source) {
+                    return new Warranty(source);
+                }
+
+                @Override
+                public Warranty[] newArray(int size) {
+                    return new Warranty[size];
+                }
+            };
+        }
+
         public static class InspectionBean implements Parcelable {
 
             /**
@@ -129,6 +207,16 @@ public class StartRoutingResponse implements Parcelable {
             private String time;
             private int time_type;
             private List<ImageBean> image;
+            private Warranty warranty;
+
+
+            public Warranty getWarranty() {
+                return warranty;
+            }
+
+            public void setWarranty(Warranty warranty) {
+                this.warranty = warranty;
+            }
 
             public List<ImageBean> getImage() {
                 return image;
@@ -192,6 +280,7 @@ public class StartRoutingResponse implements Parcelable {
                 dest.writeString(this.time);
                 dest.writeInt(this.time_type);
                 dest.writeTypedList(this.image);
+                dest.writeParcelable(this.warranty, flags);
             }
 
             public InspectionBean() {
@@ -204,9 +293,10 @@ public class StartRoutingResponse implements Parcelable {
                 this.time = in.readString();
                 this.time_type = in.readInt();
                 this.image = in.createTypedArrayList(ImageBean.CREATOR);
+                this.warranty = in.readParcelable(Warranty.class.getClassLoader());
             }
 
-            public static final Creator<InspectionBean> CREATOR = new Creator<InspectionBean>() {
+            public static final Parcelable.Creator<InspectionBean> CREATOR = new Parcelable.Creator<InspectionBean>() {
                 @Override
                 public InspectionBean createFromParcel(Parcel source) {
                     return new InspectionBean(source);
@@ -236,6 +326,7 @@ public class StartRoutingResponse implements Parcelable {
                 this.image = image;
             }
 
+
             @Override
             public int describeContents() {
                 return 0;
@@ -253,7 +344,7 @@ public class StartRoutingResponse implements Parcelable {
                 this.image = in.readString();
             }
 
-            public static final Creator<ImageBean> CREATOR = new Creator<ImageBean>() {
+            public static final Parcelable.Creator<ImageBean> CREATOR = new Parcelable.Creator<ImageBean>() {
                 @Override
                 public ImageBean createFromParcel(Parcel source) {
                     return new ImageBean(source);
@@ -296,7 +387,7 @@ public class StartRoutingResponse implements Parcelable {
             this.inspection = in.readParcelable(InspectionBean.class.getClassLoader());
         }
 
-        public static final Creator<InfoBean> CREATOR = new Creator<InfoBean>() {
+        public static final Parcelable.Creator<InfoBean> CREATOR = new Parcelable.Creator<InfoBean>() {
             @Override
             public InfoBean createFromParcel(Parcel source) {
                 return new InfoBean(source);

@@ -203,6 +203,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
     public static MultipartBody getMultipartBody(String path, String mLong, String mLat,
           int type, int serviceId,String address, String content) {
         File file = new File(path);
+        System.out.println("签退上传文件的大小："+file.length());
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),

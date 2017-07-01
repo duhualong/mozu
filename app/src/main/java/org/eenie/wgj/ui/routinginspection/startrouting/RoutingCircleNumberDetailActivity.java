@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,7 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
     RecyclerView mRecyclerView;
     private RoutingCircleDetailAdapter mAdapter;
     private String lineId;
+    private   String projectId;
 
 
     @Override
@@ -179,6 +181,7 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
                         if (mData != null) {
                             String username = mData.getName();
                             String avatarUrl = mData.getAvatar();
+                             projectId=String.valueOf(mData.getProject_id());
                             if (!TextUtils.isEmpty(avatarUrl)) {
                                 Glide.with(context).load(Constant.DOMIN + avatarUrl).
                                         centerCrop().into(imgAvatar);
@@ -242,8 +245,23 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (mReportRoutingReponses != null && !mReportRoutingReponses.isEmpty()) {
                 StartRoutingResponse.InfoBean data = mReportRoutingReponses.get(position);
-                holder.setItem(data, position);
+
                 if (data != null) {
+                    String type="progress";
+                    if (mReportRoutingReponses.size()==1){
+                        type="one_point";
+
+                    }else if (mReportRoutingReponses.size()>=2){
+                        if (position==0){
+                            type="first";
+                        }else if (position==(mReportRoutingReponses.size()-1)){
+                            type="last";
+                        }
+
+                    }
+
+                    holder.setItem(data, position,type);
+
                     int mPosition=position+1;
                     if (mPosition<=9){
                         holder.itemPosition.setText("0"+mPosition);
@@ -320,6 +338,7 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
             private StartRoutingResponse.InfoBean mRoutingReponse;
             private int positions;
             private String mPosition;
+            private String mType;
 
 
             public ProjectViewHolder(View itemView) {
@@ -341,9 +360,10 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
 
             }
 
-            public void setItem(StartRoutingResponse.InfoBean projectList, int position) {
+            public void setItem(StartRoutingResponse.InfoBean projectList, int position,String type) {
                 mRoutingReponse = projectList;
                 positions = position;
+                mType=type;
             }
 
             @Override
@@ -365,6 +385,7 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
 
                         break;
                     case  rl_new_circle_detail:
+                        Log.d("test", "onClick: "+new Gson().toJson(mRoutingReponse));
 
                         startActivity(new Intent(context,RoutingPointDetailActivity.class)
                                 .putExtra(RoutingPointDetailActivity.INFO,mRoutingReponse)
@@ -374,10 +395,11 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
                         break;
                     case R.id.img_nothing:
                         startActivity(new Intent(context,RoutingPointUploadActivity.class)
-                        .putExtra(RoutingPointUploadActivity.INFO,mRoutingReponse));
-
-
-
+                        .putExtra(RoutingPointUploadActivity.INFO,mRoutingReponse)
+                        .putExtra(RoutingPointUploadActivity.LINE_ID,lineId)
+                        .putExtra(RoutingPointUploadActivity.TYPE,mType)
+                        .putExtra(RoutingPointUploadActivity.PROJECT_ID,projectId)
+                        .putExtra(RoutingPointUploadActivity.INSPECTIONDAY_ID,String.valueOf(routingId)));
 
                         break;
 

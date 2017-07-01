@@ -639,4 +639,31 @@
     <item name="img_three" type="id"/>
     <item name="rl_select_notice" type="id"/>
     <item name="line_abnormal" type="id"/>
+    <item name="item_text" type="id"/>
+    <item name="abnormal_number" type="id"/>
+    <item name="routing_abnormal_content" type="id"/>
+    <item name="line_abnormal_detail" type="id"/>
+    <item name="line_routing_record" type="id"/>
+    <item name="recycler_view_item" type="id"/>
+    <item name="rb_miss_point" type="id"/>
+    <item name="rb_abnormal" type="id"/>
+    <item name="rb_normal" type="id"/>
+    <item name="rv_routing_normal" type="id"/>
+    <item name="item_routing_time" type="id"/>
+    <item name="item_routing_position" type="id"/>
+    <item name="item_routing_status" type="id"/>
+    <item name="item_routing_address" type="id"/>
+    <item name="line_normal_img" type="id"/>
+    <item name="rb_line" type="id"/>
+    <item name="rv_routing_abnormal" type="id"/>
+    <item name="routing_abnormal_number" type="id"/>
+    <item name="line_abnormal_img" type="id"/>
+    <item name="rv_routing_missing_point" type="id"/>
+    <item name="marker_point" type="id"/>
+    <item name="marker_personal" type="id"/>
+    <item name="marker_time" type="id"/>
+    <item name="marker_status" type="id"/>
+    <item name="marker_address" type="id"/>
+    <item name="marker_location" type="id"/>
+    <item name="tv_select_time" type="id"/>
 </resources>

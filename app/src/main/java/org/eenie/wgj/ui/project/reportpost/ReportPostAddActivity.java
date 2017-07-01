@@ -563,6 +563,8 @@ public class ReportPostAddActivity extends BaseActivity {
         Button subMinute = (Button) dialog.getWindow().findViewById(R.id.btn_subtract_minute);
         EditText editMinute = (EditText) dialog.getWindow().findViewById(R.id.edit_minute);
         Button btnOk = (Button) dialog.getWindow().findViewById(R.id.btn_ok);
+        editMinute.requestFocus();
+        editHour.requestFocus();
 
 
         addHour.setOnClickListener(v -> {

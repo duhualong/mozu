@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/padding_bottom"
+              android:background="@color/white"
+              android:orientation="vertical"
+>
+    <TextView android:id="@id/item_routing_position"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_margin="6dp"
+              android:background="@drawable/background_shape_corner"
+              android:gravity="center"
+              android:text="点位01"
+              android:textColor="@color/white"
+              android:textSize="@dimen/text_normal_size"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView android:id="@id/item_routing_time"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="4dp"
+              android:layout_marginTop="4dp"
+              android:padding="6dp"
+              android:text="巡检时间：09：20"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"
+    />
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView android:id="@id/item_routing_status"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="4dp"
+              android:layout_marginTop="4dp"
+              android:padding="6dp"
+              android:text="巡检情况：异常"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"
+    />
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView android:id="@id/item_routing_address"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="4dp"
+              android:layout_marginTop="4dp"
+              android:padding="6dp"
+              android:text="巡检地点：测试"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"
+    />
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <LinearLayout android:id="@id/line_normal_img"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:padding="@dimen/padding_bottom"
+                  android:visibility="visible">
+        <ImageView android:id="@id/img_first"
+                   android:layout_width="80dp"
+                   android:layout_height="80dp"/>
+        <ImageView android:id="@id/img_second"
+                   android:layout_width="80dp"
+                   android:layout_height="80dp"
+                   android:layout_marginLeft="@dimen/padding_bottom"
+                   android:layout_marginStart="@dimen/padding_bottom"/>
+        <ImageView android:id="@id/img_third"
+                   android:layout_width="80dp"
+                   android:layout_height="80dp"
+                   android:layout_marginLeft="@dimen/padding_bottom"
+                   android:layout_marginStart="@dimen/padding_bottom"/>
+
+
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+    android:background="@color/white_light"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="4dp"
+              android:layout_marginTop="4dp"
+              android:padding="6dp"
+              android:id="@id/routing_abnormal_number"
+              android:text="异常单号：0123"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="4dp"
+              android:layout_marginTop="4dp"
+              android:padding="6dp"
+              android:text="内容"
+              android:id="@id/routing_abnormal_content"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/white_light"/>
+    <LinearLayout android:id="@id/line_abnormal_img"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:padding="@dimen/padding_bottom"
+                  android:visibility="visible">
+        <ImageView android:id="@id/img_one"
+                   android:layout_width="80dp"
+                   android:layout_height="80dp"/>
+        <ImageView android:id="@id/img_two"
+                   android:layout_width="80dp"
+                   android:layout_height="80dp"
+                   android:layout_marginLeft="@dimen/padding_bottom"
+                   android:layout_marginStart="@dimen/padding_bottom"/>
+        <ImageView android:id="@id/img_three"
+                   android:layout_width="80dp"
+                   android:layout_height="80dp"
+                   android:layout_marginLeft="@dimen/padding_bottom"
+                   android:layout_marginStart="@dimen/padding_bottom"/>
+
+
+    </LinearLayout>
+</LinearLayout>

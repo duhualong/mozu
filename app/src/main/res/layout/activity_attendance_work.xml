@@ -75,6 +75,7 @@
         android:paddingBottom="10dp"
         app:daysSelectedBackground="@drawable/green_bg"
         app:isShowMonth="false"
+        app:isCornerMark="true"
         app:weekTextColor="#666"
         app:monthBackgroundColor="#8F83F1"
        />

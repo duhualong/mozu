@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="巡检统计"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_touch_bg"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_10">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择时间"
+            android:textColor="@color/black_light"/>
+        <TextView
+            android:id="@id/tv_start_time"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:layout_marginStart="@dimen/dp_14"
+            android:layout_weight="1"
+            android:background="@mipmap/handover_edit_bg"
+            android:gravity="center"
+            android:hint="选择开始日期"
+            android:textColor="@color/titleColor"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/text_large_size"
+            android:visibility="invisible"/>
+        <TextView
+            android:id="@id/tv_select_time"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:layout_marginStart="@dimen/dp_14"
+            android:layout_weight="1"
+            android:background="@mipmap/handover_edit_bg"
+            android:gravity="center"
+            android:hint="选择日期"
+            android:textColor="@color/titleColor"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/text_large_size"/>
+
+    </LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@id/swipe_refresh_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/padding_bottom">
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

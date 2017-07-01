@@ -70,6 +70,9 @@ public class AddWorkShowActivity extends BaseActivity {
     private String mTitleName;
 
     private Uri mImageUri;
+    private Uri firstUri;
+    private Uri  secondUri;
+    private Uri  thirdUri;
     private String firstPath;
     private String secondPath;
     private String thirdPath;
@@ -101,13 +104,13 @@ public class AddWorkShowActivity extends BaseActivity {
             case R.id.tv_send:
                 if (!TextUtils.isEmpty(mTitleName)){
                     if (firstFile!=null){
-                        files.add(0,firstFile);
+                        files.add(firstFile);
                     }
                     if (secondFile!=null){
-                        files.add(1,secondFile);
+                        files.add(secondFile);
                     }
                     if (thirdFile!=null){
-                        files.add(2,thirdFile);
+                        files.add(thirdFile);
                     }
                     if (files!=null){
                         new Thread() {
@@ -190,11 +193,32 @@ public class AddWorkShowActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), "a.jpg");
-        UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(100, 100)
-                .start(AddWorkShowActivity.this, requestCode);
+        switch (requestCode){
+            case RESPONSE_CODE_FIRST:
+            File cropFile = new File(context.getCacheDir(), "a.jpg");
+            UCrop.of(resUri, Uri.fromFile(cropFile))
+                    .withAspectRatio(1, 1)
+                    .withMaxResultSize(300, 300)
+                    .start(AddWorkShowActivity.this, requestCode);
+                break;
+            case RESPONSE_CODE_SECOND:
+                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(300, 300)
+                        .start(AddWorkShowActivity.this, requestCode);
+
+                break;
+            case RESPONSE_CODE_THIRD:
+                File cropFiless = new File(context.getCacheDir(), "c.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFiless))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(300, 300)
+                        .start(AddWorkShowActivity.this, requestCode);
+                break;
+        }
+
+
     }
 
     @Override
@@ -223,8 +247,6 @@ public class AddWorkShowActivity extends BaseActivity {
                     firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     firstFile=new File(firstPath);
 
-
-
                     break;
                 case REQUEST_CAMERA_SECOND:
                     startCropImage(mImageUri, RESPONSE_CODE_SECOND);
@@ -235,7 +257,8 @@ public class AddWorkShowActivity extends BaseActivity {
                     break;
 
                 case RESPONSE_CODE_SECOND:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(1)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),
+                            imgList.get(1)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
@@ -246,6 +269,7 @@ public class AddWorkShowActivity extends BaseActivity {
                             });
                     secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     secondFile=new File(secondPath);
+
 
 
                     break;
@@ -259,7 +283,8 @@ public class AddWorkShowActivity extends BaseActivity {
                     break;
 
                 case RESPONSE_CODE_THIRD:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(2)))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),
+                            imgList.get(2)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
@@ -269,8 +294,6 @@ public class AddWorkShowActivity extends BaseActivity {
                             });
                     thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     thirdFile=new File(thirdPath);
-
-
 
 
                     break;

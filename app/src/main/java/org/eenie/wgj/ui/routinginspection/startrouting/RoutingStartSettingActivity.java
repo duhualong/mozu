@@ -202,7 +202,7 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
             private RelativeLayout mRelativeLayout;
             private TextView itemCircleNumber;
             private TextView itemPointNumber;
-            private int position;
+            private int mPosition;
 
 
             public ProjectViewHolder(View itemView) {
@@ -215,7 +215,7 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
 
             public void setItem(StartRoutingResponse projectList, int position) {
                 mRoutingReponse = projectList;
-                position = position;
+                mPosition = position;
             }
 
             @Override
@@ -223,7 +223,7 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
                 switch (v.getId()) {
                     case R.id.rl_item:
                         startActivity(new Intent(context, RoutingCircleNumberDetailActivity.class)
-                                .putExtra(RoutingCircleNumberDetailActivity.POSITION, String.valueOf(position))
+                                .putExtra(RoutingCircleNumberDetailActivity.POSITION, String.valueOf(mPosition))
                         .putExtra(RoutingCircleNumberDetailActivity.ROUTING_ID,
                                 String.valueOf(mRoutingReponse.getId()))
                         .putExtra(RoutingCircleNumberDetailActivity.LINE_ID,lineId));

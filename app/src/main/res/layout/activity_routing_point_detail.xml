@@ -22,81 +22,158 @@
                   android:textSize="@dimen/text_title_size"/>
 
     </RelativeLayout>
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="@dimen/padding_bottom"
-    >
-        <TextView android:id="@id/routing_time"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_centerVertical="true"
-                  android:text="巡检时间："
-                  android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_large_size"/>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom"
+            >
+                <TextView android:id="@id/routing_time"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检时间："
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
 
 
-    </RelativeLayout>
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:background="@color/white"
-                    android:padding="@dimen/padding_bottom"
-    >
-        <TextView android:id="@id/routing_address"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_centerVertical="true"
-                  android:text="巡检地点："
-                  android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_large_size"/>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom"
+            >
+                <TextView android:id="@id/routing_address"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检地点："
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
 
 
-    </RelativeLayout>
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:background="@color/white"
-                    android:padding="@dimen/padding_bottom"
-    >
-        <TextView android:id="@+id/text"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_centerVertical="true"
-                  android:text="巡检内容："
-                  android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_large_size"/>
-        <TextView android:id="@id/routing_content"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_toEndOf="@+id/text"
-                  android:layout_toRightOf="@+id/text"
-                  android:text=""
-                  android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_large_size"/>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom"
+            >
+                <TextView android:id="@+id/text"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检内容："
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <TextView android:id="@id/routing_content"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_toEndOf="@+id/text"
+                          android:layout_toRightOf="@+id/text"
+                          android:text=""
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
 
 
-    </RelativeLayout>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="@dimen/padding_bottom"
-                  android:orientation="horizontal">
-        <ImageView android:id="@id/img_first"
-                   android:layout_width="72dp"
-                   android:layout_height="72dp"
-                   android:layout_marginLeft="@dimen/padding_bottom"
-                   android:layout_marginStart="@dimen/padding_bottom"/>
-        <ImageView android:id="@id/img_second"
-                   android:layout_width="72dp"
-                   android:layout_height="72dp"
-                   android:layout_marginLeft="@dimen/padding_bottom"
-                   android:layout_marginStart="@dimen/padding_bottom"/>
-        <ImageView android:id="@id/img_third"
-                   android:layout_width="72dp"
-                   android:layout_height="72dp"
-                   android:layout_marginLeft="@dimen/padding_bottom"
-                   android:layout_marginStart="@dimen/padding_bottom"/>
+            </RelativeLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/padding_bottom"
+                          android:orientation="horizontal">
+                <ImageView android:id="@id/img_first"
+                           android:layout_width="90dp"
+                           android:layout_height="90dp"
+                           android:layout_marginLeft="@dimen/padding_bottom"
+                           android:layout_marginStart="@dimen/padding_bottom"/>
+                <ImageView android:id="@id/img_second"
+                           android:layout_width="90dp"
+                           android:layout_height="90dp"
+                           android:layout_marginLeft="@dimen/padding_bottom"
+                           android:layout_marginStart="@dimen/padding_bottom"/>
+                <ImageView android:id="@id/img_third"
+                           android:layout_width="90dp"
+                           android:layout_height="90dp"
+                           android:layout_marginLeft="@dimen/padding_bottom"
+                           android:layout_marginStart="@dimen/padding_bottom"/>
 
-    </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:id="@id/line_abnormal_detail"
+                          android:visibility="invisible">
 
+
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/padding_bottom"
+                                android:background="@color/white"
+                                android:padding="@dimen/padding_bottom"
+                >
+                    <TextView android:id="@id/abnormal_number"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerVertical="true"
+                              android:text="异常单号："
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_large_size"/>
+
+
+                </RelativeLayout>
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:background="@color/white"
+                                android:padding="@dimen/padding_bottom"
+                >
+                    <TextView android:id="@+id/text_content"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerVertical="true"
+                              android:text="异常内容："
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_large_size"/>
+                    <TextView android:id="@id/routing_abnormal_content"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerVertical="true"
+                              android:layout_toEndOf="@+id/text_content"
+                              android:layout_toRightOf="@+id/text_content"
+                              android:text=""
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_large_size"/>
+
+
+                </RelativeLayout>
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="@dimen/padding_bottom"
+                              android:orientation="horizontal">
+                    <ImageView android:id="@id/img_one"
+                               android:layout_width="90dp"
+                               android:layout_height="90dp"
+                               android:layout_marginLeft="@dimen/padding_bottom"
+                               android:layout_marginStart="@dimen/padding_bottom"/>
+                    <ImageView android:id="@id/img_two"
+                               android:layout_width="90dp"
+                               android:layout_height="90dp"
+                               android:layout_marginLeft="@dimen/padding_bottom"
+                               android:layout_marginStart="@dimen/padding_bottom"/>
+                    <ImageView android:id="@id/img_three"
+                               android:layout_width="90dp"
+                               android:layout_height="90dp"
+                               android:layout_marginLeft="@dimen/padding_bottom"
+                               android:layout_marginStart="@dimen/padding_bottom"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -551,9 +551,9 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
 
         if (mAMap != null) {
             mAMap.clear();
-            mAMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
             LatLngBounds bounds = new LatLngBounds.Builder().include(latLng).build();
-            mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 14));
+            mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 15));
             if (mScope!=null){
                 if (Double.parseDouble(mScope)>0){
                     mLocationCircle= mAMap.addCircle(new CircleOptions().

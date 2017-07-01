@@ -63,6 +63,9 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
     public ExpandAdapter adapter;
     public List<ArrayList<ClassListWorkTime>> itemListDatas = new ArrayList<>();
     private ArrayList<PersonalWorkDayMonthList> personalData = new ArrayList<>();
+    ArrayList<PersonalWorkDayMonthList> mData = new ArrayList<>();
+
+    String attendanceDay;
 
     @Override
     protected int getContentView() {
@@ -83,7 +86,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
         tvDate.setText(date);
         mSubscription = mRemoteService.getProjectTotalTime(
                 mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
-                projectId,mDate)
+                projectId, mDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -100,7 +103,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getCode()==0){
+                        if (apiResponse.getCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             TotalTimeProject data = gson.fromJson(jsonArray,
@@ -110,8 +113,8 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                                 tvTotalTime.setText(data.getTotal());
                                 tvSuplusTime.setText(data.getRemain());
                             }
-                        }else {
-                            Toast.makeText(context,apiResponse.getMessage(),
+                        } else {
+                            Toast.makeText(context, apiResponse.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             tvTotalTime.setText("0");
                             tvSuplusTime.setText("0");
@@ -139,7 +142,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
 
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
@@ -147,16 +150,17 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                                     new TypeToken<ProjectTimeTotal>() {
                                     }.getType());
                             if (data != null) {
+                                attendanceDay = data.getHours().getAttendance();
                                 tvTotalPeople.setText(String.valueOf(data.getHours().getApproved()));
                                 tvNowPeople.setText(String.valueOf(data.getHours().getActual()));
                                 ArrayList<ProjectTimeTotal.PersonBean> personBeanArrayList = data.getPerson();
-                                Log.d("mytest", "onNext: "+gson.toJson(personBeanArrayList));
+                                Log.d("mytest", "onNext: " + gson.toJson(personBeanArrayList));
                                 if (personBeanArrayList != null) {
                                     getWorkingHoursList(mDate, personBeanArrayList);
                                 }
                             }
-                        }else {
-                          Toast.makeText(context,apiResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -164,7 +168,6 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
     }
 
     private void getWorkingHoursList(String date, ArrayList<ProjectTimeTotal.PersonBean> mPersonalList) {
-
         mSubscription = mRemoteService.getMonthDay(mPrefsHelper.getPrefs().
                 getString(Constants.TOKEN, ""), date, projectId)
                 .subscribeOn(Schedulers.io())
@@ -190,10 +193,11 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                             personalData = gson.fromJson(jsonArray,
                                     new TypeToken<ArrayList<PersonalWorkDayMonthList>>() {
                                     }.getType());
-                            if (personalData!=null) {
-                                if (adapter!=null){
-                                    adapter.clear();
-                                }
+
+
+                            if (personalData != null) {
+
+                                Log.d("mdata[]", "onNext: "+new Gson().toJson(personalData));
                                 adapter = new ExpandAdapter(context, personalData);
                                 mExpandableListView.setAdapter(adapter);
                             } else {
@@ -210,10 +214,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                 });
     }
 
-
-
-
-    private void getClassList(List<ProjectTimeTotal.PersonBean> mPersonal) {
+    private void getClassItem(ProjectTimeTotal.PersonBean personBean) {
         mSubscription = mRemoteService.getClassWideList(mPrefsHelper.getPrefs().
                 getString(Constants.TOKEN, ""), projectId)
                 .subscribeOn(Schedulers.io())
@@ -244,38 +245,18 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                                                 }.getType());
 
                                 if (exchangeWorkLists != null && !exchangeWorkLists.isEmpty()) {
-                                    if (mPersonal.size() > 0) {
-                                        for (int i = 0; i < exchangeWorkLists.size(); i++) {
-                                            ClassListWorkTime classListWorkTime =
-                                                    new ClassListWorkTime(exchangeWorkLists.get(i), "0");
-                                            mClass.add(classListWorkTime);
-                                        }
-                                        ArrayList<PersonalWorkDayMonthList>mData=new ArrayList<>();
 
-                                        for (int j = 0; j < mPersonal.size(); j++) {
-
-                                            PersonalWorkDayMonthList mPersonalDay = new
-                                                    PersonalWorkDayMonthList(String.valueOf(
-                                                            mPersonal.get(j).getId()),
-                                                    mPersonal.get(j).getName(), mClass);
-                                            mData.add(mPersonalDay);
-
-                                        }
-                                        if (adapter!=null){
-                                            adapter.clear();
-                                        }
-                                        personalData=mData;
-                                        Log.d("Arraylist{}", "onNext: "+gson.toJson(personalData));
-                                        adapter = new ExpandAdapter(context, personalData);
-                                        mExpandableListView.setAdapter(adapter);
-
-                                    } else {
-
+                                    for (int i = 0; i < exchangeWorkLists.size(); i++) {
+                                        ClassListWorkTime classListWorkTime =
+                                                new ClassListWorkTime(exchangeWorkLists.get(i), "0");
+                                        mClass.add(classListWorkTime);
                                     }
-
-
+                                    PersonalWorkDayMonthList mPersonalDay = new
+                                            PersonalWorkDayMonthList(String.valueOf(
+                                            personBean.getId()),
+                                            personBean.getName(), mClass);
+                                    mData.add(mPersonalDay);
                                 }
-
                             }
 
                         }
@@ -284,7 +265,71 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.tv_save, R.id.img_back, R.id.btnPri, R.id.btnNext,R.id.tv_apply_time})
+
+    private void getClassList(List<ProjectTimeTotal.PersonBean> mPersonal) {
+        mSubscription = mRemoteService.getClassWideList(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), projectId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            ArrayList<ClassListWorkTime> mClass = new ArrayList<>();
+                            if (apiResponse.getData() != null) {
+                                Gson gson = new Gson();
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                ArrayList<ClassListWorkTime.ServiceBean> exchangeWorkLists =
+                                        gson.fromJson(jsonArray,
+                                                new TypeToken<ArrayList<ClassListWorkTime.ServiceBean>>() {
+                                                }.getType());
+
+                                if (exchangeWorkLists != null && !exchangeWorkLists.isEmpty()) {
+                                    if (mPersonal.size() > 0) {
+                                        for (int i = 0; i < exchangeWorkLists.size(); i++) {
+                                            ClassListWorkTime classListWorkTime =
+                                                    new ClassListWorkTime(exchangeWorkLists.get(i), "0");
+                                            mClass.add(classListWorkTime);
+                                        }
+                                        ArrayList<PersonalWorkDayMonthList> mData = new ArrayList<>();
+
+                                        for (int j = 0; j < mPersonal.size(); j++) {
+
+                                            PersonalWorkDayMonthList mPersonalDay = new
+                                                    PersonalWorkDayMonthList(String.valueOf(
+                                                    mPersonal.get(j).getId()),
+                                                    mPersonal.get(j).getName(), mClass);
+                                            mData.add(mPersonalDay);
+                                        }
+//                                        if(adapter!=null){
+//                                            adapter.clear();
+//                                        }
+                                        personalData = mData;
+                                        Log.d("Arraylist{}", "onNext: " + gson.toJson(personalData));
+                                        adapter = new ExpandAdapter(context, personalData);
+                                        mExpandableListView.setAdapter(adapter);
+
+                                    } else {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                });
+    }
+
+    @OnClick({R.id.tv_save, R.id.img_back, R.id.btnPri, R.id.btnNext, R.id.tv_apply_time})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_save:
@@ -293,7 +338,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                 break;
             case R.id.tv_apply_time:
 
-                Toast.makeText(context,"申请成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "申请成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.img_back:
                 onBackPressed();
@@ -301,19 +346,21 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
             case R.id.btnPri:
                 mCalendar.add(Calendar.MONTH, -1);
                 String mDate = new SimpleDateFormat("yyyy-MM").format(mCalendar.getTime());
-                String mDates=new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime());
-                if (Integer.parseInt(mDate.substring(0,4))>Integer.parseInt(mDates.substring(0,4))){
-
+                String mDates = new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime());
+                if (Integer.parseInt(mDate.substring(0, 4)) > Integer.parseInt(mDates.substring(0, 4))) {
+                    mData=new ArrayList<>();
                     onMonthChange(mCalendar.getTime());
-                }else if (Integer.parseInt(mDate.substring(6,mDate.length()))>=
-                        Integer.parseInt(mDates.substring(6,mDates.length()))){
+                } else if (Integer.parseInt(mDate.substring(6, mDate.length())) >=
+                        Integer.parseInt(mDates.substring(6, mDates.length()))) {
+                    mData=new ArrayList<>();
                     onMonthChange(mCalendar.getTime());
-                }else {
+                } else {
                     mCalendar.add(Calendar.MONTH, 1);
                 }
 
                 break;
             case R.id.btnNext:
+                mData=new ArrayList<>();
                 mCalendar.add(Calendar.MONTH, 1);
                 onMonthChange(mCalendar.getTime());
 
@@ -325,8 +372,8 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
         ArrayList<Integer> userId = new ArrayList<>();
         ArrayList<String> serviceId = new ArrayList<>();
         ArrayList<String> dayList = new ArrayList<>();
-        Gson mGson=new Gson();
-        Log.d("测试数据", "onNext: "+mGson.toJson(personalData));
+        Gson mGson = new Gson();
+        Log.d("测试数据", "onNext: " + mGson.toJson(personalData));
         if (personalData != null) {
             for (int i = 0; i < personalData.size(); i++) {
                 userId.add(Integer.valueOf(personalData.get(i).getUser_id()));
@@ -391,7 +438,6 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
         }
 
 
-
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
             GroupViewHolder gvh;
@@ -417,10 +463,12 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
             TextView groupText;
             ImageView imgExpend;
         }
-        public  void clear(){
+
+        public void clear() {
             this.mData.clear();
             notifyDataSetChanged();
         }
+
         @Override
         public int getGroupCount() {
             return mData.size();
@@ -460,6 +508,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
         public boolean isChildSelectable(int groupPosition, int childPosition) {
             return true;
         }
+
         @Override
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                                  View convertView, ViewGroup parent) {
@@ -491,8 +540,17 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
             ivh.btnAdd.setOnClickListener(v -> {
                 int addDay = Integer.parseInt(mData.get(groupPosition).getInfo().
                         get(childPosition).getDay()) + 1;
-                ivh.mEditText.setText(addDay + "天");
-                mData.get(groupPosition).getInfo().get(childPosition).setDay(String.valueOf(addDay));
+                int mDay = 0;
+                for (int n = 0; n < mData.get(groupPosition).getInfo().size(); n++) {
+                    mDay = mDay + Integer.valueOf(mData.get(groupPosition).getInfo().get(n).getDay());
+                }
+                mDay = mDay + 1;
+                if (Integer.parseInt(attendanceDay) >= mDay) {
+                    ivh.mEditText.setText(addDay + "天");
+                    mData.get(groupPosition).getInfo().get(childPosition).setDay(String.valueOf(addDay));
+                } else {
+                    Toast.makeText(context, "设置班次天数，不能超过考勤天数", Toast.LENGTH_SHORT).show();
+                }
 
 
             });
@@ -506,9 +564,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                 } else {
                     ivh.mEditText.setText(subDay + "天");
                     mData.get(groupPosition).getInfo().get(childPosition).setDay(String.valueOf(subDay));
-
                 }
-
 
             });
 

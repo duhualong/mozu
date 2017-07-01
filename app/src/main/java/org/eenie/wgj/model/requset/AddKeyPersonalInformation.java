@@ -21,9 +21,11 @@ public class AddKeyPersonalInformation {
     private String remarks;
 //添加关键人信息
 
+
     public AddKeyPersonalInformation(String age, String height, String image, String job,
-                                     String name, String numberplates, String phone, String sex,
-                                     String workinghours, int id) {
+                                     String name, String numberplates, String phone,
+                                     String projectid, String sex, String workinghours,
+                                     String remarks) {
         this.age = age;
         this.height = height;
         this.image = image;
@@ -31,10 +33,13 @@ public class AddKeyPersonalInformation {
         this.name = name;
         this.numberplates = numberplates;
         this.phone = phone;
+        this.projectid = projectid;
         this.sex = sex;
         this.workinghours = workinghours;
-        this.id = id;
+        this.remarks=remarks;
+
     }
+
 
     //修改关键人信息
 

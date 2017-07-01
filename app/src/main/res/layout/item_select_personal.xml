@@ -49,6 +49,7 @@
               android:layout_toLeftOf="@id/tv_number"
               android:layout_toStartOf="@id/tv_number"
               android:text="剩余班次"
+              android:id="@id/item_text"
               android:textColor="@color/gray"/>
 
 

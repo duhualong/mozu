@@ -17,12 +17,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.AddKeyPersonalInformation;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.RxUtils;
@@ -43,6 +46,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Single;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -101,6 +105,7 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
     private String endTime;
 
     private String projectId;
+    private String mAvatarUrl;
 
 
     @Override
@@ -111,7 +116,7 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
     @Override
     protected void updateUI() {
         projectId = getIntent().getStringExtra(PROJECT_ID);
-        System.out.println("projectid:"+projectId);
+        System.out.println("projectid:" + projectId);
 
 
     }
@@ -193,33 +198,52 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
 
                         break;
                 }
-               System.out.println("文件："+mAvatarFile.length());
-                if (!TextUtils.isEmpty(mName)&&!TextUtils.isEmpty(projectId)
-                &&!TextUtils.isEmpty(mWorkTime)&&!TextUtils.isEmpty(mOther)
-                        &&!TextUtils.isEmpty(token)&&!TextUtils.isEmpty(mAge)
-                        &&!TextUtils.isEmpty(mHeight)&&!TextUtils.isEmpty(mPost)&&
-                        !TextUtils.isEmpty(mCarNumber)&&!TextUtils.isEmpty(mPhone)) {
-
-
-                        new Thread() {
-                            public void run() {
-                                addPersonalInformation(token, mAge, mHeight, mPost, mName,
-                                        mCarNumber, mPhone, projectId, "1", mOther, mWorkTime);
-                            }
-                        }.start();
-
-
-
-
-                }else {
-                    Snackbar.make(rootView,"请完善信息",Snackbar.LENGTH_SHORT).show();
-                }
+                addKeyPersonal(mAvatarUrl, token, mAge, mHeight, mPost, mName, mCarNumber,
+                        mPhone, projectId, mSex, mOther, mWorkTime);
 
 
                 break;
         }
     }
 
+    private void addKeyPersonal(String img, String token, String age, String height, String job,
+                                String name, String carNumber, String phone, String projectsId,
+                                String sex, String remarks, String workTime) {
+        AddKeyPersonalInformation addKeyPersonalInformation = new AddKeyPersonalInformation(age, height,
+                img, job, name, carNumber, phone, projectsId, sex, workTime, remarks);
+
+
+        mSubscription = mRemoteService.addKeyPersonal(token, addKeyPersonalInformation)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200) {
+
+                            Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
+
+                            Single.just("").delay(1, TimeUnit.SECONDS).
+                                    compose(RxUtils.applySchedulers()).
+                                    subscribe(s -> finish()
+                                    );
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
 
     private void showSetOtherDialog() {
         View view = View.inflate(context, R.layout.dialog_location_now, null);
@@ -299,7 +323,7 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
         EditText etDialog = (EditText) view.findViewById(R.id.et_input_content);
         etDialog.setHint("请输入车牌号");
         dialogTitle.setText("设置车牌号");
-        etDialog.setTransformationMethod((new AllCapTransformationMethod ()));
+        etDialog.setTransformationMethod((new AllCapTransformationMethod()));
 
         if (!TextUtils.isEmpty(mCarNumber)) {
             etDialog.setText(mCarNumber);
@@ -328,19 +352,20 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
         });
 
     }
+
     public class AllCapTransformationMethod extends ReplacementTransformationMethod {
 
         @Override
         protected char[] getOriginal() {
-            char[] aa = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m',
-                    'n','o','p','q','r','s','t','u','v','w','x','y','z' };
+            char[] aa = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
             return aa;
         }
 
         @Override
         protected char[] getReplacement() {
-            char[] cc = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N',
-                    'O','P','Q','R','S','T','U','V','W','X','Y','Z' };
+            char[] cc = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+                    'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
             return cc;
         }
 
@@ -376,7 +401,7 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
         dialog.getWindow().findViewById(R.id.button_project_ok).setOnClickListener(v -> {
             if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime)) {
                 dialog.dismiss();
-                mWorkTime=startTime+"-"+endTime;
+                mWorkTime = startTime + "-" + endTime;
                 tvWorkTime.setText(startTime + "-" + endTime);
                 tvWorkTime.setTextColor(ContextCompat.getColor
                         (context, R.color.titleColor));
@@ -406,7 +431,8 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
         Button subMinute = (Button) dialog.getWindow().findViewById(R.id.btn_subtract_minute);
         EditText editMinute = (EditText) dialog.getWindow().findViewById(R.id.edit_minute);
         Button btnOk = (Button) dialog.getWindow().findViewById(R.id.btn_ok);
-
+        editMinute.requestFocus();
+        editHour.requestFocus();
 
         addHour.setOnClickListener(v -> {
             String hour = editHour.getText().toString();
@@ -496,6 +522,12 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
                         Toast.makeText(context, "请设置正确的分钟！", Toast.LENGTH_LONG).show();
                     } else {
                         dialog.dismiss();
+                        if (hour.length() == 1) {
+                            hour = "0" + hour;
+                        }
+                        if (minute.length() == 1) {
+                            minute = "0" + minute;
+                        }
                         switch (type) {
                             case 0:
                                 startTime = hour + ":" + minute;
@@ -770,7 +802,7 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
 
                     avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     mAvatarFile = new File(avatarUrl);
-
+                    uploadFile(mAvatarFile);
 
                     break;
                 case REQUEST_GALLERY_PHOTO:
@@ -788,6 +820,7 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
                             });
                     avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     mAvatarFile = new File(avatarUrl);
+                    uploadFile(mAvatarFile);
 
                     break;
             }
@@ -795,45 +828,30 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void addPersonalInformation( String token, String age, String height, String job,
-                                        String name, String carNumber, String phone, String projectsId,
-                                        String sex, String remarks, String workTime) {
-
-
+    private void uploadFile(File file) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://118.178.88.132:8000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("image", mAvatarFile.getName(),
-                        RequestBody.create(MediaType.parse("image/jpg"), mAvatarFile))
-                .addFormDataPart("projectid", projectsId)
-                .addFormDataPart("name", name)
-                .addFormDataPart("age", age)
-                .addFormDataPart("height", height)
-                .addFormDataPart("job", job)
-                .addFormDataPart("sex", sex)
-                .addFormDataPart("workinghours", workTime)
-                .addFormDataPart("numberplates", carNumber)
-                .addFormDataPart("phone", phone)
-                .addFormDataPart("remarks", remarks)
+                .addFormDataPart("filename", file.getName(),
+                        RequestBody.create(MediaType.parse("image/jpg"), file))
                 .build();
-
-
-        Call<ApiResponse> call = userBiz.addKeyPersonalInformation(token, requestBody);
+        Call<ApiResponse> call = userBiz.uploadFile(requestBody);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getResultCode() == 200) {
-                        Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
 
-                        Single.just("").delay(1, TimeUnit.SECONDS).
-                                compose(RxUtils.applySchedulers()).
-                                subscribe(s -> finish()
-                                );
-
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(response.body().getData());
+                        String fileUrl = gson.fromJson(jsonArray,
+                                new TypeToken<String>() {
+                                }.getType());
+                        System.out.println("file:" + fileUrl);
+                        mAvatarUrl = fileUrl;
 
                     } else {
                         Toast.makeText(context, response.body().getResultMessage(),
@@ -855,6 +873,67 @@ public class AddKeyPersonalInformationActivity extends BaseActivity {
 
 
     }
+
+//    private void addPersonalInformation( String token, String age, String height, String job,
+//                                        String name, String carNumber, String projectId,
+//                                        String sex, String remarks, String workTime) {
+//
+//
+////        Retrofit retrofit = new Retrofit.Builder()
+////                .baseUrl("http://118.178.88.132:8000/api/")
+////                .addConverterFactory(GsonConverterFactory.create())
+////                .build();
+////        FileUploadService userBiz = retrofit.create(FileUploadService.class);
+////        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+////                .addFormDataPart("image", mAvatarFile.getName(),
+////                        RequestBody.create(MediaType.parse("image/jpg"), mAvatarFile))
+////                .addFormDataPart("projectid", projectsId)
+////                .addFormDataPart("name", name)
+////                .addFormDataPart("age", age)
+////                .addFormDataPart("height", height)
+////                .addFormDataPart("job", job)
+////                .addFormDataPart("sex", sex)
+////                .addFormDataPart("workinghours", workTime)
+////                .addFormDataPart("numberplates", carNumber)
+////                .addFormDataPart("phone", mPhone)
+////                .addFormDataPart("remarks", remarks)
+////                .build();
+////
+////
+////        Call<ApiResponse> call = userBiz.addKeyPersonalInformation(token, requestBody);
+////        call.enqueue(new Callback<ApiResponse>() {
+////            @Override
+////            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+////                if (response.isSuccessful()) {
+////                    if (response.body().getResultCode() == 200) {
+////                        Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
+////
+////                        Single.just("").delay(1, TimeUnit.SECONDS).
+////                                compose(RxUtils.applySchedulers()).
+////                                subscribe(s -> finish()
+////                                );
+////
+////
+////                    } else {
+////                        Toast.makeText(context, response.body().getResultMessage(),
+////                                Toast.LENGTH_SHORT).show();
+////                    }
+////                } else {
+////                    Toast.makeText(context, "请检查网络！",
+////                            Toast.LENGTH_SHORT).show();
+////                }
+////
+////            }
+////
+////            @Override
+////            public void onFailure(Call<ApiResponse> call, Throwable t) {
+////
+////
+////            }
+////        });
+//
+//
+//    }
 
 
 }

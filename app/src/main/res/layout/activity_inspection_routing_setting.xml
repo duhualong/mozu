@@ -87,7 +87,7 @@
                 android:clipChildren="false"
                 app:hint_progressbar_progress_style="@drawable/hint_progress_indeterminate_drawable_red"
                 app:hint_view_background="@drawable/hint_progress_bg_red"
-                app:hint_view_prefixion_text="圈数完成率：">
+                app:hint_view_prefixion_text="完成率：">
             </org.eenie.wgj.ui.routinginspection.base.HintProgressBar>
         </LinearLayout>
         <TextView
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                app:hint_view_prefixion_text="点数准点率："
+                app:hint_view_prefixion_text="准点率："
             >
             </org.eenie.wgj.ui.routinginspection.base.HintProgressBar>
         </LinearLayout>

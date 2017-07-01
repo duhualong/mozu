@@ -5,6 +5,7 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.GaodeResponse;
 import org.eenie.wgj.model.response.MApi;
 import org.eenie.wgj.model.response.Token;
+import org.eenie.wgj.model.response.UploadPointPatrol;
 
 import java.util.Map;
 
@@ -94,16 +95,33 @@ public interface FileUploadService {
 
     //添加随手拍
     @POST("readilyShootAdd")
-    Call<ApiResponse>addShootPhotoItem(@Header("token")String token,@Body RequestBody body);
+    Call<ApiResponse> addShootPhotoItem(@Header("token") String token, @Body RequestBody body);
+
     //签到
     @POST("checkInAdd")
-    Call<ApiResponse>signInAttendance(@Header("token")String token,@Body RequestBody body);
+    Call<ApiResponse> signInAttendance(@Header("token") String token, @Body RequestBody body);
+
     //签退
     @POST("signbackAdd")
-    Call<ApiResponse>signOutAttendance(@Header("token")String token,@Body RequestBody body);
+    Call<ApiResponse> signOutAttendance(@Header("token") String token, @Body RequestBody body);
+    @GET("userSchedulingList")
+    Call<ApiResponse> getAttendanceLists(@Header("token") String token, @Query("date") String date);
 
+
+    //获取巡检轨迹点
+    @GET("getPatrolRecords")
+    Call<ApiResponse> getRoutingLines(@Header("token")String token, @Query("date")String date,
+                                       @Query("inspectionday_id")String inspectiondayId,
+                                       @Query("projectid")String projectId,
+                                       @Query("user_id")String userId);
+
+
+    //上报巡检点
     @POST("inspectionAdd")
-    Call<ApiResponse> uploadRoutingPointInfo(@Header("token")String token,@Body RequestBody body);
+    Call<ApiResponse> uploadRoutingPointInfo(@Header("token") String token, @Body RequestBody body);
+    //上传位置
+    @POST("updatePatrolRecord")
+    Call<ApiResponse> uploadPoiotByService(@Header("token")String token, @Body UploadPointPatrol body);
 
     @POST("register/user")
     Call<MApi> applyInformation(@Body RequestBody body);

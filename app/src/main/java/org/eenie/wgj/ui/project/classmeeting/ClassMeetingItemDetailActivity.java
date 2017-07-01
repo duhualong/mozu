@@ -111,7 +111,6 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                         //添加班次
                         addClassMeetingItem(token, request);
 
-
                     } else {
                         Snackbar.make(rootView, "请选择班次的时间", Snackbar.LENGTH_SHORT).show();
                     }
@@ -270,7 +269,8 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
         Button subMinute = (Button) dialog.getWindow().findViewById(R.id.btn_subtract_minute);
         EditText editMinute = (EditText) dialog.getWindow().findViewById(R.id.edit_minute);
         Button btnOk = (Button) dialog.getWindow().findViewById(R.id.btn_ok);
-
+        editMinute.requestFocus();
+        editHour.requestFocus();
 
         addHour.setOnClickListener(v -> {
             String hour = editHour.getText().toString();

@@ -16,6 +16,7 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.LineDetailResponse;
 import org.eenie.wgj.model.response.RoutingLineListResponse;
 import org.eenie.wgj.ui.routinginspection.base.HintProgressBar;
+import org.eenie.wgj.ui.routinginspection.record.RoutingRecordActivity;
 import org.eenie.wgj.ui.routinginspection.startrouting.RoutingStartSettingActivity;
 import org.eenie.wgj.util.Constants;
 
@@ -193,8 +194,17 @@ public class RoutingInspectionActivity extends BaseActivity {
 
                 break;
             case R.id.rl_routing_record:
+                startActivity(new Intent(context, RoutingRecordActivity.class));
+                //startActivity(new Intent(context, TestMapViewActivity.class));
 
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLineRoutingList(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
+
     }
 }

@@ -583,11 +583,18 @@ public class SortClassSettingTestActivity extends BaseActivity {
                     get(childPosition).getName());
             if (mData.get(groupPosition).getUser().
                     get(childPosition).getLine()!=null) {
-
+                if (mData.get(groupPosition).getUser().
+                        get(childPosition).getLine().getName()!=null){
                     ivh.tvAddLine.setText(mData.get(groupPosition).getUser().
                             get(childPosition).getLine().getName());
                     ivh.tvAddLine.setTextColor(ContextCompat.getColor
                             (context, R.color.titleColor));
+                }else {
+                    ivh.tvAddLine.setText(R.string.add_round_line);
+
+                }
+
+
 //                }else {
 //                    ivh.tvAddLine.setText(R.string.add_round_line);
 //                }

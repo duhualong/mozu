@@ -23,6 +23,7 @@ import org.eenie.wgj.model.requset.PostWorkRequest;
 import org.eenie.wgj.model.requset.ProjectTimeRequest;
 import org.eenie.wgj.model.requset.ReportPost;
 import org.eenie.wgj.model.requset.RoundPointRequest;
+import org.eenie.wgj.model.requset.StartRoutingRecord;
 import org.eenie.wgj.model.requset.UpdateRoundPoint;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceDay;
@@ -208,6 +209,10 @@ public interface RemoteService {
     @POST("ownerUpdate")
     Single<ApiResponse> updateKeyPersonal(@Header("token") String token,
                                           @Body AddKeyPersonalInformation addKeyPersonalInformation);
+    //添加关键人物信息
+    @POST("ownerAdd")
+    Single<ApiResponse>addKeyPersonal(@Header("token")String token,@Body AddKeyPersonalInformation
+            addKeyPersonalInformation);
 
     //获取交接班列表
     @GET("precautionList")
@@ -516,6 +521,25 @@ public interface RemoteService {
     //获取巡检路线上的点位
     @GET("inspectionList")
     Single<ApiResponse>getRoutingByLine(@Header("token")String token,@Query("lineid")String lineId);
+    //获取通知人员（巡检）
+    @GET("management/userList")
+    Single<ApiResponse>getNoticePeopleList(@Header("token")String token);
+    //开始巡检
+    @POST("addPatrolRecord")
+    Single<ApiResponse>startRoutingRecord(@Header("token")String token, @Body
+            StartRoutingRecord request);
+    //获取某段时间段的巡检详情
+    @GET("inspection/statistics")
+    Single<ApiResponse> getTimeRoutingRecordList(@Header("token")String token,
+                                                 @Query("starttime")String startTime,
+                                                 @Query("endtime")String endTime);
+    //获取巡检轨迹点
+    @GET("getPatrolRecords")
+    Single<ApiResponse>getRoutingLine(@Header("token")String token, @Query("date")String date,
+                                      @Query("inspectionday_id")String inspectiondayId,
+                                      @Query("projectid")String projectId,
+                                      @Query("user_id")String userId);
+
 
 
 

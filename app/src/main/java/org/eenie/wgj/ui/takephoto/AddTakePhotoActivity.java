@@ -171,7 +171,7 @@ public class AddTakePhotoActivity extends BaseActivity {
         File cropFile = new File(context.getCacheDir(), "a.jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
-                .withMaxResultSize(100, 100)
+                .withMaxResultSize(300, 300)
                 .start(AddTakePhotoActivity.this, requestCode);
     }
 
@@ -198,9 +198,6 @@ public class AddTakePhotoActivity extends BaseActivity {
 
                             });
                     firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                  //  firstFile=new File(firstPath);
-
-
 
                     break;
                 case REQUEST_CAMERA_SECOND:
