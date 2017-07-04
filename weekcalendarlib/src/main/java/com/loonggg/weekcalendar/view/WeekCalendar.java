@@ -106,6 +106,8 @@ public class WeekCalendar extends LinearLayout {
         daysTextSize = typedArray.getDimension(R.styleable.WeekCalendar_daysTextSize, 16f);
         weekTextSize = typedArray.getDimension(R.styleable.WeekCalendar_weekTextSize, 16f);
         isShowMonth = typedArray.getBoolean(R.styleable.WeekCalendar_isShowMonth, true);
+
+
         initDatas();
         initView();
         typedArray.recycle();
@@ -115,13 +117,14 @@ public class WeekCalendar extends LinearLayout {
      * 初始化数据
      */
     private void initDatas() {
+
         calendarDatas = new ArrayList<>();
         getToday();//获取当天的数据
         theDayOfSelected = today;
         theDayForShow = today;
         getWholeMonthDatas(theDayOfSelected);
         weekPosition = WeekCalendarUtil.getTheWeekPosition(weeks, theDayOfSelected);
-        //setSelectDates(selectDateList,selectDateThing);
+
     }
 
     /**
@@ -371,15 +374,16 @@ public class WeekCalendar extends LinearLayout {
                     cd.day = Integer.parseInt(dates[2]);
                     if (calendar.isSameDay(cd)) {
                         dayThing.setText(selectDateThing.get(i));
+                        notifyDataSetChanged();
                         corner_mark_iv.setVisibility(View.GONE);
                       //  corner_mark_iv.setVisibility(View.VISIBLE);
                         break;
                     } else {
                         dayThing.setText("");
                         corner_mark_iv.setVisibility(View.GONE);
-                        //  corner_mark_iv.setVisibility(View.GONE);
                     }
                 }
+
             }
 
             //如果设置了回调，则设置点击事件

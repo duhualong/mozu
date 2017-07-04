@@ -4,6 +4,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:padding="@dimen/padding_bottom"
+                android:id="@id/rl_select_point"
                 android:layout_marginBottom="1dp"
 >
     <CheckBox

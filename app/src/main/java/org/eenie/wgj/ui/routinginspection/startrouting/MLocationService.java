@@ -51,7 +51,7 @@ public class MLocationService extends Service {
     private Timer mTimer = null;
     private TimerTask mTimerTask = null;
     private boolean isStop = false;
-    public int intTimer = 60;
+    public int intTimer = 20;
     public String strIsLogin = "1";
     private String lineId;
     private String token;
@@ -68,7 +68,7 @@ public class MLocationService extends Service {
         mLocationOption.setInterval(5000);
         //设置精度模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+       // mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //设置是否返回地址信息（默认返回地址信息）
@@ -122,7 +122,6 @@ public class MLocationService extends Service {
                             mAMapLocationList.size());
                             if (!mAMapLocationList.isEmpty()&&mAMapLocationList!=null){
                                 uploadData(mAMapLocationList);
-
 
                             }
 
@@ -197,9 +196,13 @@ public class MLocationService extends Service {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
                     System.out.println("sss");
-                    String mDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(Calendar.getInstance().getTime());
-                    mAMapLocationList.add(new PointNeedResponse(aMapLocation.getLongitude(),aMapLocation.getLatitude(),
-                            mDate));
+                    String mDate = new SimpleDateFormat("yyyy-MM-dd hh:mm").format(Calendar.getInstance().getTime());
+                    if (aMapLocation.getAccuracy()<=100){
+                        mAMapLocationList.add(new PointNeedResponse(aMapLocation.getLongitude(),
+                                aMapLocation.getLatitude(),
+                                mDate));
+                    }
+
                     //可在其中解析amapLocation获取相应内容。
 //                    aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
 //                    aMapLocation.getLatitude();//获取纬度

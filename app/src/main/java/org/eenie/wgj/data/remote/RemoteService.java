@@ -532,13 +532,27 @@ public interface RemoteService {
     @GET("inspection/statistics")
     Single<ApiResponse> getTimeRoutingRecordList(@Header("token")String token,
                                                  @Query("starttime")String startTime,
-                                                 @Query("endtime")String endTime);
+                                                 @Query("endtime")String endTime,
+                                                 @Query("userid")String userId);
+
     //获取巡检轨迹点
     @GET("getPatrolRecords")
     Single<ApiResponse>getRoutingLine(@Header("token")String token, @Query("date")String date,
                                       @Query("inspectionday_id")String inspectiondayId,
                                       @Query("projectid")String projectId,
                                       @Query("user_id")String userId);
+    //获取每月全部的巡检信息
+    @GET("inspection/total")
+    Single<ApiResponse>getRoutingInfoList(@Header("token")String token,@Query("date")String date,
+                                          @Query("projectid")String projectId);
+
+    //获取报岗数据
+    @GET("signedtosign/postList")
+    Single<ApiResponse>getReportLine(@Header("token")String token);
+    //获取岗位下报岗信息
+    @GET("signedtosign/newspaperpostList")
+    Single<ApiResponse>getReportInfoByLine(@Header("token")String token,
+                                     @Query("postsettingid")String posyId);
 
 
 

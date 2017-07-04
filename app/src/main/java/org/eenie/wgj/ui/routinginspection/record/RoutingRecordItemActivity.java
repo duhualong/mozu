@@ -41,16 +41,22 @@ import rx.schedulers.Schedulers;
  */
 
 public class RoutingRecordItemActivity extends BaseActivity {
-    @BindView(R.id.recycler_view_item)RecyclerView mRecyclerView;
-    public static final String ROUTING_INFO="info";
-    @BindView(R.id.img_avatar)CircleImageView imgAvatar;
-    @BindView(R.id.tv_name)TextView tvName;
+    @BindView(R.id.recycler_view_item)
+    RecyclerView mRecyclerView;
+    public static final String ROUTING_INFO = "info";
+    public static final String PROJECT_ID = "project_id";
+    public static final String USER_ID = "user_id";
+    @BindView(R.id.img_avatar)
+    CircleImageView imgAvatar;
+    @BindView(R.id.tv_name)
+    TextView tvName;
     private RecordRoutingResponse data;
     private RoutingAdapter mAdapter;
     private String mDate;
     private String userName;
     private String avatarUrl;
     private String projectId;
+    private String userId;
 
     @Override
     protected int getContentView() {
@@ -60,29 +66,38 @@ public class RoutingRecordItemActivity extends BaseActivity {
     @Override
     protected void updateUI() {
 
-       data= getIntent().getParcelableExtra(ROUTING_INFO);
-        mDate=data.getDate();
+        data = getIntent().getParcelableExtra(ROUTING_INFO);
+        mDate = data.getDate();
 
-        if (data!=null){
-            if (data.getUser()!=null){
-                userName=data.getUser().getName();
-                avatarUrl=data.getUser().getId_card_head_image();
+        if (data != null) {
+            if (data.getUser() != null) {
+                userName = data.getUser().getName();
+                avatarUrl = data.getUser().getId_card_head_image();
                 tvName.setText(data.getUser().getName());
-                if (data.getUser().getId_card_head_image()!=null){
-                    Glide.with(context).load(Constant.DOMIN+data.getUser().getId_card_head_image()).
+                if (data.getUser().getId_card_head_image() != null) {
+                    Glide.with(context).load(Constant.DOMIN + data.getUser().getId_card_head_image()).
                             centerCrop().into(imgAvatar);
                 }
-                if (data.getInfo()!=null){
-                    mAdapter=new RoutingAdapter(context,data.getInfo());
+                if (data.getInfo() != null) {
+                    mAdapter = new RoutingAdapter(context, data.getInfo());
                     LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                     mRecyclerView.setLayoutManager(layoutManager);
                     mRecyclerView.setAdapter(mAdapter);
                 }
             }
+            projectId = getIntent().getStringExtra(PROJECT_ID);
+            userId = getIntent().getStringExtra(USER_ID);
+            if (TextUtils.isEmpty(userId)) {
+                userId = mPrefsHelper.getPrefs().getString(Constants.UID, "");
+            }
+            if (TextUtils.isEmpty(projectId)) {
+                getUserInfo();
+            }
         }
 
-        getUserInfo();
+
     }
+
     private void getUserInfo() {
 
         UserId mUser = new UserId(mPrefsHelper.getPrefs().getString(Constants.UID, ""));
@@ -109,14 +124,13 @@ public class RoutingRecordItemActivity extends BaseActivity {
                                 new TypeToken<UserInforById>() {
                                 }.getType());
                         if (mData != null) {
-                            if (TextUtils.isEmpty(userName)){
+                            if (TextUtils.isEmpty(userName)) {
                                 userName = mData.getName();
                             }
-                            if (TextUtils.isEmpty(avatarUrl)){
-                                avatarUrl=mData.getAvatar();
+                            if (TextUtils.isEmpty(avatarUrl)) {
+                                avatarUrl = mData.getAvatar();
                             }
-                            projectId=String.valueOf( mData.getProject_id());
-
+                            projectId = String.valueOf(mData.getProject_id());
 
                         }
                     }
@@ -124,10 +138,10 @@ public class RoutingRecordItemActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.img_back)public void onClick(){
+    @OnClick(R.id.img_back)
+    public void onClick() {
         onBackPressed();
     }
-
 
 
     class RoutingAdapter extends RecyclerView.Adapter<RoutingAdapter.ProjectViewHolder> {
@@ -209,12 +223,13 @@ public class RoutingRecordItemActivity extends BaseActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_item:
-                        startActivity(new Intent(RoutingRecordItemActivity.this,RoutingRecordItemDetailActivity.class)
-                        .putExtra(RoutingRecordItemDetailActivity.INFO_ROUTING,mRoutingReponse)
-                        .putExtra(RoutingRecordItemDetailActivity.DATE,mDate)
-                        .putExtra(RoutingRecordItemDetailActivity.USERNAME,userName)
-                        .putExtra(RoutingRecordItemDetailActivity.AVATAR_URL,avatarUrl)
-                       .putExtra(RoutingRecordItemDetailActivity.PROJECT_ID,projectId));
+                        startActivity(new Intent(RoutingRecordItemActivity.this, RoutingRecordItemDetailActivity.class)
+                                .putExtra(RoutingRecordItemDetailActivity.INFO_ROUTING, mRoutingReponse)
+                                .putExtra(RoutingRecordItemDetailActivity.DATE, mDate)
+                                .putExtra(RoutingRecordItemDetailActivity.USERNAME, userName)
+                                .putExtra(RoutingRecordItemDetailActivity.AVATAR_URL, avatarUrl)
+                                .putExtra(RoutingRecordItemDetailActivity.PROJECT_ID, projectId)
+                                .putExtra(RoutingRecordItemDetailActivity.USER_ID, userId));
                         break;
                 }
 

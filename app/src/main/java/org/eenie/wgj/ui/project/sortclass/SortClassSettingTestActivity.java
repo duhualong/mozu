@@ -259,6 +259,14 @@ public class SortClassSettingTestActivity extends BaseActivity {
                                                             TestExpandAdapter(context,
                                                             mServiceList);
                                                     recyclerArrangeClass.setAdapter(mDateAdapter);
+
+                                                    for (int n = 0; n < mServiceList.size(); n++) {
+                                                        if (mServiceList.get(n)!=null){
+                                                            recyclerArrangeClass.expandGroup(n);
+                                                        }
+
+                                                    }
+                                                    recyclerArrangeClass.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
                                                 }
                                             });
 

@@ -1,7 +1,7 @@
 package org.eenie.wgj.ui.attendance;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -14,7 +14,6 @@ import com.loonggg.weekcalendar.view.WeekCalendar;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
-import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceListResponse;
@@ -23,7 +22,6 @@ import org.eenie.wgj.model.response.UserInforById;
 import org.eenie.wgj.ui.attendance.sign.AttendanceTestSignInActivity;
 import org.eenie.wgj.ui.attendance.signout.AttendanceSignOutActivity;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
-import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 
 import java.text.SimpleDateFormat;
@@ -32,11 +30,6 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -80,60 +73,75 @@ public class AttendanceActivity extends BaseActivity {
     ArrayList<String> mLists = new ArrayList<>();
     @Override
     protected int getContentView() {
+
         return R.layout.activity_attendance_work;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.DOMIN_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        FileUploadService fileUploadService = retrofit.create(FileUploadService.class);
-        Call<ApiResponse> call = fileUploadService.getAttendanceLists(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),
-                new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
-        call.enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.body().getResultCode()==200){
-                    String jsonArray = gson.toJson(response.body().getData());
-                    ArrayList<AttendanceListResponse> mData =
-                            gson.fromJson(jsonArray,
-                                    new TypeToken<ArrayList<AttendanceListResponse>>() {
-                                    }.getType());
-                    if (mData!=null){
-                        for (int i = 0; i < mData.size(); i++) {
-                            mList.add(mData.get(i).getDay());
-                            mLists.add(mData.get(i).getService().
-                                    getServicesname());
-                        }
-                        if (mLists!=null&&!mLists.isEmpty()){
-                            Log.d("test数组", "onResponse: "+gson.toJson(mList));
-                            Log.d("tests数组", "onResponse: "+gson.toJson(mLists));
-
-
-                        }
-
-
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-            }
-        });
-
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(Constant.DOMIN_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        FileUploadService fileUploadService = retrofit.create(FileUploadService.class);
+//        Call<ApiResponse> call = fileUploadService.getAttendanceLists(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),
+//                new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
+//        call.enqueue(new Callback<ApiResponse>() {
+//            @Override
+//            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+//                if (response.body().getResultCode()==200){
+//                    String jsonArray = gson.toJson(response.body().getData());
+//                    ArrayList<AttendanceListResponse> mData =
+//                            gson.fromJson(jsonArray,
+//                                    new TypeToken<ArrayList<AttendanceListResponse>>() {
+//                                    }.getType());
+//                    if (mData!=null){
+//                        for (int i = 0; i < mData.size(); i++) {
+//                            mList.add(mData.get(i).getDay());
+//                            mLists.add(mData.get(i).getService().
+//                                    getServicesname());
+//                        }
+//                        if (mLists!=null&&!mLists.isEmpty()){
+//                            Log.d("test数组", "onResponse: "+gson.toJson(mList));
+//                            Log.d("tests数组", "onResponse: "+gson.toJson(mLists));
+//
+//
+//                        }
+//
+//
+//                    }
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ApiResponse> call, Throwable t) {
+//
+//            }
+//        });
+//
+//    }
 
     @Override
     protected void updateUI() {
-        mWeekCalendar.setSelectDates(mList, mLists);
+        String mDate=mPrefsHelper.getPrefs().getString(Constants.DATE_LIST,"");
+        String mDateThing=mPrefsHelper.getPrefs().getString(Constants.DATE_THING_LIST,"");
         getData();
+        if (!TextUtils.isEmpty(mDate)&& !TextUtils.isEmpty(mDateThing)){
+            mList=gson.fromJson(mDate, new TypeToken<ArrayList<String>>() {}.getType());
+            mLists=gson.fromJson(mDateThing, new TypeToken<ArrayList<String>>() {}.getType());
+        }
+        mWeekCalendar.setSelectDates(mList, mLists);
+        mWeekCalendar.showToday();
+        mWeekCalendar.setOnDateClickListener(time ->
+                showAttendanceInfo(time));
+        mWeekCalendar.setOnCurrentMonthDateListener((year, month) -> {
+            mTitle.setText(year + "年" + month + "月");
+        });
+
+
 
 //        mSubscription = mRemoteService.getAttendanceList(
 //                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
@@ -219,11 +227,6 @@ public class AttendanceActivity extends BaseActivity {
     }
 
     private void getData() {
-//        mList.add("2017-06-25");
-//        mList.add("2017-06-30");
-//
-//        mLists.add("日班");
-//        mLists.add("日班");
 
         mSubscription = mRemoteService.getAttendanceList(
                 mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
@@ -250,88 +253,19 @@ public class AttendanceActivity extends BaseActivity {
                                     }
 
                                 }
+
+
+
+
                             }
 
                         }
 
                     }
                 });
-        mWeekCalendar.setSelectDates(mList, mLists);
-        mWeekCalendar.showToday();
-        mWeekCalendar.setOnDateClickListener(time ->
-                showAttendanceInfo(time));
-        mWeekCalendar.setOnCurrentMonthDateListener((year, month) -> {
-            mTitle.setText(year + "年" + month + "月");
-        });
+
 
       }
-
-    private void initUI() {
-        mSubscription = mRemoteService.getAttendanceList(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
-                new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200 ||
-                                apiResponse.getResultCode() == 0) {
-                            if (apiResponse.getData() != null) {
-                                String jsonArray = gson.toJson(apiResponse.getData());
-                                attendanceResponse =
-                                        gson.fromJson(jsonArray,
-                                                new TypeToken<ArrayList<AttendanceListResponse>>() {
-                                                }.getType());
-
-                                if (attendanceResponse != null) {
-                                    ArrayList<String> mList = new ArrayList<>();
-                                    ArrayList<String> mLists = new ArrayList<>();
-                                    for (int i = 0; i < attendanceResponse.size(); i++) {
-                                        mList.add(attendanceResponse.get(i).getDay());
-                                        mLists.add(attendanceResponse.get(i).getService().
-                                                getServicesname());
-                                    }
-
-                                    new Thread() {
-                                        public void run() {
-                                            initData(mList, mLists);
-                                        }
-                                    }.start();
-
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-                });
-
-
-    }
-
-    private void initData(ArrayList<String> mList, ArrayList<String> mLists) {
-        Log.d("数组填充" ,"initData: "+"mlist");
-        mWeekCalendar.setSelectDates(mList, mLists);
-         mWeekCalendar.showToday();
-        mWeekCalendar.setOnDateClickListener(time ->
-                showAttendanceInfo(time));
-        mWeekCalendar.setOnCurrentMonthDateListener((year, month) -> {
-            mTitle.setText(year + "年" + month + "月");
-        });
-    }
 
 
     private void showAttendanceInfo(String date) {
@@ -480,7 +414,6 @@ public class AttendanceActivity extends BaseActivity {
                                             attendanceResponse.get(position)));
                         }
 
-
                     } else {
                         Toast.makeText(context, "今日无考勤,无需签到", Toast.LENGTH_SHORT).show();
 
@@ -500,7 +433,6 @@ public class AttendanceActivity extends BaseActivity {
                 break;
 
             case R.id.rl_work_overtime:
-
 
                 break;
             case R.id.rl_work_recoder:

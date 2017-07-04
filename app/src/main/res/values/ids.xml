@@ -666,4 +666,32 @@
     <item name="marker_address" type="id"/>
     <item name="marker_location" type="id"/>
     <item name="tv_select_time" type="id"/>
+    <item name="et_year" type="id"/>
+    <item name="edit_month" type="id"/>
+    <item name="btn_add_year" type="id"/>
+    <item name="btn_subtract_year" type="id"/>
+    <item name="btn_add_month" type="id"/>
+    <item name="btn_subtract_month" type="id"/>
+    <item name="item_post_name" type="id"/>
+    <item name="rl_select_post_detail" type="id"/>
+    <item name="rl_select_point" type="id"/>
+    <item name="recycler_view_content" type="id"/>
+    <item name="checkbox_select_content" type="id"/>
+    <item name="item_content_routing" type="id"/>
+    <item name="item_position" type="id"/>
+    <item name="item_tv_time" type="id"/>
+    <item name="item_tv_address" type="id"/>
+    <item name="rl_upload_post" type="id"/>
+    <item name="el_report_post_one" type="id"/>
+    <item name="tv_report_time_sub" type="id"/>
+    <item name="tv_report_post_name" type="id"/>
+    <item name="tv_report_post_class" type="id"/>
+    <item name="tv_report_content" type="id"/>
+    <item name="rl_report_detail_first" type="id"/>
+    <item name="item_report_post_time" type="id"/>
+    <item name="img_photo" type="id"/>
+    <item name="item_overtime_post" type="id"/>
+    <item name="tv_report_time" type="id"/>
+    <item name="report_post_name" type="id"/>
+    <item name="report_post_address" type="id"/>
 </resources>

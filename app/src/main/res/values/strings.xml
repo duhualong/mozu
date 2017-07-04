@@ -155,7 +155,7 @@
     <string name="notify_alert">通知</string>
     <string name="to_do_alert">待办事项提醒</string>
     <string name="item_title">会议室申请</string>
-    <string name="item_date_apply">2017-04-17 15:30</string>
+    <string name="item_date_apply">2017–04-17 15:30</string>
     <string name="item_meeting_name">会议名称</string>
     <string name="home_application">首页应用</string>
     <string name="tv_select_company">选择公司</string>
@@ -179,7 +179,10 @@
     <string name="look_error_labor">异常详情</string>
     <string name="project_personal_setting">项目人员设置</string>
     <string name="tv_detail"><u>详细</u></string>
-    <string name="tv_detail_look"><u>查看详细</u></string>
+    <string name="tv_detail_look"><u>查看详情</u></string>
     <string name="tv_leave_people"><u>离职人员</u></string>
     <string name="tv_add_people"><u>新增人员</u></string>
+    <string name="test_distance">岗&#8195;&#8195;位&#8195;</string>
+    <string name="tv_report_post_time">报岗时间&#8195;</string>
+
 </resources>

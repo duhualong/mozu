@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -217,8 +218,6 @@ public class AddCycleRoundActivity extends BaseActivity {
                     }
 
                 }
-
-
             }
 
         }
@@ -245,6 +244,7 @@ public class AddCycleRoundActivity extends BaseActivity {
             private TextView tvName;
             private TextView tvTime;
             private RoundPoint infoBean;
+            private RelativeLayout mRelativeLayout;
 
             public RoundPointViewHolder(View itemView) {
 
@@ -254,6 +254,8 @@ public class AddCycleRoundActivity extends BaseActivity {
                 tvPost = ButterKnife.findById(itemView, R.id.tv_post);
                 tvName = ButterKnife.findById(itemView, R.id.item_name);
                 tvTime = ButterKnife.findById(itemView, R.id.btn_time);
+                mRelativeLayout=ButterKnife.findById(itemView,R.id.rl_select_point);
+
                 tvTime.setOnClickListener(this);
                 mCheckBox.setOnClickListener(this);
 
@@ -267,19 +269,19 @@ public class AddCycleRoundActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.checkbox_password_remember:
-                        if (mCheckBox.isChecked()) {
-                            infoBean.setChecked(true);
-                        } else {
-                            infoBean.setChecked(false);
-                      }
-                        notifyDataSetChanged();
+                    case R.id.btn_time:
+                        showTimeDialog(tvTime,infoBean);
 
                         break;
-                    case R.id.btn_time:
-                        showTimeDialog(tvTime, infoBean);
-                        notifyDataSetChanged();
+                    case R.id.checkbox_password_remember:
+                        if (mCheckBox.isChecked()){
+                            infoBean.setChecked(true);
+                        }else {
+                            infoBean.setChecked(false);
+                        }
+
                         break;
+
                 }
 
 
@@ -403,6 +405,8 @@ public class AddCycleRoundActivity extends BaseActivity {
                             }
                             data.setTime(hour + ":" + minute);
                             textView.setText(hour + ":" + minute);
+
+
                         }
                     }
                 } else {

@@ -154,7 +154,7 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
                                         }
                                         Log.d("mline:", "onResponse: " + new Gson().toJson(latLngs));
                                         mPolyline = mAMap.addPolyline(new PolylineOptions().
-                                                addAll(latLngs).width(10).color(Color.BLUE));
+                                                addAll(latLngs).width(12).color(Color.argb(255, 23, 135, 253)));
                                     }
                         }
                     } else {
@@ -213,8 +213,6 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
                         markerResponseArrayList.get(0).getLongitude()));
                 onSignCircleChange(markerResponseArrayList);
             }
-
-
         }
 
 

@@ -510,6 +510,35 @@
         <activity android:name=".ui.routingstatistics.RoutingStaticsItemDetailActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--每个人某月的巡检统计-->
+        <activity android:name=".ui.routingstatistics.RoutingStaticsDetailMonthActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+
+        <!--巡检-->
+        <activity android:name=".ui.reportpost.ReportPostSettingUploadActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendance.AttendanceTestActivity"/>
+        <activity android:name=".ui.attendance.signout.AttendanceTestTwoActivity">
+        <intent-filter>
+            <action android:name=".ui.attendance.signout.AttendanceTestTwoActivity"/>
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
+        <!--该岗位下信息-->
+        <activity android:name=".ui.reportpost.ReportPostSettingFirstActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.reportpost.ReportPostDetailItemActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--点位详情-->
+        <activity android:name=".ui.reportpost.ReportPostPointDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        
+
         <!--个人工时-->
         <!--<activity android:name=""-->
 

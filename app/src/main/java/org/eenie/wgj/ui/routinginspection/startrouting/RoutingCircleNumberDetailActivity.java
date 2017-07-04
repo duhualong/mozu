@@ -257,7 +257,6 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
                         }else if (position==(mReportRoutingReponses.size()-1)){
                             type="last";
                         }
-
                     }
 
                     holder.setItem(data, position,type);

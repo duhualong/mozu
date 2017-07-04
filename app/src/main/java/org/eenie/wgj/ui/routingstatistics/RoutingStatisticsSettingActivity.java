@@ -333,9 +333,6 @@ public class RoutingStatisticsSettingActivity extends BaseActivity implements Sw
                 switch (v.getId()) {
                     case R.id.rl_item_project:
 
-
-
-
                         startActivity(new Intent(RoutingStatisticsSettingActivity.this,
                                 RoutingStaticsItemDetailActivity.class).putExtra(
                                 RoutingStaticsItemDetailActivity.PROJECT_ID,

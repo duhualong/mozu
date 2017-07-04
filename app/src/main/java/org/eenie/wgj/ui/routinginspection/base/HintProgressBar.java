@@ -12,11 +12,7 @@ import android.widget.TextView;
 
 import org.eenie.wgj.R;
 
-/**
- * Created by Eenie on 2017/6/23 at 11:19
- * Email: 472279981@qq.com
- * Des:
- */
+
 
 public class HintProgressBar  extends FrameLayout {
 

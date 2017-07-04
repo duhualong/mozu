@@ -128,7 +128,6 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-
                 onBackPressed();
                 break;
             case R.id.rl_sort_all:
@@ -173,7 +172,6 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 startActivity(new Intent(context,AttendanceNewEmplyeesActivity.class)
                         .putExtra(AttendanceNewEmplyeesActivity.PROJECT_ID,projectId)
                         .putExtra(AttendanceNewEmplyeesActivity.DATE,date));
-
                 break;
             //请假人员
             case R.id.tv_leave_count:
@@ -181,7 +179,6 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 startActivity(new Intent(context,AttendanceLeaveActivity.class)
                         .putExtra(AttendanceLeaveActivity.PROJECT_ID,projectId)
                         .putExtra(AttendanceLeaveActivity.DATE,date));
-
                 break;
             //外出人员
             case R.id.tv_outside_count:
@@ -189,39 +186,27 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 startActivity(new Intent(context,AttendanceGoOutActivity.class)
                         .putExtra(AttendanceGoOutActivity.PROJECT_ID,projectId)
                         .putExtra(AttendanceGoOutActivity.DATE,date));
-
-
                 break;
-
-
 
             //借调人员
             case R.id.tv_second_count:
-
                 startActivity(new Intent(context,AttendanceSecondedActivity.class)
                         .putExtra(AttendanceSecondedActivity.PROJECT_ID,projectId)
                         .putExtra(AttendanceSecondedActivity.DATE,date));
-
                 break;
             //实习人员
             case R.id.tv_experience_count:
                 startActivity(new Intent(context,AttendancePracticeActivity.class)
                         .putExtra(AttendancePracticeActivity.PROJECT_ID,projectId)
                         .putExtra(AttendancePracticeActivity.DATE,date));
-
                 break;
             case R.id.rl_leave_people:
 
                 Toast.makeText(context,"离职人员暂无数据",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_overtime_count:
-
                 Toast.makeText(context,"加班考勤暂无数据",Toast.LENGTH_SHORT).show();
                 break;
-
-
-
-
 
         }
     }
@@ -296,7 +281,6 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                     rlFightingThird.setVisibility(View.GONE);
 
                                 }
-
 
                                     if (data.getMonth_integrated()!=null) {
                                         Log.d("MyTest", "onNext: "+

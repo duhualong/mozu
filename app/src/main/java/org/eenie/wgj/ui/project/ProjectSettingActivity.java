@@ -30,12 +30,15 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.AttendanceListResponse;
 import org.eenie.wgj.model.response.ProjectList;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.PermissionManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -195,13 +198,14 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
+                        cancelRefresh();
                         if (apiResponse.getResultCode() == 200) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             List<ProjectList> projectLists = gson.fromJson(jsonArray,
                                     new TypeToken<List<ProjectList>>() {
                                     }.getType());
-                            cancelRefresh();
+
                             if (projectLists != null && !projectLists.isEmpty()) {
                                 if (mProjectAdapter != null) {
                                     mProjectAdapter.addAll(projectLists);
@@ -228,6 +232,74 @@ public class ProjectSettingActivity extends BaseActivity implements SwipeRefresh
     public void onResume() {
         super.onResume();
         onRefresh();
+
+        initData();
+
+    }
+
+
+    private void initData() {
+
+        mSubscription = mRemoteService.getAttendanceList(
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
+                new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        Gson gson=new Gson();
+                        if (apiResponse.getResultCode() == 200 ||
+                                apiResponse.getResultCode() == 0) {
+                            if (apiResponse.getData() != null) {
+
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                ArrayList<AttendanceListResponse>  attendanceResponse =
+                                        gson.fromJson(jsonArray,
+                                                new TypeToken<ArrayList<AttendanceListResponse>>() {
+                                                }.getType());
+
+                                if (attendanceResponse != null) {
+                                    ArrayList<String> mList = new ArrayList<>();
+                                    ArrayList<String> mLists = new ArrayList<>();
+                                    for (int i = 0; i < attendanceResponse.size(); i++) {
+                                        mList.add(attendanceResponse.get(i).getDay());
+                                        mLists.add(attendanceResponse.get(i).getService().
+                                                getServicesname());
+                                    }
+                                    mPrefsHelper.getPrefs().edit().
+                                            putString(Constants.DATE_LIST,gson.toJson(mList))
+                                            .putString(Constants.DATE_THING_LIST,gson.toJson(mLists))
+                                            .apply();
+
+                                }else {
+                                    mPrefsHelper.getPrefs().edit().
+                                            putString(Constants.DATE_LIST,"")
+                                            .putString(Constants.DATE_THING_LIST,"")
+                                            .apply();
+                                }
+
+                            }
+                        }else {
+                            mPrefsHelper.getPrefs().edit().
+                                    putString(Constants.DATE_LIST,"")
+                                    .putString(Constants.DATE_THING_LIST,"")
+                                    .apply();
+
+                        }
+
+                    }
+                });
     }
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {

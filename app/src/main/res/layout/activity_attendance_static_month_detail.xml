@@ -174,7 +174,7 @@
                           android:layout_marginStart="16dp"
                           android:layout_marginTop="10dp"
                           android:gravity="center"
-                          android:text="月度团队排名"
+                          android:text="月度考勤排名"
                           android:textColor="@color/black_light"
                           android:textSize="@dimen/text_large_size"/>
                 <TextView android:id="@id/tv_date_two"
@@ -417,7 +417,7 @@
 
             <RelativeLayout android:id="@id/rl_team_attendance_status"
                             android:layout_width="match_parent"
-                            android:layout_height="130dp"
+                            android:layout_height="140dp"
                             android:layout_marginEnd="@dimen/padding_bottom"
                             android:layout_marginLeft="@dimen/padding_bottom"
                             android:layout_marginRight="@dimen/padding_bottom"
@@ -431,7 +431,7 @@
                           android:layout_marginStart="16dp"
                           android:layout_marginTop="10dp"
                           android:gravity="center"
-                          android:text="月度团体考勤情况"
+                          android:text="月度团体考勤"
                           android:textColor="@color/black_light"
                           android:textSize="@dimen/text_large_size"/>
                 <TextView android:id="@id/tv_date_four"

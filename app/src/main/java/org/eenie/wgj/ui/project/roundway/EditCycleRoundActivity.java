@@ -251,8 +251,6 @@ public class EditCycleRoundActivity extends BaseActivity {
                     }
 
                 }
-
-
             }
 
         }
@@ -307,14 +305,11 @@ public class EditCycleRoundActivity extends BaseActivity {
                         } else {
                             infoBean.setChecked(false);
                         }
-
                         break;
                     case R.id.btn_time:
                         showTimeDialog(tvTime, infoBean);
                         break;
                 }
-
-
             }
         }
     }

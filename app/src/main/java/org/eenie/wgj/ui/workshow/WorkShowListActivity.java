@@ -165,18 +165,18 @@ public class WorkShowListActivity extends BaseActivity {
                                 if (myWorkShowList.size()>0){
                                     myRecyclerView.setVisibility(View.VISIBLE);
                                     if (myAdapter != null) {
-                                        myAdapter.addAll(myWorkShowList);
+                                        myAdapter.clear();
                                     }
-
+                                    myAdapter.addAll(myWorkShowList);
 
                                 }else {
                                     myRecyclerView.setVisibility(View.GONE);
                                 }
                                 if (otherWorkShowList.size()>0){
                                     if (otherAdapter!=null){
-                                        otherAdapter.addAll(otherWorkShowList);
+                                     otherAdapter.clear();
                                     }
-
+                                    otherAdapter.addAll(otherWorkShowList);
                                     otherRecyclerView.setVisibility(View.VISIBLE);
 
 
@@ -420,12 +420,8 @@ public class WorkShowListActivity extends BaseActivity {
                     case R.id.item_praise_number:
                     case R.id.item_praise_img:
                         addPraise(mWorkShow);
-
                         break;
-
                 }
-
-
             }
         }
     }
@@ -451,10 +447,6 @@ public class WorkShowListActivity extends BaseActivity {
                             Toast.makeText(context,apiResponse.getResultMessage(),
                                     Toast.LENGTH_SHORT).show();
                             getWorkShowList();
-
-
-
-
 
 
                         }else {

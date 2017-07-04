@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white_light"
-              android:id="@id/root_view"
               android:orientation="vertical">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
@@ -71,29 +71,6 @@
 
 
             </RelativeLayout>
-            <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            android:background="@color/white"
-                            android:padding="@dimen/padding_bottom"
-            >
-                <TextView android:id="@+id/text"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_centerVertical="true"
-                          android:text="巡检内容："
-                          android:textColor="@color/black_light"
-                          android:textSize="@dimen/text_large_size"/>
-                <TextView android:id="@id/routing_content"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_toEndOf="@+id/text"
-                          android:layout_toRightOf="@+id/text"
-                          android:text=""
-                          android:textColor="@color/black_light"
-                          android:textSize="@dimen/text_large_size"/>
-
-            </RelativeLayout>
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginTop="1dp"
@@ -124,6 +101,37 @@
                            android:src="@mipmap/ic_upload_carmera"
                            android:visibility="gone"/>
             </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom"
+            >
+                <TextView android:id="@+id/text"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="巡检内容："
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <TextView android:id="@id/routing_content"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_toEndOf="@+id/text"
+                          android:layout_toRightOf="@+id/text"
+                          android:text=""
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_view_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:padding="@dimen/padding_bottom"/>
+
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/padding_bottom"

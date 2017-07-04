@@ -28,9 +28,9 @@ public class RoutingRecordItemDetailActivity extends BaseActivity {
     public static final String USERNAME="name";
     public static final String AVATAR_URL="url";
     public static final String PROJECT_ID="project_id";
+    public static final String USER_ID="user_id";
     private RecordRoutingResponse.InfoBean mData;
-    private String userName;
-    private String avatarUrl;
+
     public static final String DATE="date";
     @BindView(R.id.rg_group)
     RadioGroup mRgGroup;
@@ -50,12 +50,14 @@ public class RoutingRecordItemDetailActivity extends BaseActivity {
         String avatarUrl=getIntent().getStringExtra(AVATAR_URL);
         String name=getIntent().getStringExtra(USERNAME);
         String projectId=getIntent().getStringExtra(PROJECT_ID);
+        String userId=getIntent().getStringExtra(USER_ID);
+
 
         mFragments.add(NormalRoutingRecordFragment.newInstance(mData));
         mFragments.add(AbnormalRoutingRecordFragment.newInstance(mData));
         mFragments.add(MissingPointRoutingRecordFragment.newInstance(mData));
-        mFragments.add(TestMapFragment.newInstance(date,name,avatarUrl,mPrefsHelper.getPrefs().
-                getString(Constants.UID,""),mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),projectId,mData));
+        mFragments.add(TestMapFragment.newInstance(date,name,avatarUrl,userId,
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),projectId,mData));
 
         mPageError.setAdapter(new ErrorPageAdapter());
 

@@ -42,6 +42,9 @@ import org.eenie.wgj.model.requset.AddRoutingContent;
 import org.eenie.wgj.model.requset.StartRoutingRecord;
 import org.eenie.wgj.model.response.ManagerPeopleResponse;
 import org.eenie.wgj.model.response.NewCircleLineId;
+import org.eenie.wgj.model.response.PointNeedResponse;
+import org.eenie.wgj.model.response.UploadPointPatrol;
+import org.eenie.wgj.model.response.routing.RoutingContentResponse;
 import org.eenie.wgj.model.response.routing.StartRoutingResponse;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
@@ -49,7 +52,9 @@ import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.PermissionManager;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -101,6 +106,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
     private static final int REQUEST_PHOTO_THREE = 0x208;
     private static final int REQUEST_PEOPLE = 0x301;
     private AddPersonalAdapter mAdapter;
+    private AddContentAdapter mAddContentAdapter;
 
     @BindView(R.id.root_view)
     View rootView;
@@ -118,8 +124,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
     TextView tvRoutingTime;
     @BindView(R.id.routing_address)
     TextView tvRoutingAddress;
-    @BindView(R.id.routing_content)
-    TextView tvRoutingContent;
+
     @BindView(R.id.img_first)
     ImageView imgFirst;
     @BindView(R.id.img_second)
@@ -165,8 +170,10 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
     private String inspectiondayId;
     private String circleId;
     private String newCircleId;
+    @BindView(R.id.recycler_view_content)
+    RecyclerView mRecyclerViewContent;
 
-
+    ArrayList<RoutingContentResponse> b = new ArrayList<>();
     @Override
     protected int getContentView() {
         return R.layout.activity_routing_point_upload;
@@ -178,13 +185,25 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
         data = getIntent().getParcelableExtra(INFO);
         mLineId = getIntent().getStringExtra(LINE_ID);
         mType = getIntent().getStringExtra(TYPE);
-        projectId=getIntent().getStringExtra(PROJECT_ID);
-        circleId=getIntent().getStringExtra(INSPECTIONDAY_ID);
+        projectId = getIntent().getStringExtra(PROJECT_ID);
+        circleId = getIntent().getStringExtra(INSPECTIONDAY_ID);
         if (data != null) {
             tvRoutingTime.setText("巡检时间：" + data.getInspectiontime());
             tvRoutingAddress.setText("巡检地点：" + data.getInspectionname());
-            tvRoutingContent.setText(data.getInspectioncontent());
-            inspectiondayId =String.valueOf(data.getId());
+            String content = data.getInspectioncontent();
+            if (!TextUtils.isEmpty(content)) {
+                String[] strings = content.split("\n");
+
+                for (int i = 0; i < strings.length; i++) {
+                    b.add(new RoutingContentResponse(strings[i], false));
+                }
+                mAddContentAdapter = new AddContentAdapter(context, b);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                mRecyclerViewContent.setLayoutManager(layoutManager);
+                mRecyclerViewContent.setAdapter(mAddContentAdapter);
+
+            }
+            inspectiondayId = String.valueOf(data.getId());
 
         }
 
@@ -214,10 +233,10 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
             R.id.img_three, R.id.img_first, R.id.img_second, R.id.img_third,
             R.id.checkbox_select_normal, R.id.checkbox_select_abnormal})
     public void onClick(View view) {
-         ArrayList<File> fileNortmal=new ArrayList<>();
-         ArrayList<File>fileAbnormal=new ArrayList<>();
-        List<Integer>userId=new ArrayList<>();
-        String abnormalContent=editAbnormalContent.getText().toString();
+        ArrayList<File> fileNortmal = new ArrayList<>();
+        ArrayList<File> fileAbnormal = new ArrayList<>();
+        List<Integer> userId = new ArrayList<>();
+        String abnormalContent = editAbnormalContent.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
@@ -225,114 +244,125 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 break;
             case R.id.tv_apply_ok:
 
-                switch (mType) {
-                    case "one_point":
-                        getStartRecord();
-                        break;
-                    case "first":
-                        getStartRecord();
-                        break;
-                    case "last":
-                        stopService(new Intent(context, MLocationService.class));
 
-                        break;
-//                    default:
-////                        Intent intets = new Intent(context, MLocationService.class);
-////                        intets.putExtra("lineId", mLineId);
-////                        intets.putExtra("mToken",mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
-////                        startService(intets);
-//
-//                        break;
-                }
-                if (situation==1){
-                    if (mFirstFile!=null){
+                if (situation == 1) {
+                    if (mFirstFile != null) {
                         fileNortmal.add(mFirstFile);
                     }
-                    if (mSecondFile!=null){
+                    if (mSecondFile != null) {
                         fileNortmal.add(mSecondFile);
                     }
-                    if (mThirdFile!=null){
+                    if (mThirdFile != null) {
                         fileNortmal.add(mThirdFile);
                     }
 
-                    if (fileNortmal.isEmpty()){
-                        Toast.makeText(context,"请至少上传一张巡检图片",Toast.LENGTH_SHORT).show();
-                    }else {
-                        if (TextUtils.isEmpty(mAddress)||mLat==0){
-                            Toast.makeText(context,"请打开GPS，" +
-                                    "允许获取定位信息",Toast.LENGTH_SHORT).show();
-                        }else {
-                            AddRoutingContent request=new AddRoutingContent(1,
-                                    Integer.valueOf(inspectiondayId),mAddress, mLong,mLat,1);
+                    if (fileNortmal.isEmpty()) {
+                        Toast.makeText(context, "请至少上传一张巡检图片", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (TextUtils.isEmpty(mAddress) || mLat == 0) {
+                            Toast.makeText(context, "请打开GPS，" +
+                                    "允许获取定位信息", Toast.LENGTH_SHORT).show();
+                            mlocationClient.startLocation();
+                        } else {
+                            boolean checked=true;
+                            if (!b.isEmpty()&&b.size()>0){
+                                for (int g=0;g<b.size();g++){
+                                    if (!b.get(g).isSelect()){
+                                        checked=false;
+                                    }
+                                }
+                            }
+                            if (checked){
+                                AddRoutingContent request = new AddRoutingContent(1,
+                                        Integer.valueOf(inspectiondayId), mAddress, mLong, mLat, 1);
 
 
-                            addData( getMultipartBody(fileNortmal,fileAbnormal,
-                                    new Gson().toJson(request),1),mPrefsHelper.getPrefs().
-                                    getString(Constants.TOKEN,""));
+                                addData(getMultipartBody(fileNortmal, fileAbnormal,
+                                        new Gson().toJson(request), 1), mPrefsHelper.getPrefs().
+                                        getString(Constants.TOKEN, ""));
+                           }else {
+                                Toast.makeText(context,"请勾选所以的巡检内容",Toast.LENGTH_SHORT).show();
+                            }
+
+
                         }
 
-
-
                     }
-                }else if (situation==0){
-                    if (mFirstFile!=null){
+                } else if (situation == 0) {
+                    if (mFirstFile != null) {
                         fileNortmal.add(mFirstFile);
                     }
-                    if (mSecondFile!=null){
+                    if (mSecondFile != null) {
                         fileNortmal.add(mSecondFile);
                     }
-                    if (mThirdFile!=null){
+                    if (mThirdFile != null) {
                         fileNortmal.add(mThirdFile);
                     }
-                    if (mOneFile!=null){
+                    if (mOneFile != null) {
                         fileAbnormal.add(mOneFile);
                     }
-                    if (mTwoFile!=null){
+                    if (mTwoFile != null) {
                         fileAbnormal.add(mTwoFile);
                     }
-                    if (mThreeFile!=null){
+                    if (mThreeFile != null) {
                         fileAbnormal.add(mThreeFile);
 
                     }
-                    if (fileNortmal.isEmpty()){
-                        Toast.makeText(context,"请至少上传一张巡检图片",Toast.LENGTH_SHORT).show();
-                    }else {
-                        if (TextUtils.isEmpty(mAddress)||mLat==0){
-                            Toast.makeText(context,"请打开GPS，" +
-                                    "允许获取定位信息",Toast.LENGTH_SHORT).show();
-                        }else {
-                            if (fileAbnormal.isEmpty()){
-                                Toast.makeText(context,"请至少上传一张异常情况图片",Toast.LENGTH_SHORT).show();
-                            }else {
-                                if (!TextUtils.isEmpty(abnormalContent)){
-                                    if (mData!=null){
-                                        for (int i=0;i<mData.size();i++){
+                    if (fileNortmal.isEmpty()) {
+                        Toast.makeText(context, "请至少上传一张巡检图片", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (TextUtils.isEmpty(mAddress) || mLat == 0) {
+                            Toast.makeText(context, "请打开GPS，" +
+                                    "允许获取定位信息", Toast.LENGTH_SHORT).show();
+                            mlocationClient.startLocation();
+                        } else {
+
+                            if (fileAbnormal.isEmpty()) {
+                                Toast.makeText(context, "请至少上传一张异常情况图片", Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                if (!TextUtils.isEmpty(abnormalContent)) {
+                                    if (mData != null) {
+                                        for (int i = 0; i < mData.size(); i++) {
                                             userId.add(mData.get(i).getId());
                                         }
                                     }
                                     AddRoutingContent.ErrorBean
-                                            erroBean=new AddRoutingContent.ErrorBean(abnormalContent,userId);
-                                    AddRoutingContent request=new AddRoutingContent(0,
-                                            Integer.valueOf(inspectiondayId),mAddress, mLong,mLat,erroBean,1);
-                                    addData( getMultipartBody(fileNortmal,fileAbnormal,
-                                            new Gson().toJson(request),0),mPrefsHelper.getPrefs().
-                                            getString(Constants.TOKEN,""));
-                                }else {
-                                    Toast.makeText(context,"请填写异常内容",Toast.LENGTH_SHORT).show();
+                                            erroBean = new AddRoutingContent.ErrorBean(abnormalContent, userId);
 
+                                    boolean mchecked=true;
+                                    if (!b.isEmpty()&&b.size()>0){
+                                        for (int g=0;g<b.size();g++){
+                                            if (!b.get(g).isSelect()){
+                                                mchecked=false;
+                                            }
+                                        }
+                                    }
+                                    if (mchecked){
+                                        AddRoutingContent request = new AddRoutingContent(0,
+                                                Integer.valueOf(inspectiondayId), mAddress, mLong, mLat, erroBean, 1);
+
+                                        addData(getMultipartBody(fileNortmal, fileAbnormal,
+                                                new Gson().toJson(request), 0), mPrefsHelper.getPrefs().
+                                                getString(Constants.TOKEN, ""));
+
+                                    }else {
+                                        Toast.makeText(context,"请勾选所以的巡检内容",Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                } else {
+                                    Toast.makeText(context, "请填写异常内容", Toast.LENGTH_SHORT).show();
                                 }
-
                             }
 
                         }
-
                     }
 
-                }else {
-                    Toast.makeText(context,"请选择巡检状况",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "请选择巡检状况", Toast.LENGTH_SHORT).show();
 
                 }
-
 
 
                 break;
@@ -394,25 +424,67 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
         }
     }
-    private void addData(RequestBody body, String token){
+
+
+    private void uploadData(ArrayList<PointNeedResponse> mList, String lineId) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
 
-        Call<ApiResponse> call = userBiz.uploadRoutingPointInfo(token,body);
+        UploadPointPatrol uploadPointPatrol = new UploadPointPatrol(lineId, new Gson().toJson(mList));
+        Call<ApiResponse> call = userBiz.uploadPoiotByService(mPrefsHelper.getPrefs().
+                        getString(Constants.TOKEN, ""),
+                uploadPointPatrol);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.body().getResultCode()==200){
-                   // showRegisterDialog();
-                    Toast.makeText(context,response.body().getResultMessage(),Toast.LENGTH_SHORT).show();
+                if (response.body().getCode() == 0) {
+
                     System.out.println("上传成功");
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void addData(RequestBody body, String token) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.DOMIN_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FileUploadService userBiz = retrofit.create(FileUploadService.class);
+
+        Call<ApiResponse> call = userBiz.uploadRoutingPointInfo(token, body);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.body().getResultCode() == 200) {
+                    // showRegisterDialog();
+                    Toast.makeText(context, response.body().getResultMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println("上传成功");
+                    switch (mType) {
+                        case "one_point":
+                            getStartRecord();
+                            break;
+                        case "first":
+                            getStartRecord();
+                            break;
+                        case "last":
+                            stopService(new Intent(context, MLocationService.class));
+                            break;
+                    }
                     finish();
 
-                }else {
-                    Toast.makeText(context,response.body().getResultMessage(),
+                } else {
+                    Toast.makeText(context, response.body().getResultMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -433,7 +505,6 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
@@ -443,23 +514,28 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getCode()==0){
+                        if (apiResponse.getCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             NewCircleLineId mLineData = gson.fromJson(jsonArray,
                                     new TypeToken<NewCircleLineId>() {
                                     }.getType());
-                            if (mLineId!=null){
-                                newCircleId=String.valueOf(mLineData.getId());
+                            if (mLineId != null) {
+                                newCircleId = String.valueOf(mLineData.getId());
+                                ArrayList<PointNeedResponse> mdat = new ArrayList<>();
+                                mdat.add(new PointNeedResponse(mLong,
+                                        mLat,
+                                        new SimpleDateFormat("yyyy-MM-dd hh:mm").format(Calendar.getInstance().getTime())));
+                                uploadData(mdat, newCircleId);
+
                                 Intent intet1 = new Intent(context, MLocationService.class);
                                 intet1.putExtra("lineId", newCircleId);
-                                intet1.putExtra("mToken",mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
+                                intet1.putExtra("mToken", mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
                                 startService(intet1);
                             }
 
 
-
-                            Log.d("开始记录", "onNext: "+"start");
+                            Log.d("开始记录", "onNext: " + "start");
                         }
 
                     }
@@ -468,30 +544,30 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
     }
 
-    public static MultipartBody getMultipartBody(ArrayList<File> files,ArrayList<File> mFiles,
-                                                 String jsonData,int situation){
+    public static MultipartBody getMultipartBody(ArrayList<File> files, ArrayList<File> mFiles,
+                                                 String jsonData, int situation) {
 
-        MultipartBody.Builder builder=new MultipartBody.Builder();
-        if (situation==1){
-            for (int i=0;i<files.size();i++){
-                RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
-                builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
-
-            }
-        }else if (situation==0){
-            for (int i=0;i<files.size();i++){
-                RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
-                builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        if (situation == 1) {
+            for (int i = 0; i < files.size(); i++) {
+                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), files.get(i));
+                builder.addFormDataPart("image[]", files.get(i).getName(), requestBody);
 
             }
-            for (int i=0;i<mFiles.size();i++){
-                RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),mFiles.get(i));
-                builder.addFormDataPart("warranty_image[]",mFiles.get(i).getName(),requestBody);
+        } else if (situation == 0) {
+            for (int i = 0; i < files.size(); i++) {
+                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), files.get(i));
+                builder.addFormDataPart("image[]", files.get(i).getName(), requestBody);
+
+            }
+            for (int i = 0; i < mFiles.size(); i++) {
+                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), mFiles.get(i));
+                builder.addFormDataPart("warranty_image[]", mFiles.get(i).getName(), requestBody);
             }
 
         }
 
-        builder.addFormDataPart("data",jsonData);
+        builder.addFormDataPart("data", jsonData);
 
         builder.setType(MultipartBody.FORM);
         return builder.build();
@@ -847,14 +923,11 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation.getErrorCode() == 0) {
             //定位成功回调信息，设置相关消息
-             mAddress = aMapLocation.getAddress();
-             mLat = aMapLocation.getLatitude();
-             mLong = aMapLocation.getLongitude();
+            mAddress = aMapLocation.getAddress();
+            mLat = aMapLocation.getLatitude();
+            mLong = aMapLocation.getLongitude();
 
             System.out.println("address" + mAddress + "\n" + "经度" + mLong + "\n纬度：" + mLat);
-//            if (!TextUtils.isEmpty(mAddress)){
-//                mlocationClient.stopLocation();
-//            }
 
 
         } else {
@@ -920,6 +993,98 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    class AddContentAdapter extends RecyclerView.Adapter<AddContentAdapter.ProjectViewHolder> {
+        private Context context;
+        private ArrayList<RoutingContentResponse> mList;
+
+        public AddContentAdapter(Context context, ArrayList<RoutingContentResponse> mList) {
+            this.context = context;
+            this.mList = mList;
+        }
+
+        @Override
+        public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View itemView = inflater.inflate(R.layout.item_recycler_upload_routing_content, parent, false);
+            return new ProjectViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(ProjectViewHolder holder, int position) {
+            if (mList != null && !mList.isEmpty()) {
+                RoutingContentResponse data = mList.get(position);
+                holder.setItem(data);
+
+                if (data != null) {
+                    if (data.getContent() != null) {
+                        holder.itemName.setText(data.getContent());
+                    }
+                    if (data.isSelect()) {
+                        holder.rlItem.setChecked(true);
+                    } else {
+                        holder.rlItem.setChecked(false);
+                    }
+                }
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mList.size();
+        }
+
+        public void addAll(ArrayList<RoutingContentResponse> projectList) {
+            this.mList.addAll(projectList);
+            AddContentAdapter.this.notifyDataSetChanged();
+        }
+
+        public void clear() {
+            this.mList.clear();
+            AddContentAdapter.this.notifyDataSetChanged();
+        }
+
+        class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+
+            private RoutingContentResponse mRoutingContentResponses;
+            private TextView itemName;
+            private CheckBox rlItem;
+
+            public ProjectViewHolder(View itemView) {
+
+                super(itemView);
+                itemName = ButterKnife.findById(itemView, R.id.item_content_routing);
+                rlItem = ButterKnife.findById(itemView, R.id.checkbox_select_content);
+                rlItem.setOnClickListener(this);
+
+
+            }
+
+            public void setItem(RoutingContentResponse mRoutingContentResponse) {
+                mRoutingContentResponses = mRoutingContentResponse;
+            }
+
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+
+                    case R.id.checkbox_select_content:
+                        if (rlItem.isChecked()) {
+                            mRoutingContentResponses.setSelect(true);
+                        } else {
+                            mRoutingContentResponses.setSelect(false);
+                        }
+                        notifyDataSetChanged();
+
+                        break;
+
+                }
+
+
+            }
+        }
+    }
 
     class AddPersonalAdapter extends RecyclerView.Adapter<AddPersonalAdapter.ProjectViewHolder> {
         private Context context;

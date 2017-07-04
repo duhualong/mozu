@@ -49,6 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     if (getContentView() != 0) {
       setContentView(getContentView());
     }
