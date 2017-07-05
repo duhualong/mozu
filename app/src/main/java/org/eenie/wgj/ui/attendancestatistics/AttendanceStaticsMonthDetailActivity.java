@@ -1,7 +1,6 @@
 package org.eenie.wgj.ui.attendancestatistics;
 
 import android.content.Intent;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -71,23 +70,27 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
     @BindView(R.id.rl_first_all_gold)RelativeLayout rlAllFirst;
     @BindView(R.id.img_avatar_all_first)CircleImageView avatarFirstAll;
     @BindView(R.id.tv_all_first_gold)TextView tvFirstNameAll;
+    @BindView(R.id.tv_all_second_gold)TextView tvSecondNameAll;
+    @BindView(R.id.tv_all_third_gold)TextView tvThirdNameAll;
     @BindView(R.id.rl_second_all_gold)RelativeLayout rlAllSecond;
     @BindView(R.id.img_avatar_all_second)CircleImageView avatarSecondAll;
-    @BindView(R.id.tv_all_second_gold)TextView tvSecondNameAll;
     @BindView(R.id.rl_third_all_gold)RelativeLayout rlAllThird;
     @BindView(R.id.img_avatar_all_third)CircleImageView avatarThirdAll;
-    @BindView(R.id.tv_all_third_gold)TextView tvThirdNameAll;
+
 
     @BindView(R.id.rl_sort_team)RelativeLayout rlSortTeam;
     @BindView(R.id.rl_first_team_gold)RelativeLayout rlTeamFirst;
     @BindView(R.id.img_avatar_team_first)CircleImageView avatarFirstTeam;
     @BindView(R.id.tv_team_first_gold)TextView tvFirstNameTeam;
-    @BindView(R.id.rl_second_team_gold)RelativeLayout rlTeamSecond;
-    @BindView(R.id.img_avatar_team_second)CircleImageView avatarSecondTeam;
     @BindView(R.id.tv_team_second_gold)TextView tvSecondNameTeam;
+    @BindView(R.id.tv_team_third_gold)TextView tvThirdNameTeam;
+    @BindView(R.id.rl_second_team_gold)RelativeLayout rlTeamSecond;
+
+    @BindView(R.id.img_avatar_team_second)CircleImageView avatarSecondTeam;
+
     @BindView(R.id.rl_third_team_gold)RelativeLayout rlTeamThird;
     @BindView(R.id.img_avatar_team_third)CircleImageView avatarThirdTeam;
-    @BindView(R.id.tv_team_third_gold)TextView tvThirdNameTeam;
+
 
     @BindView(R.id.rl_fighting_team)RelativeLayout rlFightingSort;
     @BindView(R.id.rl_first_fighting_gold) RelativeLayout rlFightingFirst;
@@ -238,21 +241,20 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                             Log.d("myTest", "onNext: "+gson.toJson(data));
 
                             if (data != null) {
-                                    tvLateCount.setText(Html.fromHtml("<u>"+data.getLate()+"次"+"<u/>"));
-                                    tvLeaveEarlyCount.setText(Html.fromHtml("<u>"+
-                                            data.getEarly()+"次"+"<u/>"));
-                                    tvOutSideCount.setText(Html.fromHtml("<u>"+
-                                            data.getGo_out()+"次"+"<u/>"));
-                                    tvLeaveCount.setText(Html.fromHtml("<u>"+
-                                            data.getLeave()+"次"+"<u/>"));
-                                    tvAbsentCount.setText(Html.fromHtml("<u>"+
-                                            data.getAbsenteeism()+"次"+"<u/>"));
-                                    tvOvertimeCount.setText(Html.fromHtml("<u>"+
-                                            data.getOvertime()+"次"+"<u/>"));
-                                    tvExperienceCount.setText(Html.fromHtml("<u>"+
-                                            data.getPractice()+"次"+"<u/>"));
-                                    tvlendCount.setText(Html.fromHtml("<u>"+
-                                            data.getSeconded()+"次"+"<u/>"));
+                                    tvLateCount.setText(data.getLate()+"");
+                                    tvLeaveEarlyCount.setText(
+                                            data.getEarly()+"");
+                                    tvOutSideCount.setText(
+                                            data.getGo_out()+"");
+                                    tvLeaveCount.setText(
+                                            data.getLeave()+"");
+                                    tvAbsentCount.setText(data.getAbsenteeism()+"");
+                                    tvOvertimeCount.setText(
+                                           data.getOvertime()+"");
+                                    tvExperienceCount.setText(
+                                            data.getPractice()+"");
+                                    tvlendCount.setText(
+                                           data.getSeconded()+"");
                                     tvLeavePeople.setText(data.getOutgoing_employee()+"人");
                                     tvAddPeople.setText(data.getNew_employees()+"人");
                                     mDonutProgress.setDonut_progress(
@@ -288,7 +290,8 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                         if (data.getMonth_integrated().size()==1){
                                             rlAllFirst.setVisibility(View.VISIBLE);
                                             if (data.getMonth_integrated().get(0).
-                                                    getId_card_head_image()!=null){
+                                                    getId_card_head_image()!=null&&
+                                                    !data.getMonth_integrated().get(0).getId_card_head_image().isEmpty()){
                                                 Glide.with(context).load(Constant.DOMIN+
                                                         data.getMonth_integrated().get(0).
                                                                 getId_card_head_image())
@@ -303,7 +306,10 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                             rlAllSecond.setVisibility(View.VISIBLE);
                                             rlAllThird.setVisibility(View.GONE);
                                             if (data.getMonth_integrated().get(0).
-                                                    getId_card_head_image()!=null){
+                                                    getId_card_head_image()!=null&&
+                                                    !data.getMonth_integrated().get(0).
+                                                            getId_card_head_image().isEmpty()){
+
                                                 Glide.with(context).load(Constant.DOMIN+
                                                         data.getMonth_integrated().get(0).
                                                                 getId_card_head_image())
@@ -312,7 +318,8 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                             tvFirstNameAll.setText(data.getMonth_integrated().
                                                     get(0).getName());
                                             if (data.getMonth_integrated().get(1).
-                                                    getId_card_head_image()!=null){
+                                                    getId_card_head_image()!=null&&
+                                                    !data.getMonth_integrated().get(1).getId_card_head_image().isEmpty()){
                                                 Glide.with(context).load(Constant.DOMIN+
                                                         data.getMonth_integrated().get(1).
                                                                 getId_card_head_image())
@@ -327,7 +334,8 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                             rlAllSecond.setVisibility(View.VISIBLE);
                                             rlAllThird.setVisibility(View.VISIBLE);
                                             if (data.getMonth_integrated().get(0).
-                                                    getId_card_head_image()!=null){
+                                                    getId_card_head_image()!=null&&
+                                                    !data.getMonth_integrated().get(0).getId_card_head_image().isEmpty()){
                                                 Glide.with(context).load(Constant.DOMIN+
                                                         data.getMonth_integrated().get(0).
                                                                 getId_card_head_image())
@@ -336,7 +344,8 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                             tvFirstNameAll.setText(data.getMonth_integrated().
                                                     get(0).getName());
                                             if (data.getMonth_integrated().get(1).
-                                                    getId_card_head_image()!=null){
+                                                    getId_card_head_image()!=null&&
+                                                    !data.getMonth_integrated().get(1).getId_card_head_image().isEmpty()){
                                                 Glide.with(context).load(Constant.DOMIN+
                                                         data.getMonth_integrated().get(1).
                                                                 getId_card_head_image())
@@ -345,7 +354,8 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                             tvSecondNameAll.setText(data.getMonth_integrated().
                                                     get(1).getName());
                                             if (data.getMonth_integrated().get(2).
-                                                    getId_card_head_image()!=null){
+                                                    getId_card_head_image()!=null&&
+                                                    !data.getMonth_integrated().get(2).getId_card_head_image().isEmpty()){
                                                 Glide.with(context).load(Constant.DOMIN+
                                                         data.getMonth_integrated().get(2).
                                                                 getId_card_head_image())
@@ -374,7 +384,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
             rlFightingFirst.setVisibility(View.VISIBLE);
             rlFightingSecond.setVisibility(View.GONE);
             rlFightingThird.setVisibility(View.GONE);
-            if (mData.get(0).getId_card_head_image()!=null){
+            if (mData.get(0).getId_card_head_image()!=null&&!mData.get(0).getId_card_head_image().isEmpty()){
                 Glide.with(context).load(Constant.DOMIN+
                         mData.get(0).
                                 getId_card_head_image())
@@ -386,14 +396,14 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
             rlFightingFirst.setVisibility(View.VISIBLE);
             rlFightingSecond.setVisibility(View.VISIBLE);
             rlFightingThird.setVisibility(View.GONE);
-            if (mData.get(0).getId_card_head_image()!=null){
+            if (mData.get(0).getId_card_head_image()!=null&&!mData.get(0).getId_card_head_image().isEmpty()){
                 Glide.with(context).load(Constant.DOMIN+
                         mData.get(0).
                                 getId_card_head_image())
                         .centerCrop().into(avatarFirstFighting);
             }
             tvFightingFirst.setText(mData.get(0).getName());
-            if (mData.get(1).getId_card_head_image()!=null){
+            if (mData.get(1).getId_card_head_image()!=null&&!mData.get(1).getId_card_head_image().isEmpty()){
                 Glide.with(context).load(Constant.DOMIN+
                         mData.get(1).
                                 getId_card_head_image())
@@ -405,21 +415,21 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
             rlFightingFirst.setVisibility(View.VISIBLE);
             rlFightingSecond.setVisibility(View.VISIBLE);
             rlFightingThird.setVisibility(View.VISIBLE);
-            if (mData.get(0).getId_card_head_image()!=null){
+            if (mData.get(0).getId_card_head_image()!=null&&!mData.get(0).getId_card_head_image().isEmpty()){
                 Glide.with(context).load(Constant.DOMIN+
                         mData.get(0).
                                 getId_card_head_image())
                         .centerCrop().into(avatarFirstFighting);
             }
             tvFightingFirst.setText(mData.get(0).getName());
-            if (mData.get(1).getId_card_head_image()!=null){
+            if (mData.get(1).getId_card_head_image()!=null&&!mData.get(1).getId_card_head_image().isEmpty()){
                 Glide.with(context).load(Constant.DOMIN+
                         mData.get(1).
                                 getId_card_head_image())
                         .centerCrop().into(avatarSecondFighting);
             }
             tvFightingSecond.setText(mData.get(1).getName());
-            if (mData.get(2).getId_card_head_image()!=null){
+            if (mData.get(2).getId_card_head_image()!=null&&!mData.get(2).getId_card_head_image().isEmpty()){
                 Glide.with(context).load(Constant.DOMIN+
                         mData.get(2).
                                 getId_card_head_image())
@@ -436,7 +446,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 rlTeamSecond.setVisibility(View.GONE);
                 rlTeamThird.setVisibility(View.GONE);
                 if (mData.get(0).
-                        getId_card_head_image()!=null){
+                        getId_card_head_image()!=null&&!mData.get(0).getId_card_head_image().isEmpty()){
                     Glide.with(context).load(Constant.DOMIN+
                             mData.get(0).
                                     getId_card_head_image())
@@ -449,7 +459,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 rlTeamSecond.setVisibility(View.VISIBLE);
                 rlTeamThird.setVisibility(View.GONE);
                 if (mData.get(0).
-                        getId_card_head_image()!=null){
+                        getId_card_head_image()!=null&&!mData.get(0).getId_card_head_image().isEmpty()){
                     Glide.with(context).load(Constant.DOMIN+
                             mData.get(0).
                                     getId_card_head_image())
@@ -458,7 +468,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 tvFirstNameTeam.setText(mData.
                         get(0).getName());
                 if (mData.get(1).
-                        getId_card_head_image()!=null){
+                        getId_card_head_image()!=null&&!mData.get(1).getId_card_head_image().isEmpty()){
                     Glide.with(context).load(Constant.DOMIN+
                             mData.get(1).
                                     getId_card_head_image())
@@ -471,7 +481,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 rlTeamSecond.setVisibility(View.VISIBLE);
                 rlTeamThird.setVisibility(View.VISIBLE);
                 if (mData.get(0).
-                        getId_card_head_image()!=null){
+                        getId_card_head_image()!=null&&!mData.get(0).getId_card_head_image().isEmpty()){
                     Glide.with(context).load(Constant.DOMIN+
                             mData.get(0).
                                     getId_card_head_image())
@@ -480,7 +490,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 tvFirstNameTeam.setText(mData.
                         get(0).getName());
                 if (mData.get(1).
-                        getId_card_head_image()!=null){
+                        getId_card_head_image()!=null&&!mData.get(1).getId_card_head_image().isEmpty()){
                     Glide.with(context).load(Constant.DOMIN+
                             mData.get(1).
                                     getId_card_head_image())
@@ -490,7 +500,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                         get(1).getName());
 
                 if (mData.get(2).
-                        getId_card_head_image()!=null){
+                        getId_card_head_image()!=null&&!mData.get(2).getId_card_head_image().isEmpty()){
                     Glide.with(context).load(Constant.DOMIN+
                             mData.get(2).
                                     getId_card_head_image())

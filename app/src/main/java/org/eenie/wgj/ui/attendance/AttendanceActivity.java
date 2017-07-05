@@ -19,6 +19,7 @@ import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceListResponse;
 import org.eenie.wgj.model.response.SignOutInfor;
 import org.eenie.wgj.model.response.UserInforById;
+import org.eenie.wgj.ui.attendance.attendancesort.AttendanceSortMonthItemActivity;
 import org.eenie.wgj.ui.attendance.sign.AttendanceTestSignInActivity;
 import org.eenie.wgj.ui.attendance.signout.AttendanceSignOutActivity;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
@@ -71,6 +72,7 @@ public class AttendanceActivity extends BaseActivity {
 
     ArrayList<String> mList = new ArrayList<>();
     ArrayList<String> mLists = new ArrayList<>();
+    private String projectId;
     @Override
     protected int getContentView() {
 
@@ -371,8 +373,8 @@ public class AttendanceActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.img_back, R.id.rl_sign_in, R.id.rl_sign_off, R.id.rl_work_overtime,
-            R.id.rl_work_recoder, R.id.line_attendance_other, R.id.rl_attendance_info})
+    @OnClick({R.id.img_back, R.id.rl_sign_in, R.id.rl_sign_off, R.id.rl_work_recoder,
+            R.id.line_attendance_other, R.id.rl_attendance_info,R.id.rl_attendance_sort})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_attendance_info:
@@ -432,7 +434,11 @@ public class AttendanceActivity extends BaseActivity {
 
                 break;
 
-            case R.id.rl_work_overtime:
+            case R.id.rl_attendance_sort:
+                //考勤排名
+                startActivity(new Intent(context, AttendanceSortMonthItemActivity.class)
+                        .putExtra(AttendanceSortMonthItemActivity.PROJECT_ID,projectId));
+
 
                 break;
             case R.id.rl_work_recoder:
@@ -515,6 +521,7 @@ public class AttendanceActivity extends BaseActivity {
                         if (mData != null) {
                             username = mData.getName();
                             attendanceName.setText(username);
+                           projectId=String.valueOf(mData.getProject_id());
                         }
                     }
                 });
@@ -525,6 +532,8 @@ public class AttendanceActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         getUserInfo();
+        getData();
+
         //  getAttendanceList(new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
 
     }

@@ -26,12 +26,20 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@id/text4"
+                  android:textColor="@color/black_light"
+                  android:text="报岗时间&#8195;"/>
+
         <TextView android:id="@id/tv_report_time"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerVertical="true"
-                  android:text="报岗时间   02：20"
-                  android:textColor="@color/black_light"
+                  android:text="02：20"
+                  android:layout_toEndOf="@id/text4"
+                  android:layout_toRightOf="@id/text4"
+                  android:textColor="@color/titleColor"
                   android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
@@ -39,12 +47,19 @@
                     android:layout_marginTop="1dp"
                     android:background="@color/white"
                     android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@id/text4"
+                  android:textColor="@color/black_light"
+                  android:text="报岗情况&#8195;"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="报岗情况&#8195;正常"
-            android:textColor="@color/black_light"
+            android:text="正常"
+            android:layout_toRightOf="@id/text4"
+            android:layout_toEndOf="@id/text4"
+            android:textColor="@color/titleColor"
             android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
@@ -52,13 +67,20 @@
                     android:layout_marginTop="1dp"
                     android:background="@color/white"
                     android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@id/text4"
+                  android:textColor="@color/black_light"
+                  android:text="报岗岗位&#8195;"/>
         <TextView
             android:id="@id/report_post_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="报岗岗位&#8195;test"
-            android:textColor="@color/black_light"
+            android:layout_toEndOf="@id/text4"
+            android:layout_toRightOf="@id/text4"
+            android:text="test"
+            android:textColor="@color/titleColor"
             android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
 

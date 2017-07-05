@@ -37,26 +37,26 @@ public class ReportPostDetailItemActivity extends BaseActivity {
         mDataBean=getIntent().getParcelableExtra(INFO);
         if (mDataBean!=null){
             if (mDataBean.getDate()!=null){
-                tvReportTime.setText("报岗时间&#8195;"+mDataBean.getDate());
+                tvReportTime.setText(mDataBean.getDate());
             }else {
-                tvReportTime.setText("报岗时间&#8195;无");
+                tvReportTime.setText("无");
             }
             if (mDataBean.getPostsetting()!=null&&mDataBean.getPostsetting().getJetlag()!=null){
-                tvReportTimeSub.setText("允许差值&#8195;"+mDataBean.getPostsetting().getJetlag());
+                tvReportTimeSub.setText(mDataBean.getPostsetting().getJetlag());
             }else {
-                tvReportTimeSub.setText("允许差值&#8195;无");
+                tvReportTimeSub.setText("无");
 
             }
             if (mDataBean.getPostsetting()!=null&&mDataBean.getPostsetting().getService()!=null){
-                tvReportPostClass.setText("班&#8195;&#8195;次&#8195;"+mDataBean.getPostsetting().getService());
+                tvReportPostClass.setText(mDataBean.getPostsetting().getService());
             }else {
-                tvReportPostClass.setText("班&#8195;&#8195;次&#8195;无");
+                tvReportPostClass.setText("无");
 
             }
             if (mDataBean.getPostsetting()!=null&&mDataBean.getPostsetting().getPostsetting_name()!=null){
-                tvReportPostName.setText("岗&#8195;&#8195;位&#8195;"+mDataBean.getPostsetting().getPostsetting_name());
+                tvReportPostName.setText(mDataBean.getPostsetting().getPostsetting_name());
             }else {
-                tvReportPostName.setText("岗&#8195;&#8195;位&#8195;无");
+                tvReportPostName.setText("无");
 
             }
             if (mDataBean.getPostsetting()!=null&&mDataBean.getPostsetting().getPostsetting_info()!=null){

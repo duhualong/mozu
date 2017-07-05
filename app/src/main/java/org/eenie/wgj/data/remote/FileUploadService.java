@@ -113,9 +113,11 @@ public interface FileUploadService {
     Call<ApiResponse> getRoutingLines(@Header("token")String token, @Query("date")String date,
                                        @Query("inspectionday_id")String inspectiondayId,
                                        @Query("projectid")String projectId,
-                                       @Query("user_id")String userId);
+                                    @Query("user_id")String userId);
 
-
+     //进行报岗
+    @POST("signedtosignAdd")
+    Call<ApiResponse>uploadReportPostInfo(@Header("token")String token,@Body RequestBody body);
     //上报巡检点
     @POST("inspectionAdd")
     Call<ApiResponse> uploadRoutingPointInfo(@Header("token") String token, @Body RequestBody body);

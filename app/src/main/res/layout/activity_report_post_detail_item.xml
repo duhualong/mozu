@@ -25,12 +25,19 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@id/text4"
+                  android:textColor="@color/black_light"
+        android:text="报岗时间&#8195;"/>
         <TextView android:id="@id/tv_report_time"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerVertical="true"
-                  android:text="报岗时间   02：20"
-                  android:textColor="@color/black_light"
+                  android:text="02：20"
+                  android:layout_toEndOf="@id/text4"
+                  android:layout_toRightOf="@id/text4"
+                  android:textColor="@color/titleColor"
                   android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
@@ -38,12 +45,21 @@
                     android:layout_marginTop="1dp"
                     android:background="@color/white"
                     android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@id/text4"
+                  android:textColor="@color/black_light"
+                  android:text="允许差值&#8195;"
+                  android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                  android:layout_alignParentStart="true"/>
         <TextView android:id="@id/tv_report_time_sub"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerVertical="true"
-                  android:text="允许差值   10分钟"
-                  android:textColor="@color/black_light"
+                  android:text="10分钟"
+                  android:layout_toEndOf="@id/text4"
+                  android:layout_toRightOf="@id/text4"
+                  android:textColor="@color/titleColor"
                   android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
@@ -51,12 +67,19 @@
                     android:layout_marginTop="1dp"
                     android:background="@color/white"
                     android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@id/text4"
+                  android:textColor="@color/black_light"
+                  android:text="班&#8195;&#8195;次&#8195;"/>
         <TextView android:id="@id/tv_report_post_class"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerVertical="true"
-                  android:text="班&#8195;&#8195;次   测试"
-                  android:textColor="@color/black_light"
+                  android:layout_toEndOf="@id/text4"
+                  android:layout_toRightOf="@id/text4"
+                  android:text="测试"
+                  android:textColor="@color/titleColor"
                   android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
@@ -64,12 +87,19 @@
                     android:layout_marginTop="1dp"
                     android:background="@color/white"
                     android:padding="@dimen/padding_bottom">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@id/text4"
+                  android:textColor="@color/black_light"
+                  android:text="岗&#8195;&#8195;位&#8195;"/>
         <TextView android:id="@id/tv_report_post_name"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerVertical="true"
-                  android:text="@string/test_distance"
-                  android:textColor="@color/black_light"
+                  android:text="test"
+                  android:layout_toRightOf="@id/text4"
+                  android:layout_toEndOf="@id/text4"
+                  android:textColor="@color/titleColor"
                   android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
@@ -95,7 +125,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerVertical="true"
                   android:text="test "
-                  android:textColor="@color/black_light"
+                  android:textColor="@color/titleColor"
                   android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
 </LinearLayout>

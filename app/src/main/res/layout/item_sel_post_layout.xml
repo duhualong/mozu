@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f0f0f0"
+    android:orientation="vertical">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10">
+
+
+        <TextView
+            android:id="@+id/tv_post_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="主  持  人"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/person_info_next1"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_bottom"
+            android:layout_marginEnd="@dimen/padding_bottom"
+            android:src="@mipmap/ic_arrow_right"/>
+    </RelativeLayout>
+</LinearLayout>
+

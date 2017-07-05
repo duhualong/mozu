@@ -694,4 +694,10 @@
     <item name="tv_report_time" type="id"/>
     <item name="report_post_name" type="id"/>
     <item name="report_post_address" type="id"/>
+    <item name="img_report_post" type="id"/>
+    <item name="tv_post_name" type="id"/>
+    <item name="rl_recycler_view" type="id"/>
+    <item name="line_first_part" type="id"/>
+    <item name="rl_gradview" type="id"/>
+    <item name="rl_attendance_sort" type="id"/>
 </resources>

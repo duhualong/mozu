@@ -47,6 +47,7 @@ public class AttendanceSortTeamMonthActivity extends BaseActivity implements Swi
     private String date;
     private String projectId;
     private ProjectAdapter mAdapter;
+    @BindView(R.id.tv_title)TextView tvTitle;
     @Override
     protected int getContentView() {
         return R.layout.activity_sort_team_detail;
@@ -54,6 +55,7 @@ public class AttendanceSortTeamMonthActivity extends BaseActivity implements Swi
 
     @Override
     protected void updateUI() {
+        tvTitle.setText("月度考勤排名");
         projectId = getIntent().getStringExtra(PROJECT_ID);
         date = getIntent().getStringExtra(DATE);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -156,90 +158,90 @@ public class AttendanceSortTeamMonthActivity extends BaseActivity implements Swi
             if (projectMonth != null && !projectMonth.isEmpty()) {
 
                 SortTeamAttendance data = projectMonth.get(position);
-                if (data!=null){
+                if (data!=null) {
                     holder.setItem(data);
-                }
-                if (position <= 2) {
-                    holder.itemNumber.setVisibility(View.INVISIBLE);
-                    holder.imgSort.setVisibility(View.VISIBLE);
-                    switch (position) {
-                        case 0:
-                            holder.imgSort.setImageResource(R.mipmap.ic_gold);
 
-                            break;
-                        case 1:
-                            holder.imgSort.setImageResource(R.mipmap.ic_silver);
-                            break;
-                        case 2:
-                            holder.imgSort.setImageResource(R.mipmap.ic_copper);
+                    if (position <= 2) {
+                        holder.itemNumber.setVisibility(View.INVISIBLE);
+                        holder.imgSort.setVisibility(View.VISIBLE);
+                        switch (position) {
+                            case 0:
+                                holder.imgSort.setImageResource(R.mipmap.ic_gold);
 
-                            break;
+                                break;
+                            case 1:
+                                holder.imgSort.setImageResource(R.mipmap.ic_silver);
+                                break;
+                            case 2:
+                                holder.imgSort.setImageResource(R.mipmap.ic_copper);
+
+                                break;
+                        }
+                    } else {
+                        holder.itemNumber.setVisibility(View.VISIBLE);
+                        holder.imgSort.setVisibility(View.INVISIBLE);
+                        holder.itemNumber.setText(String.valueOf((position + 1)));
                     }
-                } else {
-                    holder.itemNumber.setVisibility(View.VISIBLE);
-                    holder.imgSort.setVisibility(View.INVISIBLE);
-                    holder.itemNumber.setText(String.valueOf((position + 1)));
+
+                    holder.itemName.setText(data.getName());
+                    holder.itemPost.setText(data.getPermissions());
+                    holder.attendanceDay.setText("出勤：" + data.getWork_number() + "天");
+                    holder.itemDate.setText(date);
+                    holder.attendanceFirst.setText("第一名\n" + "共" + data.getRank() + "次");
+                    if (data.getService() != null) {
+                        if (data.getService().size() == 1) {
+                            holder.restDay.setVisibility(View.VISIBLE);
+                            holder.restTwo.setVisibility(View.GONE);
+                            holder.restThree.setVisibility(View.GONE);
+                            holder.restFour.setVisibility(View.GONE);
+                            holder.restDay.setText(data.getService().get(0).getServicesname()
+                                    + "\n" + data.getService().get(0).getWork_day());
+
+                        } else if (data.getService().size() == 2) {
+                            holder.restDay.setVisibility(View.VISIBLE);
+                            holder.restTwo.setVisibility(View.VISIBLE);
+                            holder.restThree.setVisibility(View.GONE);
+                            holder.restFour.setVisibility(View.GONE);
+                            holder.restDay.setText(data.getService().get(0).getServicesname()
+                                    + "\n" + data.getService().get(0).getWork_day());
+                            holder.restTwo.setText(data.getService().get(1).getServicesname()
+                                    + "\n" + data.getService().get(1).getWork_day());
+
+                        } else if (data.getService().size() == 3) {
+                            holder.restDay.setVisibility(View.VISIBLE);
+                            holder.restTwo.setVisibility(View.VISIBLE);
+                            holder.restThree.setVisibility(View.VISIBLE);
+                            holder.restFour.setVisibility(View.GONE);
+                            holder.restDay.setText(data.getService().get(0).getServicesname()
+                                    + "\n" + data.getService().get(0).getWork_day());
+                            holder.restTwo.setText(data.getService().get(1).getServicesname()
+                                    + "\n" + data.getService().get(1).getWork_day());
+
+                            holder.restThree.setText(data.getService().get(2).getServicesname()
+                                    + "\n" + data.getService().get(2).getWork_day());
+                        } else if (data.getService().size() >= 4) {
+                            holder.restDay.setVisibility(View.VISIBLE);
+                            holder.restTwo.setVisibility(View.VISIBLE);
+                            holder.restThree.setVisibility(View.VISIBLE);
+                            holder.restFour.setVisibility(View.VISIBLE);
+                            holder.restDay.setText(data.getService().get(0).getServicesname()
+                                    + "\n" + data.getService().get(0).getWork_day());
+                            holder.restTwo.setText(data.getService().get(1).getServicesname()
+                                    + "\n" + data.getService().get(1).getWork_day());
+
+                            holder.restThree.setText(data.getService().get(2).getServicesname()
+                                    + "\n" + data.getService().get(2).getWork_day());
+                            holder.restFour.setText(data.getService().get(3).getServicesname()
+                                    + "\n" + data.getService().get(3).getWork_day());
+                        }
+
+                    } else {
+                        holder.restDay.setVisibility(View.GONE);
+                        holder.restTwo.setVisibility(View.GONE);
+                        holder.restThree.setVisibility(View.GONE);
+                        holder.restFour.setVisibility(View.GONE);
+                    }
                 }
-
-                holder.itemName.setText(data.getName());
-                holder.itemPost.setText(data.getPermissions());
-                holder.attendanceDay.setText("出勤："+data.getWork_number()+"天");
-                holder.itemDate.setText(date);
-                holder.attendanceFirst.setText("第一名\n"+"共"+data.getRank()+"次");
-                if (data.getService()!=null){
-                   if (data.getService().size()==1){
-                       holder.restDay.setVisibility(View.VISIBLE);
-                       holder.restTwo.setVisibility(View.GONE);
-                       holder.restThree.setVisibility(View.GONE);
-                       holder.restFour.setVisibility(View.GONE);
-                       holder.restDay.setText(data.getService().get(0).getServicesname()
-                               +"\n"+data.getService().get(0).getWork_day());
-
-                   }else if (data.getService().size()==2){
-                       holder.restDay.setVisibility(View.VISIBLE);
-                       holder.restTwo.setVisibility(View.VISIBLE);
-                       holder.restThree.setVisibility(View.GONE);
-                       holder.restFour.setVisibility(View.GONE);
-                       holder.restDay.setText(data.getService().get(0).getServicesname()
-                               +"\n"+data.getService().get(0).getWork_day());
-                       holder.restTwo.setText(data.getService().get(1).getServicesname()
-                               +"\n"+data.getService().get(1).getWork_day());
-
-                   }else if (data.getService().size()==3){
-                       holder.restDay.setVisibility(View.VISIBLE);
-                       holder.restTwo.setVisibility(View.VISIBLE);
-                       holder.restThree.setVisibility(View.VISIBLE);
-                       holder.restFour.setVisibility(View.GONE);
-                       holder.restDay.setText(data.getService().get(0).getServicesname()
-                               +"\n"+data.getService().get(0).getWork_day());
-                       holder.restTwo.setText(data.getService().get(1).getServicesname()
-                               +"\n"+data.getService().get(1).getWork_day());
-
-                       holder.restThree.setText(data.getService().get(2).getServicesname()
-                               +"\n"+data.getService().get(2).getWork_day());
-                   }else if (data.getService().size()>=4){
-                       holder.restDay.setVisibility(View.VISIBLE);
-                       holder.restTwo.setVisibility(View.VISIBLE);
-                       holder.restThree.setVisibility(View.VISIBLE);
-                       holder.restFour.setVisibility(View.VISIBLE);
-                       holder.restDay.setText(data.getService().get(0).getServicesname()
-                               +"\n"+data.getService().get(0).getWork_day());
-                       holder.restTwo.setText(data.getService().get(1).getServicesname()
-                               +"\n"+data.getService().get(1).getWork_day());
-
-                       holder.restThree.setText(data.getService().get(2).getServicesname()
-                               +"\n"+data.getService().get(2).getWork_day());
-                       holder.restFour.setText(data.getService().get(3).getServicesname()
-                               +"\n"+data.getService().get(3).getWork_day());
-                   }
-
-                }else {
-                    holder.restDay.setVisibility(View.GONE);
-                    holder.restTwo.setVisibility(View.GONE);
-                    holder.restThree.setVisibility(View.GONE);
-                    holder.restFour.setVisibility(View.GONE);
-                }
-
 
 //设置显示内容
 

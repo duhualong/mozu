@@ -384,7 +384,20 @@
         <activity android:name=".ui.attendance.AttendanceRecordActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--考勤排名-->
+
+        <activity android:name=".ui.attendance.attendancesort.AttendanceSortMonthItemActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.attendance.attendancesort.AttendanceSortTeamMonthItemActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.attendance.attendancesort.AttendanceFightingSortMonthItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <!--考勤-->
+
         <activity android:name=".ui.attendance.AttendanceActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
@@ -537,6 +550,17 @@
         <activity android:name=".ui.reportpost.ReportPostPointDetailActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--报岗统计-->
+        <activity android:name=".ui.reportpoststatistics.ReportPostStatisticsSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--上报点位-->
+        <activity android:name=".ui.reportpost.UploadReportPostInfoActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.reportpost.GallerysActivity"
+                  android:screenOrientation="portrait"
+        />
         
 
         <!--个人工时-->

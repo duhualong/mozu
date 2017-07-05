@@ -23,6 +23,7 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.reportpost.ReportPostItemDetail;
+import org.eenie.wgj.ui.attendance.sign.AttendanceTokePhotoActivity;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 
@@ -54,6 +55,12 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
     private String postName;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    public static final int REQUEST_CODE = 0x101;
+    public static final int RESULT_CODE = 1011;
+    private String path;
+    private String saveTime;
+    private String savaPosition;
+    private String selectId;
 
     @Override
     protected int getContentView() {
@@ -115,14 +122,17 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                                 mData = gson.fromJson(jsonArray,
                                         new TypeToken<ReportPostItemDetail>() {
                                         }.getType());
+                                selectId=String.valueOf(mData.getData().getNewspaperpost_id());
+
                                 if (mData.getPlan() != null && mData.getPlan().size() > 0) {
 
                                     mAdapter.addAll(mData.getPlan());
                                 }
                             }
 
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
                         }
-
 
                     }
                 });
@@ -137,8 +147,8 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                 break;
             case R.id.rl_report_detail_first:
                 if (mData != null) {
-                    startActivity(new Intent(context,ReportPostDetailItemActivity.class)
-                            .putExtra(ReportPostDetailItemActivity.INFO,mData.getData())
+                    startActivity(new Intent(context, ReportPostDetailItemActivity.class)
+                            .putExtra(ReportPostDetailItemActivity.INFO, mData.getData())
                     );
 
 
@@ -170,7 +180,7 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                 ReportPostItemDetail.planBean data = mPlanBeanArrayList.get(position);
                 int mPosition = position + 1;
                 String positions = String.valueOf(mPosition);
-                holder.setItem(data,positions);
+                holder.setItem(data, positions);
                 if (data != null) {
                     if (data.getTime() != null) {
                         holder.tvReportTime.setText(data.getTime());
@@ -188,6 +198,7 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                     switch (data.getStatusCode()) {
                         case 1:
                             //超时
+                            holder.tvOvertime.setVisibility(View.VISIBLE);
                             holder.itemPosition.setBackgroundResource(R.drawable.circle_red);
                             holder.tvOvertime.setText("报岗超时");
                             holder.imgPhoto.setVisibility(View.GONE);
@@ -195,6 +206,9 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                             break;
                         case 2:
                             //时间未到
+                            holder.tvOvertime.setVisibility(View.GONE);
+                            holder.rlUploadPost.setVisibility(View.GONE);
+                            holder.imgPhoto.setVisibility(View.VISIBLE);
                             holder.itemPosition.setBackgroundResource(R.drawable.circle_gray);
                             break;
                         case 3:
@@ -221,6 +235,9 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                             break;
                         case 0:
                             //可报岗
+                            holder.tvOvertime.setVisibility(View.GONE);
+                            holder.rlUploadPost.setVisibility(View.GONE);
+                            holder.imgPhoto.setVisibility(View.VISIBLE);
                             holder.itemPosition.setBackgroundResource(R.drawable.circle_blue);
                             break;
                     }
@@ -272,13 +289,14 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                 tvOvertime = ButterKnife.findById(itemView, R.id.item_overtime_post);
                 tvFinishTime = ButterKnife.findById(itemView, R.id.item_tv_time);
                 tvReportPostAddress = ButterKnife.findById(itemView, R.id.item_tv_address);
-
+                rlUploadPost.setOnClickListener(this);
+                imgPhoto.setOnClickListener(this);
 
             }
 
-            public void setItem(ReportPostItemDetail.planBean projectList,String position) {
+            public void setItem(ReportPostItemDetail.planBean projectList, String position) {
                 mPlanBean = projectList;
-                positions=position;
+                positions = position;
             }
 
             @Override
@@ -290,21 +308,24 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                                     "报岗时间未到", Toast.LENGTH_SHORT).show();
 
                         } else if (mPlanBean.getStatusCode() == 0) {
-                            Toast.makeText(ReportPostSettingFirstActivity.this,
-                                    "可报岗", Toast.LENGTH_SHORT).show();
+                            savaPosition=positions;
+                            saveTime=mPlanBean.getTime();
+
+                            startActivityForResult(new Intent(ReportPostSettingFirstActivity.this,
+                                            AttendanceTokePhotoActivity.class),
+                                    REQUEST_CODE);
+
                         }
 
                         break;
                     case R.id.el_report_post_one:
-                        if (mPlanBean.getStatusCode()==3){
+                        if (mPlanBean.getStatusCode() == 3) {
                             startActivity(new Intent(ReportPostSettingFirstActivity.this,
                                     ReportPostPointDetailActivity.class)
-                            .putExtra(ReportPostPointDetailActivity.INFO,mPlanBean)
-                           .putExtra(ReportPostPointDetailActivity.POSITION,positions)
-                            .putExtra(ReportPostPointDetailActivity.POST_NAME,postName));
+                                    .putExtra(ReportPostPointDetailActivity.INFO, mPlanBean)
+                                    .putExtra(ReportPostPointDetailActivity.POSITION, positions)
+                                    .putExtra(ReportPostPointDetailActivity.POST_NAME, postName));
                         }
-
-
                         break;
 
                 }
@@ -314,5 +335,24 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
+            path = data.getStringExtra("path");
+            System.out.println("文件路径:"+path);
 
+            startActivity(new Intent(context,UploadReportPostInfoActivity.class)
+            .putExtra(UploadReportPostInfoActivity.PATH,path)
+            .putExtra(UploadReportPostInfoActivity.TIME,saveTime)
+            .putExtra(UploadReportPostInfoActivity.POSITION,savaPosition)
+            .putExtra(UploadReportPostInfoActivity.POST,postName)
+                    .putExtra(UploadReportPostInfoActivity.POST_ID,postId)
+                    .putExtra(UploadReportPostInfoActivity.ID,selectId)
+            .putExtra(UploadReportPostInfoActivity.CONTENT,mData.getData().getPostsetting().
+                    getPostsetting_info()));
+
+
+        }
+    }
 }

@@ -188,7 +188,7 @@ public class ReportPostSettingUploadActivity extends BaseActivity implements
                     case R.id.rl_select_post:
                       startActivity(new Intent(context, ReportPostSettingFirstActivity.class)
                       .putExtra(ReportPostSettingFirstActivity.POST_ID,
-                              String.valueOf(mProjectList.getId()))
+                             mProjectList.getId())
                       .putExtra(ReportPostSettingFirstActivity.NAME,mProjectList.getPost()));
 
                         break;

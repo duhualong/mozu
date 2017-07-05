@@ -11,6 +11,7 @@ public class AttendanceLate {
     private int id;
     private  String name;
     private int user_id;
+    private String late;
 
     public String getCreated_at() {
         return created_at;
@@ -42,5 +43,13 @@ public class AttendanceLate {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
+    }
+
+    public String getLate() {
+        return late;
+    }
+
+    public void setLate(String late) {
+        this.late = late;
     }
 }

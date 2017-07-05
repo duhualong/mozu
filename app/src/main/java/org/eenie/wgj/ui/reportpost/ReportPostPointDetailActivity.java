@@ -40,9 +40,9 @@ public class ReportPostPointDetailActivity extends BaseActivity {
         position=getIntent().getStringExtra(POSITION);
         postName=getIntent().getStringExtra(POST_NAME);
         if (!TextUtils.isEmpty(postName)){
-            tvReportPostName.setText("报岗岗位&#8195;"+postName);
+            tvReportPostName.setText(postName);
         }else {
-            tvReportPostName.setText("报岗岗位&#8195;无");
+            tvReportPostName.setText("无");
         }
 
         if (!TextUtils.isEmpty(position)){
@@ -55,9 +55,9 @@ public class ReportPostPointDetailActivity extends BaseActivity {
         }
         if (mData!=null){
             if (!TextUtils.isEmpty(mData.getTime())){
-                tvReportTime.setText("报岗时间&#8195;"+mData.getTime());
+                tvReportTime.setText(mData.getTime());
             }else {
-                tvReportTime.setText("报岗时间&#8195;无");
+                tvReportTime.setText("无");
 
             }
             if (mData.getActual()!=null&&!TextUtils.isEmpty(mData.getActual().getLocation_name())){

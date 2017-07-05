@@ -94,7 +94,6 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
     private static final int RESPONSE_CODE_THIRD = 0x109;
     private static final int REQUEST_PHOTO_THIRD = 0x110;
 
-
     private static final int REQUEST_CAMERA_ONE = 0x200;
     private static final int REQUEST_CAMERA_TWO = 0x201;
     private static final int REQUEST_CAMERA_THREE = 0x202;
@@ -281,7 +280,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                         new Gson().toJson(request), 1), mPrefsHelper.getPrefs().
                                         getString(Constants.TOKEN, ""));
                            }else {
-                                Toast.makeText(context,"请勾选所以的巡检内容",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,"请勾选所有的巡检内容",Toast.LENGTH_SHORT).show();
                             }
 
 

@@ -3,8 +3,10 @@ package org.eenie.wgj.ui.attendance.signout;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -51,6 +53,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -200,14 +203,14 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
         }
     }
 
-    public static MultipartBody getMultipartBody(String path, String mLong, String mLat,
+    public  MultipartBody getMultipartBody(String path, String mLong, String mLat,
           int type, int serviceId,String address, String content) {
         File file = new File(path);
         System.out.println("签退上传文件的大小："+file.length());
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
-                file);
+                compressior(file));
         builder.addFormDataPart("image", file.getName(), requestBody);
         builder.addFormDataPart("longitude", mLong)
                 .addFormDataPart("latitude", mLat)
@@ -218,9 +221,20 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
         builder.setType(MultipartBody.FORM);
         return builder.build();
     }
-
+    public  File compressior(File file) {
+        return new Compressor.Builder(AttendanceSignOutActivity.this)
+                .setMaxWidth(900)
+                .setMaxHeight(900)
+                .setQuality(75)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                .build()
+                .compressToFile(file);
+    }
 
     private void signIn(RequestBody requestBody) {
+        mButton.setClickable(false);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -231,21 +245,22 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.body().getResultCode() == 200) {
-                    if (response.body().getResultMessage().equals("恭喜你签到第1名")) {
+                if (response.body().getCode() == 0) {
+                    if (response.body().getMessage().equals("恭喜你签到第1名")) {
                         AttendanceResDialog.newInstance("签退结果", "签退成功！\n" +
-                                response.body().getResultMessage(), String.valueOf(2)).show(getFragmentManager(), "signout");
+                                response.body().getMessage(), String.valueOf(2)).show(getFragmentManager(), "signout");
                     } else {
                         AttendanceResDialog.newInstance("签退结果", "签退成功！\n" +
-                                response.body().getResultMessage(), String.valueOf(0)).show(getFragmentManager(), "signout");
+                                response.body().getMessage(), String.valueOf(0)).show(getFragmentManager(), "signout");
                     }
                     mButton.setClickable(false);
                     mButton.setText("已签退");
                     mButton.setBackgroundResource(R.mipmap.bg_fetch_sms_code_button);
 
                 } else {
+                    mButton.setClickable(true);
                     AttendanceResDialog.newInstance("签退结果", "签退失败！\n" +
-                            response.body().getResultMessage(),
+                            response.body().getMessage(),
                             String.valueOf(1)).show(getFragmentManager(), "signout");
 
                 }
@@ -253,6 +268,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                mButton.setClickable(true);
                 AttendanceResDialog.newInstance("签退结果", "签退失败！",
                         String.valueOf(1)).show(getFragmentManager(), "signin");
             }
@@ -387,7 +403,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title("我的位置：" + aMapLocation.getAddress());
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_sign_point));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_safe_picture));
                 mLocationMarker = mAMap.addMarker(markerOptions);
                 tvMyLocation.setText(aMapLocation.getAddress());
             } else {

@@ -536,7 +536,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
         }
         locationMarker = mAMap.addMarker(new MarkerOptions().position(latLng)
                 .title(markerTitle)
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_sign_point))
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_safe_picture))
                 .draggable(true));
         locationMarker.showInfoWindow();
 
@@ -646,7 +646,7 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
                     locationMarker = mAMap.addMarker(new MarkerOptions().icon(
                             BitmapDescriptorFactory.fromBitmap(
                                     BitmapFactory.decodeResource(getResources(),
-                                            R.mipmap.ic_sign_point))).position(mLatLng).snippet(
+                                            R.mipmap.ic_safe_picture))).position(mLatLng).snippet(
                             aMapLocation.getAddress()).draggable(true).setFlat(true));
                     locationMarker.showInfoWindow();//主动显示indowindow
 

@@ -108,7 +108,7 @@ public class AttendanceLeaveEarlyActivity extends BaseActivity implements
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         cancelRefresh();
-                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                        if (apiResponse.getCode()== 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             ArrayList<AttendanceEarlyResponse> data = gson.fromJson(jsonArray,
@@ -120,7 +120,7 @@ public class AttendanceLeaveEarlyActivity extends BaseActivity implements
                                 }
                             }
                         } else {
-                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }

@@ -1,21 +1,19 @@
-package org.eenie.wgj.ui.attendancestatistics;
-
+package org.eenie.wgj.ui.attendance.attendancesort;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,6 +21,7 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.AttendanceFightingResponse;
+import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -30,18 +29,18 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/6/20 at 16:56
+ * Created by Eenie on 2017/7/5 at 20:21
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class AttendanceFightingSortActivity extends BaseActivity
-        implements SwipeRefreshLayout.OnRefreshListener {
+public class AttendanceFightingSortMonthItemActivity extends BaseActivity  implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String DATE = "date";
     public static final String PROJECT_ID = "id";
@@ -155,7 +154,7 @@ public class AttendanceFightingSortActivity extends BaseActivity
         @Override
         public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            View itemView = inflater.inflate(R.layout.item_sort_team, parent, false);
+            View itemView = inflater.inflate(R.layout.item_sort_fighting_month_item, parent, false);
             return new ProjectViewHolder(itemView);
         }
 
@@ -165,73 +164,22 @@ public class AttendanceFightingSortActivity extends BaseActivity
 
                 AttendanceFightingResponse data = projectMonth.get(position);
                 if (data != null) {
-                    holder.setItem(data);
 
-                    holder.imgSort.setVisibility(View.INVISIBLE);
                     int mPosition = projectMonth.size() - position;
                     holder.itemNumber.setText(String.valueOf((mPosition)));
                     holder.itemName.setText(data.getName());
                     holder.itemPost.setText(data.getPermissions());
-                    holder.attendanceDay.setText("出勤：" + data.getWork_number() + "天");
-                    holder.itemDate.setText(date);
-                    holder.attendanceFirst.setText("异常\n" + "共" + data.getRefue() + "次");
-                    if (data.getService() != null) {
-                        if (data.getService().size() == 1) {
-                            holder.restDay.setVisibility(View.VISIBLE);
-                            holder.restTwo.setVisibility(View.GONE);
-                            holder.restThree.setVisibility(View.GONE);
-                            holder.restFour.setVisibility(View.GONE);
-                            holder.restDay.setText(data.getService().get(0).getServicesname()
-                                    + "\n" + data.getService().get(0).getWork_day());
 
-                        } else if (data.getService().size() == 2) {
-                            holder.restDay.setVisibility(View.VISIBLE);
-                            holder.restTwo.setVisibility(View.VISIBLE);
-                            holder.restThree.setVisibility(View.GONE);
-                            holder.restFour.setVisibility(View.GONE);
-                            holder.restDay.setText(data.getService().get(0).getServicesname()
-                                    + "\n" + data.getService().get(0).getWork_day());
-                            holder.restTwo.setText(data.getService().get(1).getServicesname()
-                                    + "\n" + data.getService().get(1).getWork_day());
+                    holder.attendanceFirst.setText("异常" + data.getRefue() + "次");
 
-                        } else if (data.getService().size() == 3) {
-                            holder.restDay.setVisibility(View.VISIBLE);
-                            holder.restTwo.setVisibility(View.VISIBLE);
-                            holder.restThree.setVisibility(View.VISIBLE);
-                            holder.restFour.setVisibility(View.GONE);
-                            holder.restDay.setText(data.getService().get(0).getServicesname()
-                                    + "\n" + data.getService().get(0).getWork_day());
-                            holder.restTwo.setText(data.getService().get(1).getServicesname()
-                                    + "\n" + data.getService().get(1).getWork_day());
-
-                            holder.restThree.setText(data.getService().get(2).getServicesname()
-                                    + "\n" + data.getService().get(2).getWork_day());
-                        } else if (data.getService().size() >= 4) {
-                            holder.restDay.setVisibility(View.VISIBLE);
-                            holder.restTwo.setVisibility(View.VISIBLE);
-                            holder.restThree.setVisibility(View.VISIBLE);
-                            holder.restFour.setVisibility(View.VISIBLE);
-                            holder.restDay.setText(data.getService().get(0).getServicesname()
-                                    + "\n" + data.getService().get(0).getWork_day());
-                            holder.restTwo.setText(data.getService().get(1).getServicesname()
-                                    + "\n" + data.getService().get(1).getWork_day());
-
-                            holder.restThree.setText(data.getService().get(2).getServicesname()
-                                    + "\n" + data.getService().get(2).getWork_day());
-                            holder.restFour.setText(data.getService().get(3).getServicesname()
-                                    + "\n" + data.getService().get(3).getWork_day());
-                        }
-
-                    } else {
-                        holder.restDay.setVisibility(View.GONE);
-                        holder.restTwo.setVisibility(View.GONE);
-                        holder.restThree.setVisibility(View.GONE);
-                        holder.restFour.setVisibility(View.GONE);
+                    if (!TextUtils.isEmpty(data.getId_card_head_image())) {
+                        Glide.with(context).load(Constant.DOMIN + data.getId_card_head_image()).
+                                centerCrop().into(holder.imgAvatar);
                     }
 
-                }
-//设置显示内容
 
+//设置显示内容
+                }
             }
 
         }
@@ -251,64 +199,34 @@ public class AttendanceFightingSortActivity extends BaseActivity
             ProjectAdapter.this.notifyDataSetChanged();
         }
 
-        class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class ProjectViewHolder extends RecyclerView.ViewHolder  {
 
             private TextView itemNumber;
-            private ImageView imgSort;
+
             private TextView itemName;
             private TextView itemPost;
-            private TextView attendanceDay;
+
             private TextView itemDate;
             private TextView attendanceFirst;
-            private TextView restDay;
-            private TextView restTwo;
-            private TextView restThree;
-            private TextView restFour;
-            private RelativeLayout rlSortTeam;
-            private AttendanceFightingResponse mProjectList;
+            private CircleImageView imgAvatar;
 
-            public void setItem(AttendanceFightingResponse projectList) {
-                mProjectList = projectList;
-            }
+
 
 
             public ProjectViewHolder(View itemView) {
                 super(itemView);
                 itemNumber = ButterKnife.findById(itemView, R.id.tv_gold_number);
-                imgSort = ButterKnife.findById(itemView, R.id.img_gold_number);
                 itemName = ButterKnife.findById(itemView, R.id.item_name);
                 itemPost = ButterKnife.findById(itemView, R.id.item_post);
-                attendanceDay = ButterKnife.findById(itemView, R.id.attendance_day);
-                itemDate = ButterKnife.findById(itemView, R.id.item_date);
                 attendanceFirst = ButterKnife.findById(itemView, R.id.attendance_first);
-                restDay = ButterKnife.findById(itemView, R.id.rest_day);
-                restTwo = ButterKnife.findById(itemView, R.id.rest_day_two);
-                restThree = ButterKnife.findById(itemView, R.id.rest_day_three);
-                restFour = ButterKnife.findById(itemView, R.id.rest_day_four);
-                rlSortTeam = ButterKnife.findById(itemView, R.id.rl_sort_team);
-                rlSortTeam.setOnClickListener(this);
+                imgAvatar=ButterKnife.findById(itemView,R.id.img_avatar);
 
 
             }
 
 
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.rl_sort_team:
-                        startActivity(new Intent(AttendanceFightingSortActivity.this,
-                                AttendanceRecorderMonthActivity.class)
-                                .putExtra(AttendanceRecorderMonthActivity.DATE, date)
-                                .putExtra(AttendanceRecorderMonthActivity.POST, mProjectList.getPermissions())
-                                .putExtra(AttendanceRecorderMonthActivity.USER_NAME, mProjectList.getName())
-                                .putExtra(AttendanceRecorderMonthActivity.UID, mProjectList.getId() + ""));
 
-
-                        break;
-                }
-            }
         }
     }
-
 
 }

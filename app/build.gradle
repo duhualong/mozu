@@ -28,6 +28,7 @@ android {
         ]
         multiDexEnabled true
 
+
     }
     buildTypes {
         release {
@@ -55,6 +56,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:25.3.1'
     compile project(':weekcalendarlib')
+
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.4'
+    provided 'javax.annotation:jsr250-api:1.0'
+
     // dagger2
     compile "com.google.dagger:dagger:${daggerVersion}"
     provided "com.google.dagger:dagger-compiler:${daggerVersion}"

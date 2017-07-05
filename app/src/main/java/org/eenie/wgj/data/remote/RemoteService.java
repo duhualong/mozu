@@ -474,7 +474,7 @@ public interface RemoteService {
                                              @Query("projectid") String projectId);
 
     //考勤迟到
-    @GET("month/late")
+    @GET("month_late_list")
     Single<ApiResponse> getLateInformation(@Header("token") String token, @Query("date") String date,
                                            @Query("projectid") String projectId);
 
@@ -484,7 +484,7 @@ public interface RemoteService {
                                              @Query("projectid") String projectId);
 
     //考勤早退
-    @GET("month/early")
+    @GET("month_early_list")
     Single<ApiResponse> getEarlyInformation(@Header("token") String token, @Query("date") String date,
                                             @Query("projectid") String projectId);
 

@@ -394,7 +394,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
 
 
     public String savePic(Bitmap bm) {
-        String path = getExternalCacheDir().getAbsolutePath() + "/sign_" + System.currentTimeMillis() + "_attendance.png";
+        String path = getExternalCacheDir().getAbsolutePath() + "/sign_" + System.currentTimeMillis() + "_attendance.jpeg";
         File f = new File(path);
         if (f.exists()) {
             f.delete();

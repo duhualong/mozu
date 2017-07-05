@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.attendancestatistics;
+package org.eenie.wgj.ui.attendance.attendancesort;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -6,19 +6,23 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.AttendanceLate;
+import org.eenie.wgj.model.response.SortTeamAttendance;
+import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -26,40 +30,37 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Eenie on 2017/6/20 at 17:54
+ * Created by Eenie on 2017/7/5 at 19:57
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class AttendanceCauseActivity extends BaseActivity implements
-        SwipeRefreshLayout.OnRefreshListener {
-    public static final String PROJECT_ID = "id";
+public class AttendanceSortTeamMonthItemActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static final String DATE = "date";
-    private ProjectAdapter mAdapter;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-
+    public static final String PROJECT_ID = "id";
+    @BindView(R.id.tv_title)TextView tvTitle;
     @BindView(R.id.swipe_refresh_list)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.recycler_view)
+    @BindView(R.id.recycler_sort)
     RecyclerView mRecyclerView;
-    private String projectId;
     private String date;
+    private String projectId;
+    private ProjectAdapter mAdapter;
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_attendance_cause;
+        return R.layout.activity_sort_team_detail;
     }
-
 
     @Override
     protected void updateUI() {
-        tvTitle.setText("迟到详情");
+        tvTitle.setText("月度考勤排名");
         projectId = getIntent().getStringExtra(PROJECT_ID);
         date = getIntent().getStringExtra(DATE);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -75,21 +76,20 @@ public class AttendanceCauseActivity extends BaseActivity implements
 
         mRecyclerView.setAdapter(mAdapter);
 
-
     }
 
-    @OnClick(R.id.img_back)
+    @OnClick({R.id.img_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
         }
-
     }
 
+
     private void getData(String projectId, String date) {
-        mSubscription = mRemoteService.getLateInformation(mPrefsHelper.
+        mSubscription = mRemoteService.getMonthTeamSort(mPrefsHelper.
                 getPrefs().getString(Constants.TOKEN, ""), date, projectId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -107,11 +107,11 @@ public class AttendanceCauseActivity extends BaseActivity implements
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         cancelRefresh();
-                        if (apiResponse.getCode() == 0) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                            ArrayList<AttendanceLate> data = gson.fromJson(jsonArray,
-                                    new TypeToken<ArrayList<AttendanceLate>>() {
+                            ArrayList<SortTeamAttendance> data = gson.fromJson(jsonArray,
+                                    new TypeToken<ArrayList<SortTeamAttendance>>() {
                                     }.getType());
                             if (data != null) {
                                 if (mAdapter != null) {
@@ -119,8 +119,9 @@ public class AttendanceCauseActivity extends BaseActivity implements
                                 }
                             }
                         } else {
-                            Toast.makeText(context, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 });
     }
@@ -145,9 +146,9 @@ public class AttendanceCauseActivity extends BaseActivity implements
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
         private Context context;
-        private ArrayList<AttendanceLate> projectMonth;
+        private ArrayList<SortTeamAttendance> projectMonth;
 
-        public ProjectAdapter(Context context, ArrayList<AttendanceLate> projectMonth) {
+        public ProjectAdapter(Context context, ArrayList<SortTeamAttendance> projectMonth) {
             this.context = context;
             this.projectMonth = projectMonth;
         }
@@ -155,45 +156,51 @@ public class AttendanceCauseActivity extends BaseActivity implements
         @Override
         public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            View itemView = inflater.inflate(R.layout.item_attendance_status, parent, false);
+            View itemView = inflater.inflate(R.layout.item_sort_team_month_item, parent, false);
             return new ProjectViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (projectMonth != null && !projectMonth.isEmpty()) {
-                AttendanceLate data = projectMonth.get(position);
+
+                SortTeamAttendance data = projectMonth.get(position);
                 if (data != null) {
-                    holder.itemTitle.setText("考勤人员  " + data.getName());
-                    holder.itemDate.setText("考勤时间  " + data.getCreated_at());
-                    if (data.getLate() != null && !data.getLate().isEmpty()) {
-                        String[] all = data.getLate().split(":");
-                        if (all.length >= 2) {
-                            String hour = all[0];
-                            String minute = all[1];
-                            if (Integer.valueOf(hour)>=1&&Integer.valueOf(minute)==0){
-                                holder.itemCause.setText("迟到时长  "+Integer.valueOf(hour)+"小时");
-                            }else if (Integer.valueOf(hour)>=1&&Integer.valueOf(minute)>0){
-                                holder.itemCause.setText("迟到时长  "+Integer.valueOf(hour)+"小时"+ all[1]+"分钟");
-
-                            }else if (Integer.valueOf(hour)<1&&Integer.valueOf(minute)<1){
-                                holder.itemCause.setText("迟到时长  无");
 
 
-                            }else if (Integer.valueOf(hour)<1&&Integer.valueOf(minute)>=1){
-                                holder.itemCause.setText("迟到时长  "+Integer.valueOf(minute)+"分钟");
+                    if (position <= 2) {
+                        holder.itemNumber.setVisibility(View.GONE);
+                        holder.imgSort.setVisibility(View.VISIBLE);
+                        switch (position) {
+                            case 0:
+                                holder.imgSort.setImageResource(R.mipmap.ic_gold);
 
-                            }
+                                break;
+                            case 1:
+                                holder.imgSort.setImageResource(R.mipmap.ic_silver);
+                                break;
+                            case 2:
+                                holder.imgSort.setImageResource(R.mipmap.ic_copper);
 
+                                break;
                         }
-
-                    }else {
-                        holder.itemCause.setText("迟到时长  " + "未提供");
+                    } else {
+                        holder.itemNumber.setVisibility(View.VISIBLE);
+                        holder.imgSort.setVisibility(View.INVISIBLE);
+                        holder.itemNumber.setText(String.valueOf((position + 1)));
+                    }
+                    if (!TextUtils.isEmpty(data.getId_card_head_image())) {
+                        Glide.with(context).load(Constant.DOMIN + data.getId_card_head_image()).
+                                centerCrop().into(holder.imgAvatar);
                     }
 
+                    holder.itemName.setText(data.getName());
+                    holder.itemPost.setText(data.getPermissions());
+                    holder.attendanceFirst.setText("第一名：" + data.getRank() + "次");
 
                 }
 
+//设置显示内容
 
             }
 
@@ -204,7 +211,7 @@ public class AttendanceCauseActivity extends BaseActivity implements
             return projectMonth.size();
         }
 
-        public void addAll(ArrayList<AttendanceLate> projectMonth) {
+        public void addAll(ArrayList<SortTeamAttendance> projectMonth) {
             this.projectMonth.addAll(projectMonth);
             ProjectAdapter.this.notifyDataSetChanged();
         }
@@ -216,22 +223,29 @@ public class AttendanceCauseActivity extends BaseActivity implements
 
         class ProjectViewHolder extends RecyclerView.ViewHolder {
 
-            private TextView itemTitle;
-            private TextView itemDate;
-            private TextView itemCause;
+            private TextView itemNumber;
+            private ImageView imgSort;
+            private TextView itemName;
+            private TextView itemPost;
+            private CircleImageView imgAvatar;
+            private TextView attendanceFirst;
+
+
+
 
 
             public ProjectViewHolder(View itemView) {
                 super(itemView);
-                itemTitle = ButterKnife.findById(itemView, R.id.item_title);
-                itemDate = ButterKnife.findById(itemView, R.id.item_date);
-                itemCause = ButterKnife.findById(itemView, R.id.item_cause);
+                itemNumber = ButterKnife.findById(itemView, R.id.tv_gold_number);
+                imgSort = ButterKnife.findById(itemView, R.id.img_gold_number);
+                itemName = ButterKnife.findById(itemView, R.id.item_name);
+                itemPost = ButterKnife.findById(itemView, R.id.item_post);
+                attendanceFirst = ButterKnife.findById(itemView, R.id.attendance_first);
+                imgAvatar = ButterKnife.findById(itemView, R.id.img_avatar);
 
 
             }
 
-
         }
     }
-
 }

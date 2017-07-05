@@ -1,14 +1,12 @@
 package org.eenie.wgj.di.component;
 
 import android.content.Context;
-import android.webkit.WebView;
 
 import org.eenie.wgj.App;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.base.BaseSupportFragment;
 import org.eenie.wgj.data.local.PreferencesHelper;
-import org.eenie.wgj.data.local.UserDao;
 import org.eenie.wgj.data.remote.HttpClient;
 import org.eenie.wgj.data.remote.RemoteService;
 import org.eenie.wgj.di.ApplicationContext;
@@ -34,6 +32,6 @@ public interface ApplicationComponent {
   RemoteService webService();
   PreferencesHelper prefsHelper();
   HttpClient httpClient();
-  UserDao userDao();
-  WebView webView();
+//  UserDao userDao();
+//  WebView webView();
 }

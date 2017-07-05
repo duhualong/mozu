@@ -3,8 +3,10 @@ package org.eenie.wgj.ui.attendance.sign;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -48,6 +50,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -188,14 +191,14 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         }
     }
 
-    public static MultipartBody getMultipartBody(String path,String mLong,String mLat, int type, int serviceId,
+    public  MultipartBody getMultipartBody(String path,String mLong,String mLat, int type, int serviceId,
                                                  String address, String content) {
         File file = new File(path);
         System.out.println("上传文件的大小："+file.length());
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
-                file);
+                compressior(file));
         builder.addFormDataPart("image", file.getName(), requestBody);
         builder.addFormDataPart("longitude", mLong)
                 .addFormDataPart("latitude", mLat)
@@ -207,8 +210,19 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         return builder.build();
     }
 
-
+    public  File compressior(File file) {
+        return new Compressor.Builder(AttendanceTestSignInActivity.this)
+                .setMaxWidth(900)
+                .setMaxHeight(900)
+                .setQuality(75)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
+                .build()
+                .compressToFile(file);
+    }
     private void signIn(RequestBody requestBody) {
+        mButton.setClickable(false);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -219,21 +233,22 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.body().getResultCode()==200){
-                    if (response.body().getResultMessage().equals("恭喜你签到第1名")) {
+                if (response.body().getCode()==0){
+                    if (response.body().getMessage().equals("恭喜你签到第1名")) {
                         AttendanceResDialog.newInstance("签到结果", "签到成功！\n" +
-                                response.body().getResultMessage(), String.valueOf(2)).show(getFragmentManager(), "signin");
+                                response.body().getMessage(), String.valueOf(2)).show(getFragmentManager(), "signin");
                     } else {
                         AttendanceResDialog.newInstance("签到结果", "签到成功！\n" +
-                                response.body().getResultMessage(), String.valueOf(0)).show(getFragmentManager(), "signin");
+                                response.body().getMessage(), String.valueOf(0)).show(getFragmentManager(), "signin");
                     }
                     mButton.setClickable(false);
                     mButton.setText("已签到");
 
                 }else {
+
                     mButton.setClickable(true);
                     AttendanceResDialog.newInstance("签到结果", "签到失败！\n" +
-                            response.body().getResultMessage(), String.valueOf(1)).show(getFragmentManager(), "signin");
+                            response.body().getMessage(), String.valueOf(1)).show(getFragmentManager(), "signin");
                 }
             }
             @Override
@@ -373,7 +388,7 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title("我的位置：" + aMapLocation.getAddress());
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_sign_point));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_safe_picture));
                 mLocationMarker = mAMap.addMarker(markerOptions);
                 tvMyLocation.setText(aMapLocation.getAddress());
             } else {

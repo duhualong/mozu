@@ -180,7 +180,7 @@ public class AttendanceSortMonthActivity extends BaseActivity implements SwipeRe
                     holder.imgSort.setVisibility(View.INVISIBLE);
                     holder.itemNumber.setText(String.valueOf((position + 1)));
                 }
-                if (data.getId_card_head_image() != null) {
+                if (data.getId_card_head_image() != null&&!data.getId_card_head_image().isEmpty()) {
                     Glide.with(context).load(Constant.DOMIN +
                             data.getId_card_head_image())
                             .centerCrop().into(holder.avatarImg);

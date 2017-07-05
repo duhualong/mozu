@@ -242,11 +242,9 @@ public class LoginFragment extends BaseFragment {
                                  JPushInterface.setTags(context, tags, new TagAliasCallback() {
                                      @Override
                                      public void gotResult(int i, String s, Set<String> set) {
-                                         System.out.println("dddd:" + i);
                                          if (i == 0) {
-                                             System.out.println("打印code" + i + "set:" + set);
+
                                          }else {
-                                                 System.out.println("打印i:"+i);
                                                  System.out.println("tag:"+tags);
 
                                          }

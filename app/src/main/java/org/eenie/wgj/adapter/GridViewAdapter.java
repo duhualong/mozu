@@ -63,5 +63,6 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
     private class ViewHolder {
         TextView textView;
         ImageView imageView;
+
     }
 }
