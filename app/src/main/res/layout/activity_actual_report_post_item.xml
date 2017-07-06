@@ -1,41 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:background="@color/white_light"
               android:orientation="vertical">
+
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
                     android:background="@color/colorPrimary">
         <ImageView android:id="@id/img_back"
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
-                   android:layout_centerVertical="true"
                    android:padding="@dimen/padding_bottom"
                    android:src="@mipmap/ic_back"/>
-
-        <TextView android:layout_width="wrap_content"
+        <TextView android:id="@id/tv_title"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:text="报岗统计表"
+                  android:text="无"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
 
     </RelativeLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@id/swipe_refresh_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/padding_bottom">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_report_statistic"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:overScrollMode="never"
-            tools:listitem="@layout/item_report_statistic_layout">
-        </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

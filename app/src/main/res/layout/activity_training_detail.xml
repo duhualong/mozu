@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary"
+    >
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
+                  android:id="@id/tv_title"
+
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="20dp"
+            android:background="@drawable/shape_circle_blue"
+            android:gravity="center" android:text="30S"
+            android:textColor="#f5f5f5"
+            android:textSize="12sp" android:visibility="invisible"/>
+
+
+        <cn.bingoogolapple.bgabanner.BGABanner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="100dp"
+            android:background="@color/colorPrimary"
+            app:banner_pointContainerBackground="@android:color/transparent"
+            app:banner_pointDrawable="@drawable/selector_banner_point"
+            app:banner_tipTextSize="0sp">
+
+        </cn.bingoogolapple.bgabanner.BGABanner>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/item_action"
+            android:layout_below="@id/banner" android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:textColor="#f5f5f5"/>
+                <TextView
+                    android:id="@+id/tv_pos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="1/1"
+                    android:textColor="@color/white_light"/>
+
+            </LinearLayout>
+            <ScrollView android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5dp"
+                    android:padding="10dp"
+                    android:textColor="#f5f5f5"
+                    android:textSize="13sp"/>
+            </ScrollView>
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/item_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <TextView
+                android:id="@+id/tv_proi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_bottom"
+                android:text="上一个"
+                android:textColor="@color/white_light"/>
+            <TextView
+                android:id="@+id/tv_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:padding="10dp"
+                android:text="下一个"
+                android:textColor="@color/white_light"/>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

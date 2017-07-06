@@ -7,6 +7,7 @@
     android:layout_marginLeft="@dimen/dp_10"
     android:layout_marginRight="@dimen/dp_10"
     android:layout_marginTop="5dp"
+    android:padding="@dimen/padding_short"
 >
 
 
@@ -56,14 +57,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="25.66%"
-                            android:textColor="#ff0000"
-                            android:textSize="16sp"/>
+                            android:textColor="@color/text_red"
+                            android:textSize="@dimen/text_title_size"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="完成率"
-                            android:textSize="10sp"/>
+                            android:textColor="@color/titleColor"
+                            android:textSize="@dimen/text_normal_size"/>
                     </LinearLayout>
                 </FrameLayout>
             </RelativeLayout>
@@ -73,7 +75,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:orientation="vertical" android:padding="10dp">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,27 +85,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/item_report_should_btn_bg_normal"
-
                         android:gravity="center"
+                        android:lines="1"
                         android:minWidth="90dp"
-                        android:paddingBottom="7dp" android:paddingTop="7dp"
-                        android:singleLine="true" android:text="应报岗"
-                        android:textColor="#fff"
-                        android:textSize="12sp"/>
+                        android:paddingBottom="7dp"
+                        android:paddingTop="7dp"
+                        android:text="应报岗"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_normal_size"/>
                     <TextView
                         android:id="@+id/tv_report_should"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:lines="1"
                         android:padding="10dp"
-                        android:singleLine="true" android:text="200次"
+                        android:text="200次"
                         android:textColor="@color/text_blue"
-                        android:textSize="12sp"/>
+                        android:textSize="@dimen/text_normal_size"/>
 
 
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp">
                     <TextView
 
@@ -110,19 +117,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/item_report_fact_btn_bg_normal"
-
                         android:gravity="center"
-                        android:minWidth="90dp" android:paddingBottom="7dp"
-                        android:paddingTop="7dp" android:singleLine="true"
+                        android:lines="1"
+                        android:minWidth="90dp"
+                        android:paddingBottom="7dp"
+                        android:paddingTop="7dp"
                         android:text="实际报岗"
-                        android:textColor="#fff" android:textSize="12sp"/>
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_normal_size"/>
                     <TextView
                         android:id="@+id/tv_report_fact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:lines="1"
                         android:padding="10dp"
-                        android:singleLine="true"
                         android:text="200次"
                         android:textColor="@color/text_blue"
                         android:textSize="12sp"/>
@@ -138,23 +147,23 @@
                         android:layout_height="wrap_content"
                         android:background="@mipmap/item_report_none_btn_bg_normal"
                         android:gravity="center"
+                        android:lines="1"
                         android:minWidth="90dp"
                         android:paddingBottom="7dp"
                         android:paddingTop="7dp"
-                        android:singleLine="true"
                         android:text="未报岗"
-                        android:textColor="#fff"
+                        android:textColor="@color/white"
                         android:textSize="12sp"/>
                     <TextView
                         android:id="@+id/tv_report_none"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:lines="1"
                         android:padding="10dp"
-                        android:singleLine="true"
                         android:text="200次"
                         android:textColor="#a0ff0000"
-                        android:textSize="12sp"/>
+                        android:textSize="@dimen/text_normal_size"/>
 
                 </LinearLayout>
 

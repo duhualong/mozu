@@ -4,6 +4,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:layout_marginBottom="@dimen/padding_bottom"
+                android:paddingBottom="@dimen/padding_bottom"
                 android:orientation="vertical">
     <TextView android:id="@id/attendance_time"
               android:layout_width="wrap_content"

@@ -561,7 +561,31 @@
         <activity android:name=".ui.reportpost.GallerysActivity"
                   android:screenOrientation="portrait"
         />
-        
+        <!--报岗统计表-->
+        <activity android:name=".ui.reportpoststatistics.ReportStatisticActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--每月未报岗-->
+        <activity android:name=".ui.reportpoststatistics.ReportNoDayStatisticActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--每天未报岗-->
+        <activity android:name=".ui.reportpoststatistics.ReportPostNoDayStatisticActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.reportpoststatistics.ReportDayStatisticActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.reportpoststatistics.ReportActualPointItemActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.reportpoststatistics.ReportPostStatusMapViewActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--培训-->
+        <activity android:name=".ui.train.TrainStudySettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
 
         <!--个人工时-->
         <!--<activity android:name=""-->

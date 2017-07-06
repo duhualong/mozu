@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@id/rl_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:padding="@dimen/padding_bottom">
+    <TextView android:id="@id/item_time"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:text="无"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"/>
+
+    <ImageView android:id="@id/img_right"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:src="@mipmap/ic_arrow_right"/>
+    <TextView android:id="@id/item_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginEnd="@dimen/padding_bottom"
+              android:layout_marginRight="@dimen/padding_bottom"
+              android:layout_toLeftOf="@id/img_right"
+              android:layout_toStartOf="@id/img_right"
+              android:text="无"
+              android:textColor="@color/black_light"/>
+
+
+</RelativeLayout>

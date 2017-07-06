@@ -28,6 +28,7 @@ import org.eenie.wgj.model.requset.UpdateRoundPoint;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceDay;
 import org.eenie.wgj.model.response.ShootList;
+import org.eenie.wgj.model.response.reportpost.QueryReportPostMonth;
 
 import java.io.File;
 import java.util.List;
@@ -553,6 +554,24 @@ public interface RemoteService {
     @GET("signedtosign/newspaperpostList")
     Single<ApiResponse>getReportInfoByLine(@Header("token")String token,
                                      @Query("postsettingid")String posyId);
+
+    //报岗统计列表
+
+    @GET("signedtosign/statisticsIndex")
+    Single<ApiResponse>getReportStatisticsList(@Header("token")String token,
+                                               @Query("projectid")String projectId);
+    //每月未报岗统计
+    @GET("signedtosign/NotInfo")
+    Single<ApiResponse>getReportMonthNoStatisticsList(@Header("token")String token,
+                                                      @Query("projectid")String projectId,
+                                                     @Query("date")String date);
+    //实际每月报岗查询
+    @POST("project_post_query")
+    Single<ApiResponse>queryMonthReportPostList(@Header("token")String token,
+                                                @Body QueryReportPostMonth request);
+    //培训
+    @GET("training")
+    Single<ApiResponse>getTrainInfoList(@Header("token")String token);
 
 
 

@@ -470,8 +470,8 @@
                                   android:background="@drawable/bg_color_primary_rectangle"
                                   android:gravity="center"
                                   android:text="0"
-                                  android:textColor="@color/text_blue"
-                                  android:textSize="@dimen/text_normal_size"/>
+                                  android:textColor="@color/black_light"
+                                  android:textSize="@dimen/text_large_size"/>
                         <TextView android:id="@+id/tv_late"
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"
@@ -495,8 +495,8 @@
                                   android:background="@drawable/bg_color_primary_rectangle"
                                   android:gravity="center"
                                   android:text="0"
-                                  android:textColor="@color/text_blue"
-                                  android:textSize="@dimen/text_normal_size"/>
+                                  android:textColor="@color/black_light"
+                                  android:textSize="@dimen/text_large_size"/>
                         <TextView android:id="@+id/tv_leave_early"
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"
@@ -519,8 +519,8 @@
                                   android:background="@drawable/bg_color_primary_rectangle"
                                   android:gravity="center"
                                   android:text="0"
-                                  android:textColor="@color/text_blue"
-                                  android:textSize="@dimen/text_normal_size"/>
+                                  android:textColor="@color/black_light"
+                                  android:textSize="@dimen/text_large_size"/>
                         <TextView android:id="@+id/tv_outside"
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"
@@ -543,8 +543,8 @@
                                   android:background="@drawable/bg_color_primary_rectangle"
                                   android:gravity="center"
                                   android:text="0"
-                                  android:textColor="@color/text_blue"
-                                  android:textSize="@dimen/text_normal_size"/>
+                                  android:textColor="@color/black_light"
+                                  android:textSize="@dimen/text_large_size"/>
                         <TextView android:id="@+id/tv_leave"
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"
@@ -583,8 +583,8 @@
                                   android:background="@drawable/bg_color_primary_rectangle"
                                   android:gravity="center"
                                   android:text="0"
-                                  android:textColor="@color/text_blue"
-                                  android:textSize="@dimen/text_normal_size"/>
+                                  android:textColor="@color/black_light"
+                                  android:textSize="@dimen/text_large_size"/>
                         <TextView android:id="@+id/tv_absent"
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"
@@ -608,8 +608,8 @@
                                   android:background="@drawable/bg_color_primary_rectangle"
                                   android:gravity="center"
                                   android:text="0"
-                                  android:textColor="@color/text_blue"
-                                  android:textSize="@dimen/text_normal_size"/>
+                                  android:textColor="@color/black_light"
+                                  android:textSize="@dimen/text_large_size"/>
                         <TextView android:id="@+id/tv_overtime"
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"
@@ -632,8 +632,8 @@
                                   android:background="@drawable/bg_color_primary_rectangle"
                                   android:gravity="center"
                                   android:text="0"
-                                  android:textColor="@color/text_blue"
-                                  android:textSize="@dimen/text_normal_size"/>
+                                  android:textColor="@color/black_light"
+                                  android:textSize="@dimen/text_large_size"/>
                         <TextView android:id="@+id/tv_exercitation"
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"
@@ -656,8 +656,8 @@
                                   android:background="@drawable/bg_color_primary_rectangle"
                                   android:gravity="center"
                                   android:text="0"
-                                  android:textColor="@color/text_blue"
-                                  android:textSize="@dimen/text_normal_size"/>
+                                  android:textColor="@color/black_light"
+                                  android:textSize="@dimen/text_large_size"/>
                         <TextView android:id="@+id/tv_second"
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"

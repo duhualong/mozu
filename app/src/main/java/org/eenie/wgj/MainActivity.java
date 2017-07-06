@@ -8,18 +8,30 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.AttendanceListResponse;
 import org.eenie.wgj.ui.contacts.FragmentContact;
 import org.eenie.wgj.ui.fragment.ApplyPagerFragment;
 import org.eenie.wgj.ui.fragment.HomePagerFragment;
 import org.eenie.wgj.ui.fragment.MessagePagerFragment;
 import org.eenie.wgj.ui.fragment.PersonalCenterFragment;
+import org.eenie.wgj.util.Constants;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
     private static final String[] titles = {"上海宏伊置业有限公司", "通讯录", "消息中心", "应用", "我的"};
@@ -69,6 +81,74 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initDatas();
+    }
+
+    private void initDatas() {
+
+        mSubscription = mRemoteService.getAttendanceList(
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
+                new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        Gson gson=new Gson();
+                        if (apiResponse.getResultCode() == 200 ||
+                                apiResponse.getResultCode() == 0) {
+                            if (apiResponse.getData() != null) {
+
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                ArrayList<AttendanceListResponse>  attendanceResponse =
+                                        gson.fromJson(jsonArray,
+                                                new TypeToken<ArrayList<AttendanceListResponse>>() {
+                                                }.getType());
+
+                                if (attendanceResponse != null) {
+                                    ArrayList<String> mList = new ArrayList<>();
+                                    ArrayList<String> mLists = new ArrayList<>();
+                                    for (int i = 0; i < attendanceResponse.size(); i++) {
+                                        mList.add(attendanceResponse.get(i).getDay());
+                                        mLists.add(attendanceResponse.get(i).getService().
+                                                getServicesname());
+                                    }
+                                    mPrefsHelper.getPrefs().edit().
+                                            putString(Constants.DATE_LIST,gson.toJson(mList))
+                                            .putString(Constants.DATE_THING_LIST,gson.toJson(mLists))
+                                            .apply();
+
+                                }else {
+                                    mPrefsHelper.getPrefs().edit().
+                                            putString(Constants.DATE_LIST,"")
+                                            .putString(Constants.DATE_THING_LIST,"")
+                                            .apply();
+                                }
+                            }
+                        }else {
+                            mPrefsHelper.getPrefs().edit().
+                                    putString(Constants.DATE_LIST,"")
+                                    .putString(Constants.DATE_THING_LIST,"")
+                                    .apply();
+
+                        }
+
+                    }
+                });
+    }
 
     private void refreshNavigator() {
         for (int i = 0; i < NAVIGATOR_COUNT; i++) {

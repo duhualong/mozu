@@ -2,6 +2,7 @@ package org.eenie.wgj.ui.reportpoststatistics;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -334,11 +335,11 @@ public class ReportPostStatisticsSettingActivity extends BaseActivity
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_item_project:
-//
-//                        startActivity(new Intent(RoutingStatisticsSettingActivity.this,
-//                                RoutingStaticsItemDetailActivity.class).putExtra(
-//                                RoutingStaticsItemDetailActivity.PROJECT_ID,
-//                                String.valueOf(mProjectList.getId())));
+
+                        startActivity(new Intent(ReportPostStatisticsSettingActivity.this,
+                                ReportStatisticActivity.class).putExtra(
+                                ReportStatisticActivity.PROJECT_ID,
+                                String.valueOf(mProjectList.getId())));
 
                         break;
                 }

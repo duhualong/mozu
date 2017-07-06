@@ -10,8 +10,7 @@ import android.view.View;
 
 /**
  * 环形的进度条
- * 
- * @author lwz <lwz0316@gmail.com>
+
  */
 public class CircularProgressBar extends View {
 	
@@ -23,8 +22,8 @@ public class CircularProgressBar extends View {
 	
 	private int mBackgroundColor = Color.LTGRAY;
 //	private int mPrimaryColor = Color.parseColor("#6DCAEC");
-	private int mPrimaryColor = Color.parseColor("#ff0000");
-	private float mStrokeWidth = 10F;
+	private int mPrimaryColor = Color.parseColor("#FE0000");
+	private float mStrokeWidth = 12F;
 	
 	/**
 	 * 进度条改变监听

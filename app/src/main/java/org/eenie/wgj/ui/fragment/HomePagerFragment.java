@@ -22,6 +22,7 @@ import org.eenie.wgj.ui.reportpost.ReportPostSettingUploadActivity;
 import org.eenie.wgj.ui.reportpoststatistics.ReportPostStatisticsSettingActivity;
 import org.eenie.wgj.ui.routinginspection.RoutingInspectionActivity;
 import org.eenie.wgj.ui.routingstatistics.RoutingStatisticsSettingActivity;
+import org.eenie.wgj.ui.train.TrainStudySettingActivity;
 import org.eenie.wgj.util.Constants;
 
 import java.text.SimpleDateFormat;
@@ -67,10 +68,11 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
 
     @Override
     protected void updateUI() {
+
         mGradView.setSaveEnabled(false);
 
         initData();
-
+        initDatas();
     }
 
     //初始化数据
@@ -180,7 +182,7 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
 
                 break;
             case 4:
-                Toast.makeText(context,"开发中",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(context, TrainStudySettingActivity.class));
 
                 break;
             case 5:

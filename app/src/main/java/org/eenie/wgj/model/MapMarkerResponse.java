@@ -21,9 +21,22 @@ public class MapMarkerResponse implements Parcelable {
     private int position;
     private String username;
 
+    //报岗
+    public MapMarkerResponse(String inspectionname, double latitude,
+                             String location_name, double longitude, String time,
+                             String happening, String username) {
+        this.inspectionname = inspectionname;
+        this.latitude = latitude;
+        this.location_name = location_name;
+        this.longitude = longitude;
+        this.time = time;
+        this.happening = happening;
+        this.username = username;
+    }
+
     public MapMarkerResponse(String inspectionname, double latitude, String location_name,
                              double longitude, int situation, String time, String happening,
-                             String avatarUrl, int position,String username) {
+                             String avatarUrl, int position, String username) {
         this.inspectionname = inspectionname;
         this.latitude = latitude;
         this.location_name = location_name;
@@ -33,7 +46,7 @@ public class MapMarkerResponse implements Parcelable {
         this.happening = happening;
         this.avatarUrl = avatarUrl;
         this.position = position;
-        this.username=username;
+        this.username = username;
     }
 
     public String getUsername() {

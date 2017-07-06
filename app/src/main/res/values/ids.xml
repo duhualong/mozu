@@ -700,4 +700,5 @@
     <item name="line_first_part" type="id"/>
     <item name="rl_gradview" type="id"/>
     <item name="rl_attendance_sort" type="id"/>
+    <item name="rl_post_training" type="id"/>
 </resources>

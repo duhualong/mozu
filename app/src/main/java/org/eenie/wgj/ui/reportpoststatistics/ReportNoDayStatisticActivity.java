@@ -1,6 +1,5 @@
 package org.eenie.wgj.ui.reportpoststatistics;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,14 +21,11 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.reportpost.QueryReportPostMonth;
-import org.eenie.wgj.model.response.reportpost.ReportActualPostResponse;
+import org.eenie.wgj.model.response.reportpost.NoReportMonthStatisticResponse;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,8 +33,14 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ReportDayStatisticActivity extends BaseActivity implements
-        SwipeRefreshLayout.OnRefreshListener{
+/**
+ * Created by Eenie on 2017/7/6 at 10:36
+ * Email: 472279981@qq.com
+ * Des:
+ */
+
+public class ReportNoDayStatisticActivity extends BaseActivity
+        implements SwipeRefreshLayout.OnRefreshListener {
     public static final String DATE = "date";
     public static final String PROJECT_ID = "id";
     @BindView(R.id.notice_swipe_refresh_list)
@@ -53,8 +55,7 @@ public class ReportDayStatisticActivity extends BaseActivity implements
     String date;
     String projectId;
     private ProjectAdapter mAdapter;
-    private   String startTime="2017-07-01";
-    private   String endTime="2017-07-31";
+
 
     @Override
     protected int getContentView() {
@@ -63,23 +64,10 @@ public class ReportDayStatisticActivity extends BaseActivity implements
 
     @Override
     protected void updateUI() {
+        date = getIntent().getStringExtra(DATE);
+        projectId = getIntent().getStringExtra(PROJECT_ID);
         tvNewBuild.setVisibility(View.GONE);
-        tvTitle.setText("实际报岗");
-        date=getIntent().getStringExtra(DATE);
-        projectId=getIntent().getStringExtra(PROJECT_ID);
-        if (!TextUtils.isEmpty(date)) {
-            String[] date = this.date.split("-");
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, Integer.parseInt(date[0]));
-            calendar.set(Calendar.MONTH, Integer.parseInt(date[1]) - 1);
-            calendar.set(Calendar.DAY_OF_MONTH, 1);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-             startTime = dateFormat.format(calendar.getTime());
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-             endTime = dateFormat.format(calendar.getTime());
-        }
-
-
+        tvTitle.setText("未报岗");
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
@@ -90,64 +78,50 @@ public class ReportDayStatisticActivity extends BaseActivity implements
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-       mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
-    @OnClick(R.id.img_back)
-    public void onClick() {
-        onBackPressed();
-    }
+    @OnClick({R.id.img_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+                onBackPressed();
+                break;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        onRefresh();
-    }
-    private void cancelRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
+
     @Override
     public void onRefresh() {
         mAdapter.clear();
-        QueryReportPostMonth request=new QueryReportPostMonth(endTime,projectId,startTime);
-        mSubscription=mRemoteService.queryMonthReportPostList(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),request)
+        mSubscription = mRemoteService.getReportMonthNoStatisticsList(
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), projectId, date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ProgressSubscriber<ApiResponse>(context) {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         cancelRefresh();
-                        if (apiResponse.getCode()==0){
-                            if (apiResponse.getData()!=null){
-                                Gson gson=new Gson();
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            if (apiResponse.getData() != null) {
+                                Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                ArrayList<ReportActualPostResponse> mData = gson.fromJson(jsonArray,
-                                        new TypeToken<ArrayList<ReportActualPostResponse>>() {
+                                ArrayList<NoReportMonthStatisticResponse> mData = gson.fromJson(jsonArray,
+                                        new TypeToken<ArrayList<NoReportMonthStatisticResponse>>() {
                                         }.getType());
 
-                                if (mData!=null&&!mData.isEmpty()){
-                                    if (mAdapter!=null){
+                                if (mData != null && !mData.isEmpty()) {
+                                    if (mAdapter != null) {
                                         mAdapter.clear();
                                     }
                                     mAdapter.addAll(mData);
-
-
-                                }else {
-                                    Toast.makeText(context,apiResponse.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
                                 }
 
-                            }else {
-                                Toast.makeText(context,apiResponse.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
                             }
-
-                        }else {
-                            Toast.makeText(context,apiResponse.getMessage(),
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -155,18 +129,28 @@ public class ReportDayStatisticActivity extends BaseActivity implements
                 });
 
 
-
     }
 
+    private void cancelRefresh() {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
+    }
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
         private Context context;
-        private ArrayList<ReportActualPostResponse> mReportActualPostResponses;
+        private ArrayList<NoReportMonthStatisticResponse> mNoReportMonthStatisticResponses;
 
-        public ProjectAdapter(Context context, ArrayList<ReportActualPostResponse>
-                mReportActualPostResponses) {
+        public ProjectAdapter(Context context, ArrayList<NoReportMonthStatisticResponse>
+                mNoReportMonthStatisticResponses) {
             this.context = context;
-            this.mReportActualPostResponses = mReportActualPostResponses;
+            this.mNoReportMonthStatisticResponses = mNoReportMonthStatisticResponses;
         }
 
         @Override
@@ -178,9 +162,9 @@ public class ReportDayStatisticActivity extends BaseActivity implements
 
         @Override
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
-            if (mReportActualPostResponses != null &&
-                    !mReportActualPostResponses.isEmpty()) {
-                ReportActualPostResponse data = mReportActualPostResponses.get(position);
+            if (mNoReportMonthStatisticResponses != null &&
+                    !mNoReportMonthStatisticResponses.isEmpty()) {
+                NoReportMonthStatisticResponse data = mNoReportMonthStatisticResponses.get(position);
                 holder.setItem(data);
                 if (data != null) {
 
@@ -200,23 +184,23 @@ public class ReportDayStatisticActivity extends BaseActivity implements
 
         @Override
         public int getItemCount() {
-            return mReportActualPostResponses.size();
+            return mNoReportMonthStatisticResponses.size();
         }
 
-        public void addAll(ArrayList<ReportActualPostResponse> projectList) {
-            this.mReportActualPostResponses.addAll(projectList);
+        public void addAll(ArrayList<NoReportMonthStatisticResponse> projectList) {
+            this.mNoReportMonthStatisticResponses.addAll(projectList);
             ProjectAdapter.this.notifyDataSetChanged();
         }
 
         public void clear() {
-            this.mReportActualPostResponses.clear();
+            this.mNoReportMonthStatisticResponses.clear();
             ProjectAdapter.this.notifyDataSetChanged();
         }
 
         class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private TextView itemDate;
-            private ReportActualPostResponse mMonthStatisticResponse;
+            private NoReportMonthStatisticResponse mMonthStatisticResponse;
             private RelativeLayout mRelativeLayout;
 
 
@@ -230,7 +214,7 @@ public class ReportDayStatisticActivity extends BaseActivity implements
 
             }
 
-            public void setItem(ReportActualPostResponse projectList) {
+            public void setItem(NoReportMonthStatisticResponse projectList) {
                 mMonthStatisticResponse = projectList;
             }
 
@@ -240,8 +224,8 @@ public class ReportDayStatisticActivity extends BaseActivity implements
                     case R.id.rl_item:
 
                         startActivity(new Intent(context,
-                                ReportActualPointItemActivity.class).putExtra(
-                                ReportActualPointItemActivity.INFO, mMonthStatisticResponse));
+                                ReportPostNoDayStatisticActivity.class).putExtra(
+                                ReportPostNoDayStatisticActivity.INFO, mMonthStatisticResponse));
 
                         break;
                 }
