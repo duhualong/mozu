@@ -198,14 +198,14 @@ public class AddWorkShowActivity extends BaseActivity {
             File cropFile = new File(context.getCacheDir(), "a.jpg");
             UCrop.of(resUri, Uri.fromFile(cropFile))
                     .withAspectRatio(1, 1)
-                    .withMaxResultSize(300, 300)
+                    .withMaxResultSize(500, 500)
                     .start(AddWorkShowActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_SECOND:
                 File cropFiles = new File(context.getCacheDir(), "b.jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(1, 1)
-                        .withMaxResultSize(300, 300)
+                        .withMaxResultSize(500, 500)
                         .start(AddWorkShowActivity.this, requestCode);
 
                 break;
@@ -213,7 +213,7 @@ public class AddWorkShowActivity extends BaseActivity {
                 File cropFiless = new File(context.getCacheDir(), "c.jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiless))
                         .withAspectRatio(1, 1)
-                        .withMaxResultSize(300, 300)
+                        .withMaxResultSize(500, 500)
                         .start(AddWorkShowActivity.this, requestCode);
                 break;
         }

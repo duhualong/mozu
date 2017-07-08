@@ -120,17 +120,8 @@ public class LocationService extends Service {
         public void onLocationChanged(AMapLocation loc) {
             if (null != loc) {//定位成功
 
-
-//              Toast.makeText(getApplicationContext(), loc.getLatitude()+"---"+loc.getLongitude(),0).show();
-                Log.i(TAG,"定位成功");
-                Log.i(TAG,"定位的经度位置是："+loc.getLatitude());
-                Log.i(TAG,"定位的维度位置是："+loc.getLongitude());
-               // Log.i(TAG,"用户是："+ DBUtil.getUserMessage().getPhone());
-
                 UpDate(loc);
-//                if(isCurrentInTimeScope()) {
 //
-//                }
             } else {//定位失败
                 Log.i(TAG,"定位失败");
             }

@@ -83,13 +83,13 @@ public class PictureFragment extends DialogFragment {
                 break;
             case R.id.advance_edit_dialog_confirm_button:
 
-                ((AttendanceTokePhotoActivity) getActivity()).onTakePhoto(compressImage(mCropPicBitmap));
+                ((AttendanceTokePhotoActivity) getActivity()).onTakePhoto(ImageCompressL(mCropPicBitmap));
                 dismiss();
                 break;
         }
     }
     private Bitmap ImageCompressL(Bitmap bitmap) {
-        double targetwidth = Math.sqrt(900 * 900);
+        double targetwidth = Math.sqrt(500 * 500);
         if (bitmap.getWidth() > targetwidth || bitmap.getHeight() > targetwidth) {
             // 创建操作图片用的matrix对象
             Matrix matrix = new Matrix();
@@ -103,7 +103,6 @@ public class PictureFragment extends DialogFragment {
         }
         return bitmap;
     }
-
     public static Bitmap compressImage(Bitmap image) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -197,6 +196,5 @@ public class PictureFragment extends DialogFragment {
             return Bitmap.createBitmap(src, 0, 0, width, height, matrix, true);
         }
     }
-
 
 }

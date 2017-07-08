@@ -2,9 +2,11 @@ package org.eenie.wgj.ui.workshow;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,8 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.requset.UserId;
-import org.eenie.wgj.model.response.UserInforById;
 import org.eenie.wgj.model.response.WorkShowList;
+import org.eenie.wgj.ui.message.GalleryActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 
@@ -42,27 +43,19 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class WorkShowListActivity extends BaseActivity {
+public class WorkShowListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.rl_first_img)
     RelativeLayout rlFirstImg;
-    @BindView(R.id.tv_name)
-    TextView tvName;
-    @BindView(R.id.img_crown)
-    ImageView imgCrown;
-    @BindView(R.id.img_avatar)
-    CircleImageView avatar;
-    @BindView(R.id.recycler_my_show)RecyclerView myRecyclerView;
-    @BindView(R.id.recycler_other_show)RecyclerView otherRecyclerView;
-    @BindView(R.id.img_background)ImageView imgBackground;
-    private String avatarUrl;
-    private String name;
-    private String token;
-
+    @BindView(R.id.swipe_refresh_list)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.recycler_work_show)
+    RecyclerView myRecyclerView;
+    @BindView(R.id.img_background)
+    ImageView imgBackground;
     private WorkShowAdapter myAdapter;
-    private WorkShowAdapter otherAdapter;
 
     @Override
     protected int getContentView() {
@@ -71,180 +64,101 @@ public class WorkShowListActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
-        myAdapter=new WorkShowAdapter(context,new ArrayList<>());
-        LinearLayoutManager layoutManagerMy = new LinearLayoutManager(context);
-        myRecyclerView.setLayoutManager(layoutManagerMy);
-        myRecyclerView.setAdapter(myAdapter);
-        otherAdapter=new WorkShowAdapter(context,new ArrayList<>());
+
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        myAdapter = new WorkShowAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        otherRecyclerView.setLayoutManager(layoutManager);
-        otherRecyclerView.setAdapter(otherAdapter);
-
-
+        myRecyclerView.setLayoutManager(layoutManager);
+        myRecyclerView.addItemDecoration(
+                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+        myRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        myRecyclerView.setAdapter(myAdapter);
 
     }
-    @OnClick({R.id.img_back,R.id.img_add_show})public void onClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.img_back, R.id.img_add_show})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.img_back:
-            onBackPressed();
+                onBackPressed();
                 break;
             case R.id.img_add_show:
-                startActivity(new Intent(context,AddWorkShowActivity.class));
-
+                startActivity(new Intent(context, AddWorkShowActivity.class));
                 break;
-
         }
     }
 
-
+    @Override
+    public void onRefresh() {
+        myAdapter.clear();
+        getWorkShowList();
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        getWorkShowList();
+        onRefresh();
+
     }
+
+    private void cancelRefresh() {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
     private void getWorkShowList() {
-        myAdapter.clear();
-        otherAdapter.clear();
-        mSubscription = mRemoteService.getWorkShowList(token)
+        mSubscription = mRemoteService.getWorkShowList(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
-
+                        cancelRefresh();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        cancelRefresh();
                     }
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
+                        cancelRefresh();
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             ArrayList<WorkShowList> mDataList = gson.fromJson(jsonArray,
                                     new TypeToken<ArrayList<WorkShowList>>() {
                                     }.getType());
-                            if (mDataList != null) {
+                            if (mDataList != null && !mDataList.isEmpty()) {
                                 rlFirstImg.setVisibility(View.VISIBLE);
-
-                                getUserInfo();
-                                ArrayList<WorkShowList> otherWorkShowList=new ArrayList<>();
-                                ArrayList<WorkShowList> myWorkShowList=new ArrayList<>();
-                                for (int i = 0; i < mDataList.size(); i++) {
-                                    if (mDataList.get(i).getRank()==1){
-                                        if (mDataList.get(i).getMyself()==1){
-                                            imgCrown.setVisibility(View.VISIBLE);
-                                        }else {
-                                            imgCrown.setVisibility(View.INVISIBLE);
-                                        }
-                                        if (mDataList.get(i).getExtra()!=null){
-                                            Glide.with(context).load(Constant.DOMIN +
-                                                    mDataList.get(i).getExtra().get(0).getImage()).
-                                                    centerCrop().into(imgBackground);
-                                        }
-
-
-                                    }
-
-                                    switch (mDataList.get(i).getMyself()) {
-                                        case 0:
-                                            otherWorkShowList.add(mDataList.get(i));
-                                            break;
-                                        case 1:
-                                            myWorkShowList.add(mDataList.get(i));
-
-                                            break;
-                                    }
-
-                                }
-                                if (myWorkShowList.size()>0){
-                                    myRecyclerView.setVisibility(View.VISIBLE);
-                                    if (myAdapter != null) {
-                                        myAdapter.clear();
-                                    }
-                                    myAdapter.addAll(myWorkShowList);
-
-                                }else {
-                                    myRecyclerView.setVisibility(View.GONE);
-                                }
-                                if (otherWorkShowList.size()>0){
-                                    if (otherAdapter!=null){
-                                     otherAdapter.clear();
-                                    }
-                                    otherAdapter.addAll(otherWorkShowList);
-                                    otherRecyclerView.setVisibility(View.VISIBLE);
-
-
-
-
-                                }else {
-                                    otherRecyclerView.setVisibility(View.GONE);
+                                if (mDataList.get(0).getExtra() != null && mDataList.get(0).getExtra().size() >= 1) {
+                                    Glide.with(context).load(Constant.DOMIN + mDataList.get(0).getExtra().get(0).getImage())
+                                            .centerCrop().into(imgBackground);
                                 }
 
-
+                                if (myAdapter != null) {
+                                    myAdapter.clear();
+                                }
+                                myAdapter.addAll(mDataList);
                             } else {
-
                                 rlFirstImg.setVisibility(View.GONE);
 
-
                             }
-                        }else {
+                        } else {
                             rlFirstImg.setVisibility(View.GONE);
-                            Toast.makeText(context,apiResponse.
-                                    getResultMessage(),Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(context, apiResponse.
+                                    getResultMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 });
     }
-
-    private void getUserInfo() {
-        UserId mUser = new UserId(mPrefsHelper.getPrefs().getString(Constants.UID, ""));
-        mSubscription = mRemoteService.getUserInfoById(token, mUser)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ApiResponse apiResponse) {
-                        Gson gson = new Gson();
-                        String jsonArray = gson.toJson(apiResponse.getData());
-                        UserInforById mData = gson.fromJson(jsonArray,
-                                new TypeToken<UserInforById>() {
-                                }.getType());
-                        if (mData != null) {
-                            name = mData.getName();
-                            avatarUrl = mData.getAvatar();
-                            tvName.setText(name);
-                            if (!TextUtils.isEmpty(avatarUrl)) {
-                                Glide.with(context).load(Constant.DOMIN +
-                                        avatarUrl).
-                                        centerCrop().into(avatar);
-                            }
-
-
-                        }
-                    }
-                });
-
-    }
-
-
 
     class WorkShowAdapter extends RecyclerView.Adapter<WorkShowAdapter.WorkShowViewHolder> {
         private Context context;
@@ -261,6 +175,7 @@ public class WorkShowListActivity extends BaseActivity {
             View itemView = inflater.inflate(R.layout.item_work_show, parent, false);
             return new WorkShowViewHolder(itemView);
         }
+
         public void addAll(ArrayList<WorkShowList> workShowList) {
             this.workShowList.addAll(workShowList);
             WorkShowAdapter.this.notifyDataSetChanged();
@@ -338,7 +253,7 @@ public class WorkShowListActivity extends BaseActivity {
                                             data.getExtra().get(1).getImage()).
                                             centerCrop().into(holder.imgSecond);
                                     break;
-                                case 3:
+                                default:
                                     holder.imgSecond.setVisibility(View.VISIBLE);
                                     holder.imgThird.setVisibility(View.VISIBLE);
                                     Glide.with(context).load(Constant.DOMIN +
@@ -407,6 +322,9 @@ public class WorkShowListActivity extends BaseActivity {
                 itemDate = ButterKnife.findById(itemView, R.id.item_date);
                 itemPraiseImg.setOnClickListener(this);
                 itemPraiseNumber.setOnClickListener(this);
+                imgFirst.setOnClickListener(this);
+                imgSecond.setOnClickListener(this);
+                imgThird.setOnClickListener(this);
 
             }
 
@@ -421,13 +339,54 @@ public class WorkShowListActivity extends BaseActivity {
                     case R.id.item_praise_img:
                         addPraise(mWorkShow);
                         break;
+                    case R.id.img_first:
+                        if (mWorkShow.getExtra() != null && !mWorkShow.getExtra().isEmpty()) {
+
+                            if (mWorkShow.getExtra().size() >= 1) {
+
+                                startActivity(
+                                        new Intent(context, GalleryActivity.class).
+                                                putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                                        Constant.DOMIN + mWorkShow.getExtra().get(0).getImage()));
+                            }
+                        }
+
+                        break;
+
+                    case R.id.img_second:
+                        if (mWorkShow.getExtra() != null && !mWorkShow.getExtra().isEmpty()) {
+
+                            if (mWorkShow.getExtra().size() >= 2) {
+
+                                startActivity(
+                                        new Intent(context, GalleryActivity.class).
+                                                putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                                        Constant.DOMIN + mWorkShow.getExtra().get(1).getImage()));
+                            }
+                        }
+
+                        break;
+
+                    case R.id.img_third:
+
+                        if (mWorkShow.getExtra() != null && !mWorkShow.getExtra().isEmpty()) {
+                            if (mWorkShow.getExtra().size() >= 3) {
+                                startActivity(
+                                        new Intent(context, GalleryActivity.class).
+                                                putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                                        Constant.DOMIN + mWorkShow.getExtra().
+                                                                get(2).getImage()));
+                            }
+                        }
+                        break;
                 }
             }
         }
     }
 
     private void addPraise(WorkShowList data) {
-        mSubscription=mRemoteService.thumbUp(token,data.getId())
+        mSubscription = mRemoteService.thumbUp(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
+                data.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -443,15 +402,14 @@ public class WorkShowListActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
-                            Toast.makeText(context,apiResponse.getResultMessage(),
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            Toast.makeText(context, apiResponse.getResultMessage(),
                                     Toast.LENGTH_SHORT).show();
-                            getWorkShowList();
+                            onRefresh();
 
-
-                        }else {
-                            Toast.makeText(context,apiResponse.getResultMessage(),Toast.LENGTH_SHORT).show();
-
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
 
                     }

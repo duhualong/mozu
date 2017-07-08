@@ -12,12 +12,15 @@ import org.eenie.wgj.di.component.DaggerApplicationComponent;
 import org.eenie.wgj.di.module.ApplicationModule;
 import org.eenie.wgj.ui.attendance.AttendanceActivity;
 import org.eenie.wgj.ui.attendancestatistics.AttendanceStatisticsActivity;
+import org.eenie.wgj.ui.meeting.MeetingSettingActivity;
 import org.eenie.wgj.ui.project.ProjectSettingActivity;
 import org.eenie.wgj.ui.reportpost.ReportPostSettingUploadActivity;
 import org.eenie.wgj.ui.reportpoststatistics.ReportPostStatisticsSettingActivity;
 import org.eenie.wgj.ui.routinginspection.RoutingInspectionActivity;
 import org.eenie.wgj.ui.routingstatistics.RoutingStatisticsSettingActivity;
 import org.eenie.wgj.ui.takephoto.TakePhotoSettingActivity;
+import org.eenie.wgj.ui.train.TrainStudySettingActivity;
+import org.eenie.wgj.ui.trainstatistic.TrainingStatisticSettingActivity;
 import org.eenie.wgj.ui.workshow.WorkShowListActivity;
 
 import java.util.ArrayList;
@@ -87,17 +90,18 @@ public class App extends Application {
             "ic_inspection_statistics", "巡检统计", false, 3, true));
     mModules.add(new HomeModule("ic_home_module_form_up", "表单上传", false, 4, true));
     mModules.add(new HomeModule("ic_visitor_pass", "访客通行", false, 5, true));
-    mModules.add(new HomeModule( "ic_meeting", "会议", false, 6, true));
+    mModules.add(new HomeModule(MeetingSettingActivity.class,"ic_meeting", "会议", false, 6, true));
     mModules.add(new HomeModule(ProjectSettingActivity.class,"ic_project_setting",
             "项目设置", false, 7, true));
     mModules.add(new HomeModule("ic_repair", "维修", false, 10, false));
-    mModules.add(new HomeModule( "ic_training", "培训", false, 11, false));
+    mModules.add(new HomeModule(TrainStudySettingActivity.class,"ic_training", "培训", false, 11, false));
     mModules.add(new HomeModule(WorkShowListActivity.class,"ic_work_show", "工作秀", false, 12, false));
     mModules.add(new HomeModule(ReportPostSettingUploadActivity.class,"ic_submitted_post", "报岗", false, 13, false));
     mModules.add(new HomeModule(ReportPostStatisticsSettingActivity.class,
             "ic_submitted_post_statistics", "报岗统计", false, 14, false));
     mModules.add(new HomeModule(TakePhotoSettingActivity.class,"ic_snapshot", "随手拍", false, 15, false));
-    mModules.add(new HomeModule("ic_training_statistics", "培训统计", false, 16, false));
+    mModules.add(new HomeModule(TrainingStatisticSettingActivity.class,
+            "ic_training_statistics", "培训统计", false, 16, false));
     realm.insertOrUpdate(mModules);
   }
 

@@ -418,9 +418,7 @@ public class AttendanceActivity extends BaseActivity {
 
                     } else {
                         Toast.makeText(context, "今日无考勤,无需签到", Toast.LENGTH_SHORT).show();
-
                     }
-
 
                 } else {
                     Toast.makeText(context, "本月无考勤", Toast.LENGTH_SHORT).show();

@@ -701,4 +701,19 @@
     <item name="rl_gradview" type="id"/>
     <item name="rl_attendance_sort" type="id"/>
     <item name="rl_post_training" type="id"/>
+    <item name="tv_pager" type="id"/>
+    <item name="rl_line_key" type="id"/>
+    <item name="rl_distance" type="id"/>
+    <item name="rl_launch_meeting" type="id"/>
+    <item name="rl_apply_meeting_class" type="id"/>
+    <item name="rl_meeting_arrange" type="id"/>
+    <item name="rl_meeting_feedback" type="id"/>
+    <item name="et_meeting_name" type="id"/>
+    <item name="et_meeting_address" type="id"/>
+    <item name="tv_master" type="id"/>
+    <item name="tv_record" type="id"/>
+    <item name="img_add" type="id"/>
+    <item name="recycler_work_show" type="id"/>
+    <item name="tv_start_time_one" type="id"/>
+
 </resources>

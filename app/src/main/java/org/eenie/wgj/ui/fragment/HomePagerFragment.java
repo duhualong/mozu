@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,6 +22,7 @@ import org.eenie.wgj.ui.reportpoststatistics.ReportPostStatisticsSettingActivity
 import org.eenie.wgj.ui.routinginspection.RoutingInspectionActivity;
 import org.eenie.wgj.ui.routingstatistics.RoutingStatisticsSettingActivity;
 import org.eenie.wgj.ui.train.TrainStudySettingActivity;
+import org.eenie.wgj.ui.trainstatistic.TrainingStatisticSettingActivity;
 import org.eenie.wgj.util.Constants;
 
 import java.text.SimpleDateFormat;
@@ -187,7 +187,7 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
                 break;
             case 5:
 
-                Toast.makeText(context,"开发中",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(context, TrainingStatisticSettingActivity.class));
 
                 break;
             case 6:

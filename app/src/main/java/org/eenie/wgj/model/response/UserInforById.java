@@ -74,6 +74,24 @@ public class UserInforById {
     private String employer;
     private String bank_card;
     private String security_card;
+    private String company_name;
+    private String project_name;
+
+    public String getProject_name() {
+        return project_name;
+    }
+
+    public void setProject_name(String project_name) {
+        this.project_name = project_name;
+    }
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
+    }
 
     public int getUser_id() {
         return user_id;

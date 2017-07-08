@@ -32,6 +32,7 @@ public interface ApplicationComponent {
   RemoteService webService();
   PreferencesHelper prefsHelper();
   HttpClient httpClient();
+
 //  UserDao userDao();
 //  WebView webView();
 }

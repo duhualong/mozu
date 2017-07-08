@@ -9,6 +9,9 @@ public interface Constants {
     String DATE_LIST="attendance_list";
     String DATE_THING_LIST="my_attendance_list";
     String TOKEN = "token";
+    String COMPANY_NAME="company";
+    String PROJECT_NAME="project";
+
     String IS_LOGIN = "is_login";
     String PHONE = "phone";
     String PASSWORD = "password";

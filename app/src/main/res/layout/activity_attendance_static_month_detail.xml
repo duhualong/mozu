@@ -81,18 +81,21 @@
                             android:id="@id/img_avatar_all_first"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
 
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_all_first_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_all_first"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_gold"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_gold"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
 
@@ -106,18 +109,21 @@
                             android:id="@id/img_avatar_all_second"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
 
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_all_second_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_all_second"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_silver"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_silver"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
 
@@ -132,17 +138,21 @@
                             android:id="@id/img_avatar_all_third"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
+
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_all_third_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_all_third"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_copper"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_copper"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
                     </RelativeLayout>
@@ -210,17 +220,21 @@
                             android:id="@id/img_avatar_team_first"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
+
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_team_first_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_team_first"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_gold"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_gold"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
 
@@ -234,18 +248,21 @@
                             android:id="@id/img_avatar_team_second"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
 
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_team_second_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_team_second"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_silver"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_silver"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
 
@@ -260,17 +277,21 @@
                             android:id="@id/img_avatar_team_third"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
+
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_team_third_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_team_third"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_copper"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_copper"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
                     </RelativeLayout>
@@ -337,17 +358,21 @@
                             android:id="@id/img_avatar_fighting_first"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
+
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_fighting_first_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_fighting_first"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_gold"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_gold"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
 
@@ -361,18 +386,21 @@
                             android:id="@id/img_avatar_fighting_second"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
 
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_fighting_second_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_fighting_second"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_silver"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_silver"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
 
@@ -387,17 +415,21 @@
                             android:id="@id/img_avatar_fighting_third"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
+                            android:layout_centerHorizontal="true"
+
                             android:src="@mipmap/ic_default_header"/>
                         <TextView android:id="@id/tv_fighting_third_gold"
                                   android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:layout_below="@id/img_avatar_fighting_third"
+                                  android:layout_centerHorizontal="true"
                                   android:layout_marginTop="4dp"
                                   android:drawableLeft="@mipmap/ic_copper"
                                   android:drawablePadding="2dp"
                                   android:drawableStart="@mipmap/ic_copper"
                                   android:gravity="center"
                                   android:text="测试"
+
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_large_size"/>
                     </RelativeLayout>
@@ -662,8 +694,8 @@
                                   android:layout_width="40dp"
                                   android:layout_height="wrap_content"
                                   android:layout_marginTop="5dp"
-                                  android:text="借调"
                                   android:gravity="center"
+                                  android:text="借调"
                                   android:textColor="@color/titleColor"
                                   android:textSize="@dimen/text_normal_size"/>
 

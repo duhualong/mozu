@@ -22,13 +22,15 @@
 
 
     </RelativeLayout>
-    <android.support.v4.widget.SwipeRefreshLayout android:id="@id/swipe_refresh_list"
-                                                  android:layout_width="match_parent"
-                                                  android:layout_height="match_parent"
-                                                  android:layout_marginTop="@dimen/padding_bottom">
-        <android.support.v7.widget.RecyclerView android:id="@id/recycler_sort"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@id/swipe_refresh_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/padding_bottom">
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/recycler_sort"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

@@ -173,6 +173,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
     RecyclerView mRecyclerViewContent;
 
     ArrayList<RoutingContentResponse> b = new ArrayList<>();
+
     @Override
     protected int getContentView() {
         return R.layout.activity_routing_point_upload;
@@ -180,6 +181,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
     @Override
     protected void updateUI() {
+
         checkLocationPermission();
         data = getIntent().getParcelableExtra(INFO);
         mLineId = getIntent().getStringExtra(LINE_ID);
@@ -259,19 +261,18 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                         Toast.makeText(context, "请至少上传一张巡检图片", Toast.LENGTH_SHORT).show();
                     } else {
                         if (TextUtils.isEmpty(mAddress) || mLat == 0) {
-                            Toast.makeText(context, "请打开GPS，" +
-                                    "允许获取定位信息", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "正在获取定位信息", Toast.LENGTH_SHORT).show();
                             mlocationClient.startLocation();
                         } else {
-                            boolean checked=true;
-                            if (!b.isEmpty()&&b.size()>0){
-                                for (int g=0;g<b.size();g++){
-                                    if (!b.get(g).isSelect()){
-                                        checked=false;
+                            boolean checked = true;
+                            if (!b.isEmpty() && b.size() > 0) {
+                                for (int g = 0; g < b.size(); g++) {
+                                    if (!b.get(g).isSelect()) {
+                                        checked = false;
                                     }
                                 }
                             }
-                            if (checked){
+                            if (checked) {
                                 AddRoutingContent request = new AddRoutingContent(1,
                                         Integer.valueOf(inspectiondayId), mAddress, mLong, mLat, 1);
 
@@ -279,8 +280,8 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                 addData(getMultipartBody(fileNortmal, fileAbnormal,
                                         new Gson().toJson(request), 1), mPrefsHelper.getPrefs().
                                         getString(Constants.TOKEN, ""));
-                           }else {
-                                Toast.makeText(context,"请勾选所有的巡检内容",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "请勾选所有的巡检内容", Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -329,15 +330,15 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                     AddRoutingContent.ErrorBean
                                             erroBean = new AddRoutingContent.ErrorBean(abnormalContent, userId);
 
-                                    boolean mchecked=true;
-                                    if (!b.isEmpty()&&b.size()>0){
-                                        for (int g=0;g<b.size();g++){
-                                            if (!b.get(g).isSelect()){
-                                                mchecked=false;
+                                    boolean mchecked = true;
+                                    if (!b.isEmpty() && b.size() > 0) {
+                                        for (int g = 0; g < b.size(); g++) {
+                                            if (!b.get(g).isSelect()) {
+                                                mchecked = false;
                                             }
                                         }
                                     }
-                                    if (mchecked){
+                                    if (mchecked) {
                                         AddRoutingContent request = new AddRoutingContent(0,
                                                 Integer.valueOf(inspectiondayId), mAddress, mLong, mLat, erroBean, 1);
 
@@ -345,8 +346,8 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                                 new Gson().toJson(request), 0), mPrefsHelper.getPrefs().
                                                 getString(Constants.TOKEN, ""));
 
-                                    }else {
-                                        Toast.makeText(context,"请勾选所以的巡检内容",Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(context, "请勾选所以的巡检内容", Toast.LENGTH_SHORT).show();
                                     }
 
 
@@ -576,6 +577,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
@@ -680,7 +682,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                             });
                     mThreeFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
 
-//                    firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
+//                      firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
 //                    firstFile=new File(firstPath);
 
                     break;

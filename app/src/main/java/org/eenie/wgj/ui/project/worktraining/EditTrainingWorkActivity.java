@@ -56,15 +56,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class EditTrainingWorkActivity extends BaseActivity {
-    private static final int REQUEST_CAMERA_FIRST=0x101;
-    private static final int REQUEST_CAMERA_SECOND=0x102;
-    private static final int REQUEST_CAMERA_THIRD=0x103;
-    private static final int REQUEST_PHOTO_FIRST=0x104;
-    private static final int REQUEST_PHOTO_SECOND=0x105;
-    private static final int REQUEST_PHOTO_THIRD=0x106;
-    private static final int RESPONSE_CODE_FIRST=0x107;
-    private static final int RESPONSE_CODE_SECOND=0x108;
-    private static final int RESPONSE_CODE_THIRD=0x109;
+    private static final int REQUEST_CAMERA_FIRST = 0x101;
+    private static final int REQUEST_CAMERA_SECOND = 0x102;
+    private static final int REQUEST_CAMERA_THIRD = 0x103;
+    private static final int REQUEST_PHOTO_FIRST = 0x104;
+    private static final int REQUEST_PHOTO_SECOND = 0x105;
+    private static final int REQUEST_PHOTO_THIRD = 0x106;
+    private static final int RESPONSE_CODE_FIRST = 0x107;
+    private static final int RESPONSE_CODE_SECOND = 0x108;
+    private static final int RESPONSE_CODE_THIRD = 0x109;
     public static final String INFO = "info";
     public static final String PROJECT_ID = "id";
     @BindView(R.id.root_view)
@@ -89,7 +89,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
     private File secondFile;
     private File thirdFile;
     List<File> files = new ArrayList<>();
-    List<String>imgPath=new ArrayList<>();
+    List<String> imgPath = new ArrayList<>();
 
     @Override
     protected int getContentView() {
@@ -112,31 +112,31 @@ public class EditTrainingWorkActivity extends BaseActivity {
                 mInputContent.setText(mContent);
             }
             if (lists.size() > 0) {
-                switch (lists.size()){
+                switch (lists.size()) {
                     case 1:
-                        firstPath=lists.get(0).getImage();
+                        firstPath = lists.get(0).getImage();
 
                         break;
                     case 2:
-                        firstPath=lists.get(0).getImage();
-                        secondPath=lists.get(1).getImage();
+                        firstPath = lists.get(0).getImage();
+                        secondPath = lists.get(1).getImage();
 
                         break;
                     case 3:
-                        firstPath=lists.get(0).getImage();
-                        secondPath=lists.get(1).getImage();
-                        thirdPath=lists.get(2).getImage();
+                        firstPath = lists.get(0).getImage();
+                        secondPath = lists.get(1).getImage();
+                        thirdPath = lists.get(2).getImage();
 
 
                         break;
                 }
-                if (lists.size()<=3){
+                if (lists.size() <= 3) {
                     for (int i = 0; i < lists.size(); i++) {
 
                         int finalI = i;
                         new Thread() {
                             public void run() {
-                                downloadImg(lists.get(finalI).getImage(),finalI);
+                                downloadImg(lists.get(finalI).getImage(), finalI);
                             }
                         }.start();
 
@@ -147,13 +147,13 @@ public class EditTrainingWorkActivity extends BaseActivity {
                                 .centerCrop().into(imgList.get(i));
 
                     }
-                }else {
+                } else {
                     for (int i = 0; i < 3; i++) {
 
                         int finalI = i;
                         new Thread() {
                             public void run() {
-                                downloadImg(lists.get(finalI).getImage(),finalI);
+                                downloadImg(lists.get(finalI).getImage(), finalI);
                             }
                         }.start();
 
@@ -166,7 +166,6 @@ public class EditTrainingWorkActivity extends BaseActivity {
                     }
 
                 }
-
 
 
             }
@@ -179,36 +178,34 @@ public class EditTrainingWorkActivity extends BaseActivity {
     @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
     public void onClick(View view) {
         mContent = mInputContent.getText().toString();
-        mTitleName=mInputTitle.getText().toString();
+        mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.tv_save:
-                if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName))
+                if (!TextUtils.isEmpty(mContent) && !TextUtils.isEmpty(mTitleName))
 
 
-                    if (firstFile!=null){
-                        files.add(0,firstFile);
+                    if (firstFile != null) {
+                        files.add(0, firstFile);
                     }
-                if (secondFile!=null){
-                    files.add(1,secondFile);
+                if (secondFile != null) {
+                    files.add(1, secondFile);
                 }
-                if (thirdFile!=null){
-                    files.add(2,thirdFile);
+                if (thirdFile != null) {
+                    files.add(2, thirdFile);
                 }
-                if (files!=null){
+                if (files != null) {
                     new Thread() {
                         public void run() {
-                            editData(getMultipartBody(files,mProjectId,mTitleName,mContent,mId+""),
-                                    mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
+                            editData(getMultipartBody(files, mProjectId, mTitleName, mContent, mId + ""),
+                                    mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
                         }
                     }.start();
 
                 }
-
-
 
 
 //                ExchangeWorkList list=new ExchangeWorkList(1,"s","s",lists);
@@ -219,22 +216,23 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
 
                 break;
         }
     }
-    private void showUploadDialog(int camera,int photo) {
+
+    private void showUploadDialog(int camera, int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
@@ -282,11 +280,35 @@ public class EditTrainingWorkActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), "a.jpg");
-        UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(100, 100)
-                .start(EditTrainingWorkActivity.this, requestCode);
+        switch (requestCode) {
+            case RESPONSE_CODE_FIRST:
+
+                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFile))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(EditTrainingWorkActivity.this, requestCode);
+                break;
+
+            case RESPONSE_CODE_SECOND:
+                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(EditTrainingWorkActivity.this, requestCode);
+
+                break;
+            case RESPONSE_CODE_THIRD:
+                File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+                UCrop.of(resUri, Uri.fromFile(mCropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(EditTrainingWorkActivity.this, requestCode);
+
+                break;
+
+        }
+
     }
 
     @Override
@@ -312,9 +334,8 @@ public class EditTrainingWorkActivity extends BaseActivity {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
 
                             });
-                    firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    firstFile=new File(firstPath);
-
+                    firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    firstFile = new File(firstPath);
 
 
                     break;
@@ -337,8 +358,8 @@ public class EditTrainingWorkActivity extends BaseActivity {
                                 imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
 
                             });
-                    secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    secondFile=new File(secondPath);
+                    secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    secondFile = new File(secondPath);
 
 
                     break;
@@ -362,12 +383,8 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
 
                             });
-                    thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    thirdFile=new File(thirdPath);
-
-
-
-//                    }
+                    thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    thirdFile = new File(thirdPath);
 
                     break;
             }
@@ -375,7 +392,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void editData(RequestBody body, String token){
+    private void editData(RequestBody body, String token) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -383,14 +400,12 @@ public class EditTrainingWorkActivity extends BaseActivity {
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
 
 
-
-
-        Call<ApiResponse> call = userBiz.editTrainingWork(token,body);
+        Call<ApiResponse> call = userBiz.editTrainingWork(token, body);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                Log.d("tag:", "onResponse: "+response.code());
-                if (response.body().getResultCode()==0||response.body().getResultCode()==200){
+                Log.d("tag:", "onResponse: " + response.code());
+                if (response.body().getResultCode() == 0 || response.body().getResultCode() == 200) {
                     //会调数据
 
 //                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
@@ -417,25 +432,27 @@ public class EditTrainingWorkActivity extends BaseActivity {
             }
         });
     }
-    public static MultipartBody getMultipartBody(List<File> files,String projectId,String title,
-                                                 String content,String id){
-        MultipartBody.Builder builder=new MultipartBody.Builder();
-        for (int i=0;i<files.size();i++){
-            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),
+
+    public static MultipartBody getMultipartBody(List<File> files, String projectId, String title,
+                                                 String content, String id) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        for (int i = 0; i < files.size(); i++) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
                     files.get(i));
-            builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
+            builder.addFormDataPart("image[]", files.get(i).getName(), requestBody);
 
         }
-        builder.addFormDataPart("projectid",projectId);
-        builder.addFormDataPart("trainingname",title);
-        builder.addFormDataPart("trainingcontent",content);
-        builder.addFormDataPart("id",id);
+        builder.addFormDataPart("projectid", projectId);
+        builder.addFormDataPart("trainingname", title);
+        builder.addFormDataPart("trainingcontent", content);
+        builder.addFormDataPart("id", id);
         builder.setType(MultipartBody.FORM);
         return builder.build();
     }
+
     //下载
-    private void downloadImg(String imgUrl,int position) {
-        OkHttpUtils.get().url(Constant.DOMIN+imgUrl)
+    private void downloadImg(String imgUrl, int position) {
+        OkHttpUtils.get().url(Constant.DOMIN + imgUrl)
                 .build()
                 .execute(new FileCallBack(Environment.getExternalStorageDirectory().
                         getAbsolutePath(), "a.jpg") {
@@ -446,22 +463,22 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(File response, int id) {
-                        System.out.println("response"+response.length());
-                        switch (position){
+                        System.out.println("response" + response.length());
+                        switch (position) {
                             case 0:
-                                firstFile=response;
+                                firstFile = response;
 
                                 break;
                             case 1:
-                                secondFile=response;
+                                secondFile = response;
 
                                 break;
                             case 2:
-                                thirdFile=response;
+                                thirdFile = response;
                                 break;
 
                         }
-                        System.out.println("fileName:"+response.getName());
+                        System.out.println("fileName:" + response.getName());
 
 
                     }

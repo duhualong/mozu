@@ -1,7 +1,9 @@
 package org.eenie.wgj.ui.train;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,6 +40,8 @@ public class TrainStudySettingActivity extends BaseActivity {
     CircularProgressBar mProRate2;
     @BindView(R.id.tv_rate2)
     TextView mTvRate2;
+    private TrainingContentResponse mTrainingPost;
+    private TrainingContentResponse mTrainingKeyPersonal;
 
     @Override
     protected int getContentView() {
@@ -71,6 +75,7 @@ public class TrainStudySettingActivity extends BaseActivity {
 
                                 if (mData!=null){
                                     if (mData.size()>=1){
+                                        mTrainingKeyPersonal=mData.get(0);
                                         if (mData.get(0).getSchedule()>0&&mData.get(0).getSchedule()<1){
                                             mProRate.setProgress(1);
 
@@ -81,6 +86,7 @@ public class TrainStudySettingActivity extends BaseActivity {
                                         mTvRate.setText(mData.get(0).getSchedule()+"%");
                                     }
                                     if (mData.size()>=2){
+                                        mTrainingPost=mData.get(1);
                                         if (mData.get(1).getSchedule()>0&&mData.get(1).getSchedule()<1){
                                             mProRate2.setProgress(1);
 
@@ -88,7 +94,6 @@ public class TrainStudySettingActivity extends BaseActivity {
                                             mProRate2.setProgress((int) mData.get(1).getSchedule());
 
                                         }
-
                                         mTvRate2.setText(mData.get(1).getSchedule()+"%");
                                     }
                                 }
@@ -108,10 +113,33 @@ public class TrainStudySettingActivity extends BaseActivity {
 
                 break;
             case R.id.rl_key_personal:
+                if (mTrainingKeyPersonal!=null){
+                    if (mTrainingKeyPersonal.getTotalpage()>0){
+                        startActivity(new Intent(context, TrainingKeyPersonalActivity.class)
+                                .putExtra("curPage", mTrainingKeyPersonal.getCurrentpage())
+                                .putExtra("maxPage", mTrainingKeyPersonal.getTotalpage()));
+
+                    }else {
+                        Toast.makeText(context,"当前没有关键人物可以学习",Toast.LENGTH_SHORT).show();
+
+                    }
+                }
 
 
                 break;
             case R.id.rl_post_training:
+                if (mTrainingPost!=null){
+                    if (mTrainingPost.getTotalpage()>0){
+                        startActivity(new Intent(context, TrainingPostActivity.class)
+                                .putExtra("curPage", mTrainingPost.getCurrentpage())
+                                .putExtra("maxPage", mTrainingPost.getTotalpage()));
+                    }else {
+                        Toast.makeText(context,"当前没有岗位可以学习",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
 
 
                 break;

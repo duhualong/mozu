@@ -3,10 +3,8 @@ package org.eenie.wgj.ui.attendance.sign;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -50,7 +48,6 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -194,11 +191,10 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
     public  MultipartBody getMultipartBody(String path,String mLong,String mLat, int type, int serviceId,
                                                  String address, String content) {
         File file = new File(path);
-        System.out.println("上传文件的大小："+file.length());
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
-                compressior(file));
+                file);
         builder.addFormDataPart("image", file.getName(), requestBody);
         builder.addFormDataPart("longitude", mLong)
                 .addFormDataPart("latitude", mLat)
@@ -210,17 +206,7 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         return builder.build();
     }
 
-    public  File compressior(File file) {
-        return new Compressor.Builder(AttendanceTestSignInActivity.this)
-                .setMaxWidth(900)
-                .setMaxHeight(900)
-                .setQuality(75)
-                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
-                .build()
-                .compressToFile(file);
-    }
+
     private void signIn(RequestBody requestBody) {
         mButton.setClickable(false);
         Retrofit retrofit = new Retrofit.Builder()

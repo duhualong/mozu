@@ -10,11 +10,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.alert.AttendanceAlert;
+import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
+import org.eenie.wgj.util.Constants;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Eenie on 2017/5/2 at 14:34
@@ -29,6 +38,9 @@ public class AttendanceWorkActivity extends BaseActivity {
     TextView endtime;
     @BindView(R.id.checkbox_attendance)
     CheckBox checkBoxAttendance;
+    String mStartTime;
+    String mEndTime;
+
 
     @Override
     protected int getContentView() {
@@ -37,7 +49,67 @@ public class AttendanceWorkActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        getAttendanceData();
 
+
+    }
+
+    private void getAttendanceData() {
+
+        mSubscription=mRemoteService.getAttendanceAlert(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                            if (apiResponse.getData()!=null){
+                                Gson gson=new Gson();
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                AttendanceAlert mData = gson.fromJson(jsonArray,
+                                        new TypeToken<AttendanceAlert>() {
+                                        }.getType());
+                                if (mData!=null){
+                                    if (mData.getStart()!=null&&!mData.getStart().isEmpty()){
+                                        if (mData.getStart().length()>=6){
+                                            mStartTime=mData.getStart().substring(0,5);
+                                        }else {
+                                            mStartTime=mData.getStart().substring(0,5);
+                                        }
+                                        starttime.setText(mStartTime);
+                                        starttime.setTextColor(ContextCompat.getColor
+                                                (context, R.color.titleColor));
+
+                                    }
+
+                                    if (mData.getEnd()!=null&&!mData.getEnd().isEmpty()){
+                                        if (mData.getEnd().length()>=6){
+                                            mEndTime=mData.getEnd().substring(0,5);
+                                        }else {
+                                            mEndTime=mData.getEnd();
+                                        }
+                                        endtime.setText(mEndTime);
+                                        endtime.setTextColor(ContextCompat.getColor
+                                                (context, R.color.titleColor));
+                                    }
+
+                                    if (mData.getOpen()==0){
+                                        checkBoxAttendance.setChecked(false);
+                                    }else {
+                                        checkBoxAttendance.setChecked(true);
+                                    }
+
+                                }
+
+                            }
+
+                        }else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                });
     }
 
     @OnClick({R.id.img_back, R.id.checkbox_attendance, R.id.tv_save,
@@ -67,7 +139,6 @@ public class AttendanceWorkActivity extends BaseActivity {
                 break;
             case R.id.tv_save:
                 showSuccessDialog();
-
                 break;
 
 
@@ -102,6 +173,11 @@ public class AttendanceWorkActivity extends BaseActivity {
         Button subMinute = (Button) dialog.getWindow().findViewById(R.id.btn_subtract_minute);
         EditText editMinute = (EditText) dialog.getWindow().findViewById(R.id.edit_minute);
         Button btnOk = (Button) dialog.getWindow().findViewById(R.id.btn_ok);
+        if (!TextUtils.isEmpty(mEndTime)){
+            editHour.setText(mEndTime.substring(0,2));
+            editMinute.setText(mEndTime.substring(3,5));
+
+        }
 
 
         addHour.setOnClickListener(v -> {
@@ -228,6 +304,11 @@ public class AttendanceWorkActivity extends BaseActivity {
         Button subMinute = (Button) dialog.getWindow().findViewById(R.id.btn_subtract_minute);
         EditText editMinute = (EditText) dialog.getWindow().findViewById(R.id.edit_minute);
         Button btnOk = (Button) dialog.getWindow().findViewById(R.id.btn_ok);
+        if (!TextUtils.isEmpty(mStartTime)){
+            editHour.setText(mStartTime.substring(0,2));
+            editMinute.setText(mStartTime.substring(3,5));
+
+        }
 
 
         addHour.setOnClickListener(v -> {
@@ -336,5 +417,6 @@ public class AttendanceWorkActivity extends BaseActivity {
 
         });
     }
+
 
 }

@@ -18,11 +18,11 @@
         >
             <ImageView
                 android:id="@id/img_scan"
-                android:padding="5dp"
+                android:padding="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start|left"
-                android:visibility="gone"
+                android:visibility="invisible"
              android:src="@mipmap/ic_home_topbar_scan"
             />
             <TextView
@@ -30,9 +30,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+               android:textSize="@dimen/text_title_size"
+                android:lines="1"
+                android:ellipsize="end"
+                android:maxLength="12"
                 android:textColor="@color/white"
-                tools:text="@string/tv_title"
                 android:clickable="false"
             />
             <TextView android:id="@id/tv_search"
@@ -40,10 +42,10 @@
                       android:layout_height="match_parent"
                       android:layout_gravity="end|right"
                       android:textColor="@color/white"
-                      android:padding="5dp"
+                      android:padding="3dp"
                       android:gravity="center"
-                      android:visibility="gone"
-                      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                      android:visibility="invisible"
+                      android:textSize="@dimen/text_title_size"
                       android:layout_marginEnd="5dp"
                       android:layout_marginRight="5dp"
                       android:text="@string/tv_search"/>

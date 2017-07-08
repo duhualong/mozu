@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="发起会议"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@+id/text"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="会议名称"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <EditText
+                    android:id="@id/et_meeting_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/text"
+                    android:layout_marginBottom="@dimen/dp_14"
+                    android:layout_marginLeft="@dimen/dp_14"
+                    android:layout_marginRight="@dimen/dp_14"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:background="@mipmap/handover_edit_bg"
+                    android:gravity="center_vertical"
+                    android:hint="如：月度例会"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:padding="@dimen/dp_10"
+                    android:textColor="@color/titleColor"
+                    android:textColorHint="@color/gray"
+                    android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@+id/text1"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="会议名称"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <EditText
+                    android:id="@id/et_meeting_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/text1"
+                    android:layout_marginBottom="@dimen/dp_14"
+                    android:layout_marginLeft="@dimen/dp_14"
+                    android:layout_marginRight="@dimen/dp_14"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:background="@mipmap/handover_edit_bg"
+                    android:gravity="center_vertical"
+                    android:hint="如：永嘉路36号"
+                    android:lines="1"
+                    android:padding="@dimen/dp_10"
+                    android:textColor="@color/titleColor"
+                    android:textColorHint="@color/gray"
+                    android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_bottom"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@+id/tv_routing_status"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="会议时间"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <CheckBox
+                    android:id="@id/checkbox_select_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/padding_bottom"
+                    android:layout_marginLeft="@dimen/padding_longer"
+                    android:layout_marginRight="@dimen/padding_bottom"
+                    android:layout_marginStart="@dimen/padding_longer"
+                    android:layout_toEndOf="@+id/tv_routing_status"
+                    android:layout_toRightOf="@+id/tv_routing_status"
+                    android:button="@drawable/checkbox_meeting_background"
+                    android:checked="false"
+                />
+                <TextView android:id="@+id/tv_normal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:layout_toEndOf="@id/checkbox_select_normal"
+                          android:layout_toRightOf="@id/checkbox_select_normal"
+                          android:text="每天"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <CheckBox
+                    android:id="@id/checkbox_select_abnormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/padding_bottom"
+                    android:layout_marginLeft="@dimen/padding_longer"
+                    android:layout_marginRight="@dimen/padding_bottom"
+                    android:layout_marginStart="@dimen/padding_longer"
+                    android:layout_toEndOf="@+id/tv_normal"
+                    android:layout_toRightOf="@+id/tv_normal"
+                    android:button="@drawable/checkbox_meeting_background"
+                    android:checked="false"
+                />
+                <TextView android:id="@+id/tv_abnormal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:layout_toEndOf="@id/checkbox_select_abnormal"
+                          android:layout_toRightOf="@id/checkbox_select_abnormal"
+                          android:text="单次"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10">
+
+
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/handover_edit_bg"
+                    android:gravity="center"
+                    android:text="开始时间"
+                    android:textColor="@color/black_light"
+                    android:textSize="@dimen/text_large_size"/>
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="36dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="36dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/handover_edit_bg"
+                    android:gravity="center"
+                    android:text="结束时间"
+                    android:textColor="@color/black_light"
+                    android:textSize="@dimen/text_large_size"/>
+            </LinearLayout>
+
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_bottom"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="主持人"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <TextView android:id="@id/tv_master"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_nor"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去选择"
+                          android:textColor="@color/text_blue"
+                          android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="记录人"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <TextView android:id="@id/tv_record"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_nor"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去选择"
+                          android:textColor="@color/text_blue"
+                          android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="参会人"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <ImageView android:id="@id/img_add"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentEnd="true"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:src="@mipmap/ic_add_item"
+                />
+
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_bottom"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

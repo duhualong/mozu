@@ -4,6 +4,7 @@ package org.eenie.wgj;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +14,9 @@ import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceListResponse;
+import org.eenie.wgj.model.response.UserInforById;
 import org.eenie.wgj.ui.contacts.FragmentContact;
 import org.eenie.wgj.ui.fragment.ApplyPagerFragment;
 import org.eenie.wgj.ui.fragment.HomePagerFragment;
@@ -34,9 +37,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
-    private static final String[] titles = {"上海宏伊置业有限公司", "通讯录", "消息中心", "应用", "我的"};
+    private static final String[] titles = {"上海优驰保安服务有限公司", "通讯录", "消息中心", "应用", "我的"};
     private static final int NAVIGATOR_COUNT = 5;
-    private static final String TAG ="MainActivity" ;
+    private static final String TAG = "MainActivity";
     int[] navigatorMipmapNormal = {R.mipmap.ic_home_bottom_tab_main,
             R.mipmap.ic_home_bottom_tab_contact, R.mipmap.ic_home_bottom_tab_unselected_msg,
             R.mipmap.ic_home_bottom_tab_app, R.mipmap.ic_home_bottom_tab_me};
@@ -44,8 +47,10 @@ public class MainActivity extends BaseActivity {
             R.mipmap.ic_home_bottom_tab_contact_selected, R.mipmap.ic_home_bottom_tab_msg,
             R.mipmap.ic_home_bottom_tab_app_selected, R.mipmap.ic_home_bottom_tab_me_selected
     };
-    @BindView(R.id.img_scan)ImageView imgScan;
-    @BindView(R.id.tv_search)TextView search;
+    @BindView(R.id.img_scan)
+    ImageView imgScan;
+    @BindView(R.id.tv_search)
+    TextView search;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.img_message)
@@ -66,6 +71,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        initPersonalInfo();
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("");
@@ -77,6 +83,55 @@ public class MainActivity extends BaseActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.main_container, new HomePagerFragment()).commit();
+
+
+    }
+
+    private void initPersonalInfo() {
+
+        UserId mUser = new UserId(mPrefsHelper.getPrefs().getString(Constants.UID, ""));
+        mSubscription = mRemoteService.getUserInfoById(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), mUser)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(apiResponse.getData());
+                        UserInforById mData = gson.fromJson(jsonArray,
+                                new TypeToken<UserInforById>() {
+                                }.getType());
+                        if (mData != null) {
+                            if (!mData.getCompany_name().isEmpty() && mData.getCompany_name() != null) {
+                                mPrefsHelper.getPrefs().edit().putString(Constants.COMPANY_NAME,
+                                        mData.getCompany_name()).apply();
+                            } else {
+                                mPrefsHelper.getPrefs().edit().putString(Constants.COMPANY_NAME,
+                                        "").apply();
+                            }
+                            if (!mData.getProject_name().isEmpty() && mData.getProject_name() != null) {
+                                mPrefsHelper.getPrefs().edit().putString(Constants.PROJECT_NAME,
+                                        mData.getProject_name()).apply();
+                            } else {
+                                mPrefsHelper.getPrefs().edit().putString(Constants.PROJECT_NAME,
+                                        "").apply();
+                            }
+
+
+                        }
+                    }
+                });
 
 
     }
@@ -107,13 +162,13 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        Gson gson=new Gson();
+                        Gson gson = new Gson();
                         if (apiResponse.getResultCode() == 200 ||
                                 apiResponse.getResultCode() == 0) {
                             if (apiResponse.getData() != null) {
 
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                ArrayList<AttendanceListResponse>  attendanceResponse =
+                                ArrayList<AttendanceListResponse> attendanceResponse =
                                         gson.fromJson(jsonArray,
                                                 new TypeToken<ArrayList<AttendanceListResponse>>() {
                                                 }.getType());
@@ -127,21 +182,21 @@ public class MainActivity extends BaseActivity {
                                                 getServicesname());
                                     }
                                     mPrefsHelper.getPrefs().edit().
-                                            putString(Constants.DATE_LIST,gson.toJson(mList))
-                                            .putString(Constants.DATE_THING_LIST,gson.toJson(mLists))
+                                            putString(Constants.DATE_LIST, gson.toJson(mList))
+                                            .putString(Constants.DATE_THING_LIST, gson.toJson(mLists))
                                             .apply();
 
-                                }else {
+                                } else {
                                     mPrefsHelper.getPrefs().edit().
-                                            putString(Constants.DATE_LIST,"")
-                                            .putString(Constants.DATE_THING_LIST,"")
+                                            putString(Constants.DATE_LIST, "")
+                                            .putString(Constants.DATE_THING_LIST, "")
                                             .apply();
                                 }
                             }
-                        }else {
+                        } else {
                             mPrefsHelper.getPrefs().edit().
-                                    putString(Constants.DATE_LIST,"")
-                                    .putString(Constants.DATE_THING_LIST,"")
+                                    putString(Constants.DATE_LIST, "")
+                                    .putString(Constants.DATE_THING_LIST, "")
                                     .apply();
 
                         }
@@ -152,12 +207,12 @@ public class MainActivity extends BaseActivity {
 
     private void refreshNavigator() {
         for (int i = 0; i < NAVIGATOR_COUNT; i++) {
-            if (i!=2) {
+            if (i != 2) {
 
                 bottomText.get(i).
                         setCompoundDrawablesWithIntrinsicBounds(0, navigatorMipmapNormal[i], 0, 0);
 
-            }else {
+            } else {
                 imgMessage.setImageResource(R.mipmap.ic_home_bottom_tab_unselected_msg);
             }
             bottomText.get(i).setTextColor(ContextCompat.
@@ -177,27 +232,35 @@ public class MainActivity extends BaseActivity {
         bottomText.get(index).setTextColor(ContextCompat.getColor
                 (MainActivity.this, R.color.colorAccent));
 
+        if (index == 0) {
+            if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.COMPANY_NAME, ""))) {
+                mPageTitleView.setText(mPrefsHelper.getPrefs().getString(Constants.COMPANY_NAME, ""));
+            } else {
+                mPageTitleView.setText("未加入公司");
+            }
 
-        mPageTitleView.setText(titles[index]);
+        } else {
+            mPageTitleView.setText(titles[index]);
+
+        }
         refreshTop(index);
 
     }
 
     private void refreshTop(int index) {
         if (index == 0) {
-        imgScan.setVisibility(View.VISIBLE);
+            imgScan.setVisibility(View.VISIBLE);
             search.setVisibility(View.VISIBLE);
             search.setText("搜索");
 
         } else {
-            if (index==3){
+            if (index == 3) {
                 search.setVisibility(View.VISIBLE);
                 search.setText("编辑");
-            }else {
+            } else {
                 search.setVisibility(View.GONE);
             }
             imgScan.setVisibility(View.GONE);
-
 
 
         }
@@ -263,7 +326,6 @@ public class MainActivity extends BaseActivity {
         setCurrentPager(pageIndex);
         setCurrentNavigator(pageIndex);
     }
-
 
 
 }

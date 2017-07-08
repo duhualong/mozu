@@ -7,14 +7,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.alert.ReportAlert;
+import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
+import org.eenie.wgj.util.Constants;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Eenie on 2017/5/3 at 16:09
@@ -29,6 +39,9 @@ public class RountingWorkActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView title;
     @BindView(R.id.tv_attendance)TextView tvAlert;
+    @BindView(R.id.rl_set_end_time)RelativeLayout mRelativeLayout;
+    @BindView(R.id.tv_start_time_one)TextView tvStartReportTime;
+    String time;
     @Override
     protected int getContentView() {
         return R.layout.activity_attendance_alert;
@@ -38,6 +51,54 @@ public class RountingWorkActivity extends BaseActivity {
     protected void updateUI() {
         title.setText(R.string.routing_alert);
         tvAlert.setText("开启巡检提醒");
+        mRelativeLayout.setVisibility(View.GONE);
+        tvStartReportTime.setText("巡检提醒时间");
+
+        getRoutingData();
+    }
+
+    private void getRoutingData() {
+
+        mSubscription=mRemoteService.getRoutingAlert(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                            Gson gson=new Gson();
+                            String jsonArray = gson.toJson(apiResponse.getData());
+                            ReportAlert mData = gson.fromJson(jsonArray,
+                                    new TypeToken<ReportAlert>() {
+                                    }.getType());
+                            if (mData!=null){
+                                if (mData.getTime()!=null&&!mData.getTime().isEmpty()){
+                                    if (mData.getTime().length()>=6){
+                                        time=mData.getTime().substring(0,5);
+                                    }else {
+                                        time=mData.getTime().substring(0,5);
+                                    }
+                                    startTime.setText(time);
+                                    startTime.setTextColor(ContextCompat.getColor
+                                            (context, R.color.titleColor));
+
+                                }
+                                if (mData.getOpen()==0){
+                                    checkBoxAttendance.setChecked(false);
+                                }else {
+                                    checkBoxAttendance.setChecked(true);
+                                }
+
+                            }
+
+                        }else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
     }
 
     @OnClick({R.id.img_back, R.id.checkbox_attendance, R.id.tv_save,
@@ -228,6 +289,10 @@ public class RountingWorkActivity extends BaseActivity {
         EditText editMinute = (EditText) dialog.getWindow().findViewById(R.id.edit_minute);
         Button btnOk = (Button) dialog.getWindow().findViewById(R.id.btn_ok);
 
+        if (!TextUtils.isEmpty(time)){
+            editHour.setText(time.substring(0,2));
+            editMinute.setText(time.substring(3,5));
+        }
 
         addHour.setOnClickListener(v -> {
             String hour = editHour.getText().toString();

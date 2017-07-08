@@ -130,7 +130,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
     private void getProjectTime(String projectId, String date) {
 
         mSubscription = mRemoteService.getProjectTotalTime(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),projectId,date)
+                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), projectId, date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -174,16 +174,27 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 onBackPressed();
                 break;
             case R.id.setting_tv:
-
+                boolean checkDate = true;
                 ArrayList<String> dates = new ArrayList<>();
-                for (int i = 0; i < mCalendarView.getSelectedCells().size(); i++) {
-                    dates.add(new SimpleDateFormat("yyyy-MM-dd").
-                            format(mCalendarView.getSelectedCells().get(i).getTime()));
-                    Log.d("日历", "选择: " + new SimpleDateFormat("yyyy-MM-dd").format(mCalendarView.getSelectedCells().get(i).getTime()));
+                if (mCalendarView.getSelectedCells() != null) {
+
+                    for (int i = 0; i < mCalendarView.getSelectedCells().size(); i++) {
+
+                        Log.d("日历", "选择: " + new SimpleDateFormat("yyyy-MM-dd").format(mCalendarView.getSelectedCells().get(i).getTime()));
+
+
+                        dates.add(new SimpleDateFormat("yyyy-MM-dd").
+                                format(mCalendarView.getSelectedCells().get(i).getTime()));
+                    }
+
+
+                    if (dates.size() > 0 && dates.size() == mCalendarView.getSelectedCells().size()) {
+                        getData(dates);
+                    }
+                } else {
+                    Toast.makeText(context, "选择的日期不能为空", Toast.LENGTH_SHORT).show();
                 }
-                if (dates.size() > 0) {
-                    getData(dates);
-                }
+
                 break;
             case R.id.btnPri:
                 mCalendarView.prevMonth();
@@ -197,6 +208,26 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 break;
         }
     }
+
+    public static boolean isDateOneBigger(String str1, String str2) {
+        boolean isBigger = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt1 = null;
+        Date dt2 = null;
+        try {
+            dt1 = sdf.parse(str1);
+            dt2 = sdf.parse(str2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dt1.getTime() >= dt2.getTime()) {
+            isBigger = true;
+        } else if (dt1.getTime() < dt2.getTime()) {
+            isBigger = false;
+        }
+        return isBigger;
+    }
+
 
     private void getData(ArrayList<String> date) {
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
@@ -260,15 +291,18 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
 
-        dialog.getWindow().findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < date.size(); i++) {
+        dialog.getWindow().findViewById(R.id.btn_save).setOnClickListener(v -> {
+            for (int i = 0; i < date.size(); i++) {
+
+                boolean checkDate = isDateOneBigger(date.get(i), new SimpleDateFormat("yyyy-MM-dd").
+                        format(Calendar.getInstance().getTime()));
+                if (checkDate) {
                     addProjectTime(data, date.get(i));
                 }
 
-                dialog.dismiss();
             }
+
+            dialog.dismiss();
         });
 
 
@@ -369,13 +403,29 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
         dialog.getWindow().findViewById(R.id.btn_delete).setOnClickListener(v -> {
-            deleteProjectTime(serviceId);
+            boolean checkDate = isDateOneBigger(date, new SimpleDateFormat("yyyy-MM-dd").
+                    format(Calendar.getInstance().getTime()));
+
+            if (checkDate) {
+                deleteProjectTime(serviceId);
+            } else {
+                Toast.makeText(context, "过去的日期不能删除工时", Toast.LENGTH_SHORT).show();
+
+            }
+
             dialog.dismiss();
         });
         dialog.getWindow().findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addProjectTime(data, date);
+                boolean checkDate = isDateOneBigger(date, new SimpleDateFormat("yyyy-MM-dd").
+                        format(Calendar.getInstance().getTime()));
+                if (checkDate) {
+                    addProjectTime(data, date);
+
+                } else {
+                    Toast.makeText(context, "过去的日期不能修改工时", Toast.LENGTH_SHORT).show();
+                }
                 dialog.dismiss();
             }
         });
@@ -404,6 +454,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                     public void onCompleted() {
 
                     }
+
                     @Override
                     public void onError(Throwable e) {
 
@@ -558,7 +609,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 mCheckBox = ButterKnife.findById(itemView, R.id.checkbox_password_remember);
                 itemName = ButterKnife.findById(itemView, R.id.item_name);
                 etNumber = ButterKnife.findById(itemView, R.id.btn_number);
-                mRelativeLayout=ButterKnife.findById(itemView,R.id.rl_select_class_date);
+                mRelativeLayout = ButterKnife.findById(itemView, R.id.rl_select_class_date);
                 mCheckBox.setOnClickListener(this);
                 mRelativeLayout.setOnClickListener(this);
                 etNumber.addTextChangedListener(new TextWatcher() {

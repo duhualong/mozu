@@ -572,6 +572,26 @@ public interface RemoteService {
     //培训
     @GET("training")
     Single<ApiResponse>getTrainInfoList(@Header("token")String token);
+    //查询培训学习
+    @GET("trainingInfo")
+    Single<ApiResponse>lookTrainingInfoList(@Header("token")String token,@Query("page")int page,
+                                            @Query("type")int type);
+    //培训统计
+    @GET("training/total")
+    Single<ApiResponse>getTrainingStatisticList(@Header("token")String token,
+                                                @Query("projectid")String projectId);
+
+
+    //考勤提醒
+    @GET("remind/AttendanceList")
+    Single<ApiResponse>getAttendanceAlert(@Header("token")String token);
+    //报岗提醒
+    @GET("remind/PostList")
+    Single<ApiResponse>getReportAlert(@Header("token")String token);
+    //巡检
+    @GET("remind/InspectionList")
+    Single<ApiResponse>getRoutingAlert(@Header("token")String token);
+
 
 
 

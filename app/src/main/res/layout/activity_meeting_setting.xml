@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:id="@id/root_view"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="会议"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@color/white"
+
+                  android:orientation="horizontal">
+        <RelativeLayout android:id="@id/rl_launch_meeting"
+                        android:layout_width="0dp"
+                        android:layout_height="84dp"
+                        android:layout_weight="1">
+            <ImageView android:id="@+id/img1"
+                       android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_above="@+id/view1"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_meet_module_launch_meet"/>
+            <View android:id="@+id/view1"
+                  android:layout_width="0.1dp"
+                  android:layout_height="0dp"
+                  android:layout_centerInParent="true"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:layout_below="@+id/view1"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginBottom="3dp"
+                      android:layout_marginTop="4dp"
+                      android:gravity="center"
+                      android:text="发起会议"
+                      android:textColor="@color/black_light"
+                      android:textSize="@dimen/text_normal_size"/>
+
+        </RelativeLayout>
+        <View android:layout_width="1dp"
+              android:layout_height="84dp"
+              android:background="@color/gray_light"
+        />
+        <RelativeLayout android:id="@id/rl_apply_meeting_class"
+                        android:layout_width="0dp"
+                        android:layout_height="84dp"
+                        android:layout_weight="1">
+            <ImageView android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_above="@+id/view2"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_meet_module_apply_meet"/>
+            <View android:id="@+id/view2"
+                  android:layout_width="0.1dp"
+                  android:layout_height="0dp"
+                  android:layout_centerInParent="true"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:layout_below="@+id/view2"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginBottom="3dp"
+                      android:layout_marginTop="4dp"
+                      android:gravity="center"
+                      android:text="会议室申请"
+                      android:textColor="@color/black_light"
+                      android:textSize="@dimen/text_normal_size"/>
+
+
+        </RelativeLayout>
+        <View android:layout_width="1dp"
+              android:layout_height="84dp"
+              android:background="@color/gray_light"
+        />
+        <RelativeLayout android:id="@id/rl_meeting_arrange"
+                        android:layout_width="0dp"
+                        android:layout_height="84dp"
+                        android:layout_weight="1">
+            <ImageView android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_above="@+id/view3"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_meet_module_plan_meet"/>
+            <View android:id="@+id/view3"
+                  android:layout_width="0.1dp"
+                  android:layout_height="0dp"
+                  android:layout_centerInParent="true"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:layout_below="@+id/view3"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginBottom="3dp"
+                      android:layout_marginTop="4dp"
+                      android:gravity="center"
+                      android:text="会议安排"
+                      android:textColor="@color/black_light"
+                      android:textSize="@dimen/text_normal_size"/>
+        </RelativeLayout>
+        <View android:layout_width="1dp"
+              android:layout_height="84dp"
+              android:background="@color/gray_light"
+        />
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_height="84dp"
+                        android:id="@id/rl_meeting_feedback"
+                        android:layout_weight="1">
+            <ImageView android:layout_width="30dp"
+                       android:layout_height="30dp"
+                       android:layout_above="@+id/view4"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="@dimen/padding_bottom"
+                       android:src="@mipmap/ic_meet_module_feedback_meet"/>
+            <View android:id="@+id/view4"
+                  android:layout_width="0.1dp"
+                  android:layout_height="0dp"
+                  android:layout_centerInParent="true"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:layout_below="@+id/view4"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginBottom="3dp"
+                      android:layout_marginTop="4dp"
+                      android:gravity="center"
+                      android:text="会议反馈"
+                      android:textColor="@color/black_light"
+                      android:textSize="@dimen/text_normal_size"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

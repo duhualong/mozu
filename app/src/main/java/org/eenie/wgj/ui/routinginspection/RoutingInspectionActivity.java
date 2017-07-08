@@ -1,6 +1,13 @@
 package org.eenie.wgj.ui.routinginspection;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -52,8 +59,10 @@ public class RoutingInspectionActivity extends BaseActivity {
     RelativeLayout rlSelectLine;
     @BindView(R.id.img_right)
     ImageView imgRight;
-    boolean checked=false;
+    boolean checked = false;
     private int lineId;
+    boolean permission;
+
 
     @Override
     protected int getContentView() {
@@ -64,7 +73,48 @@ public class RoutingInspectionActivity extends BaseActivity {
     protected void updateUI() {
         getLineRoutingList(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
 
+        checkPermission();
 
+
+    }
+
+    private void checkPermission() {
+
+        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            //如果超过6.0才需要动态权限，否则不需要动态权限
+            //如果同时申请多个权限，可以for循环遍历
+            int check = ContextCompat.checkSelfPermission(this, permissions[0]);
+            // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+            if (check == PackageManager.PERMISSION_GRANTED) {
+                //写入你需要权限才能使用的方法
+                permission = true;
+            } else {
+                //手动去请求用户打开权限(可以在数组中添加多个权限) 1 为请求码 一般设置为final静态变量
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            }
+        } else {
+            //写入你需要权限才能使用的方法
+            permission = true;
+        }
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //回调，判断用户到底点击是还是否。
+        //如果同时申请多个权限，可以for循环遍历
+        if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //写入你需要权限才能使用的方法
+            permission = true;
+        } else {
+            // 没有获取 到权限，从新请求，或者关闭app
+            Toast.makeText(this, "需要获得GPS权限", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void getLineRoutingList(String token) {
@@ -86,7 +136,7 @@ public class RoutingInspectionActivity extends BaseActivity {
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             if (apiResponse.getData() != null) {
-                                checked=true;
+                                checked = true;
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
                                 ArrayList<RoutingLineListResponse> data =
@@ -94,7 +144,7 @@ public class RoutingInspectionActivity extends BaseActivity {
                                                 new TypeToken<ArrayList<RoutingLineListResponse>>() {
                                                 }.getType());
                                 if (data != null) {
-                                    lineId=data.get(0).getId();
+                                    lineId = data.get(0).getId();
 
                                     getLineDetail(String.valueOf(data.get(0).getId()));
                                     tvLineName.setText(data.get(0).getName());
@@ -113,7 +163,7 @@ public class RoutingInspectionActivity extends BaseActivity {
                         } else {
                             Toast.makeText(context,
                                     apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
-                            checked=false;
+                            checked = false;
                             tvLineName.setText(apiResponse.getResultMessage());
                         }
 
@@ -183,23 +233,43 @@ public class RoutingInspectionActivity extends BaseActivity {
 
                 break;
             case R.id.rl_routing_start:
-                if (checked){
-                    startActivity(new Intent(context, RoutingStartSettingActivity.class).
-                            putExtra(RoutingStartSettingActivity.LINE_ID,String.valueOf(lineId)));
-                }
+                if (checked) {
+                    if (permission) {
+                        if (openGPSSettings()) {
+                            startActivity(new Intent(context, RoutingStartSettingActivity.class).
+                                    putExtra(RoutingStartSettingActivity.LINE_ID, String.valueOf(lineId)));
+                        } else {
+                            Toast.makeText(context, "请打开GPS",
+                                    Toast.LENGTH_SHORT).show();
+                        }
 
+                    } else {
+                        Toast.makeText(context, "需要获得定位权限", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
             case R.id.rl_routing_report:
                 startActivity(new Intent(context, ReportInformationActivity.class));
-
                 break;
             case R.id.rl_routing_record:
                 startActivity(new Intent(context, RoutingRecordActivity.class));
-                //startActivity(new Intent(context, TestMapViewActivity.class));
-
                 break;
         }
     }
+
+    private boolean openGPSSettings() {
+        boolean openGPSSettings;
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+            openGPSSettings = true;
+        } else {
+            openGPSSettings = false;
+
+        }
+        return openGPSSettings;
+    }
+
 
     @Override
     protected void onResume() {

@@ -210,7 +210,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
-                compressior(file));
+                file);
         builder.addFormDataPart("image", file.getName(), requestBody);
         builder.addFormDataPart("longitude", mLong)
                 .addFormDataPart("latitude", mLat)

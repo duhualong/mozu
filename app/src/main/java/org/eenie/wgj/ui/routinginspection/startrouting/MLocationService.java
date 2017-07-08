@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -68,7 +67,6 @@ public class MLocationService extends Service {
         mLocationOption.setInterval(5000);
         //设置精度模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-       // mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //设置是否返回地址信息（默认返回地址信息）
@@ -118,8 +116,8 @@ public class MLocationService extends Service {
                 public void run() {
                     do {
                         try {
-                            Log.d("location地址：", "run: "+new Gson().toJson(mAMapLocationList)+"\n"+
-                            mAMapLocationList.size());
+//                            Log.d("location地址：", "run: "+new Gson().toJson(mAMapLocationList)+"\n"+
+//                            mAMapLocationList.size());
                             if (!mAMapLocationList.isEmpty()&&mAMapLocationList!=null){
                                 uploadData(mAMapLocationList);
 

@@ -2,6 +2,8 @@ package org.eenie.wgj.ui.routinginspection.startrouting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -54,6 +56,7 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
     public static final String POSITION = "position";
     public static final String ROUTING_ID = "id";
     public static final String LINE_ID = "line_id";
+    private static final int GPS_REQUEST_CODE =0x101 ;
     private String position;
     private int routingId;
     @BindView(R.id.tv_title)
@@ -71,6 +74,7 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
     private RoutingCircleDetailAdapter mAdapter;
     private String lineId;
     private   String projectId;
+    public boolean checkGPS=false;
 
 
     @Override
@@ -106,7 +110,30 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
         getUserInfo();
 
     }
+    private void openGPSSettings() {
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+            checkGPS=true;
+        } else {
 
+            //调转GPS设置界面
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            //此为设置完成后返回到获取界面
+            startActivityForResult(intent, GPS_REQUEST_CODE);
+        }
+    }
+
+
+
+    //根据自己的需求而定
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPS_REQUEST_CODE) {
+            checkGPS=true;
+        }
+    }
 
     private void getRoutingData(String lineId) {
         mSubscription = mRemoteService.getRoutingByLine(mPrefsHelper.getPrefs().
@@ -222,7 +249,6 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
         super.onResume();
         onRefresh();
     }
-
 
     class RoutingCircleDetailAdapter extends RecyclerView.Adapter<RoutingCircleDetailAdapter.ProjectViewHolder> {
         private Context context;
@@ -393,12 +419,17 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
 
                         break;
                     case R.id.img_nothing:
-                        startActivity(new Intent(context,RoutingPointUploadActivity.class)
-                        .putExtra(RoutingPointUploadActivity.INFO,mRoutingReponse)
-                        .putExtra(RoutingPointUploadActivity.LINE_ID,lineId)
-                        .putExtra(RoutingPointUploadActivity.TYPE,mType)
-                        .putExtra(RoutingPointUploadActivity.PROJECT_ID,projectId)
-                        .putExtra(RoutingPointUploadActivity.INSPECTIONDAY_ID,String.valueOf(routingId)));
+                       if (checkGPS){
+                           startActivity(new Intent(context,RoutingPointUploadActivity.class)
+                                   .putExtra(RoutingPointUploadActivity.INFO,mRoutingReponse)
+                                   .putExtra(RoutingPointUploadActivity.LINE_ID,lineId)
+                                   .putExtra(RoutingPointUploadActivity.TYPE,mType)
+                                   .putExtra(RoutingPointUploadActivity.PROJECT_ID,projectId)
+                                   .putExtra(RoutingPointUploadActivity.INSPECTIONDAY_ID,String.valueOf(routingId)));
+                       }else {
+                           Toast.makeText(context,"请打开GPS",Toast.LENGTH_SHORT).show();
+                       }
+
 
                         break;
 
@@ -407,4 +438,5 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
             }
         }
     }
+
 }

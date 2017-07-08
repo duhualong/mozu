@@ -586,6 +586,31 @@
         <activity android:name=".ui.train.TrainStudySettingActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--岗位培训-->
+        <activity android:name=".ui.train.TrainingPostActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--关键人物培训-->
+        <activity android:name=".ui.train.TrainingKeyPersonalActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--培训统计-->
+        <activity android:name=".ui.trainstatistic.TrainingStatisticSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+
+        <activity android:name=".ui.trainstatistic.TrainingStatisticProjectActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+
+        <!--会议设置-->
+        <activity android:name=".ui.meeting.MeetingSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <!--发起会议-->
+        <activity android:name=".ui.meeting.launchmeeting.LaunchMeetingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
 
         <!--个人工时-->
         <!--<activity android:name=""-->

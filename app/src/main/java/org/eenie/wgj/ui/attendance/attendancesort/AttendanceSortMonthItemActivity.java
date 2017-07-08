@@ -14,7 +14,6 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.AttendanceMonthItem;
-import org.eenie.wgj.ui.attendancestatistics.AttendanceFightingSortActivity;
 import org.eenie.wgj.ui.attendancestatistics.AttendanceSortMonthActivity;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constant;
@@ -190,8 +189,8 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
     private void updateFightingUI(List<AttendanceMonthItem.MonthRefuelBean> mData) {
         if (mData.size()==1){
             rlFightingFirst.setVisibility(View.VISIBLE);
-            rlFightingSecond.setVisibility(View.GONE);
-            rlFightingThird.setVisibility(View.GONE);
+            rlFightingSecond.setVisibility(View.INVISIBLE);
+            rlFightingThird.setVisibility(View.INVISIBLE);
             if (mData.get(0).getId_card_head_image()!=null&&!mData.get(0).getId_card_head_image().isEmpty()){
                 Glide.with(context).load(Constant.DOMIN+
                         mData.get(0).
@@ -203,7 +202,7 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
         }else if (mData.size()==2){
             rlFightingFirst.setVisibility(View.VISIBLE);
             rlFightingSecond.setVisibility(View.VISIBLE);
-            rlFightingThird.setVisibility(View.GONE);
+            rlFightingThird.setVisibility(View.INVISIBLE);
             if (mData.get(0).getId_card_head_image()!=null&&!mData.get(0).getId_card_head_image().isEmpty()){
                 Glide.with(context).load(Constant.DOMIN+
                         mData.get(0).
@@ -253,8 +252,8 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
 
         if (data.size() == 1) {
             rlFirstTeam.setVisibility(View.VISIBLE);
-            rlSecondTeam.setVisibility(View.GONE);
-            rlThirdTeam.setVisibility(View.GONE);
+            rlSecondTeam.setVisibility(View.INVISIBLE);
+            rlThirdTeam.setVisibility(View.INVISIBLE);
             if (data.get(0).getId_card_head_image() != null &&
                     !data.get(0).getId_card_head_image().isEmpty()) {
                 Glide.with(context).load(Constant.DOMIN + data.get(0).getId_card_head_image()).centerCrop()
@@ -266,7 +265,7 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
         } else if (data.size() == 2) {
             rlFirstTeam.setVisibility(View.VISIBLE);
             rlSecondTeam.setVisibility(View.VISIBLE);
-            rlThirdTeam.setVisibility(View.GONE);
+            rlThirdTeam.setVisibility(View.INVISIBLE);
             if (data.get(0).getId_card_head_image() != null &&
                     !data.get(0).getId_card_head_image().isEmpty()) {
                 Glide.with(context).load(Constant.DOMIN + data.get(0).getId_card_head_image()).centerCrop()
@@ -317,8 +316,8 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
 
         if (data.size() == 1) {
             rlAllFirst.setVisibility(View.VISIBLE);
-            rlAllSecond.setVisibility(View.GONE);
-            rlAllThird.setVisibility(View.GONE);
+            rlAllSecond.setVisibility(View.INVISIBLE);
+            rlAllThird.setVisibility(View.INVISIBLE);
             if (data.get(0).getId_card_head_image() != null &&
                     !data.get(0).getId_card_head_image().isEmpty()) {
                 Glide.with(context).load(Constant.DOMIN + data.get(0).getId_card_head_image()).centerCrop()
@@ -331,8 +330,7 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
         } else if (data.size() == 2) {
             rlAllFirst.setVisibility(View.VISIBLE);
             rlAllSecond.setVisibility(View.VISIBLE);
-
-            rlAllThird.setVisibility(View.GONE);
+            rlAllThird.setVisibility(View.INVISIBLE);
             tvFirstNameAll.setText(data.get(0).getName());
             tvSecondNameAll.setText(data.get(1).getName());
             if (data.get(0).getId_card_head_image() != null &&
