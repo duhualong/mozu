@@ -21,6 +21,15 @@ public class AttendanceGoOutResponse {
     private String address;
     private String description;
     private Object user;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;

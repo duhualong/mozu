@@ -64,7 +64,7 @@ public class MLocationService extends Service {
     private void init() {
         //初始化定位
         mLocationClient = new AMapLocationClient(this);
-        mLocationOption.setInterval(5000);
+        mLocationOption.setInterval(10000);
         //设置精度模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //给定位客户端对象设置定位参数
@@ -195,7 +195,7 @@ public class MLocationService extends Service {
                 if (aMapLocation.getErrorCode() == 0) {
                     System.out.println("sss");
                     String mDate = new SimpleDateFormat("yyyy-MM-dd hh:mm").format(Calendar.getInstance().getTime());
-                    if (aMapLocation.getAccuracy()<=100){
+                    if (aMapLocation.getAccuracy()<=50){
                         mAMapLocationList.add(new PointNeedResponse(aMapLocation.getLongitude(),
                                 aMapLocation.getLatitude(),
                                 mDate));

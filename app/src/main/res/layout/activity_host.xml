@@ -10,28 +10,16 @@
         <ImageView android:id="@id/img_back"
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
-                   android:layout_centerVertical="true"
                    android:padding="@dimen/padding_bottom"
+
                    android:src="@mipmap/ic_back"/>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:text="管理人员"
-                  android:id="@id/tv_title"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"
-        />
-        <TextView android:id="@id/tv_apply_ok"
-                  android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_alignParentEnd="true"
-                  android:layout_alignParentRight="true"
-                  android:gravity="center"
-                  android:padding="@dimen/padding_bottom"
-                  android:text="确定"
-                  android:textColor="@color/white"
-                  android:textSize="@dimen/text_title_size"/>
-
+                  android:id="@id/tv_title"
+                  android:text="主持人"/>
 
     </RelativeLayout>
     <android.support.v4.widget.SwipeRefreshLayout
@@ -39,9 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
+            android:id="@id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-        android:id="@id/recycler_view"/>
+            android:layout_height="match_parent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+
 </LinearLayout>

@@ -162,7 +162,7 @@ public class AttendanceAbsoluteActivity extends BaseActivity implements
                 AttendanceAbsoluteResponse data = projectMonth.get(position);
                 if (data!=null){
                     holder.itemTitle.setText("旷工人员  "+data.getName());
-                    holder.itemDate.setText("旷工时间  "+data.getStarttime()+"-"+data.getEndtime());
+                    holder.itemDate.setText("旷工时间  "+data.getDay()+" "+data.getStarttime()+"-"+data.getEndtime());
                     holder.itemCause.setText("旷工班次  "+data.getServicesname());
                 }
 

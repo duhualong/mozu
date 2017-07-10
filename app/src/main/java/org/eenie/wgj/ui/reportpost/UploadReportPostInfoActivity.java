@@ -175,7 +175,7 @@ public class UploadReportPostInfoActivity extends BaseActivity implements AMapLo
                 break;
             case R.id.btn_apply:
                 if (TextUtils.isEmpty(mAddress) || mLat == 0 || mLong == 0) {
-                    Toast.makeText(context, "请打开GPS，允许定位", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "正在定位...", Toast.LENGTH_SHORT).show();
                     mlocationClient.startLocation();
                 } else {
                     boolean checked = true;

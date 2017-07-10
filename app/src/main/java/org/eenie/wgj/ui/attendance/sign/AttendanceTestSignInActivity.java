@@ -132,7 +132,6 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
             type=1;
         }
 
-
     }
 
     @OnClick({R.id.img_back, R.id.btn_take_photo, R.id.tv_sel_rank})
@@ -172,7 +171,6 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
             path = data.getStringExtra("path");
-
 
             if (type == 2) {
                 startActivityForResult(new Intent(context, SignExtraMsgActivity.class),

@@ -58,31 +58,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
     private SurfaceHolder mHolder;
     private boolean focus = false;
 
-//    @Override
-//    public int initContentView() {
-//        return R.layout.activity_attendance_toke_photo;
-//    }
-//
-//    @Override
-//    public void initInjector() {
-//        camera_flag = getIntent().getIntExtra("camera_flag", 1);
-//    }
-//
-//    @Override
-//    public void initUiAndListener() {
-//
-//
-//    }
-//
-//    @Override
-//    protected boolean isApplyStatusBarTranslucency() {
-//        return false;
-//    }
-//
-//    @Override
-//    protected boolean isApplyStatusBarColor() {
-//        return false;
-//    }
+
 
 
     @Override
@@ -394,7 +370,8 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
 
 
     public String savePic(Bitmap bm) {
-        String path = getExternalCacheDir().getAbsolutePath() + "/sign_" + System.currentTimeMillis() + "_attendance.jpeg";
+        String path = getExternalCacheDir().getAbsolutePath() + "/sign_" +
+                System.currentTimeMillis() + "_attendance.jpeg";
         File f = new File(path);
         if (f.exists()) {
             f.delete();

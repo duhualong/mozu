@@ -419,16 +419,14 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
 
                         break;
                     case R.id.img_nothing:
-                       if (checkGPS){
+
                            startActivity(new Intent(context,RoutingPointUploadActivity.class)
                                    .putExtra(RoutingPointUploadActivity.INFO,mRoutingReponse)
                                    .putExtra(RoutingPointUploadActivity.LINE_ID,lineId)
                                    .putExtra(RoutingPointUploadActivity.TYPE,mType)
                                    .putExtra(RoutingPointUploadActivity.PROJECT_ID,projectId)
                                    .putExtra(RoutingPointUploadActivity.INSPECTIONDAY_ID,String.valueOf(routingId)));
-                       }else {
-                           Toast.makeText(context,"请打开GPS",Toast.LENGTH_SHORT).show();
-                       }
+
 
 
                         break;

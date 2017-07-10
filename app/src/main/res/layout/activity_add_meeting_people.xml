@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="参会人员"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:id="@id/submit_tv"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="@string/tv_submit"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <CheckBox
+            android:id="@id/checkbox_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/padding_bottom"
+            android:layout_marginRight="@dimen/padding_bottom"
+            android:button="@drawable/checkbox_apply_show_state"
+            android:checked="false"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_toEndOf="@id/checkbox_select_all"
+                  android:layout_toRightOf="@id/checkbox_select_all"
+                  android:text="全员"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/padding_bottom">
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/recycler_view_meeting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

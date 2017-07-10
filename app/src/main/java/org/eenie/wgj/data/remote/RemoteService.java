@@ -210,9 +210,10 @@ public interface RemoteService {
     @POST("ownerUpdate")
     Single<ApiResponse> updateKeyPersonal(@Header("token") String token,
                                           @Body AddKeyPersonalInformation addKeyPersonalInformation);
+
     //添加关键人物信息
     @POST("ownerAdd")
-    Single<ApiResponse>addKeyPersonal(@Header("token")String token,@Body AddKeyPersonalInformation
+    Single<ApiResponse> addKeyPersonal(@Header("token") String token, @Body AddKeyPersonalInformation
             addKeyPersonalInformation);
 
     //获取交接班列表
@@ -491,115 +492,135 @@ public interface RemoteService {
 
     //考勤外出
     @GET("month/goout")
-    Single<ApiResponse>getOutInformation(@Header("token") String token, @Query("date") String date,
-                      @Query("projectid") String projectId);
+    Single<ApiResponse> getOutInformation(@Header("token") String token, @Query("date") String date,
+                                          @Query("projectid") String projectId);
 
     //考勤请假
     @GET("month/leave")
-    Single<ApiResponse>getLeaveInformation(@Header("token") String token, @Query("date") String date,
-                                           @Query("projectid") String projectId);
+    Single<ApiResponse> getLeaveInformation(@Header("token") String token, @Query("date") String date,
+                                            @Query("projectid") String projectId);
+
     //考勤借调
     @GET("month/seconded")
-    Single<ApiResponse>getSecondInformation(@Header("token")String token,@Query("date") String date,
-                                            @Query("projectid") String projectId);
+    Single<ApiResponse> getSecondInformation(@Header("token") String token, @Query("date") String date,
+                                             @Query("projectid") String projectId);
+
     //考勤实习
     @GET("month/practice")
-    Single<ApiResponse>getPracticeInformation(@Header("token")String token,@Query("date") String date,
-                                            @Query("projectid") String projectId);
+    Single<ApiResponse> getPracticeInformation(@Header("token") String token, @Query("date") String date,
+                                               @Query("projectid") String projectId);
+
     //考勤新增人员
     @GET("month/newemployees")
-    Single<ApiResponse>getNewEmployees(@Header("token")String token,@Query("date") String date,
-                                       @Query("projectid") String projectId);
+    Single<ApiResponse> getNewEmployees(@Header("token") String token, @Query("date") String date,
+                                        @Query("projectid") String projectId);
+
     //巡检线路
     @GET("inspection/lineList")
-    Single<ApiResponse>getRoutingLineList(@Header("token")String token);
+    Single<ApiResponse> getRoutingLineList(@Header("token") String token);
+
     //获取巡检线路的详情
     @GET("inspectionRate")
-    Single<ApiResponse>getLineDetail(@Header("token")String token,@Query("lineid")String lineId);
+    Single<ApiResponse> getLineDetail(@Header("token") String token, @Query("lineid") String lineId);
+
     //获取巡检上报信息的记录
     @GET("warrantyList")
-    Single<ApiResponse>getReportRoutingList(@Header("token")String token,@Query("type")int type);
+    Single<ApiResponse> getReportRoutingList(@Header("token") String token, @Query("type") int type);
+
     //获取巡检路线上的点位
     @GET("inspectionList")
-    Single<ApiResponse>getRoutingByLine(@Header("token")String token,@Query("lineid")String lineId);
+    Single<ApiResponse> getRoutingByLine(@Header("token") String token, @Query("lineid") String lineId);
+
     //获取通知人员（巡检）
     @GET("management/userList")
-    Single<ApiResponse>getNoticePeopleList(@Header("token")String token);
+    Single<ApiResponse> getNoticePeopleList(@Header("token") String token);
+
     //开始巡检
     @POST("addPatrolRecord")
-    Single<ApiResponse>startRoutingRecord(@Header("token")String token, @Body
+    Single<ApiResponse> startRoutingRecord(@Header("token") String token, @Body
             StartRoutingRecord request);
+
     //获取某段时间段的巡检详情
     @GET("inspection/statistics")
-    Single<ApiResponse> getTimeRoutingRecordList(@Header("token")String token,
-                                                 @Query("starttime")String startTime,
-                                                 @Query("endtime")String endTime,
-                                                 @Query("userid")String userId);
+    Single<ApiResponse> getTimeRoutingRecordList(@Header("token") String token,
+                                                 @Query("starttime") String startTime,
+                                                 @Query("endtime") String endTime,
+                                                 @Query("userid") String userId);
 
     //获取巡检轨迹点
     @GET("getPatrolRecords")
-    Single<ApiResponse>getRoutingLine(@Header("token")String token, @Query("date")String date,
-                                      @Query("inspectionday_id")String inspectiondayId,
-                                      @Query("projectid")String projectId,
-                                      @Query("user_id")String userId);
+    Single<ApiResponse> getRoutingLine(@Header("token") String token, @Query("date") String date,
+                                       @Query("inspectionday_id") String inspectiondayId,
+                                       @Query("projectid") String projectId,
+                                       @Query("user_id") String userId);
+
     //获取每月全部的巡检信息
     @GET("inspection/total")
-    Single<ApiResponse>getRoutingInfoList(@Header("token")String token,@Query("date")String date,
-                                          @Query("projectid")String projectId);
+    Single<ApiResponse> getRoutingInfoList(@Header("token") String token, @Query("date") String date,
+                                           @Query("projectid") String projectId);
 
     //获取报岗数据
     @GET("signedtosign/postList")
-    Single<ApiResponse>getReportLine(@Header("token")String token);
+    Single<ApiResponse> getReportLine(@Header("token") String token);
+
     //获取岗位下报岗信息
     @GET("signedtosign/newspaperpostList")
-    Single<ApiResponse>getReportInfoByLine(@Header("token")String token,
-                                     @Query("postsettingid")String posyId);
+    Single<ApiResponse> getReportInfoByLine(@Header("token") String token,
+                                            @Query("postsettingid") String posyId);
 
     //报岗统计列表
 
     @GET("signedtosign/statisticsIndex")
-    Single<ApiResponse>getReportStatisticsList(@Header("token")String token,
-                                               @Query("projectid")String projectId);
+    Single<ApiResponse> getReportStatisticsList(@Header("token") String token,
+                                                @Query("projectid") String projectId);
+
     //每月未报岗统计
     @GET("signedtosign/NotInfo")
-    Single<ApiResponse>getReportMonthNoStatisticsList(@Header("token")String token,
-                                                      @Query("projectid")String projectId,
-                                                     @Query("date")String date);
+    Single<ApiResponse> getReportMonthNoStatisticsList(@Header("token") String token,
+                                                       @Query("projectid") String projectId,
+                                                       @Query("date") String date);
+
     //实际每月报岗查询
     @POST("project_post_query")
-    Single<ApiResponse>queryMonthReportPostList(@Header("token")String token,
-                                                @Body QueryReportPostMonth request);
+    Single<ApiResponse> queryMonthReportPostList(@Header("token") String token,
+                                                 @Body QueryReportPostMonth request);
+
     //培训
     @GET("training")
-    Single<ApiResponse>getTrainInfoList(@Header("token")String token);
+    Single<ApiResponse> getTrainInfoList(@Header("token") String token);
+
     //查询培训学习
     @GET("trainingInfo")
-    Single<ApiResponse>lookTrainingInfoList(@Header("token")String token,@Query("page")int page,
-                                            @Query("type")int type);
+    Single<ApiResponse> lookTrainingInfoList(@Header("token") String token, @Query("page") int page,
+                                             @Query("type") int type);
+
     //培训统计
     @GET("training/total")
-    Single<ApiResponse>getTrainingStatisticList(@Header("token")String token,
-                                                @Query("projectid")String projectId);
+    Single<ApiResponse> getTrainingStatisticList(@Header("token") String token,
+                                                 @Query("projectid") String projectId);
 
 
     //考勤提醒
     @GET("remind/AttendanceList")
-    Single<ApiResponse>getAttendanceAlert(@Header("token")String token);
+    Single<ApiResponse> getAttendanceAlert(@Header("token") String token);
+
     //报岗提醒
     @GET("remind/PostList")
-    Single<ApiResponse>getReportAlert(@Header("token")String token);
+    Single<ApiResponse> getReportAlert(@Header("token") String token);
+
     //巡检
     @GET("remind/InspectionList")
-    Single<ApiResponse>getRoutingAlert(@Header("token")String token);
+    Single<ApiResponse> getRoutingAlert(@Header("token") String token);
 
+    //参会人员
+    @GET("conferencePersonnel")
+    Single<ApiResponse> getMeetingPeopleList(@Header("token") String token);
 
+    //添加会议
+    @POST("meetingAdd")
+    Single<ApiResponse>addMeetingContent(@Header("token")String token,@Body String data);
 
-
-
-
-
-
-    //获取个人考勤情况
+            //获取个人考勤情况
     class Creator {
 
         @Inject

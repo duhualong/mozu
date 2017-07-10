@@ -715,5 +715,18 @@
     <item name="img_add" type="id"/>
     <item name="recycler_work_show" type="id"/>
     <item name="tv_start_time_one" type="id"/>
+    <item name="edit_meeting_content" type="id"/>
+    <item name="edit_meeting_purpose" type="id"/>
+    <item name="rl_master" type="id"/>
+    <item name="rl_record" type="id"/>
+    <item name="edit_day" type="id"/>
+    <item name="btn_add_day" type="id"/>
+    <item name="btn_subtract_day" type="id"/>
+    <item name="edit_hour" type="id"/>
+    <item name="line_item" type="id"/>
+    <item name="submit_tv" type="id"/>
+    <item name="recycler_view_meeting" type="id"/>
+    <item name="swipe_refresh_meeting" type="id"/>
+    <item name="rl_meeting_item" type="id"/>
 
 </resources>

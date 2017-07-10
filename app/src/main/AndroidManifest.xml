@@ -534,10 +534,10 @@
                   android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.attendance.AttendanceTestActivity"/>
         <activity android:name=".ui.attendance.signout.AttendanceTestTwoActivity">
-        <intent-filter>
-            <action android:name=".ui.attendance.signout.AttendanceTestTwoActivity"/>
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name=".ui.attendance.signout.AttendanceTestTwoActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <!--该岗位下信息-->
         <activity android:name=".ui.reportpost.ReportPostSettingFirstActivity"
@@ -609,6 +609,12 @@
                   android:windowSoftInputMode="adjustResize"/>
         <!--发起会议-->
         <activity android:name=".ui.meeting.launchmeeting.LaunchMeetingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.meeting.launchmeeting.HostPeopleActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.meeting.launchmeeting.AddPeopleSelectActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
 

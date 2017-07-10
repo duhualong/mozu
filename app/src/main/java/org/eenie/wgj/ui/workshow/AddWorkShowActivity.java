@@ -45,6 +45,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
+
+import static android.R.attr.maxWidth;
 
 /**
  * Created by Eenie on 2017/6/11 at 13:08
@@ -53,15 +57,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class AddWorkShowActivity extends BaseActivity {
-    private static final int REQUEST_CAMERA_FIRST=0x101;
-    private static final int REQUEST_CAMERA_SECOND=0x102;
-    private static final int REQUEST_CAMERA_THIRD=0x103;
-    private static final int REQUEST_PHOTO_FIRST=0x104;
-    private static final int REQUEST_PHOTO_SECOND=0x105;
-    private static final int REQUEST_PHOTO_THIRD=0x106;
-    private static final int RESPONSE_CODE_FIRST=0x107;
-    private static final int RESPONSE_CODE_SECOND=0x108;
-    private static final int RESPONSE_CODE_THIRD=0x109;
+    private static final int REQUEST_CAMERA_FIRST = 0x101;
+    private static final int REQUEST_CAMERA_SECOND = 0x102;
+    private static final int REQUEST_CAMERA_THIRD = 0x103;
+    private static final int REQUEST_PHOTO_FIRST = 0x104;
+    private static final int REQUEST_PHOTO_SECOND = 0x105;
+    private static final int REQUEST_PHOTO_THIRD = 0x106;
+    private static final int RESPONSE_CODE_FIRST = 0x107;
+    private static final int RESPONSE_CODE_SECOND = 0x108;
+    private static final int RESPONSE_CODE_THIRD = 0x109;
 
     @BindView(R.id.et_input_work_title)
     EditText mInputTitle;
@@ -71,8 +75,8 @@ public class AddWorkShowActivity extends BaseActivity {
 
     private Uri mImageUri;
     private Uri firstUri;
-    private Uri  secondUri;
-    private Uri  thirdUri;
+    private Uri secondUri;
+    private Uri thirdUri;
     private String firstPath;
     private String secondPath;
     private String thirdPath;
@@ -80,6 +84,7 @@ public class AddWorkShowActivity extends BaseActivity {
     private File secondFile;
     private File thirdFile;
     List<File> files = new ArrayList<>();
+
     @Override
     protected int getContentView() {
         return R.layout.activity_add_work_show;
@@ -89,64 +94,63 @@ public class AddWorkShowActivity extends BaseActivity {
     protected void updateUI() {
 
 
-
-
     }
 
     @OnClick({R.id.img_back, R.id.tv_send, R.id.img_first, R.id.img_second, R.id.img_third})
     public void onClick(View view) {
-        mTitleName=mInputTitle.getText().toString();
+        mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.tv_send:
-                if (!TextUtils.isEmpty(mTitleName)){
-                    if (firstFile!=null){
+                if (!TextUtils.isEmpty(mTitleName)) {
+                    if (firstFile != null) {
                         files.add(firstFile);
                     }
-                    if (secondFile!=null){
+                    if (secondFile != null) {
                         files.add(secondFile);
                     }
-                    if (thirdFile!=null){
+                    if (thirdFile != null) {
                         files.add(thirdFile);
                     }
-                    if (files!=null){
+                    if (files != null) {
                         new Thread() {
                             public void run() {
-                                addData(getMultipartBody(files,mTitleName),
-                                        mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
+                                addData(getMultipartBody(files, mTitleName),
+                                        mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
                             }
                         }.start();
-                }else {
-                        Toast.makeText(context,"请至少选择一张图片",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(context, "请至少选择一张图片", Toast.LENGTH_LONG).show();
                     }
 
 
-                }else {
-                    Toast.makeText(context,"请输入工作秀主题",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "请输入工作秀主题", Toast.LENGTH_LONG).show();
                 }
 
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
 
                 break;
         }
     }
-    private void showUploadDialog(int camera,int photo) {
+
+    private void showUploadDialog(int camera, int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
@@ -193,27 +197,26 @@ public class AddWorkShowActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        switch (requestCode){
+        switch (requestCode) {
             case RESPONSE_CODE_FIRST:
-            File cropFile = new File(context.getCacheDir(), "a.jpg");
-            UCrop.of(resUri, Uri.fromFile(cropFile))
-                    .withAspectRatio(1, 1)
-                    .withMaxResultSize(500, 500)
-                    .start(AddWorkShowActivity.this, requestCode);
+                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFile))
+                        .withAspectRatio(4,3)
+                        .withMaxResultSize(maxWidth, 720)
+                        .start(AddWorkShowActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_SECOND:
                 File cropFiles = new File(context.getCacheDir(), "b.jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
-                        .withAspectRatio(1, 1)
-                        .withMaxResultSize(500, 500)
+                        .withAspectRatio(4,3)
+                        .withMaxResultSize(maxWidth, 720)
                         .start(AddWorkShowActivity.this, requestCode);
-
                 break;
             case RESPONSE_CODE_THIRD:
                 File cropFiless = new File(context.getCacheDir(), "c.jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiless))
-                        .withAspectRatio(1, 1)
-                        .withMaxResultSize(500, 500)
+                        .withAspectRatio(4,3)
+                        .withMaxResultSize(maxWidth, 720)
                         .start(AddWorkShowActivity.this, requestCode);
                 break;
         }
@@ -244,8 +247,8 @@ public class AddWorkShowActivity extends BaseActivity {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
 
                             });
-                    firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    firstFile=new File(firstPath);
+                    firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    firstFile = new File(firstPath);
 
                     break;
                 case REQUEST_CAMERA_SECOND:
@@ -267,9 +270,8 @@ public class AddWorkShowActivity extends BaseActivity {
                                 imgList.get(2).setVisibility(View.VISIBLE);
                                 imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
                             });
-                    secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    secondFile=new File(secondPath);
-
+                    secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    secondFile = new File(secondPath);
 
 
                     break;
@@ -292,8 +294,8 @@ public class AddWorkShowActivity extends BaseActivity {
                                 imgList.get(2).setImageBitmap(bitmap);
 
                             });
-                    thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    thirdFile=new File(thirdPath);
+                    thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    thirdFile = new File(thirdPath);
 
 
                     break;
@@ -302,19 +304,19 @@ public class AddWorkShowActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void addData(RequestBody body, String token){
+    private void addData(RequestBody body, String token) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
 
-        Call<ApiResponse> call = userBiz.addWorkShowItem(token,body);
+        Call<ApiResponse> call = userBiz.addWorkShowItem(token, body);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                Log.d("tag:", "onResponse: "+response.code());
-                if (response.body().getResultCode()==200){
+                Log.d("tag:", "onResponse: " + response.code());
+                if (response.body().getResultCode() == 200) {
                     Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
                     Single.just("").delay(1, TimeUnit.SECONDS).
                             compose(RxUtils.applySchedulers()).
@@ -332,18 +334,51 @@ public class AddWorkShowActivity extends BaseActivity {
             }
         });
     }
-    public static MultipartBody getMultipartBody(List<File> files, String title){
-        AddWorkShow addWorkShow=new AddWorkShow(1,title);
-        Gson gson=new Gson();
-        MultipartBody.Builder builder=new MultipartBody.Builder();
-        for (int i=0;i<files.size();i++){
-            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),
+
+    public static MultipartBody getMultipartBody(List<File> files, String title) {
+        AddWorkShow addWorkShow = new AddWorkShow(1, title);
+        Gson gson = new Gson();
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        for (int i = 0; i < files.size(); i++) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
                     files.get(i));
-            builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
+            builder.addFormDataPart("image[]", files.get(i).getName(), requestBody);
         }
-        builder.addFormDataPart("data",gson.toJson(addWorkShow));
+        builder.addFormDataPart("data", gson.toJson(addWorkShow));
         builder.setType(MultipartBody.FORM);
         return builder.build();
 
     }
+
+    private File CompressFile(File mFile) {
+        final File[] files = new File[1];
+        Luban.with(this)
+                .load(mFile)                     //传人要压缩的图片
+                .setCompressListener(new OnCompressListener() { //设置回调
+                    @Override
+                    public void onStart() {
+                        // TODO 压缩开始前调用，可以在方法内启动 loading UI
+
+                    }
+
+                    @Override
+                    public void onSuccess(File file) {
+                        // TODO 压缩成功后调用，返回压缩后的图片文件
+                        files[0] = file;
+                        Log.d("鲁班压缩", "onSuccess: "+file.length()/1024+"kb");
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // TODO 当压缩过程出现问题时调用
+                        files[0] = mFile;
+                    }
+                }).launch();    //启动压缩
+        return files[0];
+
+
+    }
+
+
 }

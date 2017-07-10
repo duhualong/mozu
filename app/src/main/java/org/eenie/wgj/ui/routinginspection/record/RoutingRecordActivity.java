@@ -92,19 +92,16 @@ public class RoutingRecordActivity extends BaseActivity  {
     public void showWhitDate(final int id) {
         final DatePickerDialogFragment datePickerDialogFragment =
                 new DatePickerDialogFragment(getSupportFragmentManager(), "选择日期", "date");
-        datePickerDialogFragment.setOnDateDissListener(new DatePickerDialogFragment.onTimePickedListener() {
-            @Override
-            public void onPicked(String date) {
-                switch (id) {
-                    case tv_start_time:
-                        mTvStartTime.setText(date);
-                        break;
-                    case R.id.tv_end_time:
-                        mTvEndTime.setText(date);
-                        break;
-                }
-                fetchData();
+        datePickerDialogFragment.setOnDateDissListener(date -> {
+            switch (id) {
+                case tv_start_time:
+                    mTvStartTime.setText(date);
+                    break;
+                case R.id.tv_end_time:
+                    mTvEndTime.setText(date);
+                    break;
             }
+            fetchData();
         });
         datePickerDialogFragment.show(getSupportFragmentManager(), "date");
     }

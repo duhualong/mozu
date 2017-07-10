@@ -110,7 +110,7 @@ public class AttendanceGoOutActivity extends BaseActivity implements
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                       ArrayList<AttendanceGoOutResponse> data = gson.fromJson(jsonArray,
+                            ArrayList<AttendanceGoOutResponse> data = gson.fromJson(jsonArray,
                                     new TypeToken<ArrayList<AttendanceGoOutResponse>>() {
                                     }.getType());
                             if (data != null) {
@@ -165,14 +165,13 @@ public class AttendanceGoOutActivity extends BaseActivity implements
             if (projectMonth != null && !projectMonth.isEmpty()) {
                 AttendanceGoOutResponse data = projectMonth.get(position);
                 if (data != null) {
-                    if (data.getUser()==null){
+                    if (!data.getName().isEmpty() && data.getName() != null) {
+                        holder.itemTitle.setText("外出人员  " + data.getName());
+                    } else {
                         holder.itemTitle.setText("外出人员  " + "无");
-                    }else {
-                        holder.itemTitle.setText("外出人员  " + data.getUser());
                     }
                     holder.itemDate.setText("外出地点  " + data.getAddress());
                     holder.itemCause.setText("外出原因  " + data.getDescription());
-
                 }
 
 
@@ -202,13 +201,11 @@ public class AttendanceGoOutActivity extends BaseActivity implements
             private TextView itemCause;
 
 
-
             public ProjectViewHolder(View itemView) {
                 super(itemView);
                 itemTitle = ButterKnife.findById(itemView, R.id.item_title);
                 itemDate = ButterKnife.findById(itemView, R.id.item_date);
                 itemCause = ButterKnife.findById(itemView, R.id.item_cause);
-
 
 
             }

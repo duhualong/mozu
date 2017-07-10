@@ -312,8 +312,8 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                         Toast.makeText(context, "请至少上传一张巡检图片", Toast.LENGTH_SHORT).show();
                     } else {
                         if (TextUtils.isEmpty(mAddress) || mLat == 0) {
-                            Toast.makeText(context, "请打开GPS，" +
-                                    "允许获取定位信息", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "正在获取定位信息"
+                                    , Toast.LENGTH_SHORT).show();
                             mlocationClient.startLocation();
                         } else {
 

@@ -1,6 +1,8 @@
 package org.eenie.wgj.ui.attendance;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -411,9 +413,14 @@ public class AttendanceActivity extends BaseActivity {
                             Toast.makeText(context, "今日已过签到", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            startActivity(new Intent(context, AttendanceTestSignInActivity.class)
-                                    .putExtra(AttendanceTestSignInActivity.INFO,
-                                            attendanceResponse.get(position)));
+                            if (openGPSSettings()){
+                                startActivity(new Intent(context, AttendanceTestSignInActivity.class)
+                                        .putExtra(AttendanceTestSignInActivity.INFO,
+                                                attendanceResponse.get(position)));
+                            }else {
+                                Toast.makeText(context,"请打开GPS",Toast.LENGTH_SHORT).show();
+                            }
+
                         }
 
                     } else {
@@ -428,7 +435,11 @@ public class AttendanceActivity extends BaseActivity {
                 break;
 
             case R.id.rl_sign_off:
-                checkSignOff();
+                if (openGPSSettings()){
+                   checkSignOff();
+                }else {
+                    Toast.makeText(context,"请打开GPS",Toast.LENGTH_SHORT).show();
+                }
 
                 break;
 
@@ -437,7 +448,6 @@ public class AttendanceActivity extends BaseActivity {
                 startActivity(new Intent(context, AttendanceSortMonthItemActivity.class)
                         .putExtra(AttendanceSortMonthItemActivity.PROJECT_ID,projectId));
 
-
                 break;
             case R.id.rl_work_recoder:
                 startActivity(new Intent(context, AttendanceRecordActivity.class).putExtra(
@@ -445,6 +455,18 @@ public class AttendanceActivity extends BaseActivity {
 
                 break;
         }
+    }
+    private boolean openGPSSettings() {
+        boolean openGPSSettings;
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+            openGPSSettings = true;
+        } else {
+            openGPSSettings = false;
+
+        }
+        return openGPSSettings;
     }
 
     private void checkSignOff() {
