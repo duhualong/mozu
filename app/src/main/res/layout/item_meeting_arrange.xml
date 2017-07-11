@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@id/rl_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginBottom="1dp"
+                android:padding="@dimen/padding_bottom">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@id/img_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@mipmap/ic_default_header"
+    />
+    <TextView android:id="@id/item_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:layout_marginTop="4dp"
+              android:layout_toEndOf="@id/img_avatar"
+              android:layout_toRightOf="@id/img_avatar"
+              android:ellipsize="end"
+              android:maxLength="12"
+              android:text="无"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"/>
+    <TextView android:id="@id/item_username"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/item_name"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:layout_marginTop="4dp"
+              android:layout_toEndOf="@id/img_avatar"
+              android:layout_toRightOf="@id/img_avatar"
+              android:text="无"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_normal_size"/>
+
+    <TextView android:id="@id/item_status"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="无"
+              android:layout_marginTop="4dp"
+              android:textSize="@dimen/text_large_size"
+              android:layout_alignParentEnd="true"
+              android:layout_alignParentRight="true"
+              android:textColor="@color/text_blue"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/titleColor"
+              android:layout_below="@id/item_status"
+              android:layout_alignParentEnd="true"
+              android:layout_alignParentRight="true"
+              android:layout_marginTop="4dp"
+              android:text="无"
+              android:id="@id/item_start_time"
+              android:textSize="@dimen/text_normal_size"/>
+
+</RelativeLayout>

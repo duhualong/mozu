@@ -31,6 +31,8 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static org.eenie.wgj.R.id.item_checkbox_select_item;
+
 /**
  * Created by Eenie on 2017/7/10 at 16:57
  * Email: 472279981@qq.com
@@ -235,14 +237,10 @@ public class AddPeopleSelectActivity extends BaseActivity {
 
             public ProjectViewHolder(View itemView) {
                 super(itemView);
-                checkBoxSelect = ButterKnife.findById(itemView, R.id.item_checkbox_select_item);
+                checkBoxSelect = ButterKnife.findById(itemView, item_checkbox_select_item);
                 mRelativeLayout = ButterKnife.findById(itemView, R.id.rl_meeting_item);
                 tvName=ButterKnife.findById(itemView,R.id.item_name);
-
-                checkBoxSelect.setOnClickListener(this);
-
-
-                checkBoxSelect.setOnClickListener(this);
+                checkBoxSelect.setClickable(false);
                 mRelativeLayout.setOnClickListener(this);
 
             }

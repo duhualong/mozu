@@ -67,7 +67,15 @@ public class TrainingPostActivity extends BaseActivity {
     protected void updateUI() {
         curPage = getIntent().getIntExtra("curPage", 1);
         maxPage = getIntent().getIntExtra("maxPage", 1);
-        tvPager.setText(curPage + "/" + maxPage);
+        if (curPage>maxPage){
+            tvPager.setText(maxPage + "/" + maxPage);
+            fetchMasterData(maxPage);
+        }else {
+            tvPager.setText(curPage + "/" + maxPage);
+            fetchMasterData(curPage);
+
+        }
+
         mBanner.setAutoPlayAble(false);
 
         mBanner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -86,7 +94,7 @@ public class TrainingPostActivity extends BaseActivity {
 
             }
         });
-        fetchMasterData(curPage);
+
 
     }
 

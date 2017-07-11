@@ -2,6 +2,7 @@ package org.eenie.wgj.ui.reportpost;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -186,10 +187,15 @@ public class ReportPostSettingUploadActivity extends BaseActivity implements
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.rl_select_post:
-                      startActivity(new Intent(context, ReportPostSettingFirstActivity.class)
-                      .putExtra(ReportPostSettingFirstActivity.POST_ID,
-                             mProjectList.getId())
-                      .putExtra(ReportPostSettingFirstActivity.NAME,mProjectList.getPost()));
+                       if (openGPSSettings()){
+                           startActivity(new Intent(context, ReportPostSettingFirstActivity.class)
+                                   .putExtra(ReportPostSettingFirstActivity.POST_ID,
+                                           mProjectList.getId())
+                                   .putExtra(ReportPostSettingFirstActivity.NAME,mProjectList.getPost()));
+
+                       }else {
+                           Toast.makeText(context,"请打开GPS",Toast.LENGTH_SHORT).show();
+                       }
 
                         break;
 
@@ -198,6 +204,21 @@ public class ReportPostSettingUploadActivity extends BaseActivity implements
 
             }
         }
+    }
+
+
+
+    private boolean openGPSSettings() {
+        boolean openGPSSettings;
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+            openGPSSettings = true;
+        } else {
+            openGPSSettings = false;
+
+        }
+        return openGPSSettings;
     }
 
 

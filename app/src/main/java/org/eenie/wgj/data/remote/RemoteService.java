@@ -28,6 +28,7 @@ import org.eenie.wgj.model.requset.UpdateRoundPoint;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceDay;
 import org.eenie.wgj.model.response.ShootList;
+import org.eenie.wgj.model.response.meeting.MeetingData;
 import org.eenie.wgj.model.response.reportpost.QueryReportPostMonth;
 
 import java.io.File;
@@ -533,7 +534,7 @@ public interface RemoteService {
 
     //获取通知人员（巡检）
     @GET("management/userList")
-    Single<ApiResponse> getNoticePeopleList(@Header("token") String token);
+    Single<ApiResponse> getNoticePeopleList(@Header("token") String token,@Query("projectid")String projectId);
 
     //开始巡检
     @POST("addPatrolRecord")
@@ -618,7 +619,34 @@ public interface RemoteService {
 
     //添加会议
     @POST("meetingAdd")
-    Single<ApiResponse>addMeetingContent(@Header("token")String token,@Body String data);
+    Single<ApiResponse>addMeetingContent(@Header("token")String token,@Body MeetingData request);
+    //会议室列表
+    @GET("meeting_roomList")
+    Single<ApiResponse>getMeetingClassList(@Header("token")String token, @Query("start")
+            String startTime,@Query("end")String endTime);
+    @POST("application_roomAdd")
+    Single<ApiResponse>applyMeetingClass(@Header("token")String token,@Body MeetingData request );
+
+
+    //会议申请反馈
+    @GET("application_roomList")
+    Single<ApiResponse>getMeetingFeedbackList(@Header("token")String token);
+    //详情
+    @GET("application_roomList/info")
+    Single<ApiResponse>getMeetingDetailInfo(@Header("token")String token,
+                                            @Query("applicationid")String applyId);
+
+    //未开始会议
+    @GET("meeting/notStart")
+    Single<ApiResponse>getUnStartMeetingList(@Header("token")String token);
+    //进行中
+    @GET("meeting/start")
+    Single<ApiResponse>getMeetingProgressList(@Header("token")String token);
+    //结束会议
+    @GET("meeting/end")
+    Single<ApiResponse>getEndMeetingList(@Header("token")String token);
+    @GET("meeting/info")
+    Single<ApiResponse>getMeetingArrangeDetail(@Header("token")String token,@Query("id")String id);
 
             //获取个人考勤情况
     class Creator {

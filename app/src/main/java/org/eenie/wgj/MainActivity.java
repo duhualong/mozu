@@ -116,6 +116,7 @@ public class MainActivity extends BaseActivity {
                             if (!mData.getCompany_name().isEmpty() && mData.getCompany_name() != null) {
                                 mPrefsHelper.getPrefs().edit().putString(Constants.COMPANY_NAME,
                                         mData.getCompany_name()).apply();
+
                             } else {
                                 mPrefsHelper.getPrefs().edit().putString(Constants.COMPANY_NAME,
                                         "").apply();

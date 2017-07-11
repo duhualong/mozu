@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="会议室申请"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:id="@id/tv_apply_ok"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="@string/tv_commite"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+
+    </RelativeLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@+id/text"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="会议名称"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <EditText
+                    android:id="@id/et_meeting_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/text"
+                    android:layout_marginBottom="@dimen/dp_14"
+                    android:layout_marginLeft="@dimen/dp_14"
+                    android:layout_marginRight="@dimen/dp_14"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:background="@mipmap/handover_edit_bg"
+                    android:gravity="center_vertical"
+                    android:hint="例如：公司月会"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:padding="@dimen/dp_10"
+                    android:textColor="@color/titleColor"
+                    android:textColorHint="@color/gray"
+                    android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@+id/tv_routing_status"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="会议时间"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dp_10"
+            >
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/handover_edit_bg"
+                    android:gravity="center"
+                    android:text="开始时间"
+                    android:textColor="@color/black_light"
+                    android:textSize="@dimen/text_large_size"/>
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="36dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="36dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_weight="1"
+                    android:background="@mipmap/handover_edit_bg"
+                    android:gravity="center"
+                    android:text="结束时间"
+                    android:textColor="@color/black_light"
+                    android:textSize="@dimen/text_large_size"/>
+            </LinearLayout>
+
+            <RelativeLayout android:id="@id/rl_meeting_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="会议室"
+                          android:textColor="@color/black_light"
+                          android:textSize="@dimen/text_large_size"/>
+                <TextView android:id="@id/meeting_class"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_short"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="去选择"
+                          android:textColor="@color/text_blue"
+                          android:textSize="@dimen/text_large_size"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@+id/text3"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="会议详情"
+                          android:textColor="@color/black_light"/>
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="120dp"
+                              android:layout_below="@+id/text3"
+                              android:layout_marginEnd="@dimen/font_size_18sp"
+                              android:layout_marginLeft="@dimen/font_size_18sp"
+                              android:layout_marginRight="@dimen/font_size_18sp"
+                              android:layout_marginStart="@dimen/font_size_18sp"
+                              android:layout_marginTop="@dimen/padding_bottom"
+                              android:background="@mipmap/bg_edit_text_light">
+                    <EditText
+                        android:id="@id/edit_meeting_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@null"
+                        android:gravity="start|left"
+                        android:hint="请输入会议详情"
+                        android:lines="6"
+                        android:textColor="@color/titleColor"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/text_large_size"
+                    />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

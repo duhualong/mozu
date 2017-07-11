@@ -284,7 +284,7 @@ public class LaunchMeetingActivity extends BaseActivity {
 
                     Log.d("test", "onActivityResult: " + gson.toJson(mData));
                     if (mData != null) {
-                        mRecyclerView.setVisibility(View.VISIBLE);
+                        mRecyclerView.setNestedScrollingEnabled(false);
                         mAdapter = new AddPersonalAdapter(context, mData);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                         mRecyclerView.setLayoutManager(layoutManager);

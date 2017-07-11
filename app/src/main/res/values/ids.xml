@@ -728,5 +728,34 @@
     <item name="recycler_view_meeting" type="id"/>
     <item name="swipe_refresh_meeting" type="id"/>
     <item name="rl_meeting_item" type="id"/>
+    <item name="edit_meeting_detail" type="id"/>
+    <item name="meeting_class" type="id"/>
+    <item name="rl_meeting_address" type="id"/>
+    <item name="rl_feedback" type="id"/>
+    <item name="item_feedback_result" type="id"/>
+    <item name="meeting_name" type="id"/>
+    <item name="meeting_time" type="id"/>
+    <item name="meeting_purpose" type="id"/>
+    <item name="meeting_apply_result" type="id"/>
+    <item name="tv_apply_result" type="id"/>
+    <item name="img_apply_avatar" type="id"/>
+    <item name="tv_apply_meeting_name" type="id"/>
+    <item name="tv_apply_meeting_cause" type="id"/>
+    <item name="rl_apply_meeting" type="id"/>
+    <item name="rl_detail" type="id"/>
+    <item name="item_username" type="id"/>
+    <item name="item_status" type="id"/>
+    <item name="rb_unstart" type="id"/>
+    <item name="rb_progress" type="id"/>
+    <item name="rb_end" type="id"/>
+    <item name="rv_meeting_unstart" type="id"/>
+    <item name="item_start_time" type="id"/>
+    <item name="tv_username" type="id"/>
+    <item name="tv_status_meeting" type="id"/>
+    <item name="tv_meeting_host" type="id"/>
+    <item name="tv_meeting_address" type="id"/>
+    <item name="tv_meeting_record" type="id"/>
+    <item name="tv_meeting_plan" type="id"/>
+    <item name="tv_meeting_record_content" type="id"/>
 
 </resources>

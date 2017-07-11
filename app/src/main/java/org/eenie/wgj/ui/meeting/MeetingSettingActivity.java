@@ -50,13 +50,16 @@ public class MeetingSettingActivity extends BaseActivity {
 
                 break;
             case R.id.rl_apply_meeting_class:
+                startActivity(new Intent(context,ApplyMeetingActivity.class));
 
 
                 break;
             case R.id.rl_meeting_arrange:
+                startActivity(new Intent(context,MeetingArrangeActivity.class));
 
                 break;
             case R.id.rl_meeting_feedback:
+                startActivity(new Intent(context,MeetingFeedbackActivity.class));
 
 
                 break;

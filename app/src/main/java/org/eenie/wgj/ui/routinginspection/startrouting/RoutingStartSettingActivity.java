@@ -21,6 +21,8 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.UserId;
+import org.eenie.wgj.model.response.UserInforById;
 import org.eenie.wgj.model.response.routing.StartRoutingResponse;
 import org.eenie.wgj.util.Constants;
 
@@ -56,6 +58,8 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
 
     @Override
     protected void updateUI() {
+        initPersonalInfo();
+
         lineId = getIntent().getStringExtra(LINE_ID);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -71,6 +75,45 @@ public class RoutingStartSettingActivity extends BaseActivity implements SwipeRe
 
 
     }
+
+
+
+    private void initPersonalInfo() {
+
+        UserId mUser = new UserId(mPrefsHelper.getPrefs().getString(Constants.UID, ""));
+        mSubscription = mRemoteService.getUserInfoById(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), mUser)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(apiResponse.getData());
+                        UserInforById mData = gson.fromJson(jsonArray,
+                                new TypeToken<UserInforById>() {
+                                }.getType());
+                        if (mData != null) {
+                           mPrefsHelper.getPrefs().edit().putString(Constants.PROJECTID,
+                                   String.valueOf(mData.getProject_id()))
+                                   .apply();
+
+                        }
+                    }
+                });
+    }
+
+
 
     private void getRoutingData(String lineId) {
         mSubscription = mRemoteService.getRoutingByLine(mPrefsHelper.getPrefs().

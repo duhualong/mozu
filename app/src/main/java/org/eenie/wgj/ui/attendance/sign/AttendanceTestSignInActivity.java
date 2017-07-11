@@ -78,7 +78,8 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
     TextView tvMyLocation;
     @BindView(R.id.map_view)
     MapView mMapView;
-    @BindView(R.id.btn_take_photo)Button mButton;
+    @BindView(R.id.btn_take_photo)
+    Button mButton;
     @BindView(R.id.tv_sel_rank)
     TextView tvSelectRank;
     @BindView(R.id.activity_map)
@@ -105,7 +106,7 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
     private String address;
     private String mLong;
     private String mLat;
-    private  int serviceId;
+    private int serviceId;
 
 
     //地图的UI
@@ -120,16 +121,16 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
     protected void updateUI() {
         AttendanceListResponse data = getIntent().getParcelableExtra(INFO);
         if (data != null) {
-             serviceId=data.getService().getId();
+            serviceId = data.getService().getId();
             menu = new PopupMenu(context, tvSelectRank);
             initPopRank(data);
             tvSelectRank.setText(data.getService().getServicesname());
-            type=1;
-        }else {
+            type = 1;
+        } else {
             menu = new PopupMenu(context, tvSelectRank);
             initPopRank(data);
             tvSelectRank.setText("日班");
-            type=1;
+            type = 1;
         }
 
     }
@@ -141,11 +142,11 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
                 if (type == 0) {
                     Toast.makeText(context, "请选择班次", Toast.LENGTH_LONG).show();
                 } else {
-                    if (!TextUtils.isEmpty(address)){
+                    if (!TextUtils.isEmpty(address)) {
                         startActivityForResult(new Intent(context, AttendanceTokePhotoActivity.class),
                                 REQUEST_CODE);
-                    }else {
-                        Toast.makeText(context,"请打开定位权限，允许定位",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "请打开定位权限，允许定位", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -177,17 +178,17 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
                         REQUEST_CODE_NEED_EXTRA);
             } else {
                 // signIn(path);
-                signIn(getMultipartBody(path,mLong,mLat,type,serviceId,address,""));
+                signIn(getMultipartBody(path, mLong, mLat, type, serviceId, address, ""));
             }
         } else if (requestCode == REQUEST_CODE_NEED_EXTRA && resultCode == RESULT_CODE) {
             extraMsg = data.getStringExtra("extra_msg");
-            signIn(getMultipartBody(path,mLong,mLat,type,serviceId,address,extraMsg));
+            signIn(getMultipartBody(path, mLong, mLat, type, serviceId, address, extraMsg));
 
         }
     }
 
-    public  MultipartBody getMultipartBody(String path,String mLong,String mLat, int type, int serviceId,
-                                                 String address, String content) {
+    public MultipartBody getMultipartBody(String path, String mLong, String mLat, int type, int serviceId,
+                                          String address, String content) {
         File file = new File(path);
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
@@ -212,29 +213,36 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService fileUploadService = retrofit.create(FileUploadService.class);
-        Call<ApiResponse> call=fileUploadService.
-                signInAttendance(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),requestBody);
+        Call<ApiResponse> call = fileUploadService.
+                signInAttendance(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), requestBody);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.body().getCode()==0){
-                    if (response.body().getMessage().equals("恭喜你签到第1名")) {
-                        AttendanceResDialog.newInstance("签到结果", "签到成功！\n" +
-                                response.body().getMessage(), String.valueOf(2)).show(getFragmentManager(), "signin");
+                if (response.body() != null) {
+
+                    if (response.body().getCode() == 0) {
+                        if (response.body().getMessage().equals("恭喜你签到第1名")) {
+                            AttendanceResDialog.newInstance("签到结果", "签到成功！\n" +
+                                    response.body().getMessage(), String.valueOf(2)).show(getFragmentManager(), "signin");
+                        } else {
+                            AttendanceResDialog.newInstance("签到结果", "签到成功！\n" +
+                                    response.body().getMessage(), String.valueOf(0)).show(getFragmentManager(), "signin");
+                        }
+                        mButton.setClickable(false);
+                        mButton.setText("已签到");
+
                     } else {
-                        AttendanceResDialog.newInstance("签到结果", "签到成功！\n" +
-                                response.body().getMessage(), String.valueOf(0)).show(getFragmentManager(), "signin");
+
+                        mButton.setClickable(true);
+                        AttendanceResDialog.newInstance("签到结果", "签到失败！\n" +
+                                response.body().getMessage(), String.valueOf(1)).show(getFragmentManager(), "signin");
                     }
-                    mButton.setClickable(false);
-                    mButton.setText("已签到");
+                } else {
+                    Toast.makeText(context, "网路请求错误", Toast.LENGTH_SHORT).show();
 
-                }else {
-
-                    mButton.setClickable(true);
-                    AttendanceResDialog.newInstance("签到结果", "签到失败！\n" +
-                            response.body().getMessage(), String.valueOf(1)).show(getFragmentManager(), "signin");
                 }
             }
+
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 mButton.setClickable(true);
@@ -244,10 +252,11 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         });
 
     }
+
     private void initPopRank(AttendanceListResponse data) {
-         String name = data.getService().getServicesname();
-        if (TextUtils.isEmpty(name)){
-            name="日班";
+        String name = data.getService().getServicesname();
+        if (TextUtils.isEmpty(name)) {
+            name = "日班";
         }
         menu.getMenu().add(name);
         menu.getMenu().add("外出");
@@ -364,9 +373,9 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
             LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
             mLatLng = latLng;
-            address=aMapLocation.getAddress();
-            mLong=String.valueOf(aMapLocation.getLongitude());
-            mLat=String.valueOf(aMapLocation.getLatitude());
+            address = aMapLocation.getAddress();
+            mLong = String.valueOf(aMapLocation.getLongitude());
+            mLat = String.valueOf(aMapLocation.getLatitude());
             if (mLocationMarker == null) {
                 mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                 MarkerOptions markerOptions = new MarkerOptions();

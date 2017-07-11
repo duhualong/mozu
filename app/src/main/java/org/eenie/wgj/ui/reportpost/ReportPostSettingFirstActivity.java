@@ -122,7 +122,7 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                                 mData = gson.fromJson(jsonArray,
                                         new TypeToken<ReportPostItemDetail>() {
                                         }.getType());
-                                selectId=String.valueOf(mData.getData().getNewspaperpost_id());
+                                selectId = String.valueOf(mData.getData().getNewspaperpost_id());
 
                                 if (mData.getPlan() != null && mData.getPlan().size() > 0) {
 
@@ -308,8 +308,8 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
                                     "报岗时间未到", Toast.LENGTH_SHORT).show();
 
                         } else if (mPlanBean.getStatusCode() == 0) {
-                            savaPosition=positions;
-                            saveTime=mPlanBean.getTime();
+                            savaPosition = positions;
+                            saveTime = mPlanBean.getTime();
 
                             startActivityForResult(new Intent(ReportPostSettingFirstActivity.this,
                                             AttendanceTokePhotoActivity.class),
@@ -340,17 +340,17 @@ public class ReportPostSettingFirstActivity extends BaseActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
             path = data.getStringExtra("path");
-            System.out.println("文件路径:"+path);
+            System.out.println("文件路径:" + path);
 
-            startActivity(new Intent(context,UploadReportPostInfoActivity.class)
-            .putExtra(UploadReportPostInfoActivity.PATH,path)
-            .putExtra(UploadReportPostInfoActivity.TIME,saveTime)
-            .putExtra(UploadReportPostInfoActivity.POSITION,savaPosition)
-            .putExtra(UploadReportPostInfoActivity.POST,postName)
-                    .putExtra(UploadReportPostInfoActivity.POST_ID,postId)
-                    .putExtra(UploadReportPostInfoActivity.ID,selectId)
-            .putExtra(UploadReportPostInfoActivity.CONTENT,mData.getData().getPostsetting().
-                    getPostsetting_info()));
+            startActivity(new Intent(context, UploadReportPostInfoActivity.class)
+                    .putExtra(UploadReportPostInfoActivity.PATH, path)
+                    .putExtra(UploadReportPostInfoActivity.TIME, saveTime)
+                    .putExtra(UploadReportPostInfoActivity.POSITION, savaPosition)
+                    .putExtra(UploadReportPostInfoActivity.POST, postName)
+                    .putExtra(UploadReportPostInfoActivity.POST_ID, postId)
+                    .putExtra(UploadReportPostInfoActivity.ID, selectId)
+                    .putExtra(UploadReportPostInfoActivity.CONTENT, mData.getData().getPostsetting().
+                            getPostsetting_info()));
 
 
         }

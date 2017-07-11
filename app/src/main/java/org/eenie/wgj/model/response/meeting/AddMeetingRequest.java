@@ -10,18 +10,6 @@ import java.util.List;
 
 public class AddMeetingRequest {
 
-    /**
-     * userid : [35,39,41,28]
-     * end : 2017-07-10 21:10
-     * start : 2017-07-10 20:10
-     * address : 测试
-     * meeting_agenda : 测试会议
-     * time_type : 2
-     * host : 3
-     * recorder : 28
-     * meeting_purpose : 测试数据
-     * name : 测试
-     */
 
     private String end;
     private String start;

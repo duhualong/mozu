@@ -47,6 +47,7 @@ public class AddManagerPeopleActivity extends BaseActivity
     @BindView(R.id.recycler_view)RecyclerView mRecyclerView;
     private AddPersonalAdapter mAdapter;
     private    ArrayList<ManagerPeopleResponse> data=new ArrayList<>();
+    String projectId;
     @Override
     protected int getContentView() {
         return R.layout.activity_management_people;
@@ -54,6 +55,7 @@ public class AddManagerPeopleActivity extends BaseActivity
 
     @Override
     protected void updateUI() {
+
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
@@ -67,6 +69,11 @@ public class AddManagerPeopleActivity extends BaseActivity
         mRecyclerView.setAdapter(mAdapter);
 
     }
+
+
+
+
+
     @OnClick({R.id.img_back,R.id.tv_apply_ok})public  void onClick(View view){
         int number=0;
         switch (view.getId()){
@@ -109,7 +116,8 @@ public class AddManagerPeopleActivity extends BaseActivity
     public void onRefresh() {
         mAdapter.clear();
         mSubscription=mRemoteService.
-                getNoticePeopleList(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""))
+                getNoticePeopleList(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),
+                        mPrefsHelper.getPrefs().getString(Constants.PROJECTID,""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
