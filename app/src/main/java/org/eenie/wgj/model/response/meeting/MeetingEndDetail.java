@@ -48,7 +48,53 @@ public class MeetingEndDetail {
     private int permissions;
     private String state;
     private List<ImageBean> image;
+    private List<NumberBean> number;
 
+    public List<ImageBean> getImage() {
+        return image;
+    }
+
+    public void setImage(List<ImageBean> image) {
+        this.image = image;
+    }
+
+    public List<NumberBean> getNumber() {
+        return number;
+    }
+
+    public void setNumber(List<NumberBean> number) {
+        this.number = number;
+    }
+
+    public static class NumberBean {
+        private String id_card_head_image;
+        private String user_id;
+        private String username;
+
+        public String getId_card_head_image() {
+            return id_card_head_image;
+        }
+
+        public void setId_card_head_image(String id_card_head_image) {
+            this.id_card_head_image = id_card_head_image;
+        }
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+    }
 
     public static class ImageBean {
         private String image;

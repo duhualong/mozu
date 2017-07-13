@@ -74,9 +74,6 @@ public class AddWorkShowActivity extends BaseActivity {
     private String mTitleName;
 
     private Uri mImageUri;
-    private Uri firstUri;
-    private Uri secondUri;
-    private Uri thirdUri;
     private String firstPath;
     private String secondPath;
     private String thirdPath;

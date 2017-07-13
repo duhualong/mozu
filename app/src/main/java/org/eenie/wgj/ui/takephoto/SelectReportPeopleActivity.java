@@ -133,7 +133,10 @@ public class SelectReportPeopleActivity extends BaseActivity {
                                     mExpandableListView.setAdapter(adapter);
 
                                 }
-                            }
+                           }
+                        }else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

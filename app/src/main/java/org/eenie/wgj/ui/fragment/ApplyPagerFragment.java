@@ -104,9 +104,7 @@ public class ApplyPagerFragment extends BaseSupportFragment
 
         queryIndex();
     }
-
     private void initData() {
-
         mSubscription = mRemoteService.getAttendanceList(
                 mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
                 new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()))

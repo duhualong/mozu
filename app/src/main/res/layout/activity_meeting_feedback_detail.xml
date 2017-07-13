@@ -186,7 +186,7 @@
                     android:background="@color/white"
                     android:id="@id/rl_apply_meeting"
                     android:padding="@dimen/padding_bottom">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@id/img_apply_avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"

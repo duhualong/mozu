@@ -254,7 +254,7 @@ public class AddPeopleSelectActivity extends BaseActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_meeting_item:
-                        System.out.println("ssss");
+
                         if (checkBoxSelect.isChecked()) {
                             mMeetingPeople.setChecked(false);
                             addPersonalClass.get(mPosition).setChecked(false);
@@ -263,7 +263,7 @@ public class AddPeopleSelectActivity extends BaseActivity {
                             addPersonalClass.get(mPosition).setChecked(true);
                         }
                         notifyDataSetChanged();
-                        System.out.println("dddd");
+
                         break;
                 }
 

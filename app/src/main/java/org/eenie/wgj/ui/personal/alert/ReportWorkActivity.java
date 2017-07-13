@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.AttendanceAlertRequest;
 import org.eenie.wgj.model.response.alert.ReportAlert;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
@@ -110,11 +111,8 @@ public class ReportWorkActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.checkbox_attendance:
-                if (checkBoxAttendance.isChecked()){
-                    //保存设置的考勤时间
-                }else {
+                openAlert();
 
-                }
 
 
 
@@ -123,17 +121,63 @@ public class ReportWorkActivity extends BaseActivity {
                 showTimeStartDialog();
 
                 break;
-            case R.id.rl_set_end_time:
-                showTimeEndDialog();
-
-                break;
+//            case R.id.rl_set_end_time:
+//                showTimeEndDialog();
+//
+//                break;
             case R.id.tv_save:
-                showSuccessDialog();
+                if (!TextUtils.isEmpty(time)){
+                    addPostTime(time);
+                }
+
 
                 break;
 
 
         }
+    }
+
+    private void addPostTime(String time) {
+        AttendanceAlertRequest request=new AttendanceAlertRequest(time);
+        mSubscription=mRemoteService.addPostTime(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),request)
+                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                            showSuccessDialog();
+                            if (checkBoxAttendance.isChecked()){
+                                openAlert();
+                            }
+                        }else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+
+    private void openAlert() {
+        mSubscription=mRemoteService.openClosePostAlert(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN,""))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
     }
 
     private void showSuccessDialog() {
@@ -144,6 +188,7 @@ public class ReportWorkActivity extends BaseActivity {
                 .create();
         dialog.show();
         dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(v -> {
+            Toast.makeText(context,"报岗提醒时间设置成功",Toast.LENGTH_SHORT).show();
             dialog.dismiss();
 
         });
@@ -390,6 +435,7 @@ public class ReportWorkActivity extends BaseActivity {
                         if (minute.length()<=1&&Integer.parseInt(minute) <= 9) {
                             minute = "0" + minute;
                         }
+                        time=hour + ":" + minute;
                         startTime.setText(hour + ":" + minute);
                         startTime.setTextColor(ContextCompat.getColor
                                 (context, R.color.titleColor));

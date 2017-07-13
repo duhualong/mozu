@@ -15,7 +15,6 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.meeting.MeetingDetailFeedback;
-import org.eenie.wgj.model.response.meeting.MeetingFeedbackResponseList;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
@@ -90,7 +89,7 @@ public class MeetingFeedbackDetailActivity extends BaseActivity {
                             String jsonArray = gson.toJson(apiResponse.getData());
                             MeetingDetailFeedback mData =
                                     gson.fromJson(jsonArray,
-                                            new TypeToken<MeetingFeedbackResponseList>() {
+                                            new TypeToken<MeetingDetailFeedback>() {
                                             }.getType());
                             if (mData != null) {
                                 if (mData.getCheckstatus() == 2) {

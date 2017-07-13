@@ -168,11 +168,32 @@ public class AddTakePhotoActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), "a.jpg");
-        UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(300, 300)
-                .start(AddTakePhotoActivity.this, requestCode);
+        switch (requestCode){
+            case RESPONSE_CODE_FIRST:
+                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFile))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(AddTakePhotoActivity.this, requestCode);
+
+                break;
+            case RESPONSE_CODE_SECOND:
+                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(AddTakePhotoActivity.this, requestCode);
+                break;
+            case RESPONSE_CODE_THIRD:
+                File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+                UCrop.of(resUri, Uri.fromFile(mCropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(AddTakePhotoActivity.this, requestCode);
+
+                break;
+        }
+
     }
 
     @Override

@@ -210,6 +210,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
     }
 
+
     private void initMapView() {
         mlocationClient = new AMapLocationClient(this);
 //初始化定位参数
@@ -867,7 +868,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 File cropFile = new File(context.getCacheDir(), "a.jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
                         .withAspectRatio(1, 1)
-                        .withMaxResultSize(300, 300)
+                        .withMaxResultSize(500, 500)
                         .start(RoutingPointUploadActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_TWO:
@@ -875,14 +876,14 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 File cropFiles = new File(context.getCacheDir(), "b.jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(1, 1)
-                        .withMaxResultSize(300, 300)
+                        .withMaxResultSize(500, 500)
                         .start(RoutingPointUploadActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_THREE:
                 File mcropFiles = new File(context.getCacheDir(), "c.jpg");
                 UCrop.of(resUri, Uri.fromFile(mcropFiles))
                         .withAspectRatio(1, 1)
-                        .withMaxResultSize(300, 300)
+                        .withMaxResultSize(500, 500)
                         .start(RoutingPointUploadActivity.this, requestCode);
 
                 break;
@@ -891,7 +892,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 File mCropFiles = new File(context.getCacheDir(), "d.jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFiles))
                         .withAspectRatio(1, 1)
-                        .withMaxResultSize(300, 300)
+                        .withMaxResultSize(500, 500)
                         .start(RoutingPointUploadActivity.this, requestCode);
 
 
@@ -900,7 +901,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 File mCropFile = new File(context.getCacheDir(), "e.jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFile))
                         .withAspectRatio(1, 1)
-                        .withMaxResultSize(300, 300)
+                        .withMaxResultSize(500, 500)
                         .start(RoutingPointUploadActivity.this, requestCode);
 
 
@@ -1051,13 +1052,15 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
             private RoutingContentResponse mRoutingContentResponses;
             private TextView itemName;
             private CheckBox rlItem;
+            private RelativeLayout mRelativeLayout;
 
             public ProjectViewHolder(View itemView) {
 
                 super(itemView);
                 itemName = ButterKnife.findById(itemView, R.id.item_content_routing);
                 rlItem = ButterKnife.findById(itemView, R.id.checkbox_select_content);
-                rlItem.setOnClickListener(this);
+                mRelativeLayout=ButterKnife.findById(itemView,R.id.rl_select_item);
+                mRelativeLayout.setOnClickListener(this);
 
 
             }
@@ -1070,11 +1073,13 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
             public void onClick(View v) {
                 switch (v.getId()) {
 
-                    case R.id.checkbox_select_content:
+                    case R.id.rl_select_item:
                         if (rlItem.isChecked()) {
-                            mRoutingContentResponses.setSelect(true);
-                        } else {
+                            rlItem.setChecked(false);
                             mRoutingContentResponses.setSelect(false);
+                        } else {
+                            rlItem.setChecked(true);
+                            mRoutingContentResponses.setSelect(true);
                         }
                         notifyDataSetChanged();
 

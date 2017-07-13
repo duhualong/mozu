@@ -2,8 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#f1f1f1"
+              android:background="@color/white_light"
               android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:id="@id/tv_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="应用"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <TextView android:id="@id/tv_edit"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="编辑"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"
+        />
+
+    </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -14,13 +38,13 @@
                   android:text="@string/home_application"
                   android:textColor="@color/black_light"
                   android:textSize="@dimen/text_large_size"/>
-        <TextView android:layout_width="wrap_content"
+        <TextView android:id="@id/tv_sort"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_alignParentEnd="true"
                   android:layout_alignParentRight="true"
                   android:layout_centerVertical="true"
                   android:text="拖动可排序"
-                  android:id="@id/tv_sort"
                   android:textColor="@color/titleColor"
                   android:textSize="@dimen/text_normal_size"/>
 

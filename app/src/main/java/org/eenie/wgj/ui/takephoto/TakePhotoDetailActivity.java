@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.takephoto;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,40 +55,35 @@ public class TakePhotoDetailActivity extends BaseActivity {
             mContent.setText(data.getText());
             mName.setText(data.getUsername());
             if (data.getImage() != null) {
-                switch (data.getImage().size()) {
-                    case 1:
-                        imgFirst.setVisibility(View.VISIBLE);
-                        firstUrl = data.getImage().get(0).getImage();
-                        Glide.with(context).load(Constant.DOMIN + firstUrl).
-                                centerCrop().into(imgFirst);
+                if (data.getImage().size()==1){
+                    firstUrl = data.getImage().get(0).getImage();
+                    Glide.with(context).load(Constant.DOMIN + firstUrl).
+                            centerCrop().into(imgFirst);
+                }else if (data.getImage().size()==2){
+                    imgFirst.setVisibility(View.VISIBLE);
+                    imgSecond.setVisibility(View.VISIBLE);
+                    firstUrl = data.getImage().get(0).getImage();
+                    secondUrl=data.getImage().get(1).getImage();
+                    Glide.with(context).load(Constant.DOMIN + firstUrl).
+                            centerCrop().into(imgFirst);
+                    Glide.with(context).load(Constant.DOMIN + secondUrl).
+                            centerCrop().into(imgSecond);
 
-                        break;
-                    case 2:
-                        imgFirst.setVisibility(View.VISIBLE);
-                        imgSecond.setVisibility(View.VISIBLE);
-                        firstUrl = data.getImage().get(0).getImage();
-                        secondUrl=data.getImage().get(1).getImage();
-                        Glide.with(context).load(Constant.DOMIN + firstUrl).
-                                centerCrop().into(imgFirst);
-                        Glide.with(context).load(Constant.DOMIN + secondUrl).
-                                centerCrop().into(imgSecond);
-
-                        break;
-                    case 3:
-                        imgFirst.setVisibility(View.VISIBLE);
-                        imgSecond.setVisibility(View.VISIBLE);
-                        imgThird.setVisibility(View.VISIBLE);
-                        firstUrl = data.getImage().get(0).getImage();
-                        secondUrl=data.getImage().get(1).getImage();
-                        thirdUrl=data.getImage().get(2).getImage();
-                        Glide.with(context).load(Constant.DOMIN + firstUrl).
-                                centerCrop().into(imgFirst);
-                        Glide.with(context).load(Constant.DOMIN + secondUrl).
-                                centerCrop().into(imgSecond);
-                        Glide.with(context).load(Constant.DOMIN + thirdUrl).
-                                centerCrop().into(imgThird);
-                        break;
+                }else if (data.getImage().size()>=3){
+                    imgFirst.setVisibility(View.VISIBLE);
+                    imgSecond.setVisibility(View.VISIBLE);
+                    imgThird.setVisibility(View.VISIBLE);
+                    firstUrl = data.getImage().get(0).getImage();
+                    secondUrl=data.getImage().get(1).getImage();
+                    thirdUrl=data.getImage().get(2).getImage();
+                    Glide.with(context).load(Constant.DOMIN + firstUrl).
+                            centerCrop().into(imgFirst);
+                    Glide.with(context).load(Constant.DOMIN + secondUrl).
+                            centerCrop().into(imgSecond);
+                    Glide.with(context).load(Constant.DOMIN + thirdUrl).
+                            centerCrop().into(imgThird);
                 }
+
             }
 
         }
@@ -102,25 +98,31 @@ public class TakePhotoDetailActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.img_first:
-                startActivity(
-                        new Intent(context, GalleryActivity.class).
-                                putExtra(GalleryActivity.EXTRA_IMAGE_URI,
-                                        Constant.DOMIN+firstUrl));
+                if (!TextUtils.isEmpty(firstUrl)){
+                    startActivity(
+                            new Intent(context, GalleryActivity.class).
+                                    putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN+firstUrl));
+                }
+
                 break;
 
             case R.id.img_second:
-                startActivity(
-                        new Intent(context, GalleryActivity.class).
-                                putExtra(GalleryActivity.EXTRA_IMAGE_URI,
-                                        Constant.DOMIN+secondUrl));
-
+                if (!TextUtils.isEmpty(secondUrl)) {
+                    startActivity(
+                            new Intent(context, GalleryActivity.class).
+                                    putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN + secondUrl));
+                }
                 break;
 
             case R.id.img_third:
-                startActivity(
-                        new Intent(context, GalleryActivity.class).
-                                putExtra(GalleryActivity.EXTRA_IMAGE_URI,
-                                        Constant.DOMIN+thirdUrl));
+                if (!TextUtils.isEmpty(thirdUrl)) {
+                    startActivity(
+                            new Intent(context, GalleryActivity.class).
+                                    putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN + thirdUrl));
+                }
                 break;
         }
     }

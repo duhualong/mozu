@@ -623,19 +623,50 @@
         <activity android:name=".ui.meeting.launchmeeting.AddMeetingClassActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustPan"/>
-
+        <!--会议反馈-->
         <activity android:name=".ui.meeting.MeetingFeedbackActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.meeting.MeetingFeedbackDetailActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--会议安排-->
         <activity android:name=".ui.meeting.MeetingArrangeActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.meeting.fragment.MeetingEndDetailActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <!--未开始会议详情-->
+        <activity android:name=".ui.meeting.fragment.MeetingUnstartDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.meeting.fragment.MeetingProgressDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.meeting.fragment.SignInMeetingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.scan.ScanActivity"/>
+
+        <!--交接班模块-->
+        <activity android:name=".ui.exchangeclass.ExchangeWorkClassSetting"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.exchangeclass.ExchangeWorkClassDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.exchangeclass.AddManagerExchangeClassPeopleActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.noticemessage.NoticeMessageActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.project.projecttime.ProjectSettingPersonalTimeActivity"/>
+
+        <!--<activity android:name=".ui.meeting.MeetingClassApplyPartActivity"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:windowSoftInputMode="adjustResize"/>-->
 
 
         <!--个人工时-->

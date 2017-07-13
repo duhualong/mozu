@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.meeting.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -80,7 +80,6 @@ public class MeetingProgressFragment extends BaseSupportFragment {
 
                             }
                         }else {
-                            Toast.makeText(context,apiResponse.getResultMessage(),Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -197,7 +196,9 @@ public class MeetingProgressFragment extends BaseSupportFragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.rl_detail:
-
+                        startActivity(new Intent(context,MeetingProgressDetailActivity.class)
+                                .putExtra(MeetingProgressDetailActivity.APPLY_ID,
+                                        String.valueOf(mStartMeeting.getId())));
 
                         break;
 

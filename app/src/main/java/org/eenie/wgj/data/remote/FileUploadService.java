@@ -97,6 +97,10 @@ public interface FileUploadService {
     @POST("readilyShootAdd")
     Call<ApiResponse> addShootPhotoItem(@Header("token") String token, @Body RequestBody body);
 
+    //会议记录
+    @POST("meetingMinutes")
+    Call<ApiResponse>addMeetingRecord(@Header("token")String token,@Body RequestBody body);
+
     //签到
     @POST("checkInAdd")
     Call<ApiResponse> signInAttendance(@Header("token") String token, @Body RequestBody body);

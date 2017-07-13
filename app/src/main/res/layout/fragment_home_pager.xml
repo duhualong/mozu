@@ -3,11 +3,41 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F0F0F0"
+                android:background="@color/white_light"
+                android:id="@id/home_root_view"
                 android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <TextView android:id="@id/tv_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:ellipsize="end"
+                  android:maxLength="18"
+                  android:text="上海优驰保安服务有限公司"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+        <ImageView android:id="@id/img_scan"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_home_topbar_scan"/>
+        <ImageView android:id="@id/img_search"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_home_search"/>
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?android:actionBarSize"
     >
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -29,20 +59,20 @@
                                              app:unSelectedIndicatorHeight="8dp"
                                              app:unSelectedIndicatorWidth="8dp"/>
 
-           <LinearLayout android:layout_width="match_parent"
-                         android:layout_height="180dp"
-                         android:layout_marginTop="10dp"
-                         android:layout_marginBottom="10dp"
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="180dp"
+                          android:layout_marginBottom="10dp"
+                          android:layout_marginTop="10dp"
 
-           >
-               <GridView
-                   android:id="@id/gradView"
-                   android:layout_width="match_parent"
-                   android:layout_height="180dp"
-                   android:columnWidth="10dp"
-                   android:numColumns="4"
-                   android:scrollbars="none"/>
-           </LinearLayout>
+            >
+                <GridView
+                    android:id="@id/gradView"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:columnWidth="10dp"
+                    android:numColumns="4"
+                    android:scrollbars="none"/>
+            </LinearLayout>
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="40dp"
                           android:layout_marginBottom="5dp"
@@ -53,8 +83,8 @@
                           android:layout_marginLeft="5dp"
                           android:layout_marginStart="5dp"
                           android:text="@string/tv_notice"
-                          android:textSize="@dimen/text_large_size"
-                          android:textColor="@color/titleColor"/>
+                          android:textColor="@color/titleColor"
+                          android:textSize="@dimen/text_large_size"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,12 +96,12 @@
                     android:lines="1"
                     android:padding="10dp"
                     android:text="@string/tv_test_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/titleColor"/>
+                    android:textColor="@color/titleColor"
+                    android:textSize="12sp"/>
             </LinearLayout>
             <RelativeLayout android:layout_width="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_height="142dp">
+                            android:layout_height="142dp"
+                            android:layout_marginTop="5dp">
                 <com.yyydjk.library.BannerLayout android:id="@id/banner_bottom"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="142dp"
@@ -98,8 +128,8 @@
                     android:background="#35ffffff"
                     android:padding="@dimen/padding_short"
                     android:text="@string/tv_news"
-                    android:textSize="12sp"
                     android:textColor="@color/titleColor"
+                    android:textSize="12sp"
                 />
             </RelativeLayout>
 

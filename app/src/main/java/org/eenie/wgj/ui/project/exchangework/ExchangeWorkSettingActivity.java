@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -157,10 +158,12 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
                                 lyNoPersonal.setVisibility(View.VISIBLE);
                                 imgContacts.setVisibility(View.GONE);
                                 lyNoData.setVisibility(View.GONE);
-                            }
+                           }
 
 
                         } else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
                             lyNoPersonal.setVisibility(View.VISIBLE);
                             imgContacts.setVisibility(View.GONE);
                             lyNoData.setVisibility(View.GONE);
@@ -260,10 +263,9 @@ public class ExchangeWorkSettingActivity extends BaseActivity implements
                 Intent intent = new Intent(context,
                         ExchangeWorkDetailActivity.class);
                 if (mExchangeWorkList != null) {
-                    intent.putExtra(ExchangeWorkDetailActivity.INFO, mExchangeWorkList);
-                    if (!TextUtils.isEmpty(projectId)) {
-                        intent.putExtra(ExchangeWorkDetailActivity.PROJECT_ID, projectId);
-                    }
+                        intent.putExtra(ExchangeWorkDetailActivity.PROJECT_ID, projectId)
+                        .putExtra(ExchangeWorkDetailActivity.EXCHANGE_ID,String.valueOf(mExchangeWorkList.getId()));
+
                 }
 
                 startActivity(intent);

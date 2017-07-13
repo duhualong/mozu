@@ -49,6 +49,14 @@ public class ClassListWorkTime {
     }
 
     public static class ServiceBean {
+        public ServiceBean(int id, String servicesname, String starttime, String endtime, double time) {
+            this.id = id;
+            this.servicesname = servicesname;
+            this.starttime = starttime;
+            this.endtime = endtime;
+            this.time = time;
+        }
+
         /**
          * id : 132
          * servicesname : 日班
@@ -56,6 +64,7 @@ public class ClassListWorkTime {
          * endtime : 19:30:00
          * time : 10.5
          */
+
 
         private int id;
         private String servicesname;

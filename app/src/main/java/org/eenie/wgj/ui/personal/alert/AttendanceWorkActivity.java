@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.requset.AttendanceAlertRequest;
 import org.eenie.wgj.model.response.alert.AttendanceAlert;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
@@ -120,12 +121,7 @@ public class AttendanceWorkActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.checkbox_attendance:
-                if (checkBoxAttendance.isChecked()){
-                    //保存设置的考勤时间
-                }else {
-
-                }
-
+              openAttendance();
 
 
                 break;
@@ -138,11 +134,61 @@ public class AttendanceWorkActivity extends BaseActivity {
 
                 break;
             case R.id.tv_save:
-                showSuccessDialog();
+                if (!TextUtils.isEmpty(mStartTime)&&!TextUtils.isEmpty(mEndTime)){
+                    addAttendanceTime(mStartTime,mEndTime);
+
+
+                }else {
+                    Toast.makeText(context,"请添加考勤提醒的签到或签退时间",Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
 
         }
+    }
+
+    private void addAttendanceTime(String startTime, String endTime) {
+        AttendanceAlertRequest request=new AttendanceAlertRequest(startTime,endTime);
+        mSubscription=mRemoteService.addAttendanceTime(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                   @Override
+                   public void onNext(ApiResponse apiResponse) {
+                       if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                           showSuccessDialog();
+                           if (checkBoxAttendance.isChecked()){
+                               openAttendance();
+                           }
+
+                       }else {
+                           Toast.makeText(context,apiResponse.getResultMessage(),
+                                   Toast.LENGTH_SHORT).show();
+                       }
+
+                   }
+               });
+    }
+
+    private void openAttendance() {
+        mSubscription=mRemoteService.openCloseAttendanceAlert(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN,""))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(context,apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
     }
 
     private void showSuccessDialog() {
@@ -153,6 +199,7 @@ public class AttendanceWorkActivity extends BaseActivity {
                 .create();
         dialog.show();
         dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(v -> {
+            Toast.makeText(context,"考勤提醒时间设置成功",Toast.LENGTH_SHORT).show();
             dialog.dismiss();
 
         });
@@ -275,6 +322,7 @@ public class AttendanceWorkActivity extends BaseActivity {
                             minute = "0" + minute;
                         }
 
+                        mEndTime=hour+":"+minute;
                         endtime.setText(hour + ":" + minute);
                         endtime.setTextColor(ContextCompat.getColor
                                 (context, R.color.titleColor));
@@ -406,6 +454,8 @@ public class AttendanceWorkActivity extends BaseActivity {
                         if (minute.length()<=1&&Integer.parseInt(minute) <= 9) {
                             minute = "0" + minute;
                         }
+
+                        mStartTime=hour+":"+minute;
                         starttime.setText(hour + ":" + minute);
                         starttime.setTextColor(ContextCompat.getColor
                                 (context, R.color.titleColor));

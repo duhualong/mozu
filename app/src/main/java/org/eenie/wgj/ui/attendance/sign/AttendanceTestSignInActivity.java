@@ -222,10 +222,10 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
 
                     if (response.body().getCode() == 0) {
                         if (response.body().getMessage().equals("恭喜你签到第1名")) {
-                            AttendanceResDialog.newInstance("签到结果", "签到成功！\n" +
+                            AttendanceResDialog.newInstance("签到结果",
                                     response.body().getMessage(), String.valueOf(2)).show(getFragmentManager(), "signin");
                         } else {
-                            AttendanceResDialog.newInstance("签到结果", "签到成功！\n" +
+                            AttendanceResDialog.newInstance("签到结果",
                                     response.body().getMessage(), String.valueOf(0)).show(getFragmentManager(), "signin");
                         }
                         mButton.setClickable(false);
@@ -234,7 +234,7 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
                     } else {
 
                         mButton.setClickable(true);
-                        AttendanceResDialog.newInstance("签到结果", "签到失败！\n" +
+                        AttendanceResDialog.newInstance("签到结果",
                                 response.body().getMessage(), String.valueOf(1)).show(getFragmentManager(), "signin");
                     }
                 } else {
@@ -291,7 +291,7 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         if (mAMap == null) {
             mAMap = mMapView.getMap();
 
-        }        //初始化定位
+        }
         mLocationClient = new AMapLocationClient(getApplicationContext());
         mLocationClientOption = new AMapLocationClientOption();
         checkLocationPermission();

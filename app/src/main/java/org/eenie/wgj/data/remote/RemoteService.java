@@ -9,6 +9,7 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.AddArrangeClass;
 import org.eenie.wgj.model.requset.AddKeyPersonalInformation;
 import org.eenie.wgj.model.requset.AddProjectDay;
+import org.eenie.wgj.model.requset.AttendanceAlertRequest;
 import org.eenie.wgj.model.requset.BirthdayDetail;
 import org.eenie.wgj.model.requset.BuildNewProject;
 import org.eenie.wgj.model.requset.CaptchaChecked;
@@ -604,14 +605,37 @@ public interface RemoteService {
     //考勤提醒
     @GET("remind/AttendanceList")
     Single<ApiResponse> getAttendanceAlert(@Header("token") String token);
+    //打开或关闭考勤提醒
+    @GET("remind/AttendanceOpen")
+    Single<ApiResponse>openCloseAttendanceAlert(@Header("token")String token);
+    //添加考勤时间
+    @POST("remind/AttendanceAdd")
+    Single<ApiResponse>addAttendanceTime(@Header("token")String token,
+                                         @Body AttendanceAlertRequest request);
 
     //报岗提醒
     @GET("remind/PostList")
     Single<ApiResponse> getReportAlert(@Header("token") String token);
+    //打开或关闭报岗
+    @GET("remind/PostOpen")
+    Single<ApiResponse>openClosePostAlert(@Header("token")String token);
+    //添加报岗时间
+    @POST("remind/PostAdd")
+    Single<ApiResponse>addPostTime(@Header("token")String token,
+                                         @Body AttendanceAlertRequest request);
+
 
     //巡检
     @GET("remind/InspectionList")
     Single<ApiResponse> getRoutingAlert(@Header("token") String token);
+    //打开或关闭巡检
+    @GET("remind/InspectionOpen")
+    Single<ApiResponse>openCloseInspectionAlert(@Header("token")String token);
+    //添加巡检时间
+    @POST("remind/InspectionAdd")
+    Single<ApiResponse>addInspectionTime(@Header("token")String token,
+                                   @Body AttendanceAlertRequest request);
+
 
     //参会人员
     @GET("conferencePersonnel")
@@ -626,6 +650,9 @@ public interface RemoteService {
             String startTime,@Query("end")String endTime);
     @POST("application_roomAdd")
     Single<ApiResponse>applyMeetingClass(@Header("token")String token,@Body MeetingData request );
+    //获取部门
+    @GET("departmentList")
+    Single<ApiResponse>getPartList(@Header("token")String token);
 
 
     //会议申请反馈
@@ -647,6 +674,25 @@ public interface RemoteService {
     Single<ApiResponse>getEndMeetingList(@Header("token")String token);
     @GET("meeting/info")
     Single<ApiResponse>getMeetingArrangeDetail(@Header("token")String token,@Query("id")String id);
+    //会议签到
+    @GET("meeting/checkin")
+    Single<ApiResponse>checkInMeeting(@Header("token")String token,@Query("meetingid")String meetingId);
+    //交接班模块 交接班列表
+
+    @GET("handoverList")
+    Single<ApiResponse>getExchangeList(@Header("token")String token);
+    @GET("handoverListinfo")
+    Single<ApiResponse> getExchangeWorkDetailById(@Header("token")String token,
+                                                  @Query("precautionid")String id);
+    @GET("handoverSubmitter")
+    Single<ApiResponse>getExchangeWorkContact(@Header("token")String token);
+
+
+    @POST("handoverAdd")
+    Single<ApiResponse>addExchangeWorkItem(@Header("token")String token,@Body MeetingData data);
+
+
+
 
             //获取个人考勤情况
     class Creator {

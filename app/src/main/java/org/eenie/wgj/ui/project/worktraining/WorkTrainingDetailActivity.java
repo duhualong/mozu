@@ -165,7 +165,7 @@ public class WorkTrainingDetailActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 4) {
-//            ExchangeWorkList mData = data.getParcelableExtra("exchange_work");
+//            ExchangeWorkListResponse mData = data.getParcelableExtra("exchange_work");
 //            initUI(mData);
         }
 

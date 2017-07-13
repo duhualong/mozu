@@ -81,52 +81,6 @@ public class AttendanceActivity extends BaseActivity {
         return R.layout.activity_attendance_work;
     }
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Constant.DOMIN_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        FileUploadService fileUploadService = retrofit.create(FileUploadService.class);
-//        Call<ApiResponse> call = fileUploadService.getAttendanceLists(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),
-//                new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()));
-//        call.enqueue(new Callback<ApiResponse>() {
-//            @Override
-//            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-//                if (response.body().getResultCode()==200){
-//                    String jsonArray = gson.toJson(response.body().getData());
-//                    ArrayList<AttendanceListResponse> mData =
-//                            gson.fromJson(jsonArray,
-//                                    new TypeToken<ArrayList<AttendanceListResponse>>() {
-//                                    }.getType());
-//                    if (mData!=null){
-//                        for (int i = 0; i < mData.size(); i++) {
-//                            mList.add(mData.get(i).getDay());
-//                            mLists.add(mData.get(i).getService().
-//                                    getServicesname());
-//                        }
-//                        if (mLists!=null&&!mLists.isEmpty()){
-//                            Log.d("test数组", "onResponse: "+gson.toJson(mList));
-//                            Log.d("tests数组", "onResponse: "+gson.toJson(mLists));
-//
-//
-//                        }
-//
-//
-//                    }
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ApiResponse> call, Throwable t) {
-//
-//            }
-//        });
-//
-//    }
 
     @Override
     protected void updateUI() {
@@ -144,86 +98,6 @@ public class AttendanceActivity extends BaseActivity {
         mWeekCalendar.setOnCurrentMonthDateListener((year, month) -> {
             mTitle.setText(year + "年" + month + "月");
         });
-
-
-
-//        mSubscription = mRemoteService.getAttendanceList(
-//                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
-//                new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime()))
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<ApiResponse>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(ApiResponse apiResponse) {
-//                        if (apiResponse.getResultCode() == 200 ||
-//                                apiResponse.getResultCode() == 0) {
-//                            if (apiResponse.getData() != null) {
-//                                String jsonArray = gson.toJson(apiResponse.getData());
-//                                attendanceResponse =
-//                                        gson.fromJson(jsonArray,
-//                                                new TypeToken<ArrayList<AttendanceListResponse>>() {
-//                                                }.getType());
-//
-//                                if (attendanceResponse != null) {
-//                                    ArrayList<String> mList = new ArrayList<>();
-//                                    ArrayList<String> mLists = new ArrayList<>();
-//                                    for (int i = 0; i < attendanceResponse.size(); i++) {
-//                                        mList.add(attendanceResponse.get(i).getDay());
-//                                        mLists.add(attendanceResponse.get(i).getService().
-//                                                getServicesname());
-//                                    }
-//                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            initData(mList, mLists);
-//                                        }
-//                                    });
-////                                    new Thread() {
-////                                        public void run() {
-////                                            Log.d("mList", "initData: "+gson.toJson(mList));
-////                                            Log.d("mLists", "initData:: "+gson.toJson(mLists));
-////                                            initData(mList, mLists);
-////                                        }
-////                                    }.start();
-//
-//
-//                                }
-//
-//                            }
-//
-//                        }
-//
-//                    }
-//                });
-//        if (mList==null||mLists==null){
-//            mList.add("2017-06-19");
-//            mList.add("2017-06-20");
-//            mList.add("2017-06-21");
-//            mList.add("2017-06-23");
-//            mList.add("2017-06-24");
-//            mLists.add("日班");
-//            mLists.add("日班");
-//            mLists.add("日班");
-//            mLists.add("常日班加班");
-//            mLists.add("常日班加班");
-//            mWeekCalendar.setSelectDates(mList,mLists);
-//        }else {
-//            mWeekCalendar.setSelectDates(mList,mLists);
-//        }
-//        if (mList != null && mLists != null) {
-//            mWeekCalendar.setSelectDates(mList, mLists);
-//        }
-
 
         mTitle.setText(new SimpleDateFormat("yyyy年MM月").format(Calendar.getInstance().getTime()));
 
@@ -477,7 +351,6 @@ public class AttendanceActivity extends BaseActivity {
                 .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
@@ -487,7 +360,7 @@ public class AttendanceActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                        if (apiResponse.getCode() == 200 || apiResponse.getCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             SignOutInfor data = gson.fromJson(jsonArray,
@@ -501,14 +374,11 @@ public class AttendanceActivity extends BaseActivity {
                                 Toast.makeText(context, "获取签退信息失败", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(context, apiResponse.getResultMessage(),
+                            Toast.makeText(context, apiResponse.getMessage(),
                                     Toast.LENGTH_SHORT).show();
-
                         }
-
                     }
                 });
-
 
     }
 

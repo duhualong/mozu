@@ -126,7 +126,7 @@ public class RoundPointAddActivity extends BaseActivity {
                 }
 
 
-//                ExchangeWorkList list=new ExchangeWorkList(1,"s","s",lists);
+//                ExchangeWorkListResponse list=new ExchangeWorkListResponse(1,"s","s",lists);
 //                Intent mIntent = new Intent();
 //                mIntent.putExtra("exchange_work", list);
 //                // 设置结果，并进行传送
@@ -197,11 +197,34 @@ public class RoundPointAddActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), "a.jpg");
-        UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(100, 100)
-                .start(RoundPointAddActivity.this, requestCode);
+      switch (requestCode){
+          case RESPONSE_CODE_FIRST:
+              File cropFile = new File(context.getCacheDir(), "k.jpg");
+              UCrop.of(resUri, Uri.fromFile(cropFile))
+                      .withAspectRatio(1, 1)
+                      .withMaxResultSize(500, 500)
+                      .start(RoundPointAddActivity.this, requestCode);
+
+              break;
+          case RESPONSE_CODE_SECOND:
+
+              File cropFiles = new File(context.getCacheDir(), "f.jpg");
+              UCrop.of(resUri, Uri.fromFile(cropFiles))
+                      .withAspectRatio(1, 1)
+                      .withMaxResultSize(500, 500)
+                      .start(RoundPointAddActivity.this, requestCode);
+              break;
+          case RESPONSE_CODE_THIRD:
+              File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+              UCrop.of(resUri, Uri.fromFile(mCropFiles))
+                      .withAspectRatio(1, 1)
+                      .withMaxResultSize(500, 500)
+                      .start(RoundPointAddActivity.this, requestCode);
+
+              break;
+      }
+
+
     }
 
     @Override
@@ -303,7 +326,7 @@ public class RoundPointAddActivity extends BaseActivity {
                 if (response.body().getResultCode() == 200 || response.body().getResultCode() == 0) {
                     //会调数据
 
-//                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
+//                ExchangeWorkListResponse list=new ExchangeWorkListResponse(mId,mContent,mTitleName,lists);
 //                Intent mIntent = new Intent();
 //                mIntent.putExtra("exchange_work", list);
 //                // 设置结果，并进行传送

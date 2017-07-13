@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="签到二维码"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+
+    </RelativeLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@id/swipe_refresh_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/padding_normal"
+                android:background="@drawable/bg_round_white"
+                android:orientation="vertical"
+            >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/padding_bottom"
+                    android:text="扫描下方二维码，进行签到确认!"
+                    android:textColor="@color/black_light"
+                    android:textSize="@dimen/text_large_size"/>
+                <ImageView
+                    android:id="@id/scanner_iv_barcode"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_gravity="center"
+
+                />
+
+
+            </LinearLayout>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textSize="@dimen/text_large_size"
+                      android:textColor="@color/black_light"
+                      android:padding="@dimen/padding_bottom"
+                      android:id="@id/tv_sign_number"
+                      android:layout_marginTop="@dimen/padding_bottom"
+                      android:background="@color/white"
+            android:text="签到人数"/>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="98dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:scrollbars="none"
+            />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

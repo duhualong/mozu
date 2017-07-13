@@ -757,5 +757,17 @@
     <item name="tv_meeting_record" type="id"/>
     <item name="tv_meeting_plan" type="id"/>
     <item name="tv_meeting_record_content" type="id"/>
+    <item name="rl_sign_scan" type="id"/>
+    <item name="scanner_iv_barcode" type="id"/>
+    <item name="img_avatar_meeting" type="id"/>
+    <item name="tv_sign_number" type="id"/>
+    <item name="img_search" type="id"/>
+    <item name="appbar" type="id"/>
+    <item name="home_root_view" type="id"/>
+    <item name="tv_class_name" type="id"/>
+    <item name="edit_exchange_content" type="id"/>
+    <item name="tv_notice" type="id"/>
+    <item name="recycler_notice" type="id"/>
+    <item name="rl_select_item" type="id"/>
 
 </resources>

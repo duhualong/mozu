@@ -3,8 +3,6 @@ package org.eenie.wgj;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +35,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
-    private static final String[] titles = {"上海优驰保安服务有限公司", "通讯录", "消息中心", "应用", "我的"};
     private static final int NAVIGATOR_COUNT = 5;
     private static final String TAG = "MainActivity";
     int[] navigatorMipmapNormal = {R.mipmap.ic_home_bottom_tab_main,
@@ -47,18 +44,11 @@ public class MainActivity extends BaseActivity {
             R.mipmap.ic_home_bottom_tab_contact_selected, R.mipmap.ic_home_bottom_tab_msg,
             R.mipmap.ic_home_bottom_tab_app_selected, R.mipmap.ic_home_bottom_tab_me_selected
     };
-    @BindView(R.id.img_scan)
-    ImageView imgScan;
-    @BindView(R.id.tv_search)
-    TextView search;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+
     @BindView(R.id.img_message)
     ImageView imgMessage;
 
     //    @BindView(R.id.main_container)FrameLayout fragment;
-    @BindView(R.id.page_title)
-    TextView mPageTitleView;
     @BindViews({R.id.tv_home_pager, R.id.tv_contact_pager, R.id.tv_message_pager, R.id.tv_apply_pager,
             R.id.tv_mine_pager})
     List<TextView> bottomText;
@@ -72,12 +62,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void updateUI() {
         initPersonalInfo();
-        setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("");
-        }
-
-
         setCurrentPager(0);
         setCurrentNavigator(0);
 
@@ -113,6 +97,8 @@ public class MainActivity extends BaseActivity {
                                 new TypeToken<UserInforById>() {
                                 }.getType());
                         if (mData != null) {
+                            mPrefsHelper.getPrefs().edit().putString(Constants.PROJECTID,
+                                    String.valueOf(mData.getProject_id())).apply();
                             if (!mData.getCompany_name().isEmpty() && mData.getCompany_name() != null) {
                                 mPrefsHelper.getPrefs().edit().putString(Constants.COMPANY_NAME,
                                         mData.getCompany_name()).apply();
@@ -128,6 +114,7 @@ public class MainActivity extends BaseActivity {
                                 mPrefsHelper.getPrefs().edit().putString(Constants.PROJECT_NAME,
                                         "").apply();
                             }
+
 
 
                         }
@@ -233,39 +220,11 @@ public class MainActivity extends BaseActivity {
         bottomText.get(index).setTextColor(ContextCompat.getColor
                 (MainActivity.this, R.color.colorAccent));
 
-        if (index == 0) {
-            if (!TextUtils.isEmpty(mPrefsHelper.getPrefs().getString(Constants.COMPANY_NAME, ""))) {
-                mPageTitleView.setText(mPrefsHelper.getPrefs().getString(Constants.COMPANY_NAME, ""));
-            } else {
-                mPageTitleView.setText("未加入公司");
-            }
 
-        } else {
-            mPageTitleView.setText(titles[index]);
-
-        }
-        refreshTop(index);
 
     }
 
-    private void refreshTop(int index) {
-        if (index == 0) {
-            imgScan.setVisibility(View.VISIBLE);
-            search.setVisibility(View.VISIBLE);
-            search.setText("搜索");
 
-        } else {
-            if (index == 3) {
-                search.setVisibility(View.VISIBLE);
-                search.setText("编辑");
-            } else {
-                search.setVisibility(View.GONE);
-            }
-            imgScan.setVisibility(View.GONE);
-
-
-        }
-    }
 
     private void setCurrentPager(int index) {
         Fragment fragment = null;

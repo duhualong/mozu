@@ -208,7 +208,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
                 }
 
 
-//                ExchangeWorkList list=new ExchangeWorkList(1,"s","s",lists);
+//                ExchangeWorkListResponse list=new ExchangeWorkListResponse(1,"s","s",lists);
 //                Intent mIntent = new Intent();
 //                mIntent.putExtra("exchange_work", list);
 //                // 设置结果，并进行传送
@@ -408,7 +408,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
                 if (response.body().getResultCode() == 0 || response.body().getResultCode() == 200) {
                     //会调数据
 
-//                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
+//                ExchangeWorkListResponse list=new ExchangeWorkListResponse(mId,mContent,mTitleName,lists);
 //                Intent mIntent = new Intent();
 //                mIntent.putExtra("exchange_work", list);
 //                // 设置结果，并进行传送

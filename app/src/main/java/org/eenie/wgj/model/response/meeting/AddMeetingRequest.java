@@ -21,6 +21,16 @@ public class AddMeetingRequest {
     private String meeting_purpose;
     private String name;
     private List<Integer> userid;
+    private int meeting_room_id;
+    private String detail;
+
+    public AddMeetingRequest(String end, String start, String name, int meeting_room_id, String detail) {
+        this.end = end;
+        this.start = start;
+        this.name = name;
+        this.meeting_room_id = meeting_room_id;
+        this.detail = detail;
+    }
 
     public AddMeetingRequest(String end, String start, String address, String meeting_agenda,
                              int time_type, int host, int recorder, String meeting_purpose,
@@ -35,6 +45,22 @@ public class AddMeetingRequest {
         this.meeting_purpose = meeting_purpose;
         this.name = name;
         this.userid = userid;
+    }
+
+    public int getMeeting_room_id() {
+        return meeting_room_id;
+    }
+
+    public void setMeeting_room_id(int meeting_room_id) {
+        this.meeting_room_id = meeting_room_id;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getEnd() {

@@ -93,7 +93,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
     private File firstFile;
     private File secondFile;
     private File thirdFile;
-    List<File> files = new ArrayList<>();
+
     @Override
     protected int getContentView() {
         return R.layout.activity_edit_exchange_work;
@@ -116,25 +116,32 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_save:
-                if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName))
+                List<File> files = new ArrayList<>();
+                if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName)) {
 
-                    if (firstFile!=null){
-                        files.add(0,firstFile);
+
+                    if (firstFile != null) {
+                        files.add(firstFile);
                     }
-                if (secondFile!=null){
-                    files.add(1,secondFile);
-                }
-                if (thirdFile!=null){
-                    files.add(2,thirdFile);
-                }
-                if (files!=null){
-                    new Thread() {
-                        public void run() {
-                            addData(getMultipartBody(files,mProjectId,mTitleName,mContent),
-                                    mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
-                        }
-                    }.start();
+                    if (secondFile != null) {
+                        files.add(secondFile);
+                    }
+                    if (thirdFile != null) {
+                        files.add(thirdFile);
+                    }
+                    if (files.size() > 0) {
+                        new Thread() {
+                            public void run() {
+                                addData(getMultipartBody(files, mProjectId, mTitleName, mContent),
+                                        mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
+                            }
+                        }.start();
 
+                    } else {
+                        Toast.makeText(context, "请至少添加一张照片", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(context, "请输入交接班的名称或注意事项", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -233,11 +240,30 @@ public class AddExchangeWorkActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), "a.jpg");
-        UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(100, 100)
-                .start(AddExchangeWorkActivity.this, requestCode);
+        switch (requestCode){
+            case RESPONSE_CODE_FIRST:
+                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFile))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(AddExchangeWorkActivity.this, requestCode);
+                break;
+            case RESPONSE_CODE_SECOND:
+                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(AddExchangeWorkActivity.this, requestCode);
+                break;
+            case RESPONSE_CODE_THIRD:
+
+                File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+                UCrop.of(resUri, Uri.fromFile(mCropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(AddExchangeWorkActivity.this, requestCode);
+                break;
+        }
 
 
 
@@ -367,7 +393,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 if (response.body().getResultCode()==200){
                     //会调数据
 
-//                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
+//                ExchangeWorkListResponse list=new ExchangeWorkListResponse(mId,mContent,mTitleName,lists);
 //                Intent mIntent = new Intent();
 //                mIntent.putExtra("exchange_work", list);
 //                // 设置结果，并进行传送

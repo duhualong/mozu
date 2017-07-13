@@ -194,17 +194,11 @@ public class RoundPointEditActivity extends BaseActivity {
                             Toast.makeText(context, "请补全内容", Toast.LENGTH_SHORT).show();
                         }
 
-//                            editData(getMultipartBody(files,mProjectId,mTitleName,mContent,mId+""),
-//                                    mPrefsHelper.getPrefs().getString(Constants.TOKEN,""));
+
                     }
                 }.start();
 
 
-//                ExchangeWorkList list=new ExchangeWorkList(1,"s","s",lists);
-//                Intent mIntent = new Intent();
-//                mIntent.putExtra("exchange_work", list);
-//                // 设置结果，并进行传送
-//                setResult(4,mIntent);
 
                 break;
             case R.id.img_first:
@@ -271,11 +265,34 @@ public class RoundPointEditActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), "a.jpg");
-        UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(100, 100)
-                .start(RoundPointEditActivity.this, requestCode);
+        switch (requestCode){
+            case RESPONSE_CODE_FIRST:
+                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFile))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(RoundPointEditActivity.this, requestCode);
+
+                break;
+            case RESPONSE_CODE_SECOND:
+                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                UCrop.of(resUri, Uri.fromFile(cropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(RoundPointEditActivity.this, requestCode);
+
+                break;
+            case RESPONSE_CODE_THIRD:
+
+                File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+                UCrop.of(resUri, Uri.fromFile(mCropFiles))
+                        .withAspectRatio(1, 1)
+                        .withMaxResultSize(500, 500)
+                        .start(RoundPointEditActivity.this, requestCode);
+
+                break;
+        }
+
     }
 
     @Override
@@ -392,6 +409,9 @@ public class RoundPointEditActivity extends BaseActivity {
                                     subscribe(s -> finish()
                                     );
 
+                        }else {
+                            Toast.makeText(context,apiResponse.getResultMessage()
+                                    ,Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -414,7 +434,7 @@ public class RoundPointEditActivity extends BaseActivity {
                 if (response.body().getResultCode() == 200) {
                     //会调数据
 
-//                ExchangeWorkList list=new ExchangeWorkList(mId,mContent,mTitleName,lists);
+//                ExchangeWorkListResponse list=new ExchangeWorkListResponse(mId,mContent,mTitleName,lists);
 //                Intent mIntent = new Intent();
 //                mIntent.putExtra("exchange_work", list);
 //                // 设置结果，并进行传送

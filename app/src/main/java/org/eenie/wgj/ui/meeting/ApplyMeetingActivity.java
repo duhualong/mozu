@@ -10,10 +10,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.meeting.AddMeetingClassRequest;
+import org.eenie.wgj.model.response.meeting.MeetingData;
 import org.eenie.wgj.model.response.meeting.MeetingPeople;
 import org.eenie.wgj.ui.meeting.launchmeeting.AddMeetingClassActivity;
+import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
+import org.eenie.wgj.util.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +29,8 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Eenie on 2017/7/11 at 11:11
@@ -42,7 +51,7 @@ public class ApplyMeetingActivity extends BaseActivity {
     TextView tvStartTime;
     @BindView(R.id.tv_end_time)
     TextView tvEndTime;
-    private final int REQUEST_CODE=0x101;
+    private final int REQUEST_CODE = 0x101;
     private String meetingId;
 
     @Override
@@ -60,7 +69,10 @@ public class ApplyMeetingActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_apply_ok:
-
+                if (checkInput()) {
+                    addMeetingClass(etMeetingName.getText().toString(), mStartTime, mEndTime, meetingId,
+                            etMeetingDetail.getText().toString());
+                }
 
                 break;
             case R.id.img_back:
@@ -78,25 +90,77 @@ public class ApplyMeetingActivity extends BaseActivity {
             case R.id.rl_meeting_address:
                 if (!TextUtils.isEmpty(mStartTime) && !TextUtils.isEmpty(mEndTime)) {
                     startActivityForResult(new Intent(context, AddMeetingClassActivity.class)
-                    .putExtra(AddMeetingClassActivity.STARTTIME,mStartTime).
-                                    putExtra(AddMeetingClassActivity.ENDTIME,mEndTime),REQUEST_CODE);
+                            .putExtra(AddMeetingClassActivity.STARTTIME, mStartTime).
+                                    putExtra(AddMeetingClassActivity.ENDTIME, mEndTime), REQUEST_CODE);
 
                 } else {
                     Toast.makeText(context, "请选择会议的起始时间", Toast.LENGTH_SHORT).show();
                 }
 
+
                 break;
         }
+    }
+
+    private void addMeetingClass(String title, String startTime, String endTime, String meetingId,
+                                 String content) {
+        AddMeetingClassRequest request = new AddMeetingClassRequest(startTime, endTime, content,title,
+                Integer.valueOf(meetingId));
+        Gson gson = new Gson();
+        mSubscription = mRemoteService.applyMeetingClass(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
+                new MeetingData(gson.toJson(request)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getCode()== 0) {
+                            Toast.makeText(context, apiResponse.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(context, apiResponse.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+
+    private boolean checkInput() {
+        boolean result = true;
+        if (TextUtils.isEmpty(etMeetingName.getText().toString())) {
+            result = false;
+            Toast.makeText(context, "请输入会议名称", Toast.LENGTH_SHORT).show();
+        }
+        if (result && TextUtils.isEmpty(mStartTime)) {
+            result = false;
+            Toast.makeText(context, "请选择会议开始时间", Toast.LENGTH_SHORT).show();
+        }
+        if (result && TextUtils.isEmpty(mEndTime)) {
+            result = false;
+            Toast.makeText(context, "请选择会议结束时间", Toast.LENGTH_SHORT).show();
+        }
+        if (result && TextUtils.isEmpty(meetingId)) {
+            result = false;
+            Toast.makeText(context, "请选择会议室", Toast.LENGTH_SHORT).show();
+        }
+        if (result && TextUtils.isEmpty(etMeetingDetail.getText().toString())) {
+            result = false;
+            Toast.makeText(context, "请输入会议详情", Toast.LENGTH_SHORT).show();
+        }
+
+        return result;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK){
-            if (requestCode==REQUEST_CODE){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE) {
                 MeetingPeople mData = data.getParcelableExtra("meeting");
-                if (mData!=null){
-                    meetingId=String.valueOf(mData.getId());
+                if (mData != null) {
+                    meetingId = String.valueOf(mData.getId());
                     meetingClass.setText(mData.getName());
                     meetingClass.setTextColor(ContextCompat.getColor
                             (context, R.color.black_light));
@@ -386,8 +450,8 @@ public class ApplyMeetingActivity extends BaseActivity {
                 selectMonth = String.valueOf(month[0]);
             }
             if (!TextUtils.isEmpty(selectDay)) {
-                if (Integer.parseInt(selectMonth) < Integer.valueOf(mDay) ||
-                        Integer.parseInt(selectMonth) > 31) {
+                if (Integer.parseInt(selectDay) < Integer.valueOf(mDay) ||
+                        Integer.parseInt(selectDay) > 31) {
                     selectDay = mDay;
                 }
                 if (!TextUtils.isEmpty(selectMonth) && !TextUtils.isEmpty(selectYear)) {
@@ -439,16 +503,16 @@ public class ApplyMeetingActivity extends BaseActivity {
                 selectMinute = "0" + selectMinute;
 
             }
-            System.out.println("hour"+etHour);
+            System.out.println("hour" + etHour);
             switch (sort) {
                 case "start":
-                    mStartTime = selectYear + "-" + selectMonth + "-" + selectDay +" "+ selectHour + ":" + selectMinute;
-                    tvStartTime.setText(selectYear + "-" + selectMonth + "-" + selectDay + " "+ selectHour + ":" + selectMinute);
+                    mStartTime = selectYear + "-" + selectMonth + "-" + selectDay + " " + selectHour + ":" + selectMinute;
+                    tvStartTime.setText(selectYear + "-" + selectMonth + "-" + selectDay + " " + selectHour + ":" + selectMinute);
                     tvStartTime.setTextSize(12);
                     break;
                 case "end":
-                    mEndTime = selectYear + "-" + selectMonth + "-" + selectDay + " " + selectHour + ":"+selectMinute;
-                    tvEndTime.setText(selectYear + "-" + selectMonth + "-" + selectDay +" "+ selectHour + ":"+selectMinute);
+                    mEndTime = selectYear + "-" + selectMonth + "-" + selectDay + " " + selectHour + ":" + selectMinute;
+                    tvEndTime.setText(selectYear + "-" + selectMonth + "-" + selectDay + " " + selectHour + ":" + selectMinute);
                     tvEndTime.setTextSize(12);
                     break;
 

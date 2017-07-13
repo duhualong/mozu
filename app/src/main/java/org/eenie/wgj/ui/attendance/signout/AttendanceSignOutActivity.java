@@ -131,7 +131,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
         tvTitle.setText("签退");
         data=getIntent().getParcelableExtra(INFO);
         if (data!=null){
-            serviceId=data.getId();
+            serviceId=data.getService_id();
             menu = new PopupMenu(context, tvSelectRank);
             initPopRank(data.getServicesname());
             tvSelectRank.setText(data.getServicesname());
@@ -206,7 +206,6 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
     public  MultipartBody getMultipartBody(String path, String mLong, String mLat,
           int type, int serviceId,String address, String content) {
         File file = new File(path);
-        System.out.println("签退上传文件的大小："+file.length());
         MultipartBody.Builder builder = new MultipartBody.Builder();
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
@@ -247,10 +246,10 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.body().getCode() == 0) {
                     if (response.body().getMessage().equals("恭喜你签到第1名")) {
-                        AttendanceResDialog.newInstance("签退结果", "签退成功！\n" +
+                        AttendanceResDialog.newInstance("签退结果",
                                 response.body().getMessage(), String.valueOf(2)).show(getFragmentManager(), "signout");
                     } else {
-                        AttendanceResDialog.newInstance("签退结果", "签退成功！\n" +
+                        AttendanceResDialog.newInstance("签退结果",
                                 response.body().getMessage(), String.valueOf(0)).show(getFragmentManager(), "signout");
                     }
                     mButton.setClickable(false);

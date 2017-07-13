@@ -22,17 +22,25 @@ import com.google.gson.Gson;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.meeting.AddMeetingRequest;
+import org.eenie.wgj.model.response.meeting.MeetingData;
 import org.eenie.wgj.model.response.meeting.MeetingPeople;
+import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
+import org.eenie.wgj.util.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static org.eenie.wgj.R.id.edit_month;
 import static org.eenie.wgj.R.id.img_add;
@@ -129,12 +137,23 @@ public class LaunchMeetingActivity extends BaseActivity {
                 break;
             case R.id.tv_apply_ok:
                 //提交
-                if (checkInputMeeting()){
+                List<Integer> userId = new ArrayList<>();
 
+                if (checkInputMeeting()) {
+                    for (int i = 0; i < mData.size(); i++) {
+                        userId.add(mData.get(i).getId());
+                    }
+                    String meetingName = editMeetingName.getText().toString();
+                    String meetingAddress = editMeetingAddress.getText().toString();
+                    String meetingPurpose = editMeetingPurpose.getText().toString();
+                    String meetingContent = editMeetingContent.getText().toString();
+
+                    applyMeetingApply(meetingName, meetingAddress, type, mStartTime, mEndTime, hostId, recordId,
+                            userId, meetingPurpose, meetingContent);
 
                 }
 
-                    break;
+                break;
             case R.id.tv_start_time:
                 //开始时间
                 if (type == 1) {
@@ -179,6 +198,36 @@ public class LaunchMeetingActivity extends BaseActivity {
 
                 break;
         }
+
+    }
+
+    private void applyMeetingApply(String meetingName, String meetingAddress, int type,
+                                   String startTime, String endTime, String hostId, String recordId,
+                                   List<Integer> userId, String meetingPurpose, String meetingContent) {
+        AddMeetingRequest request = new AddMeetingRequest(endTime, startTime, meetingAddress, meetingContent,
+                type, Integer.valueOf(hostId), Integer.valueOf(recordId), meetingPurpose, meetingName, userId);
+        Gson gson = new Gson();
+        mSubscription=mRemoteService.addMeetingContent(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN,""),new MeetingData(gson.toJson(request)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getCode()==0){
+                            Toast.makeText(context,apiResponse.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
+
+                        }else {
+                            Toast.makeText(context,apiResponse.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+
 
     }
 
@@ -661,25 +710,25 @@ public class LaunchMeetingActivity extends BaseActivity {
                 selectMonth = String.valueOf(month[0]);
             }
             if (!TextUtils.isEmpty(selectDay)) {
-                if (Integer.parseInt(selectMonth) < Integer.valueOf(mDay) ||
-                        Integer.parseInt(selectMonth) > 31) {
+                if (Integer.parseInt(selectDay) < Integer.valueOf(mDay) ||
+                        Integer.parseInt(selectDay) > 31) {
                     selectDay = mDay;
                 }
-                if (!TextUtils.isEmpty(selectMonth) && !TextUtils.isEmpty(selectYear)) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    if (selectMonth.length() == 1) {
-                        selectMonth = "0" + selectMonth;
-                    }
-                    try {
-                        int maxDay = getDaysOfMonth(sdf.parse(selectYear + "-" +
-                                selectMonth + "-" + "01"));
-                        if (Integer.valueOf(selectDay) > maxDay) {
-                            selectDay = mDay;
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                if (selectMonth.length() == 1) {
+                    selectMonth = "0" + selectMonth;
                 }
+                try {
+                    int maxDay = getDaysOfMonth(sdf.parse(selectYear + "-" +
+                            selectMonth + "-" + "01"));
+                    if (Integer.valueOf(selectDay) > maxDay) {
+                        selectDay = mDay;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }   if (!TextUtils.isEmpty(selectMonth) && !TextUtils.isEmpty(selectYear)) {
+
 
             } else {
                 selectDay = String.valueOf(day[0]);

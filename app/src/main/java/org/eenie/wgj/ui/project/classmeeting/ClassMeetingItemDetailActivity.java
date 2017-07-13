@@ -132,7 +132,7 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(mTitle)) {
                     if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime)) {
                         ClassMeetingRequest request = new ClassMeetingRequest(projectId, mTitle,
-                                startTime, endTime,mId);
+                                startTime, endTime, mId);
                         //编辑班次
                         editClassMeetingItem(token, request);
 
@@ -144,8 +144,6 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                 } else {
                     Snackbar.make(rootView, "输入的班次名称不能为空", Snackbar.LENGTH_SHORT).show();
                 }
-
-
 
 
                 break;
@@ -163,7 +161,7 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
     }
 
     private void editClassMeetingItem(String token, ClassMeetingRequest request) {
-        mSubscription=mRemoteService.editClassItem(token,request)
+        mSubscription = mRemoteService.editClassItem(token, request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -179,20 +177,21 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
-                            Toast.makeText(context,"编辑成功",Toast.LENGTH_SHORT).show();
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            Toast.makeText(context, "编辑成功", Toast.LENGTH_SHORT).show();
                             Single.just("").delay(1, TimeUnit.SECONDS).
                                     compose(RxUtils.applySchedulers()).
                                     subscribe(s -> finish()
                                     );
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
 
     private void addClassMeetingItem(String token, ClassMeetingRequest request) {
-        mSubscription=mRemoteService.addClassItem(token,request)
+        mSubscription = mRemoteService.addClassItem(token, request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -208,12 +207,15 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
-                            Toast.makeText(context,"添加成功",Toast.LENGTH_SHORT).show();
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
                             Single.just("").delay(1, TimeUnit.SECONDS).
                                     compose(RxUtils.applySchedulers()).
                                     subscribe(s -> finish()
                                     );
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
+
                         }
 
                     }
@@ -244,6 +246,9 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                                     compose(RxUtils.applySchedulers()).
                                     subscribe(s -> finish()
                                     );
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -369,11 +374,11 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
 
                                 break;
                         }
-                        if (Integer.parseInt(hour)<=9&&hour.length()<=1){
-                            hour="0"+hour;
+                        if (Integer.parseInt(hour) <= 9 && hour.length() <= 1) {
+                            hour = "0" + hour;
                         }
-                        if (Integer.parseInt(minute)<=9&&minute.length()<=1){
-                            minute="0"+minute;
+                        if (Integer.parseInt(minute) <= 9 && minute.length() <= 1) {
+                            minute = "0" + minute;
                         }
                         textView.setText(hour + ":" + minute);
                         textView.setTextColor(ContextCompat.getColor

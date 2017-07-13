@@ -4,6 +4,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_short"
                 android:padding="@dimen/padding_short"
+                android:id="@id/rl_select_item"
                 android:background="@color/white">
     <CheckBox
         android:id="@id/checkbox_select_content"
@@ -14,6 +15,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/padding_bottom"
         android:layout_marginRight="@dimen/padding_bottom"
+        android:clickable="false"
         android:button="@drawable/checkbox_apply_show_state"
         android:checked="false"
     />
