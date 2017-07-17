@@ -1,5 +1,6 @@
 package org.eenie.wgj.ui.login;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,6 +46,7 @@ public class CreateCompanyFragment extends BaseFragment {
     private Thread thread;
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
+    private static final int REQUEST_CODE = 0x104;
 
     private boolean isLoaded = false;
 
@@ -66,6 +68,7 @@ public class CreateCompanyFragment extends BaseFragment {
     EditText inputCompanyEmail;
     @BindView(R.id.et_company_address)
     EditText inputCompanyAddress;
+    private String mSelectCity;
 
 
     @Override
@@ -76,7 +79,7 @@ public class CreateCompanyFragment extends BaseFragment {
     @Override
     protected void updateUI() {
 
-        initJsonData();
+        //initJsonData();
 
     }
 
@@ -210,15 +213,16 @@ public class CreateCompanyFragment extends BaseFragment {
 
                 break;
             case R.id.rl_select_city:
-                if (isLoaded) {
-                    ShowPickerView();
-                }
+
+//                if (isLoaded) {
+//                    ShowPickerView();
+//                }
 
 
                 break;
             case R.id.btn_next:
-                boolean checked = checkInputContent(city, companyName, companyPersonal,
-                         companyEmail, companyAddress);
+                boolean checked = checkInputContent(mSelectCity, companyName, companyPersonal,
+                        companyEmail, companyAddress);
                 if (checked) {
                     fragmentMgr.beginTransaction()
                             .addToBackStack(TAG)
@@ -232,6 +236,20 @@ public class CreateCompanyFragment extends BaseFragment {
 
                 break;
 
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 4) {
+            if (requestCode == REQUEST_CODE) {
+                mSelectCity = data.getStringExtra("city");
+                if (!TextUtils.isEmpty(mSelectCity)) {
+                    selectCity.setText(mSelectCity);
+                }
+            }
         }
 
     }

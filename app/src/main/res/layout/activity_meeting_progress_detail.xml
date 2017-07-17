@@ -326,7 +326,6 @@
                         android:background="@null"
                         android:gravity="start|left"
                         android:hint="请输入会议记录"
-                        android:inputType="text"
                         android:lines="6"
                         android:textColor="@color/titleColor"
                         android:textColorHint="@color/gray"

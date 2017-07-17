@@ -41,6 +41,15 @@ public class MessageDetail {
     private String checkname;
     private String check_image;
     private String checkstatus_name;
+    private String operator_avatar;
+
+    public String getOperator_avatar() {
+        return operator_avatar;
+    }
+
+    public void setOperator_avatar(String operator_avatar) {
+        this.operator_avatar = operator_avatar;
+    }
 
     public int getId() {
         return id;

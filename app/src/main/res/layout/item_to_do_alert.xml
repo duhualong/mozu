@@ -28,7 +28,7 @@
                   android:layout_toEndOf="@id/img_setting"
                   android:layout_toRightOf="@id/img_setting"
                   android:text="@string/item_title"
-                  android:textColor="#333"
+                  android:textColor="@color/black_light"
                   android:textSize="@dimen/text_large_size"/>
         <TextView android:id="@id/item_apply_date"
                   android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
                   android:layout_toRightOf="@id/img_setting"
                   android:text="@string/item_date_apply"
                   android:textColor="@color/titleColor"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:textSize="@dimen/text_large_size"/>
     </RelativeLayout>
     <View android:layout_width="match_parent"
           android:layout_height="1dp"
@@ -58,7 +58,7 @@
                   android:layout_marginTop="@dimen/padding_short"
                   android:text="@string/item_meeting_name"
                   android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:textSize="@dimen/text_large_size"/>
         <TextView android:id="@id/item_meeting_name_content"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -67,9 +67,10 @@
                   android:layout_marginTop="@dimen/padding_short"
                   android:layout_toEndOf="@id/item_meeting_name"
                   android:layout_toRightOf="@id/item_meeting_name"
-                  android:text="12345"
-                  android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:text="无"
+                  android:lines="1"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
         <TextView android:id="@id/item_meeting_time"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -77,7 +78,7 @@
                   android:layout_marginTop="@dimen/padding_short"
                   android:text="会议时间"
                   android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:textSize="@dimen/text_large_size"/>
         <TextView android:id="@id/item_meeting_time_content"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -87,8 +88,8 @@
                   android:layout_toEndOf="@id/item_meeting_time"
                   android:layout_toRightOf="@id/item_meeting_time"
                   android:text="2017-04-17 15:32:00至\n2017-04-17 18：32：00"
-                  android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
         <TextView android:id="@id/item_meeting_address"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -96,7 +97,7 @@
                   android:layout_marginTop="@dimen/padding_short"
                   android:text="会  议  室"
                   android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:textSize="@dimen/text_large_size"/>
         <TextView android:id="@id/item_meeting_address_content"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -107,8 +108,8 @@
                   android:layout_toEndOf="@id/item_meeting_address"
                   android:layout_toRightOf="@id/item_meeting_address"
                   android:text="B203"
-                  android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
         <TextView android:id="@id/item_apply_status"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -117,7 +118,7 @@
                   android:layout_marginTop="@dimen/padding_short"
                   android:text="审批状态"
                   android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:textSize="@dimen/text_large_size"/>
         <TextView android:id="@id/item_apply_status_content"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -128,8 +129,8 @@
                   android:layout_toEndOf="@id/item_apply_status"
                   android:layout_toRightOf="@id/item_apply_status"
                   android:text="批准"
-                  android:textColor="@color/black_light"
-                  android:textSize="@dimen/text_normal_size"/>
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
 
     </RelativeLayout>
     <View android:layout_width="match_parent"
@@ -148,6 +149,6 @@
               android:drawableRight="@mipmap/ic_arrow_right"
               android:gravity="center_vertical"
               android:text="查看详情"
-              android:textColor="@color/gray"
-              android:textSize="@dimen/text_normal_size"/>
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
 </LinearLayout>

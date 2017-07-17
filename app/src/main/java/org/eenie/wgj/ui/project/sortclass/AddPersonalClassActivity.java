@@ -276,9 +276,6 @@ public class AddPersonalClassActivity extends BaseActivity {
                                     Toast.LENGTH_SHORT).show();
 
                         }
-
-
-
                     }
                 }
 
@@ -353,10 +350,8 @@ public class AddPersonalClassActivity extends BaseActivity {
                 personalName = ButterKnife.findById(itemView, R.id.tv_personal_name);
                 tvNumber = ButterKnife.findById(itemView, R.id.tv_number);
                 rlItem=ButterKnife.findById(itemView,R.id.rl_item);
-                checkBoxSelect.setOnClickListener(this);
+                checkBoxSelect.setClickable(false);
                 rlItem.setOnClickListener(this);
-
-
             }
 
             public void setItem(AddPersonalSortClass projectList) {
@@ -366,18 +361,18 @@ public class AddPersonalClassActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
-                    case R.id.checkbox_select:
-                        if (checkBoxSelect.isChecked()){
-                            mProjectList.setChecked(true);
-
-                        }else {
-                            mProjectList.setChecked(false);
-
-                        }
-                        notifyDataSetChanged();
-
-
-                        break;
+//                    case R.id.checkbox_select:
+//                        if (checkBoxSelect.isChecked()){
+//                            mProjectList.setChecked(true);
+//
+//                        }else {
+//                            mProjectList.setChecked(false);
+//
+//                        }
+//                        notifyDataSetChanged();
+//
+//
+//                        break;
                     case R.id.rl_item:
                         if (checkBoxSelect.isChecked()){
                             checkBoxSelect.setChecked(false);

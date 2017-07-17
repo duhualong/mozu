@@ -299,7 +299,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
         File cropFile = new File(context.getCacheDir(), "a.jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
-                .withMaxResultSize(100, 100)
+                .withMaxResultSize(500, 500)
                 .start(PersonalBaseInfoActivity.this, requestCode);
     }
 
@@ -340,7 +340,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                             });
                     avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     File fileCardFronts = new File(avatarUrl);
-                    uploadFile(compressior(fileCardFronts));
+                    uploadFile(fileCardFronts);
 
 
                     break;
@@ -372,7 +372,6 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                         fileUrl = gson.fromJson(jsonArray,
                                 new TypeToken<String>() {
                                 }.getType());
-                        System.out.println("图片路径URL："+fileUrl);
                         modifyInformation(fileUrl,mBankCard,mSecurityCard);
 
                     } else {
@@ -437,8 +436,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     public File compressior(File file) {
         return new Compressor.Builder(context)
-                .setMaxWidth(50)
-                .setMaxHeight(50)
+                .setMaxWidth(500)
+                .setMaxHeight(500)
                 .setQuality(75)
                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                 .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(

@@ -163,18 +163,16 @@ public class MeetingProgressDetailActivity extends BaseActivity {
                                 if (!TextUtils.isEmpty(mData.getStart()) && !TextUtils.isEmpty(mData.getEnd())) {
                                     tvMeetingTime.setText(mData.getStart() + "至" + mData.getEnd());
                                 }
-                                if (mData.getHost().equals("null")) {
-                                    tvMeetingHost.setText("无");
-                                } else {
-                                    tvMeetingHost.setText(mData.getHost());
-                                }
-                                if (mData.getRecorder().equals("null")) {
 
-                                } else {
+                                    if (TextUtils.isEmpty(mData.getHost())){
+                                        tvMeetingHost.setText(mData.getHost());
+                                    }
+
+
                                     if (!TextUtils.isEmpty(mData.getRecorder())) {
                                         tvMeetingRecord.setText(mData.getRecorder());
                                     }
-                                }
+
                                 if (!mData.getNumber().isEmpty() && mData.getNumber() != null) {
 
                                     if (mData.getNumber().size() > 0 && !TextUtils.isEmpty(

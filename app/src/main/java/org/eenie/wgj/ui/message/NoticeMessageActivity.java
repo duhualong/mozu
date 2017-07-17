@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.message;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -37,13 +38,17 @@ import rx.schedulers.Schedulers;
  */
 
 public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
-    @BindView(R.id.root_view)View rootView;
+    @BindView(R.id.root_view)
+    View rootView;
     @BindView(R.id.notice_swipe_refresh_list)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private NoticeAdapter meetingListAdapter;
-    @BindView(R.id.recycler_to_do)RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_to_do)
+    RecyclerView mRecyclerView;
     private List<NoticeMessage> result;
-    @BindView(R.id.title)TextView title;
+    @BindView(R.id.title)
+    TextView title;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_to_do_notice;
@@ -56,7 +61,7 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        meetingListAdapter=new NoticeAdapter(context,new ArrayList<>());
+        meetingListAdapter = new NoticeAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(
@@ -66,8 +71,10 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
         mRecyclerView.setAdapter(meetingListAdapter);
 
     }
-    @OnClick({R.id.img_back})public void onClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.img_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
@@ -77,8 +84,8 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
     @Override
     public void onRefresh() {
         meetingListAdapter.clear();
-  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-        mSubscription=mRemoteService.getNotice(token)
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        mSubscription = mRemoteService.getNotice(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
@@ -114,7 +121,9 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
-    @Override public void onResume() {
+
+    @Override
+    public void onResume() {
         super.onResume();
         onRefresh();
     }
@@ -140,12 +149,12 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
             if (meetingList != null && !meetingList.isEmpty()) {
                 NoticeMessage noticeMessage = meetingList.get(position);
                 holder.setItem(noticeMessage);
-                String meetingName=noticeMessage.getAlert();
-                if (!TextUtils.isEmpty(meetingName)){
+                String meetingName = noticeMessage.getAlert();
+                if (!TextUtils.isEmpty(meetingName)) {
                     holder.meetingContent.setText(meetingName);
                 }
-                String applyDate=noticeMessage.getCreated_at();
-                if (!TextUtils.isEmpty(applyDate)){
+                String applyDate = noticeMessage.getCreated_at();
+                if (!TextUtils.isEmpty(applyDate)) {
                     holder.applyDate.setText(applyDate);
                 }
 
@@ -168,29 +177,32 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
             this.meetingList.clear();
             NoticeAdapter.this.notifyDataSetChanged();
         }
-        class NoticeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        class NoticeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView applyDate;
             private TextView meetingContent;
             private TextView meetingDetail;
             private NoticeMessage mMeetingNotice;
 
 
-
             public NoticeViewHolder(View itemView) {
 
                 super(itemView);
-                applyDate= ButterKnife.findById(itemView,R.id.item_apply_date);
-                meetingContent=ButterKnife.findById(itemView,R.id.item_meeting_name);
-                meetingDetail=ButterKnife.findById(itemView,R.id.item_look_detail);
+                applyDate = ButterKnife.findById(itemView, R.id.item_apply_date);
+                meetingContent = ButterKnife.findById(itemView, R.id.item_meeting_name);
+                meetingDetail = ButterKnife.findById(itemView, R.id.item_look_detail);
                 meetingDetail.setOnClickListener(this);
 
             }
+
             public void setItem(NoticeMessage meetingNotice) {
                 mMeetingNotice = meetingNotice;
             }
 
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(context,NoticeDetailActivity.class)
+                .putExtra(NoticeDetailActivity.INFO,mMeetingNotice));
 
 
             }

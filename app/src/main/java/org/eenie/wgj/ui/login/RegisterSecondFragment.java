@@ -70,6 +70,7 @@ import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.R.attr.maxWidth;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
@@ -118,8 +119,6 @@ public class RegisterSecondFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
-
-
     }
 
     public static RegisterSecondFragment newInstance(String username, String password) {
@@ -132,8 +131,6 @@ public class RegisterSecondFragment extends BaseFragment {
             fragment.setArguments(args);
         }
         return fragment;
-
-
     }
 
     @Override
@@ -165,8 +162,6 @@ public class RegisterSecondFragment extends BaseFragment {
 
                 break;
             case R.id.btn_submitbtn:
-
-
                 if (checkBack && checkFront) {
                     showDialog();
                 } else {
@@ -285,8 +280,7 @@ public class RegisterSecondFragment extends BaseFragment {
                                 }.getType());
 
                         Toast.makeText(context, "注册成功，请选择公司！", Toast.LENGTH_LONG).show();
-//                        Log.d("Token", "myToken: "+gson.toJson(data));
-//                        Log.d("token", "myTokens: "+data.getToken());
+//
 
                         Set<String> tags = new HashSet<>();
                         tags.add(Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
@@ -296,8 +290,6 @@ public class RegisterSecondFragment extends BaseFragment {
 
                                 System.out.println("打印code" + i + "set:" + set);
                             }else {
-//                                System.out.println("打印i:"+i);
-//                                System.out.println("tag:"+tags);
                             }
                         });
 
@@ -466,8 +458,7 @@ public class RegisterSecondFragment extends BaseFragment {
     private void startCropImage(Uri resUri, int requestCode) {
         File cropFile = new File(context.getCacheDir(), "a.jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(8, 5)
-                .withMaxResultSize(640, 400)
+                .withMaxResultSize(maxWidth, 300)
                 .start(context, this, requestCode);
     }
 

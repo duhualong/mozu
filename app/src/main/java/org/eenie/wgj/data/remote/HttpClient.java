@@ -43,16 +43,16 @@ import rx.Single;
     }
   }
 
-  public void getDatas(String url, Callback callback,String token) {
-
-    Request request = new Request.Builder()
-            .addHeader("token",token)
-            .url(url).get().build();
-
-    if (client != null) {
-      client.newCall(request).enqueue(callback);
-    }
-  }
+//  public void getDatas(String url, Callback callback,String token) {
+//
+//    Request request = new Request.Builder()
+//            .addHeader("token",token)
+//            .url(url).get().build();
+//
+//    if (client != null) {
+//      client.newCall(request).enqueue(callback);
+//    }
+//  }
 
 
 
@@ -68,16 +68,16 @@ import rx.Single;
       }
     })).compose(RxUtils.applySchedulers());
   }
-  public Single<Response> getDatas(String url,String token) {
-    return Single.create((Single.OnSubscribe<Response>) subscriber -> getDatas(url, new Callback() {
-      @Override
-      public void onFailure(Call call, IOException e) {
-        subscriber.onError(e);
-      }
-      @Override
-      public void onResponse(Call call, Response response) throws IOException {
-        subscriber.onSuccess(response);
-      }
-    },token )).compose(RxUtils.applySchedulers());
-  }
+//  public Single<Response> getDatas(String url,String token) {
+//    return Single.create((Single.OnSubscribe<Response>) subscriber -> getDatas(url, new Callback() {
+//      @Override
+//      public void onFailure(Call call, IOException e) {
+//        subscriber.onError(e);
+//      }
+//      @Override
+//      public void onResponse(Call call, Response response) throws IOException {
+//        subscriber.onSuccess(response);
+//      }
+//    },token )).compose(RxUtils.applySchedulers());
+//  }
 }

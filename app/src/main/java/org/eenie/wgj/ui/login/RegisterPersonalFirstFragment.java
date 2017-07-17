@@ -1,5 +1,6 @@
 package org.eenie.wgj.ui.login;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,8 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
+    public static final int REQUEST_CODE=0x104;
     private boolean isLoaded = false;
     /**
      */
@@ -90,8 +92,12 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
     View rootView;
     @BindView(R.id.filter_edit)
     ClearEditText mClearEditText;
+    @BindView(R.id.line_select_city)LinearLayout mLinearLayout;
     private String token;
     private int userId;
+    private String mSelectCity;
+    @BindView(R.id.tv_title)TextView tvTitle;
+
 
     /**
      *
@@ -107,13 +113,12 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
-        initJsonData();
+       // initJsonData();
+        tvTitle.setText("选择城市");
 
     }
 
     public static RegisterPersonalFirstFragment newInstance(int userId, String token) {
-
-
         RegisterPersonalFirstFragment fragment = new RegisterPersonalFirstFragment();
         if (!TextUtils.isEmpty(token)) {
             Bundle args = new Bundle();
@@ -122,7 +127,6 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
 
             fragment.setArguments(args);
         }
-
         return fragment;
     }
 
@@ -143,14 +147,35 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
                 onBackPressed();
                 break;
             case R.id.rl_select_city:
-                if (isLoaded) {
-                    ShowPickerView();
-                }
+                startActivityForResult(new Intent(context,SelectCityRegisterActivity.class),REQUEST_CODE);
+//
+//                if (isLoaded) {
+//                    ShowPickerView();
+//                }
 
                 break;
 
 
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==4){
+            if (requestCode==REQUEST_CODE){
+                mSelectCity=data.getStringExtra("city");
+                if (!TextUtils.isEmpty(mSelectCity)){
+                    selectCity.setText(mSelectCity);
+                    tvTitle.setText("选择公司");
+                    getCityCompanyCty(mSelectCity);
+                    mLinearLayout.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+        }
+
     }
 
     private void initData() {
@@ -189,12 +214,9 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
 
                         }
 
-
                     }
 
                 });
-
-
     }
 
 
@@ -327,19 +349,12 @@ public class RegisterPersonalFirstFragment extends BaseFragment {
             public void afterTextChanged(Editable s) {
             }
         });
-        sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                fragmentMgr.beginTransaction()
-                        .addToBackStack(TAG)
-                        .replace(R.id.fragment_login_container,
-                                RegisterPersonalSecondFragment.newInstance(token, userId,
-                                        ((SortModel) adapter.getItem(position)).getCompanyId()))
-                        .commit();
-
-
-            }
-        });
+        sortListView.setOnItemClickListener((parent, view, position, id) -> fragmentMgr.beginTransaction()
+                .addToBackStack(TAG)
+                .replace(R.id.fragment_login_container,
+                        RegisterPersonalSecondFragment.newInstance(token, userId,
+                                ((SortModel) adapter.getItem(position)).getCompanyId()))
+                .commit());
     }
 
     private List<SortModel> filledDatas(List<CompanyList> data) {

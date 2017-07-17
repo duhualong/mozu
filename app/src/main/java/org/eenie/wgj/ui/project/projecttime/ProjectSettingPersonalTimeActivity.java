@@ -25,6 +25,7 @@ import org.eenie.wgj.model.response.ProjectTimeTotal;
 import org.eenie.wgj.model.response.TotalTimeProject;
 import org.eenie.wgj.util.Constants;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,7 +72,7 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
 
     //已经排班的员工
     private ArrayList<PersonalWorkDayMonthList> arrangePersonalTime = new ArrayList<>();
-    private ArrayList<ClassListWorkTime> serviceList;
+
     ArrayList<PersonalWorkDayMonthList> mData = new ArrayList<>();
 
 
@@ -87,7 +88,15 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
 
         projectId = getIntent().getStringExtra(PROJECT_ID);
         mCalendar = Calendar.getInstance();
-        onMonthChange(mCalendar.getTime());
+        getData(mCalendar.getTime());
+
+
+    }
+
+    private void getData(Date time) {
+        onMonthChange(time);
+        mData=arrangePersonalTime;
+
 
     }
 
@@ -96,9 +105,100 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
         String date = new SimpleDateFormat("yyyy年MM月").format(time);
         tvDate.setText(date);
         getTotalTime(mDate);
-        getSortPersonalList(mDate, projectId);
-        getSortClassList();
-        getArrangeTimePersonal(projectId, mDate);
+        getSortClassList(mDate);
+
+
+
+
+    }
+
+    private void getArrangeTimePersonal(String projectId, String mDate) {
+        mSubscription = mRemoteService.getMonthDay(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), mDate, projectId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(apiResponse.getData());
+                            arrangePersonalTime = gson.fromJson(jsonArray,
+                                    new TypeToken<ArrayList<PersonalWorkDayMonthList>>() {
+                                    }.getType());
+                            if (arrangePersonalTime!=null&&!arrangePersonalTime.isEmpty()){
+                                fillData();
+                            }else {
+                                fillDatas();
+                            }
+
+
+                        } else {
+//
+//                            Toast.makeText(context, apiResponse.getResultMessage(),
+//                                    Toast.LENGTH_SHORT).show();
+                            fillDatas();
+
+                        }
+
+                    }
+                });
+
+    }
+
+    private void fillDatas() {
+
+            if (personBeanArrayList.size() > 0) {
+                ArrayList<PersonalWorkDayMonthList> mDataList = new ArrayList<>();
+
+
+                for (int i = 0; i < personBeanArrayList.size(); i++) {
+                    if (classServiceList.size() > 0) {
+                        ArrayList<ClassListWorkTime> serviceList=new ArrayList<>();
+                        for (int j = 0; j < classServiceList.size(); j++) {
+                        ClassListWorkTime.ServiceBean serviceBean
+                                = new ClassListWorkTime.ServiceBean(classServiceList.get(j).getId(),
+                                classServiceList.get(j).getServicesname(),
+                                classServiceList.get(j).getStarttime(), classServiceList.get(j).getEndtime(),
+                                classServiceList.get(j).getTime());
+                        ClassListWorkTime service = new ClassListWorkTime(serviceBean, "0");
+                        serviceList.add(service);
+                    }
+                    PersonalWorkDayMonthList mDatas=new PersonalWorkDayMonthList(
+                            String.valueOf(personBeanArrayList.get(i).getId()),
+                            personBeanArrayList.get(i).getName(),serviceList);
+                        mDataList.add(mDatas);
+
+                }
+                }
+                if (mDataList.size()>0){
+                    arrangePersonalTime=mDataList;
+                    Log.d("测试", "fillDatas: "+new Gson().toJson(mDataList));
+
+                }else {
+                    mDataList=new ArrayList<>();
+                    System.out.println("这是假数据");
+                }
+                Log.d("测试", "fillDatas: "+new Gson().toJson(arrangePersonalTime));
+
+                adapter = new ExpandAdapter(context, arrangePersonalTime);
+                mExpandableListView.setAdapter(adapter);
+            }
+
+
+    }
+
+    private void fillData() {
         if (arrangePersonalTime.size() > 0) {
             for (int m=0;m<arrangePersonalTime.size();m++){
                 for (int g=0;g<classServiceList.size();g++){
@@ -134,91 +234,35 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
 
                     }
                     if (!checked){
-                            if (classServiceList.size() > 0) {
-                                for (int j = 0; j < classServiceList.size(); j++) {
-                                    ClassListWorkTime.ServiceBean serviceBean
-                                            = new ClassListWorkTime.ServiceBean(classServiceList.get(j).getId(),
-                                            classServiceList.get(j).getServicesname(),
-                                            classServiceList.get(j).getStarttime(), classServiceList.get(j).getEndtime(),
-                                            classServiceList.get(j).getTime());
-                                    ClassListWorkTime service = new ClassListWorkTime(serviceBean, "0");
-                                    serviceList.add(service);
+                        if (classServiceList.size() > 0) {
+                             ArrayList<ClassListWorkTime> serviceList=new ArrayList<>();
+                            for (int j = 0; j < classServiceList.size(); j++) {
+                                ClassListWorkTime.ServiceBean serviceBean
+                                        = new ClassListWorkTime.ServiceBean(classServiceList.get(j).getId(),
+                                        classServiceList.get(j).getServicesname(),
+                                        classServiceList.get(j).getStarttime(), classServiceList.get(j).getEndtime(),
+                                        classServiceList.get(j).getTime());
+                                ClassListWorkTime service = new ClassListWorkTime(serviceBean, "0");
+                                serviceList.add(service);
 
-                                }
-                                PersonalWorkDayMonthList mDatas=new PersonalWorkDayMonthList(
-                                        String.valueOf(personBeanArrayList.get(p).getId()),
-                                        personBeanArrayList.get(p).getName(),serviceList);
-                                arrangePersonalTime.add(mDatas);
+                            }
+                            PersonalWorkDayMonthList mDatas=new PersonalWorkDayMonthList(
+                                    String.valueOf(personBeanArrayList.get(p).getId()),
+                                    personBeanArrayList.get(p).getName(),serviceList);
+                            arrangePersonalTime.add(mDatas);
                         }
                     }
 
                 }
             }
 
+            adapter = new ExpandAdapter(context, arrangePersonalTime);
+            mExpandableListView.setAdapter(adapter);
 
 
 
-
-        } else {
-            if (personBeanArrayList.size() > 0) {
-                for (int i = 0; i < personBeanArrayList.size(); i++) {
-                    if (classServiceList.size() > 0) {
-                        for (int j = 0; j < classServiceList.size(); j++) {
-                            ClassListWorkTime.ServiceBean serviceBean
-                                    = new ClassListWorkTime.ServiceBean(classServiceList.get(j).getId(),
-                                    classServiceList.get(j).getServicesname(),
-                                    classServiceList.get(j).getStarttime(), classServiceList.get(j).getEndtime(),
-                                    classServiceList.get(j).getTime());
-                            ClassListWorkTime service = new ClassListWorkTime(serviceBean, "0");
-                            serviceList.add(service);
-
-                        }
-                        PersonalWorkDayMonthList mDatas=new PersonalWorkDayMonthList(
-                                String.valueOf(personBeanArrayList.get(i).getId()),
-                                personBeanArrayList.get(i).getName(),serviceList);
-                        arrangePersonalTime.add(mDatas);
-
-                    }
-                }
-            }
         }
-        adapter = new ExpandAdapter(context, arrangePersonalTime);
-        mExpandableListView.setAdapter(adapter);
 
-    }
-
-    private void getArrangeTimePersonal(String projectId, String mDate) {
-        mSubscription = mRemoteService.getMonthDay(mPrefsHelper.getPrefs().
-                getString(Constants.TOKEN, ""), mDate, projectId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
-                            Gson gson = new Gson();
-                            String jsonArray = gson.toJson(apiResponse.getData());
-                            arrangePersonalTime = gson.fromJson(jsonArray,
-                                    new TypeToken<ArrayList<PersonalWorkDayMonthList>>() {
-                                    }.getType());
-                        } else {
-                            Toast.makeText(context, apiResponse.getResultMessage(),
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }
-                });
 
     }
 
@@ -256,6 +300,7 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
                                 tvNowPeople.setText(String.valueOf(data.getHours().getActual()));
 
                                 personBeanArrayList = data.getPerson();
+                                getArrangeTimePersonal(projectId, mDate);
                                 Log.d("mytest", "onNext: " + gson.toJson(personBeanArrayList));
 
                             }
@@ -299,8 +344,8 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
                                 tvSuplusTime.setText(data.getRemain());
                             }
                         } else {
-                            Toast.makeText(context, apiResponse.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, apiResponse.getMessage(),
+//                                    Toast.LENGTH_SHORT).show();
                             tvTotalTime.setText("0");
                             tvSuplusTime.setText("0");
                         }
@@ -310,7 +355,7 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
                 });
     }
 
-    private void getSortClassList() {
+    private void getSortClassList(String date) {
 
 
         mSubscription = mRemoteService.getClassWideList(mPrefsHelper.getPrefs().
@@ -339,6 +384,8 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
                                 classServiceList = gson.fromJson(jsonArray,
                                         new TypeToken<ArrayList<ClassListWorkTime.ServiceBean>>() {
                                         }.getType());
+                                getSortPersonalList(date, projectId);
+                                Log.d("班次数据", "onNext: "+gson.toJson(classServiceList));
 
 
                             }
@@ -365,34 +412,71 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
                 break;
             case R.id.btnPri:
                 mCalendar.add(Calendar.MONTH, -1);
+
                 String mDate = new SimpleDateFormat("yyyy-MM").format(mCalendar.getTime());
                 String mDates = new SimpleDateFormat("yyyy-MM").format(Calendar.getInstance().getTime());
-                if (Integer.parseInt(mDate.substring(0, 4)) > Integer.parseInt(mDates.substring(0, 4))) {
+                if (isDateOneBigger(mDate,mDates)){
                     mData=new ArrayList<>();
-                    onMonthChange(mCalendar.getTime());
-                } else if (Integer.parseInt(mDate.substring(6, mDate.length())) >=
-                        Integer.parseInt(mDates.substring(6, mDates.length()))) {
-                    mData=new ArrayList<>();
-                    onMonthChange(mCalendar.getTime());
-                } else {
+
+                    getData(mCalendar.getTime());
+                }else {
                     mCalendar.add(Calendar.MONTH, 1);
+                    Toast.makeText(context,"不能对过去日期进行工时设置",Toast.LENGTH_SHORT).show();
                 }
+
+//                if (Integer.parseInt(mDate.substring(0, 4)) > Integer.parseInt(mDates.substring(0, 4))) {
+//                    mData=new ArrayList<>();
+//
+//                    getData(mCalendar.getTime());
+////                    onMonthChange(mCalendar.getTime());
+//                } else if (Integer.parseInt(mDate.substring(6, mDate.length())) >=
+//                        Integer.parseInt(mDates.substring(6, mDates.length()))) {
+//                    mData=new ArrayList<>();
+//                    getData(mCalendar.getTime());
+//                   // onMonthChange(mCalendar.getTime());
+//                } else {
+//
+//                    mCalendar.add(Calendar.MONTH, 1);
+//                }
 
                 break;
             case R.id.btnNext:
                 mData=new ArrayList<>();
+
                 mCalendar.add(Calendar.MONTH, 1);
-                onMonthChange(mCalendar.getTime());
+
+                getData(mCalendar.getTime());
+               // onMonthChange(mCalendar.getTime());
 
                 break;
         }
     }
 
+    public static boolean isDateOneBigger(String str1, String str2) {
+        boolean isBigger = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        Date dt1 = null;
+        Date dt2 = null;
+        try {
+            dt1 = sdf.parse(str1);
+            dt2 = sdf.parse(str2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dt1.getTime() >=dt2.getTime()) {
+            isBigger = true;
+        } else if (dt1.getTime() < dt2.getTime()) {
+            isBigger = false;
+        }
+        return isBigger;
+    }
+
+
     private void applyData() {
         ArrayList<Integer> userId = new ArrayList<>();
         ArrayList<String> serviceId = new ArrayList<>();
         ArrayList<String> dayList = new ArrayList<>();
-        Gson mGson = new Gson();
+
         if (arrangePersonalTime != null) {
             for (int i = 0; i < arrangePersonalTime.size(); i++) {
                 userId.add(Integer.valueOf(arrangePersonalTime.get(i).getUser_id()));

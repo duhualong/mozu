@@ -66,6 +66,8 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
     ArrayList<PersonalWorkDayMonthList> mData = new ArrayList<>();
 
     String attendanceDay;
+    private int servicePeople;
+    private int serviceId;
 
     @Override
     protected int getContentView() {
@@ -74,11 +76,14 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+
         projectId = getIntent().getStringExtra(PROJECT_ID);
+
         mCalendar = Calendar.getInstance();
         onMonthChange(mCalendar.getTime());
 
     }
+
 
     private void onMonthChange(Date time) {
         String mDate = new SimpleDateFormat("yyyy-MM-dd").format(time);
@@ -310,9 +315,7 @@ public class ProjectTimePersonalSettingActivity extends BaseActivity {
                                                     mPersonal.get(j).getName(), mClass);
                                             mData.add(mPersonalDay);
                                         }
-//                                        if(adapter!=null){
-//                                            adapter.clear();
-//                                        }
+
                                         personalData = mData;
                                         Log.d("Arraylist{}", "onNext: " + gson.toJson(personalData));
                                         adapter = new ExpandAdapter(context, personalData);

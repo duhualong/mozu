@@ -24,13 +24,11 @@ import org.eenie.wgj.model.requset.MLogin;
 import org.eenie.wgj.model.response.LoginData;
 import org.eenie.wgj.model.response.TestLogin;
 import org.eenie.wgj.util.Constants;
-import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,7 +41,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -139,10 +136,16 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.btn_register:
 
+//
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
                         .replace(R.id.fragment_login_container, new RegisterFirstFragment())
                         .commit();
+
+//                fragmentMgr.beginTransaction()
+//                        .addToBackStack(TAG)
+//                        .replace(R.id.fragment_login_container, new RegisterSecondFragment())
+//                        .commit();
               // startActivity(new Intent(context, TestMyActivity.class));
 
                 break;
@@ -231,6 +234,9 @@ public class LoginFragment extends BaseFragment {
                                     new TypeToken<LoginData>() {
                                     }.getType());
                              if (data.getType()<=0){
+
+
+
                                  Toast.makeText(context,"账号正在审核。。。",Toast.LENGTH_LONG).show();
                              }else {
                                  mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
@@ -259,16 +265,18 @@ public class LoginFragment extends BaseFragment {
                                              .apply();
                                  }
                                  Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
+                                 startActivity(new Intent(context, MainActivity.class));
+                                 getActivity().finish();
 
-                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                                         subscribe(s ->
-                                                 checkCompanyState(data.getToken())
-                                         );
+//                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+//                                         subscribe(s ->
+//                                                 checkCompanyState(data.getToken())
+//                                         );
 
-                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                                         subscribe(s ->
-                                                 startActivity(new Intent(context, MainActivity.class))
-                                         );
+//                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
+//                                         subscribe(s ->
+//                                                 startActivity(new Intent(context, MainActivity.class))
+//                                         );
 
                              }
                         } else {
@@ -324,11 +332,9 @@ public class LoginFragment extends BaseFragment {
                         System.out.println("ERROR:" + e);
                         Snackbar.make(rootView, "错误请求！", Snackbar.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200) {
-
 
                             Gson gson = new Gson();
                             String ss = gson.toJson(apiResponse.getData());
@@ -372,6 +378,5 @@ public class LoginFragment extends BaseFragment {
 
         return result;
     }
-
 
 }

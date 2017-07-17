@@ -1,7 +1,9 @@
 package org.eenie.wgj.ui.meeting.launchmeeting;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +80,8 @@ public class LaunchMeetingActivity extends BaseActivity {
     EditText editMeetingContent;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.scrollview)ScrollView mScrollView;
+
     private String mStartTime;
     private String mEndTime;
     int type = 0;
@@ -92,9 +97,33 @@ public class LaunchMeetingActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-
+        controlKeyboardLayout(mScrollView,LaunchMeetingActivity.this);
     }
 
+    private void controlKeyboardLayout(final ScrollView root, final Activity context) {
+        root.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+
+
+            Rect rect = new Rect();
+            root.getWindowVisibleDisplayFrame(rect);
+            int rootInvisibleHeight = root.getRootView().getHeight() - rect.bottom;
+            //若不可视区域高度大于100，则键盘显示
+            if (rootInvisibleHeight > 80) {
+                int[] location = new int[2];
+                View focus = context.getCurrentFocus();
+                if (focus != null) {
+                    focus.getLocationInWindow(location);
+                    int scrollHeight = (location[1] + focus.getHeight()) - rect.bottom;
+                    if (rect.bottom < location[1] + focus.getHeight()) {
+                        root.scrollTo(0, scrollHeight);
+                    }
+                }
+            } else {
+                //键盘隐藏
+                root.scrollTo(0, 0);
+            }
+        });
+    }
     @OnClick({R.id.img_back, R.id.tv_apply_ok, R.id.tv_start_time, R.id.tv_end_time, R.id.rl_master,
             R.id.rl_record, img_add, R.id.checkbox_select_normal, R.id.checkbox_select_abnormal})
     public void onClick(View view) {

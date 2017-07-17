@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -18,8 +19,11 @@ import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.MeetingNotice;
 import org.eenie.wgj.model.requset.MessageDetail;
+import org.eenie.wgj.model.response.meeting.AuditMeetingRequest;
+import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 
@@ -80,6 +84,7 @@ public class ApplyFeedBackActivity extends BaseActivity {
     ImageView imgAgree;
     @BindView(R.id.scrollview)
     ScrollView mScrollView;
+    int type;
 
 
     @Override
@@ -101,12 +106,17 @@ public class ApplyFeedBackActivity extends BaseActivity {
                     controlKeyboardLayout(mScrollView, ApplyFeedBackActivity.this);
                     break;
                 case 3:
-                    applyResult.setText("拒绝");
+                    applyResult.setText(data.getCheckstatus_name());
+                    applyPersonal.setText(data.getCheckstatus_name());
                     applyResult.setTextColor(ContextCompat.
                             getColor(context, R.color.text_red));
-                    applyPersonal.setText("拒绝");
                     applyPersonal.setTextColor(ContextCompat.
                             getColor(context, R.color.text_red));
+                    break;
+                case 1:
+                    applyResult.setText(data.getCheckstatus_name());
+                    applyPersonal.setText(data.getCheckstatus_name());
+
                     break;
             }
             if (!TextUtils.isEmpty(data.getName())) {
@@ -138,7 +148,7 @@ public class ApplyFeedBackActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
                     MessageDetail mData = null;
-                    if (listApiResponse.getResultCode() == 200) {
+                    if (listApiResponse.getCode() == 0) {
                         Gson gson=new Gson();
                         String jsonArray= gson.toJson(listApiResponse.getData());
                        mData = gson.fromJson(jsonArray,
@@ -153,16 +163,22 @@ public class ApplyFeedBackActivity extends BaseActivity {
                     if (meeting != null) {
                         meetingGoal.setText(meeting.getDetail());
                         applyReason.setText(meeting.getCheck_feedback());
-                        String url=Constant.DOMIN+meeting.getAvatar();
-                        Glide.with(context)
-                                .load(url)
-                                .centerCrop()
-                                .into(imgAvatar);
-                        String urls=Constant.DOMIN+meeting.getCheck_image();
-                        Glide.with(context)
-                                .load(urls)
-                                .centerCrop()
-                                .into(imgAvatarApply);
+                        if (!TextUtils.isEmpty(meeting.getAvatar())){
+                            String url=Constant.DOMIN+meeting.getAvatar();
+                            Glide.with(context)
+                                    .load(url)
+                                    .centerCrop()
+                                    .into(imgAvatar);
+                        }
+
+                        if (!TextUtils.isEmpty(meeting.getOperator_avatar())){
+                            String urls=Constant.DOMIN+meeting.getOperator_avatar();
+                            Glide.with(context)
+                                    .load(urls)
+                                    .centerCrop()
+                                    .into(imgAvatarApply);
+                        }
+
 
                     }
                 });
@@ -215,17 +231,55 @@ public class ApplyFeedBackActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_apply_ok:
+                if (!TextUtils.isEmpty(etReason.getText().toString())){
+                    if (type==0){
+                        Toast.makeText(context,"请选择审核状态",Toast.LENGTH_SHORT).show();
+                    }else {
+                        applyMeeting(etReason.getText().toString(),type,data.getId());
+                    }
+
+                }else {
+                    Toast.makeText(context,"请输入处理原因",Toast.LENGTH_SHORT).show();
+                }
 
 
                 break;
             case R.id.ly_check_agree:
+                type=1;
+                imgAgree.setImageResource(R.mipmap.ic_apply_true);
+                imgRefuse.setImageResource(R.mipmap.ic_apply_false);
+
 
                 break;
             case R.id.ly_check_refuse:
+                type=3;
+                imgAgree.setImageResource(R.mipmap.ic_apply_false);
+                imgRefuse.setImageResource(R.mipmap.ic_apply_true);
 
 
                 break;
         }
+    }
+
+    private void applyMeeting(String cause, int type, int id) {
+        AuditMeetingRequest request=new AuditMeetingRequest(cause,type,id);
+        mSubscription=mRemoteService.auditMeeting(mPrefsHelper.getPrefs().
+                        getString(Constants.TOKEN,""), request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getCode()==0){
+                            Toast.makeText(context,apiResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                            finish();
+                        }else {
+                            Toast.makeText(context,apiResponse.getMessage(),Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                });
     }
 
     private void controlKeyboardLayout(final ScrollView root, final Activity context) {

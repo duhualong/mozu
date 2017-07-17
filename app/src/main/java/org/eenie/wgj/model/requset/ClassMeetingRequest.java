@@ -21,6 +21,7 @@ public class ClassMeetingRequest {
     private String starttime;
     private String endtime;
     private String id;
+    private  int persons;
 
     //添加
     public ClassMeetingRequest(String projectid, String servicesname, String starttime,
@@ -33,12 +34,13 @@ public class ClassMeetingRequest {
 
     //编辑
     public ClassMeetingRequest(String projectid, String servicesname, String starttime,
-                               String endtime, String id) {
+                               String endtime, String id,int persons) {
         this.projectid = projectid;
         this.servicesname = servicesname;
         this.starttime = starttime;
         this.endtime = endtime;
         this.id = id;
+        this.persons=persons;
     }
 
     public String getProjectid() {

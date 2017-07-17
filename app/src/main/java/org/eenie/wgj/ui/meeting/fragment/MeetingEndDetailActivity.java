@@ -82,17 +82,14 @@ public class MeetingEndDetailActivity extends BaseActivity {
         if (!TextUtils.isEmpty(applyId)) {
             getData(applyId);
         }
-
-
     }
 
     private void getData(String applyId) {
-        mSubscription = mRemoteService.getMeetingArrangeDetail(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
-                applyId)
+        mSubscription = mRemoteService.getMeetingArrangeDetail(mPrefsHelper.getPrefs().
+                        getString(Constants.TOKEN, ""), applyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ProgressSubscriber<ApiResponse>(context) {
-
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
@@ -102,10 +99,9 @@ public class MeetingEndDetailActivity extends BaseActivity {
                                     gson.fromJson(jsonArray,
                                             new TypeToken<MeetingEndDetail>() {
                                             }.getType());
-
                             if (mData != null) {
                                 if (!TextUtils.isEmpty(mData.getId_card_head_image())) {
-                                    Glide.with(context).load(Constant.DOMIN + mData.getId_card_head_image())
+                                    Glide.with(context).load(Constant.DOMIN +mData.getId_card_head_image())
                                             .centerCrop().into(imgAvatar);
 
                                 }
@@ -119,21 +115,16 @@ public class MeetingEndDetailActivity extends BaseActivity {
                                 if (!TextUtils.isEmpty(mData.getName())) {
                                     tvMeetingName.setText(mData.getName());
                                 }
-                                if (!TextUtils.isEmpty(mData.getStart()) && !TextUtils.isEmpty(mData.getEnd())) {
+                                if (!TextUtils.isEmpty(mData.getStart()) &&!TextUtils.isEmpty(mData.getEnd())) {
                                     tvMeetingTime.setText(mData.getStart() + "至" + mData.getEnd());
                                 }
-                                if (mData.getHost().equals("null")) {
-                                    tvMeetingHost.setText("无");
-                                } else {
+                                if (!TextUtils.isEmpty(mData.getHost())) {
                                     tvMeetingHost.setText(mData.getHost());
                                 }
-                                if (mData.getRecorder().equals("null")) {
 
-                                } else {
                                     if (!TextUtils.isEmpty(mData.getRecorder())) {
                                         tvMeetingRecord.setText(mData.getRecorder());
                                     }
-                                }
 
                                 if (!mData.getNumber().isEmpty() && mData.getNumber() != null) {
 
@@ -147,8 +138,6 @@ public class MeetingEndDetailActivity extends BaseActivity {
                                                 joiner = joiner + mData.getNumber().
                                                         get(i).getUsername() + "/";
                                             }
-
-
                                         }
                                         tvMeetingJoin.setText(joiner);
                                     }
@@ -185,18 +174,14 @@ public class MeetingEndDetailActivity extends BaseActivity {
                                                 get(1).getImage()).centerCrop().into(imgSecond);
                                         Glide.with(context).load(Constant.DOMIN + mData.getImage().
                                                 get(2).getImage()).centerCrop().into(imgThird);
-
                                     }
                                 }
-
-
                             }
 
                         } else {
                             Toast.makeText(context, apiResponse.getResultMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
@@ -216,8 +201,6 @@ public class MeetingEndDetailActivity extends BaseActivity {
                                                 Constant.DOMIN + mImageBean.get(0).getImage()));
                     }
                 }
-
-
                 break;
             case R.id.img_second:
                 if (!mImageBean.isEmpty() && mImageBean != null) {
@@ -228,7 +211,6 @@ public class MeetingEndDetailActivity extends BaseActivity {
                                                 Constant.DOMIN + mImageBean.get(1).getImage()));
                     }
                 }
-
 
                 break;
             case R.id.img_third:

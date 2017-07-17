@@ -39,7 +39,7 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class BirthdayAlertActivity  extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class BirthdayAlertActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.notice_swipe_refresh_list)
@@ -86,14 +86,14 @@ public class BirthdayAlertActivity  extends BaseActivity implements SwipeRefresh
     @Override
     public void onRefresh() {
         meetingListAdapter.clear();
-   String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
         mSubscription = mRemoteService.getBirthdayList(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
                     result = new ArrayList<>();
                     if (listApiResponse.getResultCode() == 200) {
-                        Gson gson=new Gson();
+                        Gson gson = new Gson();
                         String jsonArray = gson.toJson(listApiResponse.getData());
                         List<BirthdayAlert> orderList = gson.fromJson(jsonArray,
                                 new TypeToken<List<BirthdayAlert>>() {
@@ -152,14 +152,14 @@ public class BirthdayAlertActivity  extends BaseActivity implements SwipeRefresh
             if (meetingList != null && !meetingList.isEmpty()) {
                 BirthdayAlert birthdayMessage = meetingList.get(position);
                 holder.setItem(birthdayMessage);
-                if (!TextUtils.isEmpty(birthdayMessage.getName())){
+                if (!TextUtils.isEmpty(birthdayMessage.getName())) {
                     holder.birthdayName.setText(birthdayMessage.getName());
                 }
-                if (!TextUtils.isEmpty(birthdayMessage.getTime())){
+                if (!TextUtils.isEmpty(birthdayMessage.getTime())) {
                     holder.birthdayDate.setText(birthdayMessage.getTime());
 
                 }
-                if (!TextUtils.isEmpty(birthdayMessage.getText())){
+                if (!TextUtils.isEmpty(birthdayMessage.getText())) {
                     holder.birthdayDetail.setText(birthdayMessage.getText());
                 }
 
@@ -188,14 +188,17 @@ public class BirthdayAlertActivity  extends BaseActivity implements SwipeRefresh
             private TextView birthdayDate;
             private TextView birthdayDetail;
             private BirthdayAlert mBirthdayNotice;
+            private TextView tvDetail;
 
 
             public NoticeViewHolder(View itemView) {
 
                 super(itemView);
                 birthdayName = ButterKnife.findById(itemView, R.id.item_birthday_name);
-               birthdayDate=ButterKnife.findById(itemView,R.id.item_birthday_date);
+                birthdayDate = ButterKnife.findById(itemView, R.id.item_birthday_date);
                 birthdayDetail = ButterKnife.findById(itemView, R.id.item_look_detail);
+                tvDetail = ButterKnife.findById(itemView, R.id.item_look_detail_img);
+                tvDetail.setOnClickListener(this);
                 birthdayDetail.setOnClickListener(this);
 
             }
@@ -206,10 +209,19 @@ public class BirthdayAlertActivity  extends BaseActivity implements SwipeRefresh
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, BirthdayDetailPersonalActivity.class);
-                intent.putExtra(BirthdayDetailPersonalActivity.ID,mBirthdayNotice.getId()+"");
-                context.startActivity(intent);
+                switch (v.getId()) {
+                    case R.id.item_look_detail_img:
+                        Intent intent = new Intent(context, BirthdayDetailPersonalActivity.class);
+                        intent.putExtra(BirthdayDetailPersonalActivity.ID, mBirthdayNotice.getId() + "");
+                        startActivity(intent);
+                        break;
+                    case R.id.item_look_detail:
+                        Intent intents = new Intent(context, BirthdayDetailPersonalActivity.class);
+                        intents.putExtra(BirthdayDetailPersonalActivity.ID, mBirthdayNotice.getId() + "");
+                        startActivity(intents);
 
+                        break;
+                }
 
 
             }

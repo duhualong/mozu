@@ -53,8 +53,14 @@ public class TrainingStatisticAdapter extends BaseQuickAdapter<TrainingStatistic
             bar.setProgress((int) infoBean.getSchedule());
 
         }
+        if (infoBean.getSchedule()>100){
+            holder.setText(R.id.tv_post_rate, String.format("%s%%", 100));
 
-        holder.setText(R.id.tv_master_rate, String.format("%s%%", infoBean.getSchedule()));
+        }else {
+            holder.setText(R.id.tv_post_rate, String.format("%s%%", infoBean.getSchedule()));
+        }
+
+
 
 
     }
@@ -69,7 +75,14 @@ public class TrainingStatisticAdapter extends BaseQuickAdapter<TrainingStatistic
 
         }
 
-        holder.setText(R.id.tv_post_rate, String.format("%s%%", infoBean.getSchedule()));
+
+        if (infoBean.getSchedule()>100){
+            holder.setText(R.id.tv_post_rate, String.format("%s%%", 100));
+        }else {
+            holder.setText(R.id.tv_post_rate, String.format("%s%%", infoBean.getSchedule()));
+        }
+
+
     }
 
 

@@ -910,7 +910,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 File CropFile = new File(context.getCacheDir(), "f.jpg");
                 UCrop.of(resUri, Uri.fromFile(CropFile))
                         .withAspectRatio(1, 1)
-                        .withMaxResultSize(300, 300)
+                        .withMaxResultSize(500, 500)
                         .start(RoutingPointUploadActivity.this, requestCode);
 
                 break;

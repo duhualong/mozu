@@ -241,7 +241,7 @@ public class AddWorkShowActivity extends BaseActivity {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
                                 imgList.get(1).setVisibility(View.VISIBLE);
-                                imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
 
                             });
                     firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -265,7 +265,7 @@ public class AddWorkShowActivity extends BaseActivity {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
                                 imgList.get(2).setVisibility(View.VISIBLE);
-                                imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
                             });
                     secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     secondFile = new File(secondPath);
@@ -320,9 +320,10 @@ public class AddWorkShowActivity extends BaseActivity {
                             subscribe(s ->
                                     finish()
                             );
-
+                }else {
+                    Toast.makeText(context,response.body().getResultMessage(),
+                            Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override

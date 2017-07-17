@@ -215,11 +215,8 @@ public class AttendanceStaticsMonthActivity extends BaseActivity implements Swip
                                 AttendanceStaticsMonthDetailActivity.class)
                         .putExtra(AttendanceStaticsMonthDetailActivity.DATE,mString)
                         .putExtra(AttendanceStaticsMonthDetailActivity.PROJECT_ID,projectId));
-
-
                         break;
                 }
-
 
             }
         }

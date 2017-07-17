@@ -3,8 +3,8 @@ package org.eenie.wgj;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-
-import com.facebook.drawee.backends.pipeline.Fresco;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import org.eenie.wgj.data.local.HomeModule;
 import org.eenie.wgj.di.component.ApplicationComponent;
@@ -35,16 +35,18 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
 
+
 /**
  * App
  */
-public class App extends Application {
+public class App extends MultiDexApplication {
+
 
     private ApplicationComponent mApplicationComponent;
     private static Stack<Activity> sActivityStack;
+    private static Application sApplicationContext;
 
-
-    RealmConfiguration.Builder builder;
+    private RealmConfiguration.Builder builder;
 
 
     public static App get(Context context) {
@@ -56,12 +58,26 @@ public class App extends Application {
         super.onCreate();
         mApplicationComponent = prepareApplicationComponent().build();
         mApplicationComponent.inject(this);
-
+        sApplicationContext = this;
         JPushInterface.init(this);
-
         sActivityStack = new Stack<>();
-        Fresco.initialize(getApplicationContext());
+//        Fresco.initialize(getApplicationContext());
+        initApplicationConfig();
 
+
+
+    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super .attachBaseContext(base);
+        MultiDex.install(this);
+
+    }
+
+
+
+
+    private void initApplicationConfig() {
         builder = new RealmConfiguration.Builder(this);
         builder.name("youchi.realm")
                 .migration(new RealmMigration() {
@@ -77,9 +93,12 @@ public class App extends Application {
                     }
                 }).deleteRealmIfMigrationNeeded();
         Realm.setDefaultConfiguration(builder.build());
-
     }
 
+    protected DaggerApplicationComponent.Builder prepareApplicationComponent() {
+        return DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this));
+    }
     private void saveModule(Realm realm) {
         List<HomeModule> mModules = new ArrayList<>();
         mModules.add(new HomeModule(AttendanceActivity.class, "ic_home_attendance", "考勤",
@@ -109,14 +128,12 @@ public class App extends Application {
         realm.insertOrUpdate(mModules);
     }
 
-    protected DaggerApplicationComponent.Builder prepareApplicationComponent() {
-        return DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this));
-    }
+
 
     public ApplicationComponent getApplicationComponent() {
         return mApplicationComponent;
     }
+
 
     public static void addActivity(Activity activity) {
         if (activity != null) {

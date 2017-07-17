@@ -49,6 +49,9 @@ import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.R.attr.maxHeight;
+import static android.R.attr.maxWidth;
+
 /**
  * Created by Eenie on 2017/5/21 at 15:10
  * Email: 472279981@qq.com
@@ -285,24 +288,21 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
                 File cropFile = new File(context.getCacheDir(), "a.jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
-                        .withAspectRatio(1, 1)
-                        .withMaxResultSize(500, 500)
+                        .withMaxResultSize(maxWidth,maxHeight )
                         .start(EditTrainingWorkActivity.this, requestCode);
                 break;
 
             case RESPONSE_CODE_SECOND:
                 File cropFiles = new File(context.getCacheDir(), "b.jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
-                        .withAspectRatio(1, 1)
-                        .withMaxResultSize(500, 500)
+                        .withMaxResultSize(maxWidth,maxHeight )
                         .start(EditTrainingWorkActivity.this, requestCode);
 
                 break;
             case RESPONSE_CODE_THIRD:
                 File mCropFiles = new File(context.getCacheDir(), "c.jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFiles))
-                        .withAspectRatio(1, 1)
-                        .withMaxResultSize(500, 500)
+                        .withMaxResultSize(maxWidth,maxHeight )
                         .start(EditTrainingWorkActivity.this, requestCode);
 
                 break;
@@ -331,7 +331,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
                                 imgList.get(1).setVisibility(View.VISIBLE);
-                                imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
 
                             });
                     firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -355,7 +355,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
                                 imgList.get(2).setVisibility(View.VISIBLE);
-                                imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
 
                             });
                     secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -380,8 +380,6 @@ public class EditTrainingWorkActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(2).setImageBitmap(bitmap);
-
-
                             });
                     thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     thirdFile = new File(thirdPath);

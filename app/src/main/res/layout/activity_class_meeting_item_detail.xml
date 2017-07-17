@@ -4,9 +4,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white_light">
-    <RelativeLayout android:layout_width="match_parent"
+    <RelativeLayout android:id="@+id/relativeLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
-                    android:background="@color/colorPrimary" android:id="@+id/relativeLayout">
+                    android:background="@color/colorPrimary">
         <ImageView android:id="@id/img_back"
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
@@ -32,11 +33,11 @@
     </RelativeLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:background="@color/white"
-                  android:orientation="vertical"
-                  android:layout_below="@+id/relativeLayout"
                   android:layout_alignParentLeft="true"
-                  android:layout_alignParentStart="true">
+                  android:layout_alignParentStart="true"
+                  android:layout_below="@+id/relativeLayout"
+                  android:background="@color/white"
+                  android:orientation="vertical">
         <TextView android:id="@id/tv_set_title"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -124,10 +125,46 @@
                           android:textSize="@dimen/text_large_size"/>
 
             </LinearLayout>
-        </LinearLayout>
 
+
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@id/line_people"
+                      android:visibility="gone"
+                      android:orientation="vertical">
+            <View android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:background="@color/white_light"/>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:id="@id/rl_select_people"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="常日班所需人员"
+                          android:textColor="@color/black_light"
+                />
+                <TextView android:id="@id/tv_class_people"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawablePadding="@dimen/padding_bottom"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center"
+                          android:text="0人"
+                          android:textColor="@color/titleColor"/>
+
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout android:id="@id/ly_show_button"
+                  android:layout_width="match_parent"
                   android:layout_height="@dimen/margin_height_larger_distance"
                   android:layout_alignParentBottom="true"
                   android:layout_marginBottom="@dimen/padding_bottom"
@@ -137,7 +174,6 @@
                   android:layout_marginStart="@dimen/padding_longer"
                   android:layout_marginTop="@dimen/margin_height_larger_distance"
                   android:orientation="horizontal"
-                  android:id="@id/ly_show_button"
                   android:visibility="gone">
         <Button android:id="@id/button_delete"
                 android:layout_width="0dp"

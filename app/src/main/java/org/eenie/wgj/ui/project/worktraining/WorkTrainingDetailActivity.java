@@ -14,6 +14,7 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.WorkTrainingList;
+import org.eenie.wgj.ui.message.GalleryActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
@@ -97,10 +98,41 @@ public class WorkTrainingDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.img_back,R.id.button_delete,R.id.button_edit})public void onClick(View view){
+    @OnClick({R.id.img_back,R.id.button_delete,R.id.button_edit,R.id.img_first,R.id.img_second,
+            R.id.img_third})public void onClick(View view){
         String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
 
         switch (view.getId()){
+            case R.id.img_first:
+                if (data.getImage().size()>=1){
+                    startActivity(
+                            new Intent(context, GalleryActivity.class).
+                                    putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN + data.getImage().get(0).getImage()));
+                }
+
+
+                break;
+            case R.id.img_second:
+
+                if (data.getImage().size()>=2){
+                    startActivity(
+                            new Intent(context, GalleryActivity.class).
+                                    putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN + data.getImage().get(1).getImage()));
+                }
+
+                break;
+            case R.id.img_third:
+                if (data.getImage().size()>=3){
+                    startActivity(
+                            new Intent(context, GalleryActivity.class).
+                                    putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN + data.getImage().get(2).getImage()));
+                }
+
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;

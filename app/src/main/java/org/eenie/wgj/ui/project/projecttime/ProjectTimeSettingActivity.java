@@ -29,6 +29,9 @@ import org.eenie.wgj.model.requset.ProjectTimeRequest;
 import org.eenie.wgj.model.response.ClassListResponse;
 import org.eenie.wgj.model.response.DayMonthTime;
 import org.eenie.wgj.model.response.TotalTimeProject;
+import org.eenie.wgj.model.response.project.QueryService;
+import org.eenie.wgj.model.response.project.ServiceClassPeople;
+import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 
 import java.text.DateFormat;
@@ -67,7 +70,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
     private ExchangeWorkAdapter mAdapter;
     private int serviceId;
     private int count;
-
+    private  int servicePeople;
 
     @Override
     protected int getContentView() {
@@ -77,6 +80,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
     @Override
     protected void updateUI() {
         projectId = getIntent().getStringExtra(PROJECT_ID);
+        getServiceClassList();
         mCalendarView.setOnCalendarChangeListener(this);
         mCalendarView.setOnHeightDateClickListener(this);
         tvDate.setText(new SimpleDateFormat("yyyy年MM月").format(mCalendarView.getDate()));
@@ -87,7 +91,79 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                     format(mCalendarView.getDate()) + "");
         }
 
+    }
+    private void getServiceClassList() {
 
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        mSubscription = mRemoteService.getClassWideList(token, projectId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            if (apiResponse.getData() != null) {
+                                Gson gson = new Gson();
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                ArrayList<ClassListResponse> exchangeWorkLists = gson.fromJson(jsonArray,
+                                        new TypeToken<ArrayList<ClassListResponse>>() {
+                                        }.getType());
+                                if (exchangeWorkLists.size()>0){
+                                    for (int i=0;i<exchangeWorkLists.size();i++){
+                                        if (exchangeWorkLists.get(i).getServicesname().equals("常日班")){
+                                            queryServiceDay();
+                                        }
+
+                                    }
+
+                                }
+
+
+
+                            }
+                        }
+                    }
+                });
+
+    }
+
+    private void queryServiceDay() {
+        QueryService request=new QueryService(projectId,"常日班");
+        mSubscription = mRemoteService.queryServicePeople(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN,""),request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getCode()==0){
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(apiResponse.getData());
+                            ServiceClassPeople serviceData = gson.fromJson(jsonArray,
+                                    new TypeToken<ServiceClassPeople>() {
+                                    }.getType());
+                            if (serviceData!=null){
+                                servicePeople=serviceData.getPersons();
+                            }
+
+
+                        }else {
+
+
+                        }
+
+                    }
+                });
     }
 
     private void getProjectDayTime(String projectId, String date) {
@@ -529,8 +605,20 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         public void onBindViewHolder(ExchangeWorkViewHolder holder, int position) {
             if (mClassMeetingLists != null && !mClassMeetingLists.isEmpty()) {
                 ClassListResponse data = mClassMeetingLists.get(position);
-                holder.setItem(data);
+                boolean checked;
+
                 if (data != null) {
+                    if (data.getServicesname().equals("常日班")){
+                        checked=true;
+                        data.setService_people(servicePeople);
+                        holder.etNumber.setClickable(false);
+                        holder.etNumber.setEnabled(false);
+
+                    }else {
+                        holder.etNumber.setClickable(true);
+                        holder.etNumber.setEnabled(true);
+                    }
+                    holder.setItem(data);
                     Gson gson = new Gson();
                     Log.d("Gson", "onBindViewHolder数据: " + gson.toJson(data));
                     if (!TextUtils.isEmpty(data.getServicesname())) {

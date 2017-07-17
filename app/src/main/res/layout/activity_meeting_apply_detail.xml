@@ -68,7 +68,7 @@
                               android:layout_toRightOf="@id/img_avatar"
                               android:text="姓名"
                               android:textColor="@color/black_light"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
 
 
                 </RelativeLayout>
@@ -85,7 +85,7 @@
                               android:layout_marginTop="@dimen/padding_short"
                               android:text="@string/item_meeting_name"
                               android:textColor="@color/black_light"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/item_meeting_name_content"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                               android:layout_toRightOf="@id/item_meeting_name"
                               android:text="12345"
                               android:textColor="@color/titleColor"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/item_meeting_time"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                               android:layout_marginTop="@dimen/padding_short"
                               android:text="会议时间"
                               android:textColor="@color/black_light"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/item_meeting_time_content"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                               android:layout_toRightOf="@id/item_meeting_time"
                               android:text="2017-04-17 15:32:00至\n2017-04-17 18：32：00"
                               android:textColor="@color/titleColor"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/item_meeting_address"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                               android:layout_marginTop="@dimen/padding_short"
                               android:text="会  议  室"
                               android:textColor="@color/black_light"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/item_meeting_address_content"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                               android:layout_toRightOf="@id/item_meeting_address"
                               android:text="B203"
                               android:textColor="@color/titleColor"
-                              android:textSize="@dimen/text_normal_size"
+                              android:textSize="@dimen/text_large_size"
                     />
                     <TextView android:id="@id/item_meeting_goal"
                               android:layout_width="wrap_content"
@@ -156,7 +156,7 @@
                               android:layout_marginTop="@dimen/padding_short"
                               android:text="会议目的"
                               android:textColor="@color/black_light"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/item_meeting_goal_content"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -169,9 +169,9 @@
                               android:layout_marginTop="@dimen/padding_short"
                               android:layout_toEndOf="@id/item_meeting_goal"
                               android:layout_toRightOf="@id/item_meeting_goal"
-                              android:text="testtesttesttesttesttest"
+                              android:text="无"
                               android:textColor="@color/titleColor"
-                              android:textSize="@dimen/text_normal_size"
+                              android:textSize="@dimen/text_large_size"
                     />
                 </RelativeLayout>
                 <RelativeLayout android:id="@id/rl_apply_status"
@@ -190,7 +190,7 @@
                               android:layout_marginTop="@dimen/padding_short"
                               android:text="审核结果"
                               android:textColor="@color/black_light"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/apply_result"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                               android:layout_marginRight="@dimen/padding_long"
                               android:text="批准"
                               android:textColor="@color/text_green"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
 
                 </RelativeLayout>
                 <RelativeLayout android:id="@id/rl_apply_personal"
@@ -219,7 +219,7 @@
                         android:layout_marginLeft="@dimen/padding_long"
                         android:layout_marginRight="@dimen/personal_margin"
                         android:layout_marginStart="@dimen/padding_long"
-                        android:src="@mipmap/ic_remind"
+                        android:src="@mipmap/ic_default_header"
                     />
                     <TextView android:id="@id/item_apply_name"
                               android:layout_width="wrap_content"
@@ -230,8 +230,8 @@
                               android:layout_toEndOf="@id/img_setting"
                               android:layout_toRightOf="@id/img_setting"
                               android:text="@string/item_title"
-                              android:textColor="#333"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textColor="@color/black_light"
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/item_apply_information"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -246,9 +246,9 @@
                               android:layout_toRightOf="@id/img_setting"
                               android:layout_toStartOf="@id/apply_personal"
                               android:maxLines="2"
-                              android:text="@string/item_date_apply"
+                              android:text="无"
                               android:textColor="@color/titleColor"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                     <TextView android:id="@id/apply_personal"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -259,7 +259,7 @@
                               android:layout_marginRight="@dimen/padding_long"
                               android:text="批准"
                               android:textColor="@color/text_green"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@id/rl_apply_reason"
@@ -281,9 +281,10 @@
                               android:background="@null"
                               android:gravity="start"
                               android:hint="请输入处理原因"
+                              android:maxLines="5"
                               android:textColor="@color/titleColor"
                               android:textColorHint="@color/gray"
-                              android:textSize="@dimen/text_normal_size"/>
+                              android:textSize="@dimen/text_large_size"/>
 
                 </RelativeLayout>
 

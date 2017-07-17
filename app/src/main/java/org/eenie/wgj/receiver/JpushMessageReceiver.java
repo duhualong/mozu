@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.facebook.stetho.common.LogUtil;
+import com.google.gson.Gson;
+
+import org.eenie.wgj.model.requset.NoticeMessage;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -32,7 +36,10 @@ public class JpushMessageReceiver  extends BroadcastReceiver {
 
         if (intent.getAction().equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
             //收到通知栏消息
-            receivingNotification(intent.getExtras());
+            receivingNotification(intent.getExtras(),context);
+
+
+
         } else if (intent.getAction().equals(JPushInterface.ACTION_MESSAGE_RECEIVED)) {
             //收到自定义消息
             handleMessage(intent.getStringExtra(JPushInterface.EXTRA_MESSAGE));
@@ -56,10 +63,20 @@ public class JpushMessageReceiver  extends BroadcastReceiver {
         }
     }
 
-    private void receivingNotification(Bundle bundle) {
+    private void receivingNotification(Bundle bundle,Context context) {
         String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
         String message = bundle.getString(JPushInterface.EXTRA_ALERT);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        if (!TextUtils.isEmpty(extras)){
+            Intent mIntent = new Intent(context, NoticeMessage.class);
+            mIntent.putExtras(bundle);
+            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(mIntent);
+        }
+        System.out.println("title:"+title+"\n"+"message:"+message+"\n"+"extra"+extras);
+        Log.d(TAG, "receivingNotification: "+ new Gson().toJson(extras)+
+                "\n,message::"+ new Gson().toJson(message)+"\n,“title”"+new Gson().toJson(title));
+
 //        SampleNotice notice = new SampleNotice();
 //
 //

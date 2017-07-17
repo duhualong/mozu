@@ -174,6 +174,7 @@ public class SelectReportPeopleActivity extends BaseActivity {
                 .create();
         dialog.show();
         dialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(v -> {
+            dialog.dismiss();
 
             Intent mIntent = new Intent();
                 setResult(4,mIntent);
@@ -199,7 +200,6 @@ public class SelectReportPeopleActivity extends BaseActivity {
 
         }
         builder.addFormDataPart("data",gson.toJson(request));
-
         builder.setType(MultipartBody.FORM);
         return builder.build();
 
@@ -236,8 +236,6 @@ public class SelectReportPeopleActivity extends BaseActivity {
                     }
 
                 }
-
-
                 break;
 
             case R.id.checkbox_select_all:

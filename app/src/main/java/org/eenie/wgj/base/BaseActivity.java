@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import org.eenie.wgj.App;
 import org.eenie.wgj.data.local.PreferencesHelper;
+import org.eenie.wgj.data.local.UserDao;
 import org.eenie.wgj.data.remote.HttpClient;
 import org.eenie.wgj.data.remote.RemoteService;
 
@@ -38,8 +39,8 @@ public abstract class BaseActivity extends AppCompatActivity {
   protected Context context;
 
   protected Subscription mSubscription;
-//  @Inject
-//  protected UserDao mUserDao;
+  @Inject
+  protected UserDao mUserDao;
   private ProgressDialog mProgressDialog;
 
   @Inject protected RemoteService mRemoteService;

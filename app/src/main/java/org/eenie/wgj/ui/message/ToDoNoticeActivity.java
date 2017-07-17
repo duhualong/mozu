@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,13 +38,16 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLayout.OnRefreshListener {
-    @BindView(R.id.root_view)View rootView;
+public class ToDoNoticeActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+    @BindView(R.id.root_view)
+    View rootView;
     @BindView(R.id.notice_swipe_refresh_list)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private NoticeAdapter meetingListAdapter;
-    @BindView(R.id.recycler_to_do)RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_to_do)
+    RecyclerView mRecyclerView;
     private List<MeetingNotice> result;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_to_do_notice;
@@ -55,7 +59,7 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        meetingListAdapter=new NoticeAdapter(context,new ArrayList<>());
+        meetingListAdapter = new NoticeAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(
@@ -65,8 +69,10 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
         mRecyclerView.setAdapter(meetingListAdapter);
 
     }
-    @OnClick({R.id.img_back})public void onClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.img_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
                 break;
@@ -76,38 +82,41 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
     @Override
     public void onRefresh() {
         meetingListAdapter.clear();
-  String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-            mSubscription=mRemoteService.getToDoNotice(token)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .flatMap(listApiResponse -> {
-                        result = new ArrayList<>();
-                        if (listApiResponse.getResultCode() == 200) {
-                            Gson gson=new Gson();
-                            String jsonArray= gson.toJson(listApiResponse.getData());
-                            List<MeetingNotice>  data = gson.fromJson(jsonArray,
-                                    new TypeToken<List<MeetingNotice> >() {
-                                    }.getType());
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        mSubscription = mRemoteService.getToDoNotice(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(listApiResponse -> {
+                    result = new ArrayList<>();
+                    if (listApiResponse.getCode() == 0) {
+                        Gson gson = new Gson();
+                        String jsonArray = gson.toJson(listApiResponse.getData());
+                        List<MeetingNotice> data = gson.fromJson(jsonArray,
+                                new TypeToken<List<MeetingNotice>>() {
+                                }.getType());
 
 
-                            if (data != null && !data.isEmpty()) {
-                                for (MeetingNotice order : data) {
-                                        result.add(order);
-                                }
+                        if (data != null && !data.isEmpty()) {
+                            for (MeetingNotice order : data) {
+                                result.add(order);
                             }
                         }
-                        return Single.just(result);
-                    })
-                    .subscribe(meetingList -> {
-                        cancelRefresh();
-                        if (meetingList != null && !meetingList.isEmpty()) {
-                            if (meetingListAdapter != null) {
-                                meetingListAdapter.addAll(meetingList);
-                            }
-                        }
-                    });
+                    } else {
+                        Toast.makeText(context, listApiResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
-        }
+                    }
+                    return Single.just(result);
+                })
+                .subscribe(meetingList -> {
+                    cancelRefresh();
+                    if (meetingList != null && !meetingList.isEmpty()) {
+                        if (meetingListAdapter != null) {
+                            meetingListAdapter.addAll(meetingList);
+                        }
+                    }
+                });
+
+    }
 
 
     private void cancelRefresh() {
@@ -115,7 +124,9 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
-    @Override public void onResume() {
+
+    @Override
+    public void onResume() {
         super.onResume();
         onRefresh();
     }
@@ -142,24 +153,24 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
                 MeetingNotice noticeMessage = meetingList.get(position);
 
                 holder.setItem(noticeMessage);
-                String meetingName=noticeMessage.getName();
-                if (!TextUtils.isEmpty(meetingName)){
+                String meetingName = noticeMessage.getName();
+                if (!TextUtils.isEmpty(meetingName)) {
                     holder.meetingContent.setText(meetingName);
                 }
-                String applyDate=noticeMessage.getCreated_at();
-                if (!TextUtils.isEmpty(applyDate)){
+                String applyDate = noticeMessage.getCreated_at();
+                if (!TextUtils.isEmpty(applyDate)) {
                     holder.applyDate.setText(applyDate);
                 }
                 if (!TextUtils.isEmpty(noticeMessage.getStart())
-                        &&!TextUtils.isEmpty(noticeMessage.getEnd())){
-                    holder.meetingTime.setText(noticeMessage.getStart()+"至\n"+
+                        && !TextUtils.isEmpty(noticeMessage.getEnd())) {
+                    holder.meetingTime.setText(noticeMessage.getStart() + "至\n" +
                             noticeMessage.getEnd());
 
                 }
-                if (!TextUtils.isEmpty(noticeMessage.getCheckstatus_name())){
+                if (!TextUtils.isEmpty(noticeMessage.getCheckstatus_name())) {
                     holder.meetingApplyStatus.setText(noticeMessage.getCheckstatus_name());
                 }
-                if (!TextUtils.isEmpty(noticeMessage.getRoom_name())){
+                if (!TextUtils.isEmpty(noticeMessage.getRoom_name())) {
                     holder.meetingAddress.setText(noticeMessage.getRoom_name());
                 }
             }
@@ -180,7 +191,8 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
             this.meetingList.clear();
             NoticeAdapter.this.notifyDataSetChanged();
         }
-        class NoticeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        class NoticeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView applyDate;
             private TextView meetingContent;
             private TextView meetingTime;
@@ -192,15 +204,16 @@ public class ToDoNoticeActivity extends BaseActivity  implements SwipeRefreshLay
 
             public NoticeViewHolder(View itemView) {
                 super(itemView);
-                applyDate= ButterKnife.findById(itemView,R.id.item_apply_date);
-                meetingContent=ButterKnife.findById(itemView,R.id.item_meeting_name_content);
-                meetingTime=ButterKnife.findById(itemView,R.id.item_meeting_time_content);
-                meetingAddress=ButterKnife.findById(itemView,R.id.item_meeting_address_content);
-                meetingApplyStatus=ButterKnife.findById(itemView,R.id.item_apply_status_content);
-                meetingDetail=ButterKnife.findById(itemView,R.id.item_look_detail);
+                applyDate = ButterKnife.findById(itemView, R.id.item_apply_date);
+                meetingContent = ButterKnife.findById(itemView, R.id.item_meeting_name_content);
+                meetingTime = ButterKnife.findById(itemView, R.id.item_meeting_time_content);
+                meetingAddress = ButterKnife.findById(itemView, R.id.item_meeting_address_content);
+                meetingApplyStatus = ButterKnife.findById(itemView, R.id.item_apply_status_content);
+                meetingDetail = ButterKnife.findById(itemView, R.id.item_look_detail);
                 meetingDetail.setOnClickListener(this);
 
             }
+
             public void setItem(MeetingNotice meetingNotice) {
                 mMeetingNotice = meetingNotice;
             }

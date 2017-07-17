@@ -23,7 +23,6 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.WorkTrainingList;
-import org.eenie.wgj.ui.project.exchangework.AddExchangeWorkActivity;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -214,7 +213,6 @@ public class WorkTrainingSettingActivity extends BaseActivity implements
                     }
                     holder.avatarImg.setVisibility(View.GONE);
                 }
-
 
             }
 

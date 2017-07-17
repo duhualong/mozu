@@ -9,8 +9,13 @@ import android.view.ViewGroup;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.util.Constants;
+import org.eenie.wgj.util.Utils;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 import static android.content.ContentValues.TAG;
 
@@ -37,6 +42,18 @@ public class SelectCompanyWayFragment extends BaseFragment {
 
     @Override
     protected void updateUI() {
+        Set<String> tags = new HashSet<>();
+        tags.add(Utils.md5(Utils.md5(String.valueOf(userId))));
+        JPushInterface.setTags(context, tags, (i, s, set) -> {
+            System.out.println("dddd:" + i);
+            if (i == 0) {
+
+                System.out.println("打印code" + i + "set:" + set);
+            }else {
+//                                System.out.println("打印i:"+i);
+//                                System.out.println("tag:"+tags);
+            }
+        });
 
     }
 
@@ -66,6 +83,7 @@ public class SelectCompanyWayFragment extends BaseFragment {
             userId = getArguments().getInt(UID);
             token=getArguments().getString(TOKEN);
 
+
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -93,12 +111,10 @@ public class SelectCompanyWayFragment extends BaseFragment {
 
                 break;
             case R.id.img_create_company:
-
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
                         .replace(R.id.fragment_login_container,
                                  CreateCompanyFragment.newInstance(userId,token)).commit();
-
                 break;
         }
     }

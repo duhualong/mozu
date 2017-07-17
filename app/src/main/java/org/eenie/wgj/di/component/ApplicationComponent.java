@@ -1,6 +1,7 @@
 package org.eenie.wgj.di.component;
 
 import android.content.Context;
+import android.webkit.WebView;
 
 import org.eenie.wgj.App;
 import org.eenie.wgj.base.BaseActivity;
@@ -22,17 +23,38 @@ import dagger.Component;
 @Singleton
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
-  void inject(App app);
-  void inject(BaseActivity baseActivity);
-  void inject(BaseFragment baseFragment);
-  void inject(BaseSupportFragment supportFragment);
+    void inject(App app);
 
-  @ApplicationContext
-  Context context();
-  RemoteService webService();
-  PreferencesHelper prefsHelper();
-  HttpClient httpClient();
+    void inject(BaseActivity baseActivity);
 
-//  UserDao userDao();
-//  WebView webView();
+    void inject(BaseFragment baseFragment);
+
+    void inject(BaseSupportFragment supportFragment);
+
+    @ApplicationContext Context context();
+
+    RemoteService webService();
+    PreferencesHelper prefsHelper();
+    HttpClient httpClient();
+   // UserDao userDao();
+   // RealmController realmController();
+    WebView webView();
+
 }
+
+
+
+//@Singleton @Component(modules = ApplicationModule.class) public interface ApplicationComponent {
+//
+//  void inject(BaseActivity activity);
+//
+//  Application application();
+//
+//  @ApplicationContext Context context();
+//
+//  PreferencesHelper prefsHelper();
+//
+//  RemoteService remoteService();
+//
+//  Gson gson();
+//}

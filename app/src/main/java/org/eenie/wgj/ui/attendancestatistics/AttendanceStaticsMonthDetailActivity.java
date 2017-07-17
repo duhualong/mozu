@@ -151,7 +151,6 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                         .putExtra(AttendanceFightingSortActivity.DATE,date));
                 break;
             case R.id.tv_late_count:
-
                 startActivity(new Intent(context,AttendanceCauseActivity.class)
                         .putExtra(AttendanceCauseActivity.PROJECT_ID,projectId)
                         .putExtra(AttendanceCauseActivity.DATE,date));
@@ -161,7 +160,6 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 startActivity(new Intent(context,AttendanceAbsoluteActivity.class)
                         .putExtra(AttendanceAbsoluteActivity.PROJECT_ID,projectId)
                         .putExtra(AttendanceAbsoluteActivity.DATE,date));
-
                 break;
             case R.id.tv_leave_early_count:
                 //早退
@@ -204,7 +202,6 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                         .putExtra(AttendancePracticeActivity.DATE,date));
                 break;
             case R.id.rl_leave_people:
-
                 Toast.makeText(context,"离职人员暂无数据",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_overtime_count:

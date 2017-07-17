@@ -19,6 +19,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.yyydjk.library.BannerLayout;
 
+import org.eenie.wgj.MainTestPictureActivity;
 import org.eenie.wgj.R;
 import org.eenie.wgj.adapter.GridItem;
 import org.eenie.wgj.adapter.GridViewAdapter;
@@ -55,32 +56,35 @@ import rx.schedulers.Schedulers;
  */
 
 public class HomePagerFragment extends BaseSupportFragment implements AdapterView.OnItemClickListener {
-    private static final int REQUEST_CAMERA_PERMISSION =0x104 ;
+    private static final int REQUEST_CAMERA_PERMISSION = 0x104;
     private GridViewAdapter mGridViewAdapter;
-    private ArrayList<GridItem> mGridData ;
-    @BindView(R.id.tv_title)TextView tvTitle;
-    @BindView(R.id.home_root_view)View rootView;
-    boolean permission=false;
+    private ArrayList<GridItem> mGridData;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.home_root_view)
+    View rootView;
+    boolean permission = false;
 
 
-    private Integer[] localGradText={R.string.work_attendance,R.string.work_attendance_statistics,
-    R.string.routing_inspection,R.string.routing_inspection_statistics,R.string.train,
-            R.string.train_statistics,R.string.report_job,R.string.report_job_statistics,
+    private Integer[] localGradText = {R.string.work_attendance, R.string.work_attendance_statistics,
+            R.string.routing_inspection, R.string.routing_inspection_statistics, R.string.train,
+            R.string.train_statistics, R.string.report_job, R.string.report_job_statistics,
 
     };
 
-    private Integer[]localGradImg={R.mipmap.ic_home_attendance,R.mipmap.ic_home_attendance_statistics,
-    R.mipmap.ic_inspection,R.mipmap.ic_inspection_statistics,
-            R.mipmap.ic_training,R.mipmap.ic_training_statistics,
-            R.mipmap.ic_submitted_post,R.mipmap.ic_submitted_post_statistics};
+    private Integer[] localGradImg = {R.mipmap.ic_home_attendance, R.mipmap.ic_home_attendance_statistics,
+            R.mipmap.ic_inspection, R.mipmap.ic_inspection_statistics,
+            R.mipmap.ic_training, R.mipmap.ic_training_statistics,
+            R.mipmap.ic_submitted_post, R.mipmap.ic_submitted_post_statistics};
     private Integer[] ids = {R.mipmap.ic_home_banner_one, R.mipmap.ic_home_banner_two,
             R.mipmap.ic_home_banner_three, R.mipmap.home_banner_default_bg3};
-    private Integer[]idBottom={R.mipmap.home_banner_default_bg4,R.mipmap.home_banner_default_bg5};
+    private Integer[] idBottom = {R.mipmap.home_banner_default_bg4, R.mipmap.home_banner_default_bg5};
     @BindView(R.id.banner_top)
     BannerLayout bannerTop;
     @BindView(R.id.banner_bottom)
     BannerLayout bannerBottom;
-    @BindView(R.id.gradView)GridView mGradView;
+    @BindView(R.id.gradView)
+    GridView mGradView;
 
     @Override
     protected int getContentView() {
@@ -97,25 +101,24 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
         checkPermission();
 
     }
-    @OnClick({R.id.img_scan,R.id.img_search})public void onClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.img_scan, R.id.img_search})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.img_scan:
-                if (permission){
+                if (permission) {
                     IntentIntegrator integrator = IntentIntegrator.forSupportFragment(HomePagerFragment.this);
                     integrator.setCaptureActivity(ScanActivity.class);
                     integrator.initiateScan();
-                }else {
+                } else {
                     checkPermission();
-
                 }
-
                 break;
             case R.id.img_search:
-
+                startActivity(new Intent(context, MainTestPictureActivity.class));
                 break;
         }
     }
-
 
     /**
      * 针对高版本系统检查权限
@@ -125,17 +128,15 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
             boolean hasPermission = PermissionManager.checkCameraPermission(context)
                     && PermissionManager.checkWriteExternalStoragePermission(context);
             if (hasPermission) {
-                permission=true;
+                permission = true;
 
             } else {
                 showRequestPermissionDialog();
             }
         } else {
-            permission=true;
+            permission = true;
         }
     }
-
-
     /**
      * 请求权限Snackbar
      */
@@ -150,7 +151,6 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
             PermissionManager.invokeCameras(HomePagerFragment.this, REQUEST_CAMERA_PERMISSION);
         }
     }
-
 
     /**
      * 权限申请回调
@@ -173,12 +173,11 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
                     }
                 }
                 if (isCanCapturePhoto) {
-                    permission=true;
+                    permission = true;
 
                 } else {
                     Snackbar.make(rootView, "请完整的权限，以预览裁剪图片!", Snackbar.LENGTH_SHORT).show();
                 }
-
                 break;
 
         }
@@ -191,12 +190,12 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanResult != null) {
             String contents = scanResult.getContents();
-            System.out.println("扫码内容"+contents);
-            if (!TextUtils.isEmpty(contents)){
-                if (contents.startsWith("meet")){
-                    String [] temp = null;
+            System.out.println("扫码内容" + contents);
+            if (!TextUtils.isEmpty(contents)) {
+                if (contents.startsWith("meet")) {
+                    String[] temp = null;
                     temp = contents.split("=");
-                    if (temp[1]!=null){
+                    if (temp[1] != null) {
                         scanMeeting(temp[1]);
                     }
 
@@ -209,16 +208,16 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
     }
 
     private void scanMeeting(String id) {
-        mSubscription=mRemoteService.checkInMeeting(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),id)
+        mSubscription = mRemoteService.checkInMeeting(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""), id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ProgressSubscriber<ApiResponse>(context) {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
-                            Toast.makeText(context,apiResponse.getResultMessage(),Toast.LENGTH_LONG).show();
-                        }else {
-                            Toast.makeText(context,apiResponse.getResultMessage(),Toast.LENGTH_SHORT).show();
+                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -280,13 +279,10 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
 
     //初始化数据
     private void initData() {
-
         bannerTop.setViewRes(Arrays.asList(ids));
         bannerBottom.setViewRes(Arrays.asList(idBottom));
-
-
         mGridData = new ArrayList<>();
-        for (int i=0; i<8; i++) {
+        for (int i = 0; i < 8; i++) {
             GridItem item = new GridItem();
             item.setTitle(localGradText[i]);
             item.setImage(localGradImg[i]);
@@ -318,13 +314,13 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        Gson gson=new Gson();
+                        Gson gson = new Gson();
                         if (apiResponse.getResultCode() == 200 ||
                                 apiResponse.getResultCode() == 0) {
                             if (apiResponse.getData() != null) {
 
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                ArrayList<AttendanceListResponse>  attendanceResponse =
+                                ArrayList<AttendanceListResponse> attendanceResponse =
                                         gson.fromJson(jsonArray,
                                                 new TypeToken<ArrayList<AttendanceListResponse>>() {
                                                 }.getType());
@@ -338,21 +334,21 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
                                                 getServicesname());
                                     }
                                     mPrefsHelper.getPrefs().edit().
-                                            putString(Constants.DATE_LIST,gson.toJson(mList))
-                                            .putString(Constants.DATE_THING_LIST,gson.toJson(mLists))
+                                            putString(Constants.DATE_LIST, gson.toJson(mList))
+                                            .putString(Constants.DATE_THING_LIST, gson.toJson(mLists))
                                             .apply();
 
-                                }else {
+                                } else {
                                     mPrefsHelper.getPrefs().edit().
-                                            putString(Constants.DATE_LIST,"")
-                                            .putString(Constants.DATE_THING_LIST,"")
+                                            putString(Constants.DATE_LIST, "")
+                                            .putString(Constants.DATE_THING_LIST, "")
                                             .apply();
                                 }
                             }
-                        }else {
+                        } else {
                             mPrefsHelper.getPrefs().edit().
-                                    putString(Constants.DATE_LIST,"")
-                                    .putString(Constants.DATE_THING_LIST,"")
+                                    putString(Constants.DATE_LIST, "")
+                                    .putString(Constants.DATE_THING_LIST, "")
                                     .apply();
 
                         }
@@ -360,49 +356,35 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
                     }
                 });
     }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position){
+        switch (position) {
             case 0:
                 initDatas();
-
                 startActivity(new Intent(context, AttendanceActivity.class));
-
                 break;
             case 1:
-
                 startActivity(new Intent(context, AttendanceStatisticsActivity.class));
-
-
                 break;
             case 2:
                 startActivity(new Intent(context, RoutingInspectionActivity.class));
-
                 break;
             case 3:
                 startActivity(new Intent(context, RoutingStatisticsSettingActivity.class));
 
-
                 break;
             case 4:
                 startActivity(new Intent(context, TrainStudySettingActivity.class));
-
                 break;
             case 5:
-
                 startActivity(new Intent(context, TrainingStatisticSettingActivity.class));
-
                 break;
             case 6:
-
                 startActivity(new Intent(context, ReportPostSettingUploadActivity.class));
-
-
                 break;
             case 7:
                 startActivity(new Intent(context, ReportPostStatisticsSettingActivity.class));
-
-
                 break;
         }
 

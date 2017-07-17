@@ -11,6 +11,24 @@ public class AttendanceEarlyResponse {
     private int user_id;
     private String created_at;
     private String name;
+    private String complete_time;
+    private String early;
+
+    public String getComplete_time() {
+        return complete_time;
+    }
+
+    public void setComplete_time(String complete_time) {
+        this.complete_time = complete_time;
+    }
+
+    public String getEarly() {
+        return early;
+    }
+
+    public void setEarly(String early) {
+        this.early = early;
+    }
 
     public int getId() {
         return id;

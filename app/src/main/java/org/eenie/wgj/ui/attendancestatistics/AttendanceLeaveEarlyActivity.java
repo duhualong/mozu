@@ -167,14 +167,37 @@ public class AttendanceLeaveEarlyActivity extends BaseActivity implements
                 AttendanceEarlyResponse data = projectMonth.get(position);
                 if (data != null) {
                     holder.itemTitle.setText("考勤人员  " + data.getName());
-                    holder.itemDate.setText("考勤时间  " + data.getCreated_at());
-                    holder.itemCause.setText("早退时长  " + "未知");
+                    holder.itemDate.setText("考勤时间  " + data.getComplete_time());
+
+                    if (data.getEarly() != null && !data.getEarly().isEmpty()) {
+                        String[] all = data.getEarly().split(":");
+                        if (all.length >= 2) {
+                            String hour = all[0];
+                            String minute = all[1];
+                            if (Integer.valueOf(hour) >= 1 && Integer.valueOf(minute) == 0) {
+                                holder.itemCause.setText("早退时长  " + Integer.valueOf(hour) + "小时");
+                            } else if (Integer.valueOf(hour) >= 1 && Integer.valueOf(minute) > 0) {
+                                holder.itemCause.setText("早退时长  " + Integer.valueOf(hour) + "小时" +
+                                        all[1] + "分钟");
+
+                            } else if (Integer.valueOf(hour) < 1 && Integer.valueOf(minute) < 1) {
+                                holder.itemCause.setText("早退时长  无");
+
+
+                            } else if (Integer.valueOf(hour) < 1 && Integer.valueOf(minute) >= 1) {
+                                holder.itemCause.setText("早退时长  " + Integer.valueOf(minute) + "分钟");
+
+                            }
+
+                        }
+                    } else {
+                        holder.itemCause.setText("早退时长  " + "未知");
+                    }
+
 
                 }
 
-
             }
-
         }
 
         @Override

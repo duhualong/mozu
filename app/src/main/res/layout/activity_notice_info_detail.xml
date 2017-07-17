@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:id="@id/tv_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="无"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:id="@+id/text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="通知内容"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"
+
+        />
+        <TextView android:id="@id/tv_notice_content"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginLeft="@dimen/padding_bottom"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_marginStart="@dimen/padding_bottom"
+                  android:layout_toEndOf="@+id/text"
+                  android:layout_toRightOf="@+id/text"
+                  android:text="无"
+                  android:textColor="@color/titleColor"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:id="@+id/text1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="通知时间"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"
+
+        />
+        <TextView android:id="@id/tv_notice_time"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginLeft="@dimen/padding_bottom"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_marginStart="@dimen/padding_bottom"
+                  android:layout_toEndOf="@+id/text1"
+                  android:layout_toRightOf="@+id/text1"
+                  android:text="无"
+                  android:textColor="@color/titleColor"/>
+    </RelativeLayout>
+
+</LinearLayout>

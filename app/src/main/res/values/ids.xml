@@ -769,5 +769,12 @@
     <item name="tv_notice" type="id"/>
     <item name="recycler_notice" type="id"/>
     <item name="rl_select_item" type="id"/>
+    <item name="tv_notice_content" type="id"/>
+    <item name="tv_notice_time" type="id"/>
+    <item name="item_look_detail_img" type="id"/>
+    <item name="line_select_city" type="id"/>
+    <item name="tv_class_people" type="id"/>
+    <item name="rl_select_people" type="id"/>
+    <item name="line_people" type="id"/>
 
 </resources>

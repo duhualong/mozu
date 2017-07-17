@@ -32,7 +32,8 @@
 
     </RelativeLayout>
     <ScrollView android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+    android:id="@id/scrollview">
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical">
@@ -315,7 +316,6 @@
                         android:gravity="start|left"
                         android:hint="请输入会议目的"
                         android:lines="6"
-                        android:inputType="text"
                         android:textColor="@color/titleColor"
                         android:textColorHint="@color/gray"
                         android:textSize="@dimen/text_large_size"
@@ -356,7 +356,6 @@
                         android:gravity="start|left"
                         android:hint="请输入会议议程"
                         android:lines="6"
-                        android:inputType="text"
                         android:textColor="@color/titleColor"
                         android:textColorHint="@color/gray"
                         android:textSize="@dimen/text_large_size"

@@ -64,7 +64,11 @@ public class ProjectItemSettingActivity extends BaseActivity {
             tvTitle.setText(projectName);
         }
         getUserInfo();
+
+
     }
+
+
 
 
     private void getUserInfo() {

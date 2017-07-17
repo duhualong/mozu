@@ -4,18 +4,26 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.ClassMeetingRequest;
 import org.eenie.wgj.model.response.ClassMeetingList;
+import org.eenie.wgj.model.response.project.QueryService;
+import org.eenie.wgj.model.response.project.ServiceClassPeople;
+import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
 
@@ -27,6 +35,8 @@ import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static org.eenie.wgj.R.id.tv_dialog_title;
 
 /**
  * Created by Eenie on 2017/5/22 at 10:10
@@ -55,6 +65,13 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
     @BindView(R.id.tv_save)
     TextView tvSave;
     private String mId;
+    int servicePeople = 0;
+    @BindView(R.id.line_people)
+    LinearLayout mLinearLayout;
+    @BindView(R.id.rl_select_people)
+    RelativeLayout mRelativeLayout;
+    @BindView(R.id.tv_class_people)
+    TextView tvSelectPeople;
 
 
     @Override
@@ -64,10 +81,15 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        projectId = getIntent().getStringExtra(PROJECT_ID);
         data = getIntent().getParcelableExtra(INFO);
         if (data != null) {
             lyButton.setVisibility(View.VISIBLE);
             tvSave.setVisibility(View.GONE);
+            if (data.getServicesname().equals("常日班")) {
+                mLinearLayout.setVisibility(View.VISIBLE);
+                queryServiceDay();
+            }
 
             if (!TextUtils.isEmpty(data.getEndtime())) {
                 endTime = data.getEndtime();
@@ -89,17 +111,53 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
             lyButton.setVisibility(View.GONE);
             tvSave.setVisibility(View.VISIBLE);
         }
-        projectId = getIntent().getStringExtra(PROJECT_ID);
+
 
 
     }
 
+    private void queryServiceDay() {
+        QueryService request = new QueryService(projectId, "常日班");
+        mSubscription = mRemoteService.queryServicePeople(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+                        if (apiResponse.getCode() == 0) {
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(apiResponse.getData());
+                            ServiceClassPeople serviceData = gson.fromJson(jsonArray,
+                                    new TypeToken<ServiceClassPeople>() {
+                                    }.getType());
+                            if (serviceData != null) {
+                                servicePeople = serviceData.getPersons();
+                                tvSelectPeople.setText(servicePeople + "人");
+                            } else {
+                                tvSelectPeople.setText(servicePeople + "人");
+                            }
+
+
+                        } else {
+                            tvSelectPeople.setText(servicePeople + "人");
+
+                        }
+                    }
+                });
+    }
+
+
     @OnClick({R.id.img_back, R.id.tv_save, R.id.button_save, R.id.button_delete, R.id.ly_start_time,
-            R.id.ly_end_time})
+            R.id.ly_end_time, R.id.rl_select_people})
     public void onClick(View view) {
         mTitle = etTitle.getText().toString();
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
         switch (view.getId()) {
+            case R.id.rl_select_people:
+
+                showHeightDialog();
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;
@@ -132,7 +190,7 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(mTitle)) {
                     if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime)) {
                         ClassMeetingRequest request = new ClassMeetingRequest(projectId, mTitle,
-                                startTime, endTime, mId);
+                                startTime, endTime, mId, servicePeople);
                         //编辑班次
                         editClassMeetingItem(token, request);
 
@@ -145,11 +203,9 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                     Snackbar.make(rootView, "输入的班次名称不能为空", Snackbar.LENGTH_SHORT).show();
                 }
 
-
                 break;
             case R.id.ly_start_time:
                 showTimeStartDialog(tvStartTime, 0);
-
 
                 break;
             case R.id.ly_end_time:
@@ -158,6 +214,43 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
                 break;
 
         }
+    }
+
+    private void showHeightDialog() {
+        View view = View.inflate(context, R.layout.dialog_set_height, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .create();
+        dialog.show();
+        TextView tvDialogTitle = (TextView) dialog.getWindow().findViewById(tv_dialog_title);
+        tvDialogTitle.setText("常日班所需人数");
+        EditText etHeight = (EditText) dialog.getWindow().findViewById(R.id.edit_height);
+        etHeight.setHint("请输入大于0的整数");
+        etHeight.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
+        etHeight.setText(servicePeople+"");
+
+
+        dialog.getWindow().findViewById(R.id.btn_next).setOnClickListener(v -> {
+            String inputHeight = etHeight.getText().toString();
+            if (TextUtils.isEmpty(inputHeight)) {
+                etHeight.setError("人数不能为空！");
+            } else {
+                dialog.dismiss();
+                servicePeople=Integer.valueOf(inputHeight);
+                tvSelectPeople.setText(servicePeople+"人");
+            }
+
+
+        });
+        dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> {
+
+            dialog.dismiss(); //取消对话框
+
+        });
+
+
     }
 
     private void editClassMeetingItem(String token, ClassMeetingRequest request) {
@@ -259,7 +352,7 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
     //选择时间
     private void showTimeStartDialog(TextView textView, int type) {
         View view = View.inflate(context, R.layout.dialog_alert_start_time, null);
-        TextView dialogTitle = (TextView) view.findViewById(R.id.tv_dialog_title);
+        TextView dialogTitle = (TextView) view.findViewById(tv_dialog_title);
         dialogTitle.setText("设置班次时间");
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder

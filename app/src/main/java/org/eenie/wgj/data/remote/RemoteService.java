@@ -29,7 +29,9 @@ import org.eenie.wgj.model.requset.UpdateRoundPoint;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceDay;
 import org.eenie.wgj.model.response.ShootList;
+import org.eenie.wgj.model.response.meeting.AuditMeetingRequest;
 import org.eenie.wgj.model.response.meeting.MeetingData;
+import org.eenie.wgj.model.response.project.QueryService;
 import org.eenie.wgj.model.response.reportpost.QueryReportPostMonth;
 
 import java.io.File;
@@ -429,6 +431,7 @@ public interface RemoteService {
     Single<ApiResponse> getAttendanceAddress(@Header("token") String token);
 
     //获取项目总工时
+
     @GET("project_total_hours_per_month")
     Single<ApiResponse> getProjectTotalTime(@Header("token") String token, @Query("projectid")
             String projectId, @Query("date") String date);
@@ -690,6 +693,18 @@ public interface RemoteService {
 
     @POST("handoverAdd")
     Single<ApiResponse>addExchangeWorkItem(@Header("token")String token,@Body MeetingData data);
+    //会议室审核
+    @POST("audit_meeting_room_apply")
+    Single<ApiResponse>auditMeeting(@Header("token")String token , @Body AuditMeetingRequest request);
+
+    //查询常日班人数
+    @POST("project_service_query")
+    Single<ApiResponse>queryServicePeople(@Header("token")String token,
+                                          @Body QueryService queryService);
+
+
+
+
 
 
 
