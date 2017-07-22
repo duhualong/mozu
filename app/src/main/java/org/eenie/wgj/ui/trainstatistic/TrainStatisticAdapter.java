@@ -1,11 +1,12 @@
 package org.eenie.wgj.ui.trainstatistic;
 
+import android.widget.ProgressBar;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.model.response.training.TrainingStatisticListResponse;
-import org.eenie.wgj.ui.reportpoststatistics.CircularProgressBar;
 
 import java.util.List;
 
@@ -18,14 +19,14 @@ import java.util.List;
 
 public class TrainStatisticAdapter extends BaseQuickAdapter<TrainingStatisticListResponse, BaseViewHolder> {
     public TrainStatisticAdapter(List<TrainingStatisticListResponse> data) {
-        super(R.layout.item_training_project_statistic, data);
+        super(R.layout.item_training_statistic_new_item, data);
     }
 
     @Override
     protected void convert(BaseViewHolder holder, TrainingStatisticListResponse entity) {
 
 
-        holder.setText(R.id.tv_person_name, entity.getName());
+        holder.setText(R.id.tv_name, entity.getName());
 
         for (TrainingStatisticListResponse.InfoBean infoBean : entity.getInfo()) {
 
@@ -42,7 +43,7 @@ public class TrainStatisticAdapter extends BaseQuickAdapter<TrainingStatisticLis
 
 
     private void fillMaster(BaseViewHolder holder, TrainingStatisticListResponse.InfoBean infoBean) {
-        CircularProgressBar bar = holder.getView(R.id.pro_master_rate);
+        ProgressBar bar = holder.getView(R.id.progress_bar_key_personal);
 
         if (infoBean.getSchedule() > 0 && infoBean.getSchedule() < 1) {
             bar.setProgress(1);
@@ -51,9 +52,14 @@ public class TrainStatisticAdapter extends BaseQuickAdapter<TrainingStatisticLis
 
         }
         if (infoBean.getSchedule()>100){
-            holder.setText(R.id.tv_master_rate, String.format("%s%%", 100));
+            holder.setText(R.id.tv_key_personal, String.format("%s%%", 100));
         }else {
-            holder.setText(R.id.tv_master_rate, String.format("%s%%", infoBean.getSchedule()));
+            if (String.valueOf(infoBean.getSchedule()).length()>6){
+                holder.setText(R.id.tv_key_personal, String.format("%s%%",String.valueOf(infoBean.getSchedule()).substring(0,5)));
+            }else {
+                holder.setText(R.id.tv_key_personal, String.format("%s%%", infoBean.getSchedule()));
+            }
+
         }
 
 
@@ -61,7 +67,7 @@ public class TrainStatisticAdapter extends BaseQuickAdapter<TrainingStatisticLis
     }
 
     private void fillPost(BaseViewHolder holder, TrainingStatisticListResponse.InfoBean infoBean) {
-        CircularProgressBar bar = holder.getView(R.id.pro_post_rate);
+        ProgressBar bar = holder.getView(R.id.progress_bar_post);
 
         if (infoBean.getSchedule() > 0 && infoBean.getSchedule() < 1) {
             bar.setProgress(1);
@@ -70,9 +76,13 @@ public class TrainStatisticAdapter extends BaseQuickAdapter<TrainingStatisticLis
 
         }
         if (infoBean.getSchedule()>100){
-            holder.setText(R.id.tv_post_rate, String.format("%s%%", 100));
+            holder.setText(R.id.tv_post, String.format("%s%%", 100));
         }else {
-            holder.setText(R.id.tv_post_rate, String.format("%s%%", infoBean.getSchedule()));
+            if (String.valueOf(infoBean.getSchedule()).length()>6){
+                holder.setText(R.id.tv_post, String.format("%s%%",String.valueOf(infoBean.getSchedule()).substring(0,5)));
+            }else {
+                holder.setText(R.id.tv_post, String.format("%s%%", infoBean.getSchedule()));
+            }
         }
 
     }

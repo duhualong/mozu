@@ -32,65 +32,65 @@
                    android:src="@mipmap/ic_work_show_menu_send"/>
     </RelativeLayout>
 
-    <RelativeLayout android:id="@id/rl_first_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-    >
-        <ImageView android:id="@id/img_background"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:scaleType="centerCrop"
-                   />
-        <RelativeLayout android:id="@id/rl_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_bottom"
-                        android:layout_marginStart="@dimen/padding_bottom"
-                        android:layout_marginTop="@dimen/padding_long"
-                        android:visibility="gone"
-        >
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@id/img_avatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/circle_yellow"
-                android:padding="@dimen/padding_bottom"
-                android:src="@mipmap/home_banner_default_bg2"/>
-            <ImageView android:id="@id/img_crown"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_alignParentLeft="true"
-                       android:layout_alignParentStart="true"
-                       android:src="@mipmap/ic_crown"/>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/padding_bottom">
 
-        </RelativeLayout>
-        <TextView android:id="@id/tv_name"
-                  android:layout_width="60dp"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@id/rl_img"
-                  android:layout_marginLeft="@dimen/padding_bottom"
-                  android:layout_marginStart="@dimen/padding_bottom"
-                  android:gravity="center"
-                  android:text="测试"
-                  android:textColor="@color/text_yellow"
-                  android:visibility="gone"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <RelativeLayout android:id="@id/rl_first_img"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+            >
+                <ImageView android:id="@id/img_background"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:scaleType="centerCrop"
+                />
+                <RelativeLayout android:id="@id/rl_img"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/padding_bottom"
+                                android:layout_marginStart="@dimen/padding_bottom"
+                                android:layout_marginTop="@dimen/padding_long"
+                                android:visibility="gone"
+                >
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@id/img_avatar"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/circle_yellow"
+                        android:padding="@dimen/padding_bottom"
+                        android:src="@mipmap/home_banner_default_bg2"/>
+                    <ImageView android:id="@id/img_crown"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentLeft="true"
+                               android:layout_alignParentStart="true"
+                               android:src="@mipmap/ic_crown"/>
 
+                </RelativeLayout>
+                <TextView android:id="@id/tv_name"
+                          android:layout_width="60dp"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/rl_img"
+                          android:layout_marginLeft="@dimen/padding_bottom"
+                          android:layout_marginStart="@dimen/padding_bottom"
+                          android:gravity="center"
+                          android:text="测试"
+                          android:textColor="@color/text_yellow"
+                          android:visibility="gone"/>
 
-    </RelativeLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@id/swipe_refresh_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/padding_bottom">
+            </RelativeLayout>
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@id/recycler_work_show"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_work_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

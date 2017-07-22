@@ -1,5 +1,6 @@
 package org.eenie.wgj.ui.routinginspection.startrouting;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.response.routing.StartRoutingResponse;
+import org.eenie.wgj.ui.message.GalleryActivity;
 import org.eenie.wgj.util.Constant;
 
 import butterknife.BindView;
@@ -178,7 +180,6 @@ public class RoutingPointDetailActivity extends BaseActivity {
                     }
 
 
-
                     break;
             }
 
@@ -186,11 +187,81 @@ public class RoutingPointDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back})
+    @OnClick({R.id.img_back,R.id.img_first,R.id.img_second,R.id.img_third,R.id.img_one,
+    R.id.img_two,R.id.img_three})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
+                break;
+            case R.id.img_first:
+                if (data.getImage()!=null){
+                    if (data.getImage().size()>=1){
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getImage().get(0).getImage()));
+                    }
+
+                }
+
+
+                break;
+
+            case R.id.img_second:
+                if (data.getImage()!=null){
+                    if (data.getImage().size()>=2){
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getImage().get(1).getImage()));
+                    }
+
+                }
+
+                break;
+            case R.id.img_third:
+                if (data.getImage()!=null){
+                    if (data.getImage().size()>=3){
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getImage().get(2).getImage()));
+                    }
+
+                }
+
+                break;
+            case R.id.img_one:
+                if (data.getInspection().getWarranty().getImage()!=null){
+                    if (data.getInspection().getWarranty().getImage().size()>=1){
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getInspection().
+                                                getWarranty().getImage().get(0).getImage()));
+                    }
+
+                }
+
+                break;
+            case R.id.img_two:
+                if (data.getInspection().getWarranty().getImage()!=null){
+                    if (data.getInspection().getWarranty().getImage().size()>=2){
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getInspection().
+                                                getWarranty().getImage().get(1).getImage()));
+                    }
+
+                }
+
+                break;
+            case R.id.img_three:
+                if (data.getInspection().getWarranty().getImage()!=null){
+                    if (data.getInspection().getWarranty().getImage().size()>=3){
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getInspection().
+                                                getWarranty().getImage().get(2).getImage()));
+                    }
+                }
                 break;
         }
 

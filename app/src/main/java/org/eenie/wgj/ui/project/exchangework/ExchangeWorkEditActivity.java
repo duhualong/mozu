@@ -24,6 +24,8 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.ExchangeWorkList;
+import org.eenie.wgj.ui.message.GalleryActivity;
+import org.eenie.wgj.ui.reportpost.GallerysActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
@@ -76,12 +78,6 @@ public class ExchangeWorkEditActivity extends BaseActivity {
     @BindViews({R.id.img_first, R.id.img_second, R.id.img_third})
     List<ImageView> imgList;
 
-    @BindView(R.id.img_first)
-    ImageView imgFist;
-    @BindView(R.id.img_second)
-    ImageView imgSecond;
-    @BindView(R.id.img_third)
-    ImageView imgThird;
     private int mId;
     private String mProjectId;
     private String mTitleName;
@@ -93,6 +89,14 @@ public class ExchangeWorkEditActivity extends BaseActivity {
     private File firstFile;
     private File secondFile;
     private File thirdFile;
+
+    @BindView(R.id.img_delete_first)
+    ImageView imgFirstDelete;
+    @BindView(R.id.img_delete_second)
+    ImageView imgSecondDelete;
+    @BindView(R.id.img_delete_third)
+    ImageView imgThirdDelete;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_edit_exchange_work;
@@ -120,6 +124,11 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                     Glide.with(context).load(Constant.DOMIN + data.getImage().get(0).getImage())
                             .centerCrop().into(imgList.get(0));
                     downloadImg(lists.get(0).getImage(), 0);
+                    imgFirstDelete.setVisibility(View.VISIBLE);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(1).setBackgroundResource(R.color.white);
+
                 } else if (lists.size() == 2) {
                     imgList.get(0).setVisibility(View.VISIBLE);
                     imgList.get(1).setVisibility(View.VISIBLE);
@@ -129,6 +138,11 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                             .centerCrop().into(imgList.get(1));
                     downloadImg(lists.get(0).getImage(), 0);
                     downloadImg(lists.get(1).getImage(), 1);
+                    imgFirstDelete.setVisibility(View.VISIBLE);
+                    imgSecondDelete.setVisibility(View.VISIBLE);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(2).setBackgroundResource(R.color.white);
                 } else if (lists.size() >= 3) {
                     imgList.get(0).setVisibility(View.VISIBLE);
                     imgList.get(1).setVisibility(View.VISIBLE);
@@ -142,6 +156,9 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                     downloadImg(lists.get(0).getImage(), 0);
                     downloadImg(lists.get(1).getImage(), 1);
                     downloadImg(lists.get(2).getImage(), 2);
+                    imgFirstDelete.setVisibility(View.VISIBLE);
+                    imgSecondDelete.setVisibility(View.VISIBLE);
+                    imgThirdDelete.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -151,44 +168,57 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
+    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third,
+            R.id.img_delete_first, R.id.img_delete_second, R.id.img_delete_third})
     public void onClick(View view) {
         mContent = mInputContent.getText().toString();
         mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
+            case R.id.img_delete_first:
+                if (firstFile != null) {
+                    firstFile = null;
+                    firstPath = "";
+                    imgFirstDelete.setVisibility(View.GONE);
+                    imgList.get(0).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(0).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(0).setBackgroundResource(R.color.white);
+                }
+
+
+                break;
+            case R.id.img_delete_second:
+                if (secondFile != null) {
+                    secondFile = null;
+                    secondPath = "";
+                    imgSecondDelete.setVisibility(View.GONE);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(1).setBackgroundResource(R.color.white);
+                }
+
+
+                break;
+
+            case R.id.img_delete_third:
+                if (thirdFile != null) {
+                    thirdFile = null;
+                    thirdPath = "";
+                    imgThirdDelete.setVisibility(View.GONE);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(2).setBackgroundResource(R.color.white);
+                }
+
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.tv_save:
-//                if (!TextUtils.isEmpty(mContent) && !TextUtils.isEmpty(mTitleName)){
 //
-//                    if (firstFile != null) {
-//                        files.add(0, firstFile);
-//                    }
-//                    if (secondFile != null) {
-//                        files.add(1, secondFile);
-//                    }
-//                    if (thirdFile != null) {
-//                        files.add(2, thirdFile);
-//                    }
-//                    if (files .size()>0) {
-//                        new Thread() {
-//                            public void run() {
-//                                editData(getMultipartBody(files,
-//                                        mProjectId, mTitleName, mContent, mId + ""),
-//                                        mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""));
-//                            }
-//                        }.start();
-//
-//                    }else {
-//
-//                    }
-//                }else {
-//
-//                }
                 List<File> files = new ArrayList<>();
-                if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName)) {
+                if (!TextUtils.isEmpty(mContent) && !TextUtils.isEmpty(mTitleName)) {
 
 
                     if (firstFile != null) {
@@ -212,24 +242,67 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                     } else {
                         Toast.makeText(context, "请至少添加一张照片", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(context, "请输入交接班的名称或注意事项", Toast.LENGTH_SHORT).show();
                 }
 
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                if (firstFile == null) {
+                    showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                } else {
+                    if (!TextUtils.isEmpty(firstPath)) {
+                        startActivity(new Intent(context, GallerysActivity.class)
+                                .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
+                    } else {
+
+                        startActivity(
+                                new Intent(context, GalleryActivity.class).
+                                        putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                                Constant.DOMIN + data.getImage().get(0).getImage()));
+
+                    }
+                }
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                if (secondFile == null) {
+                    showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                } else {
+                    if (!TextUtils.isEmpty(secondPath)) {
+                        startActivity(new Intent(context, GallerysActivity.class)
+                                .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
+                    } else {
+
+                        startActivity(
+                                new Intent(context, GalleryActivity.class).
+                                        putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                                Constant.DOMIN + data.getImage().get(1).getImage()));
+
+                    }
+                }
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                if (thirdFile==null){
+                    showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                }else {
+                    if (!TextUtils.isEmpty(thirdPath)) {
+                        startActivity(new Intent(context, GallerysActivity.class)
+                                .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
+                    } else {
+
+                        startActivity(
+                                new Intent(context, GalleryActivity.class).
+                                        putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                                Constant.DOMIN + data.getImage().get(2).getImage()));
+
+                    }
+                }
+
 
                 break;
         }
@@ -282,10 +355,10 @@ public class ExchangeWorkEditActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        switch (requestCode){
+        switch (requestCode) {
 
             case RESPONSE_CODE_FIRST:
-                File cropFile = new File(context.getCacheDir(), "m.jpg");
+                File cropFile = new File(context.getCacheDir(), System.currentTimeMillis() + "jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -293,7 +366,7 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 
                 break;
             case RESPONSE_CODE_SECOND:
-                File cropFiles = new File(context.getCacheDir(), "n.jpg");
+                File cropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + "jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -301,13 +374,12 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                 break;
             case RESPONSE_CODE_THIRD:
 
-                File mCropFiles = new File(context.getCacheDir(), "k.jpg");
+                File mCropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + "jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
                         .start(ExchangeWorkEditActivity.this, requestCode);
                 break;
-
 
 
         }
@@ -320,11 +392,17 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 
             switch (requestCode) {
                 case REQUEST_CAMERA_FIRST:
-                    startCropImage(mImageUri, RESPONSE_CODE_FIRST);
+                    if (mImageUri!=null){
+                        startCropImage(mImageUri, RESPONSE_CODE_FIRST);
+                    }
+
 
                     break;
                 case REQUEST_PHOTO_FIRST:
-                    startCropImage(data.getData(), RESPONSE_CODE_FIRST);
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_FIRST);
+                    }
+
                     break;
                 case RESPONSE_CODE_FIRST:
                     Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
@@ -333,7 +411,13 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
-                                imgList.get(1).setVisibility(View.VISIBLE);
+                                imgFirstDelete.setVisibility(View.VISIBLE);
+                                if (secondFile == null) {
+                                    imgList.get(1).setBackgroundResource(R.color.white);
+                                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+
+                                }
 
                             });
                     firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -342,11 +426,17 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 
                     break;
                 case REQUEST_CAMERA_SECOND:
-                    startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    if (mImageUri!=null){
+                        startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+
+                    }
                     break;
 
                 case REQUEST_PHOTO_SECOND:
-                    startCropImage(data.getData(), RESPONSE_CODE_SECOND);
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_SECOND);
+                    }
+
                     break;
 
                 case RESPONSE_CODE_SECOND:
@@ -356,7 +446,12 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
-                                imgList.get(2).setVisibility(View.VISIBLE);
+                                imgSecondDelete.setVisibility(View.VISIBLE);
+                                if (thirdFile == null) {
+                                    imgList.get(2).setBackgroundResource(R.color.white);
+                                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                                }
 
                             });
                     secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -366,10 +461,16 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                     break;
 
                 case REQUEST_CAMERA_THIRD:
-                    startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+                    if(mImageUri!=null){
+                        startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+
+                    }
                     break;
                 case REQUEST_PHOTO_THIRD:
-                    startCropImage(data.getData(), RESPONSE_CODE_THIRD);
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_THIRD);
+                    }
+
                     break;
 
 
@@ -380,14 +481,13 @@ public class ExchangeWorkEditActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(2).setImageBitmap(bitmap);
+                                imgThirdDelete.setVisibility(View.VISIBLE);
 
 
                             });
                     thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     thirdFile = new File(thirdPath);
 
-
-//                    }
 
                     break;
             }
@@ -466,6 +566,9 @@ public class ExchangeWorkEditActivity extends BaseActivity {
 //                                            ExchangeWorkSettingActivity.class).
 //                                            putExtra(ExchangeWorkSettingActivity.PROJECT_ID, mProjectId))
 //                            );
+
+                }else {
+                    Toast.makeText(context,response.body().getResultMessage() , Toast.LENGTH_SHORT).show();
 
                 }
 

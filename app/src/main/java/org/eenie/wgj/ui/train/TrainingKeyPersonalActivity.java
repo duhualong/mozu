@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.training.TrainingContentResponse;
 import org.eenie.wgj.model.response.training.TrainingKeyPersonalResponse;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constant;
@@ -63,7 +64,7 @@ public class TrainingKeyPersonalActivity extends BaseActivity {
 
     @BindView(R.id.tv_pager)
     TextView tvPager;
-
+    private TrainingContentResponse mData;
     @Override
     protected int getContentView() {
         return R.layout.activity_training_key_personal;
@@ -71,10 +72,33 @@ public class TrainingKeyPersonalActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        curPage = getIntent().getIntExtra("curPage", 1);
-        maxPage = getIntent().getIntExtra("maxPage", 1);
-        tvPager.setText(curPage+"/"+maxPage);
-        fetchMasterData(curPage);
+        mData = getIntent().getParcelableExtra("info");
+        if (mData.getCurrent_page()!=-1){
+            if (mData.getTotal_pages()!=null){
+                if (mData.getTotal_pages().size()>0){
+                    curPage=mData.getCurrent_index();
+                    maxPage=mData.getTotal_pages().size();
+                }
+
+            }
+        }else {
+            if (mData.getTotal_pages()!=null){
+                if (mData.getTotal_pages().size()>0){
+                    curPage=1;
+                    maxPage=mData.getTotal_pages().size();
+                }
+
+            }
+        }
+
+        if (curPage>maxPage){
+            tvPager.setText(maxPage + "/" + maxPage);
+            fetchMasterData(mData.getTotal_pages().get(maxPage-1));
+        }else {
+            tvPager.setText(curPage + "/" + maxPage);
+            fetchMasterData(mData.getTotal_pages().get(curPage-1));
+
+        }
 
     }
 
@@ -87,7 +111,7 @@ public class TrainingKeyPersonalActivity extends BaseActivity {
                 .subscribe(new ProgressSubscriber<ApiResponse>(context) {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200) {
+                        if (apiResponse.getCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             TrainingKeyPersonalResponse mData = gson.fromJson(jsonArray,
@@ -97,6 +121,9 @@ public class TrainingKeyPersonalActivity extends BaseActivity {
                                 fillData(mData);
 
                             }
+                        }else {
+                            Toast.makeText(context,apiResponse.getMessage(),Toast.LENGTH_SHORT).show();
+
                         }
 
                     }
@@ -154,7 +181,7 @@ public class TrainingKeyPersonalActivity extends BaseActivity {
                 .take(countTime + 1);
     }
     private void startCount() {
-        countdown(30)
+        countdown(20)
                 .doOnSubscribe(() -> {
                     canLoad = false;
                     mTvCountTime.setVisibility(View.VISIBLE);
@@ -189,7 +216,7 @@ public class TrainingKeyPersonalActivity extends BaseActivity {
                 if (canLoad) {
                     if (curPage - 1 > 0) {
                         curPage--;
-                        fetchMasterData(curPage);
+                        fetchMasterData(mData.getTotal_pages().get(curPage-1));
                         tvPager.setText(curPage + "/" + maxPage);
 
                     } else {
@@ -206,7 +233,7 @@ public class TrainingKeyPersonalActivity extends BaseActivity {
                     if (curPage + 1 <= maxPage) {
                         curPage++;
                         tvPager.setText(curPage + "/" + maxPage);
-                        fetchMasterData(curPage);
+                        fetchMasterData(mData.getTotal_pages().get(curPage-1));
 
                     } else {
                         Toast.makeText(context, "当前为最后一页", Toast.LENGTH_SHORT).show();

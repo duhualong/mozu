@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
+import org.eenie.wgj.model.response.training.TrainingContentResponse;
 import org.eenie.wgj.model.response.training.TrainingPostResponse;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constant;
@@ -51,8 +52,10 @@ public class TrainingPostActivity extends BaseActivity {
     @BindView(R.id.item_action)
     RelativeLayout mItemAction;
 
+
     @BindView(R.id.tv_pager)
     TextView tvPager;
+    private TrainingContentResponse mData;
 
     int curPage = 0;
     int maxPage;
@@ -65,14 +68,31 @@ public class TrainingPostActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        curPage = getIntent().getIntExtra("curPage", 1);
-        maxPage = getIntent().getIntExtra("maxPage", 1);
+       mData= getIntent().getParcelableExtra("info");
+        if (mData.getCurrent_page()!=-1){
+            if (mData.getTotal_pages()!=null){
+                if (mData.getTotal_pages().size()>0){
+                    curPage=mData.getCurrent_index();
+                    maxPage=mData.getTotal_pages().size();
+                }
+
+            }
+        }else {
+            if (mData.getTotal_pages()!=null){
+                if (mData.getTotal_pages().size()>0){
+                    curPage=1;
+                    maxPage=mData.getTotal_pages().size();
+                }
+
+            }
+        }
+
         if (curPage>maxPage){
             tvPager.setText(maxPage + "/" + maxPage);
-            fetchMasterData(maxPage);
+            fetchMasterData(mData.getTotal_pages().get(maxPage-1));
         }else {
             tvPager.setText(curPage + "/" + maxPage);
-            fetchMasterData(curPage);
+            fetchMasterData(mData.getTotal_pages().get(curPage-1));
 
         }
 
@@ -94,7 +114,6 @@ public class TrainingPostActivity extends BaseActivity {
 
             }
         });
-
 
     }
 
@@ -118,7 +137,6 @@ public class TrainingPostActivity extends BaseActivity {
 
                     }
                 });
-
     }
 
     private void fillData(TrainingPostResponse mData) {
@@ -145,7 +163,8 @@ public class TrainingPostActivity extends BaseActivity {
         }
 
 
-        mBanner.setAdapter((banner, view, model, position) -> Glide.with(context)
+        mBanner.setAdapter((banner, view, model, position) ->
+                Glide.with(context)
                 .load(model.toString())
                 .into((ImageView) view));
         mBanner.setData(modules, tips);
@@ -162,7 +181,7 @@ public class TrainingPostActivity extends BaseActivity {
     }
 
     private void startCount() {
-        countdown(30)
+        countdown(20)
                 .doOnSubscribe(() -> {
                     canLoad = false;
                     mTvCount.setVisibility(View.VISIBLE);
@@ -199,7 +218,7 @@ public class TrainingPostActivity extends BaseActivity {
                     if (curPage - 1 > 0) {
                         curPage--;
                         tvPager.setText(curPage + "/" + maxPage);
-                        fetchMasterData(curPage);
+                        fetchMasterData(mData.getTotal_pages().get(curPage-1));
                     } else {
                         Toast.makeText(context, "当前为首页", Toast.LENGTH_SHORT).show();
                     }
@@ -208,7 +227,6 @@ public class TrainingPostActivity extends BaseActivity {
                             Toast.LENGTH_SHORT).show();
                 }
 
-
                 break;
             case R.id.tv_next:
                 if (canLoad) {
@@ -216,15 +234,14 @@ public class TrainingPostActivity extends BaseActivity {
                     if (curPage + 1 <= maxPage) {
                         curPage++;
                         tvPager.setText(curPage + "/" + maxPage);
-                        fetchMasterData(curPage);
+                        fetchMasterData(mData.getTotal_pages().get(curPage-1));
                     } else {
                         Toast.makeText(context, "当前为最后一页", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, mTvCount.getText() + "s后才能加载",
+                    Toast.makeText(context, mTvCount.getText() + "后才能加载",
                             Toast.LENGTH_SHORT).show();
                 }
-
 
                 break;
         }

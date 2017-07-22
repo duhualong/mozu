@@ -24,6 +24,8 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.WorkTrainingList;
+import org.eenie.wgj.ui.message.GalleryActivity;
+import org.eenie.wgj.ui.reportpost.GallerysActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
@@ -49,7 +51,6 @@ import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static android.R.attr.maxHeight;
 import static android.R.attr.maxWidth;
 
 /**
@@ -92,7 +93,12 @@ public class EditTrainingWorkActivity extends BaseActivity {
     private File secondFile;
     private File thirdFile;
     List<File> files = new ArrayList<>();
-    List<String> imgPath = new ArrayList<>();
+    @BindView(R.id.img_delete_first)
+    ImageView imgDeletaFirst;
+    @BindView(R.id.img_delete_second)
+    ImageView imgDeleteSecond;
+    @BindView(R.id.img_delete_third)
+    ImageView imgDeleteThird;
 
     @Override
     protected int getContentView() {
@@ -114,62 +120,44 @@ public class EditTrainingWorkActivity extends BaseActivity {
             if (!TextUtils.isEmpty(mContent)) {
                 mInputContent.setText(mContent);
             }
-            if (lists.size() > 0) {
-                switch (lists.size()) {
-                    case 1:
-                        firstPath = lists.get(0).getImage();
+            if (lists != null) {
+                if (lists.size() == 1) {
+                    downloadImg(lists.get(0).getImage(), 0);
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(0).getImage())
+                            .centerCrop().into(imgList.get(0));
+                    imgDeletaFirst.setVisibility(View.VISIBLE);
+                    imgList.get(1).setBackgroundResource(R.color.white);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
 
-                        break;
-                    case 2:
-                        firstPath = lists.get(0).getImage();
-                        secondPath = lists.get(1).getImage();
+                } else if (lists.size() == 2) {
+                    downloadImg(lists.get(0).getImage(), 0);
+                    downloadImg(lists.get(1).getImage(), 1);
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(0).getImage())
+                            .centerCrop().into(imgList.get(0));
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(1).getImage())
+                            .centerCrop().into(imgList.get(1));
+                    imgDeletaFirst.setVisibility(View.VISIBLE);
+                    imgDeleteSecond.setVisibility(View.VISIBLE);
+                    imgList.get(2).setBackgroundResource(R.color.white);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
 
-                        break;
-                    case 3:
-                        firstPath = lists.get(0).getImage();
-                        secondPath = lists.get(1).getImage();
-                        thirdPath = lists.get(2).getImage();
-
-
-                        break;
-                }
-                if (lists.size() <= 3) {
-                    for (int i = 0; i < lists.size(); i++) {
-
-                        int finalI = i;
-                        new Thread() {
-                            public void run() {
-                                downloadImg(lists.get(finalI).getImage(), finalI);
-                            }
-                        }.start();
-
-                        if (i < 2) {
-                            imgList.get(i + 1).setVisibility(View.VISIBLE);
-                        }
-                        Glide.with(context).load(Constant.DOMIN + data.getImage().get(i).getImage())
-                                .centerCrop().into(imgList.get(i));
-
-                    }
-                } else {
-                    for (int i = 0; i < 3; i++) {
-
-                        int finalI = i;
-                        new Thread() {
-                            public void run() {
-                                downloadImg(lists.get(finalI).getImage(), finalI);
-                            }
-                        }.start();
-
-                        if (i < 2) {
-                            imgList.get(i + 1).setVisibility(View.VISIBLE);
-                        }
-                        Glide.with(context).load(Constant.DOMIN + data.getImage().get(i).getImage())
-                                .centerCrop().into(imgList.get(i));
-
-                    }
+                } else if (lists.size() >= 3) {
+                    downloadImg(lists.get(0).getImage(), 0);
+                    downloadImg(lists.get(1).getImage(), 1);
+                    downloadImg(lists.get(2).getImage(), 2);
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(0).getImage())
+                            .centerCrop().into(imgList.get(0));
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(1).getImage())
+                            .centerCrop().into(imgList.get(1));
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(2).getImage())
+                            .centerCrop().into(imgList.get(2));
+                    imgDeletaFirst.setVisibility(View.VISIBLE);
+                    imgDeleteSecond.setVisibility(View.VISIBLE);
+                    imgDeleteThird.setVisibility(View.VISIBLE);
 
                 }
-
 
             }
 
@@ -178,12 +166,48 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
+    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second,
+            R.id.img_third, R.id.img_delete_first,
+            R.id.img_delete_second, R.id.img_delete_third})
     public void onClick(View view) {
         mContent = mInputContent.getText().toString();
         mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
+            case R.id.img_delete_first:
+                if (firstFile != null) {
+                    firstFile = null;
+                    firstPath = "";
+
+                    imgDeletaFirst.setVisibility(View.GONE);
+                    imgList.get(0).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(0).setImageResource(R.mipmap.ic_carmer_first);
+
+                }
+
+                break;
+            case R.id.img_delete_second:
+                if (secondFile != null) {
+                    secondFile = null;
+                    secondPath = "";
+                    imgDeleteSecond.setVisibility(View.GONE);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+
+                }
+
+                break;
+            case R.id.img_delete_third:
+                if (thirdFile != null) {
+                    thirdFile = null;
+                    thirdPath = "";
+                    imgDeleteThird.setVisibility(View.GONE);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+
+                }
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;
@@ -219,17 +243,53 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                if (firstFile == null) {
+                    showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                } else {
+                    if (!TextUtils.isEmpty(firstPath)) {
+                        startActivity(new Intent(context, GallerysActivity.class)
+                                .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
+                    } else {
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getImage().get(0).getImage()));
+                    }
+                }
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                if (secondFile == null) {
+                    showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+
+                } else {
+                    if (!TextUtils.isEmpty(secondPath)) {
+                        startActivity(new Intent(context, GallerysActivity.class)
+                                .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
+                    } else {
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getImage().get(1).getImage()));
+                    }
+                }
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                if (thirdFile == null) {
+                    showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+
+                } else {
+                    if (!TextUtils.isEmpty(thirdPath)) {
+                        startActivity(new Intent(context, GallerysActivity.class)
+                                .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
+                    } else {
+                        startActivity(new Intent(context, GalleryActivity.class)
+                                .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                        Constant.DOMIN + data.getImage().get(2).getImage()));
+                    }
+                }
+
 
                 break;
         }
@@ -286,25 +346,27 @@ public class EditTrainingWorkActivity extends BaseActivity {
         switch (requestCode) {
             case RESPONSE_CODE_FIRST:
 
-                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                File cropFile = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
-                        .withMaxResultSize(maxWidth,maxHeight )
+                        .withAspectRatio(4,3)
+                        .withMaxResultSize(maxWidth, 300)
                         .start(EditTrainingWorkActivity.this, requestCode);
                 break;
 
             case RESPONSE_CODE_SECOND:
-                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                File cropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
-                        .withMaxResultSize(maxWidth,maxHeight )
+                        .withAspectRatio(4,3)
+                        .withMaxResultSize(maxWidth, 300)
                         .start(EditTrainingWorkActivity.this, requestCode);
 
                 break;
             case RESPONSE_CODE_THIRD:
-                File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+                File mCropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFiles))
-                        .withMaxResultSize(maxWidth,maxHeight )
+                        .withAspectRatio(4,3)
+                        .withMaxResultSize(maxWidth, 300)
                         .start(EditTrainingWorkActivity.this, requestCode);
-
                 break;
 
         }
@@ -317,11 +379,16 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
             switch (requestCode) {
                 case REQUEST_CAMERA_FIRST:
-                    startCropImage(mImageUri, RESPONSE_CODE_FIRST);
+                    if (mImageUri != null) {
+                        startCropImage(mImageUri, RESPONSE_CODE_FIRST);
+                    }
+
 
                     break;
                 case REQUEST_PHOTO_FIRST:
-                    startCropImage(data.getData(), RESPONSE_CODE_FIRST);
+                    if (data.getData() != null) {
+                        startCropImage(data.getData(), RESPONSE_CODE_FIRST);
+                    }
                     break;
                 case RESPONSE_CODE_FIRST:
                     Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
@@ -330,8 +397,13 @@ public class EditTrainingWorkActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
-                                imgList.get(1).setVisibility(View.VISIBLE);
-                                imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
+                                imgDeletaFirst.setVisibility(View.VISIBLE);
+                                if (secondFile == null) {
+                                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(1).setBackgroundResource(R.color.white);
+                                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                                }
+
 
                             });
                     firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -340,11 +412,16 @@ public class EditTrainingWorkActivity extends BaseActivity {
 
                     break;
                 case REQUEST_CAMERA_SECOND:
-                    startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    if (mImageUri != null) {
+                        startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    }
                     break;
 
                 case REQUEST_PHOTO_SECOND:
-                    startCropImage(data.getData(), RESPONSE_CODE_SECOND);
+                    if (data.getData() != null) {
+                        startCropImage(data.getData(), RESPONSE_CODE_SECOND);
+                    }
+
                     break;
 
                 case RESPONSE_CODE_SECOND:
@@ -354,22 +431,28 @@ public class EditTrainingWorkActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
-                                imgList.get(2).setVisibility(View.VISIBLE);
-                                imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
-
+                                imgDeleteSecond.setVisibility(View.VISIBLE);
+                                if (thirdFile == null) {
+                                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(2).setBackgroundResource(R.color.white);
+                                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                                }
                             });
                     secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     secondFile = new File(secondPath);
-
-
                     break;
 
                 case REQUEST_CAMERA_THIRD:
-                    startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+                    if (mImageUri != null) {
+                        startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+                    }
                     break;
 
                 case REQUEST_PHOTO_THIRD:
-                    startCropImage(data.getData(), RESPONSE_CODE_THIRD);
+                    if (data.getData() != null) {
+                        startCropImage(data.getData(), RESPONSE_CODE_THIRD);
+                    }
+
                     break;
 
 
@@ -380,6 +463,7 @@ public class EditTrainingWorkActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(2).setImageBitmap(bitmap);
+                                imgDeleteThird.setVisibility(View.VISIBLE);
                             });
                     thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     thirdFile = new File(thirdPath);
@@ -406,11 +490,6 @@ public class EditTrainingWorkActivity extends BaseActivity {
                 if (response.body().getResultCode() == 0 || response.body().getResultCode() == 200) {
                     //会调数据
 
-//                ExchangeWorkListResponse list=new ExchangeWorkListResponse(mId,mContent,mTitleName,lists);
-//                Intent mIntent = new Intent();
-//                mIntent.putExtra("exchange_work", list);
-//                // 设置结果，并进行传送
-//                setResult(4,mIntent);
                     Toast.makeText(context, "编辑成功", Toast.LENGTH_SHORT).show();
 
                     Single.just("").delay(1, TimeUnit.SECONDS).

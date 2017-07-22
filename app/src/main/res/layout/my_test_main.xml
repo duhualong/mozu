@@ -16,8 +16,8 @@
         android:background="@drawable/take_picture_button_bg"/>
     <com.cymaybe.foucsurfaceview.FocusSurfaceView
         android:id="@+id/preview_sv"
-        android:layout_width="480dp"
-        android:layout_height="match_parent"
+        android:layout_width="300dp"
+        android:layout_height="480dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/padding_bottom"
         android:background="@android:color/transparent"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white_light"
-              android:id="@id/root_view"
               android:orientation="vertical">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
@@ -126,35 +126,63 @@
                   android:layout_height="wrap_content"
                   android:layout_marginBottom="@dimen/padding_bottom"
                   android:layout_marginTop="@dimen/padding_nor"
-                  android:orientation="horizontal">
-        <ImageView android:id="@id/img_first"
-                   android:layout_width="100dp"
-                   android:layout_height="100dp"
-                   android:layout_marginLeft="@dimen/font_size_14sp"
-                   android:layout_marginStart="@dimen/font_size_14sp"
-                   android:background="@color/white"
-                   android:scaleType="center"
-                   android:src="@mipmap/ic_carmer_first"
-                   android:visibility="visible"/>
-        <ImageView android:id="@id/img_second"
-                   android:layout_width="100dp"
-                   android:layout_height="100dp"
-                   android:layout_marginLeft="@dimen/font_size_14sp"
-                   android:layout_marginStart="@dimen/font_size_14sp"
-                   android:background="@color/white"
-                   android:scaleType="center"
-                   android:src="@mipmap/ic_carmer_first"
-                   android:visibility="gone"/>
-        <ImageView android:id="@id/img_third"
-                   android:layout_width="100dp"
-                   android:layout_height="100dp"
-                   android:layout_marginLeft="@dimen/font_size_14sp"
-                   android:layout_marginStart="@dimen/font_size_14sp"
-                   android:background="@color/white"
-                   android:scaleType="center"
-                   android:src="@mipmap/ic_carmer_first"
-                   android:visibility="gone"
-        />
 
+                  android:orientation="horizontal">
+        <RelativeLayout android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="@dimen/font_size_14sp"
+                        android:layout_marginStart="@dimen/font_size_14sp">
+            <ImageView android:id="@id/img_first"
+                       android:layout_width="100dp"
+                       android:layout_height="100dp"
+                       android:background="@color/white"
+                       android:scaleType="center"
+                       android:src="@mipmap/ic_carmer_first"
+            />
+            <ImageView android:id="@id/img_delete_first"
+                       android:layout_width="24dp"
+                       android:layout_height="24dp"
+                       android:layout_alignParentEnd="true"
+                       android:layout_alignParentRight="true"
+                       android:layout_margin="5dp"
+                       android:src="@mipmap/ic_delete_time"
+                       android:visibility="gone"/>
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="@dimen/font_size_14sp"
+                        android:layout_marginStart="@dimen/font_size_14sp">
+            <ImageView android:id="@id/img_second"
+                       android:layout_width="100dp"
+                       android:layout_height="100dp"
+            />
+            <ImageView android:id="@id/img_delete_second"
+                       android:layout_width="24dp"
+                       android:layout_height="24dp"
+                       android:layout_alignParentEnd="true"
+                       android:layout_alignParentRight="true"
+                       android:layout_margin="5dp"
+                       android:src="@mipmap/ic_delete_time"
+                       android:visibility="gone"/>
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="@dimen/font_size_14sp"
+                        android:layout_marginStart="@dimen/font_size_14sp">
+            <ImageView android:id="@id/img_third"
+                       android:layout_width="100dp"
+                       android:layout_height="100dp"
+
+
+            />
+            <ImageView android:id="@id/img_delete_third"
+                       android:layout_width="24dp"
+                       android:layout_height="24dp"
+                       android:layout_alignParentEnd="true"
+                       android:layout_alignParentRight="true"
+                       android:layout_margin="5dp"
+                       android:src="@mipmap/ic_delete_time"
+                       android:visibility="gone"/>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -776,5 +776,24 @@
     <item name="tv_class_people" type="id"/>
     <item name="rl_select_people" type="id"/>
     <item name="line_people" type="id"/>
+    <item name="item_date_one" type="id"/>
+    <item name="et_my_name" type="id"/>
+    <item name="et_my_email" type="id"/>
+    <item name="img_delete_first" type="id"/>
+    <item name="img_delete_second" type="id"/>
+    <item name="img_delete_third" type="id"/>
+    <item name="img_delete_one" type="id"/>
+    <item name="img_delete_two" type="id"/>
+    <item name="img_delete_three" type="id"/>
+    <item name="tv_progress_key_number" type="id"/>
+    <item name="tv_progress_post" type="id"/>
+    <item name="rl_training_post" type="id"/>
+    <item name="rl_training_key_personal" type="id"/>
+    <item name="progress_bar_key_personal" type="id"/>
+    <item name="progress_bar_post" type="id"/>
+    <item name="page_message" type="id"/>
+    <item name="rb_read" type="id"/>
+    <item name="rb_unread" type="id"/>
+    <item name="message_container" type="id"/>
 
 </resources>

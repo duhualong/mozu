@@ -260,21 +260,21 @@ public class MeetingProgressDetailActivity extends BaseActivity {
     private void startCropImage(Uri resUri, int requestCode) {
         switch (requestCode) {
             case RESPONSE_CODE_FIRST:
-                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                File cropFile = new File(context.getCacheDir(),  System.currentTimeMillis()+".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
                         .withAspectRatio(1,1)
                         .withMaxResultSize(500, 500)
                         .start(MeetingProgressDetailActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_SECOND:
-                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                File cropFiles = new File(context.getCacheDir(),  System.currentTimeMillis()+".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(1,1)
                         .withMaxResultSize(500, 500)
                         .start(MeetingProgressDetailActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_THIRD:
-                File cropFiless = new File(context.getCacheDir(), "c.jpg");
+                File cropFiless = new File(context.getCacheDir(),  System.currentTimeMillis()+".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiless))
                         .withAspectRatio(1,1)
                         .withMaxResultSize(500, 500)

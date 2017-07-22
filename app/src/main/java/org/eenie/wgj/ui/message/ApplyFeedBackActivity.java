@@ -20,9 +20,10 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.requset.MeetingNotice;
 import org.eenie.wgj.model.requset.MessageDetail;
 import org.eenie.wgj.model.response.meeting.AuditMeetingRequest;
+import org.eenie.wgj.model.response.message.MessageRequestData;
+import org.eenie.wgj.model.response.message.MessageStatus;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
@@ -31,6 +32,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Single;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -43,7 +45,7 @@ import rx.schedulers.Schedulers;
 public class ApplyFeedBackActivity extends BaseActivity {
     @BindView(R.id.root_view)View rootView;
     public static final String APPLY_INFO = "apply_info";
-    private MeetingNotice data;
+    private MessageRequestData.DataBean mData;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.tv_apply_ok)
@@ -94,49 +96,36 @@ public class ApplyFeedBackActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        data = getIntent().getParcelableExtra(APPLY_INFO);
-        if (data != null) {
-            switch (data.getCheckstatus()) {
-                case 2:
-                    rlApplyPersonal.setVisibility(View.GONE);
-                    rlApplyStatus.setVisibility(View.GONE);
-                    lyApplyCherckBox.setVisibility(View.VISIBLE);
-                    rlApplyReason.setVisibility(View.VISIBLE);
-                    tvApplyOk.setVisibility(View.VISIBLE);
-                    controlKeyboardLayout(mScrollView, ApplyFeedBackActivity.this);
-                    break;
-                case 3:
-                    applyResult.setText(data.getCheckstatus_name());
-                    applyPersonal.setText(data.getCheckstatus_name());
-                    applyResult.setTextColor(ContextCompat.
-                            getColor(context, R.color.text_red));
-                    applyPersonal.setTextColor(ContextCompat.
-                            getColor(context, R.color.text_red));
-                    break;
-                case 1:
-                    applyResult.setText(data.getCheckstatus_name());
-                    applyPersonal.setText(data.getCheckstatus_name());
-
-                    break;
-            }
-            if (!TextUtils.isEmpty(data.getName())) {
-                meetingTitle.setText(data.getName());
-
-            }
-            if (!TextUtils.isEmpty(data.getUsername())) {
-                applyName.setText(data.getUsername());
-            }
-            if (!TextUtils.isEmpty(data.getRoom_name())) {
-                meetingAddress.setText(data.getRoom_name());
-            }
-            if (!TextUtils.isEmpty(data.getStart()) && !TextUtils.isEmpty(data.getEnd())) {
-                meetingTime.setText(data.getStart() + "至\n" + data.getEnd());
-            }
-
-            getMessageById(data.getId());
+        mData = getIntent().getParcelableExtra(APPLY_INFO);
+        if (mData.getParameter()!=null){
+            getMessageById(mData.getParameter().getId());
         }
+        changeStatus(mData.getId());
 
 
+    }
+
+    private void changeStatus( int id) {
+        MessageStatus request=new MessageStatus(1,id);
+        mSubscription=mRemoteService.changeMessageStatus(mPrefsHelper.getPrefs().getString(Constants.TOKEN,""),request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApiResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse apiResponse) {
+
+                    }
+                });
     }
 
     private void getMessageById(int id) {
@@ -161,6 +150,46 @@ public class ApplyFeedBackActivity extends BaseActivity {
                 })
                 .subscribe(meeting -> {
                     if (meeting != null) {
+
+
+                            switch (meeting.getCheckstatus()) {
+                                case 2:
+                                    rlApplyPersonal.setVisibility(View.GONE);
+                                    rlApplyStatus.setVisibility(View.GONE);
+                                    lyApplyCherckBox.setVisibility(View.VISIBLE);
+                                    rlApplyReason.setVisibility(View.VISIBLE);
+                                    tvApplyOk.setVisibility(View.VISIBLE);
+                                    controlKeyboardLayout(mScrollView, ApplyFeedBackActivity.this);
+                                    break;
+                                case 3:
+                                    applyResult.setText(meeting.getCheckstatus_name());
+                                    applyPersonal.setText(meeting.getCheckstatus_name());
+                                    applyResult.setTextColor(ContextCompat.
+                                            getColor(context, R.color.text_red));
+                                    applyPersonal.setTextColor(ContextCompat.
+                                            getColor(context, R.color.text_red));
+                                    break;
+                                case 1:
+                                    applyResult.setText(meeting.getCheckstatus_name());
+                                    applyPersonal.setText(meeting.getCheckstatus_name());
+
+                                    break;
+                            }
+                            if (!TextUtils.isEmpty(meeting.getName())) {
+                                meetingTitle.setText(meeting.getName());
+
+                            }
+                            if (!TextUtils.isEmpty(meeting.getUsername())) {
+                                applyName.setText(meeting.getUsername());
+                            }
+                            if (!TextUtils.isEmpty(meeting.getRoom_name())) {
+                                meetingAddress.setText(meeting.getRoom_name());
+                            }
+                            if (!TextUtils.isEmpty(meeting.getStart()) && !TextUtils.isEmpty(meeting.getEnd())) {
+                                meetingTime.setText(meeting.getStart() + "至\n" + meeting.getEnd());
+                            }
+
+
                         meetingGoal.setText(meeting.getDetail());
                         applyReason.setText(meeting.getCheck_feedback());
                         if (!TextUtils.isEmpty(meeting.getAvatar())){
@@ -235,7 +264,7 @@ public class ApplyFeedBackActivity extends BaseActivity {
                     if (type==0){
                         Toast.makeText(context,"请选择审核状态",Toast.LENGTH_SHORT).show();
                     }else {
-                        applyMeeting(etReason.getText().toString(),type,data.getId());
+                        applyMeeting(etReason.getText().toString(),type,mData.getParameter().getId());
                     }
 
                 }else {

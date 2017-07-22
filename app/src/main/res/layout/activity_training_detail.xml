@@ -25,6 +25,7 @@
 
     </RelativeLayout>
 
+
     <RelativeLayout
 
         android:layout_width="match_parent"
@@ -35,8 +36,8 @@
             android:id="@+id/tv_count"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_margin="20dp"
             android:background="@drawable/shape_circle_blue"
             android:gravity="center"
@@ -49,20 +50,39 @@
         <cn.bingoogolapple.bgabanner.BGABanner
             android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginTop="80dp"
+            android:layout_height="300dp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="72dp"
             android:background="@color/colorPrimary"
             app:banner_pointContainerBackground="@android:color/transparent"
             app:banner_pointDrawable="@drawable/selector_banner_point"
+            android:visibility="visible"
             app:banner_tipTextSize="0sp">
-
         </cn.bingoogolapple.bgabanner.BGABanner>
+
+
+        <!--<com.yyydjk.library.BannerLayout android:id="@id/banner_top"-->
+                                         <!--android:layout_width="match_parent"-->
+                                         <!--android:layout_height="300dp"-->
+                                         <!--app:autoPlayDuration="5000"-->
+                                         <!--app:indicatorMargin="10dp"-->
+                                         <!--app:indicatorPosition="centerBottom"-->
+                                         <!--app:indicatorShape="oval"-->
+                                         <!--app:indicatorSpace="3dp"-->
+                                         <!--app:scrollDuration="900"-->
+                                         <!--android:layout_marginTop="72dp"-->
+                                         <!--app:selectedIndicatorColor="@color/colorAccent"-->
+                                         <!--app:selectedIndicatorHeight="8dp"-->
+                                         <!--app:selectedIndicatorWidth="8dp"-->
+                                         <!--app:unSelectedIndicatorColor="@color/white"-->
+                                         <!--app:unSelectedIndicatorHeight="8dp"-->
+                                         <!--app:unSelectedIndicatorWidth="8dp"/>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/item_action"
-            android:layout_below="@id/banner"
+            android:layout_below="@+id/banner"
             android:orientation="vertical">
 
             <LinearLayout
@@ -115,20 +135,21 @@
                 android:id="@+id/tv_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:padding="10dp"
                 android:text="下一个"
                 android:textColor="@color/white_light"/>
-            <TextView android:layout_width="wrap_content"
+            <TextView android:id="@id/tv_pager"
+                      android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:textColor="@color/white_light"
                       android:layout_centerInParent="true"
-                      android:id="@id/tv_pager"
-            android:text="1/3"/>
+                      android:text="1/3"
+                      android:textColor="@color/white_light"/>
         </RelativeLayout>
 
 
     </RelativeLayout>
+
 
 </LinearLayout>

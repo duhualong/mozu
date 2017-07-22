@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         mProgressBar.setVisibility(View.VISIBLE);
-        Single.just("").delay(3, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).subscribe(s -> {
+        Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).subscribe(s -> {
             mProgressBar.setVisibility(View.GONE);
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             SplashActivity.this.finish();

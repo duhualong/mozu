@@ -18,7 +18,7 @@ import org.eenie.wgj.model.response.UserInforById;
 import org.eenie.wgj.ui.contacts.FragmentContact;
 import org.eenie.wgj.ui.fragment.ApplyPagerFragment;
 import org.eenie.wgj.ui.fragment.HomePagerFragment;
-import org.eenie.wgj.ui.fragment.MessagePagerFragment;
+import org.eenie.wgj.ui.fragment.NewMessagePageFragment;
 import org.eenie.wgj.ui.fragment.PersonalCenterFragment;
 import org.eenie.wgj.util.Constants;
 
@@ -237,7 +237,7 @@ public class MainActivity extends BaseActivity {
 
                 break;
             case 2:
-                fragment = new MessagePagerFragment();
+                fragment = new NewMessagePageFragment();
                 break;
             case 3:
                 fragment = new ApplyPagerFragment();

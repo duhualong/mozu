@@ -62,13 +62,16 @@ public class CreateCompanyFragment extends BaseFragment {
     EditText inputCompanyName;
     @BindView(R.id.et_company_personal)
     EditText inputCompanyPersonal;
-    @BindView(R.id.et_company_phone)
-    EditText inputCompanyPhone;
+//    @BindView(R.id.et_company_phone)
+//    EditText inputCompanyPhone;
     @BindView(et_company_email)
     EditText inputCompanyEmail;
     @BindView(R.id.et_company_address)
     EditText inputCompanyAddress;
     private String mSelectCity;
+    @BindView(R.id.et_company_phone)EditText etCompanyPhone;
+    @BindView(R.id.et_my_email)EditText etMyEmail;
+
 
 
     @Override
@@ -206,6 +209,8 @@ public class CreateCompanyFragment extends BaseFragment {
 //        String companyPhone = inputCompanyPhone.getText().toString();
         String companyEmail = inputCompanyEmail.getText().toString();
         String companyAddress = inputCompanyAddress.getText().toString();
+        String companyPhone=etCompanyPhone.getText().toString();
+        String myEmail=etMyEmail.getText().toString();
 
         switch (view.getId()) {
             case R.id.img_back:
@@ -213,7 +218,7 @@ public class CreateCompanyFragment extends BaseFragment {
 
                 break;
             case R.id.rl_select_city:
-
+                startActivityForResult(new Intent(context,SelectCityRegisterActivity.class),REQUEST_CODE);
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }

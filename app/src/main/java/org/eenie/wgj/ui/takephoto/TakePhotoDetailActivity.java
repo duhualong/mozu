@@ -56,6 +56,7 @@ public class TakePhotoDetailActivity extends BaseActivity {
             mName.setText(data.getUsername());
             if (data.getImage() != null) {
                 if (data.getImage().size()==1){
+                    imgFirst.setVisibility(View.VISIBLE);
                     firstUrl = data.getImage().get(0).getImage();
                     Glide.with(context).load(Constant.DOMIN + firstUrl).
                             centerCrop().into(imgFirst);

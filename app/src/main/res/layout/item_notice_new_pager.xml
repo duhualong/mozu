@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/personal_margin"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/personal_padding">
+        <ImageView
+            android:id="@id/img_setting"
+            android:layout_width="@dimen/personal_size"
+            android:layout_height="@dimen/personal_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/personal_margin"
+            android:layout_marginLeft="@dimen/personal_padding"
+            android:layout_marginRight="@dimen/personal_margin"
+            android:layout_marginStart="@dimen/personal_padding"
+            android:src="@mipmap/ic_notice"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/item_to_do_title"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_marginStart="5dp"
+                  android:layout_marginTop="8dp"
+                  android:layout_toEndOf="@id/img_setting"
+                  android:layout_toRightOf="@id/img_setting"
+                  android:ellipsize="end"
+                  android:lines="1"
+                  android:id="@id/tv_content"
+                  android:text="@string/item_date_apply"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_normal_size"
+        />
+        <TextView android:id="@id/item_to_do_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginStart="5dp"
+                  android:layout_marginTop="5dp"
+                  android:layout_toEndOf="@id/img_setting"
+                  android:layout_toRightOf="@id/img_setting"
+                  android:text="@string/item_title"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/item_apply_date"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:text="@string/item_date_apply"
+                  android:textColor="@color/titleColor"
+                  android:layout_marginTop="5dp"
+                  android:textSize="@dimen/text_normal_size"/>
+    </RelativeLayout>
+
+</LinearLayout>

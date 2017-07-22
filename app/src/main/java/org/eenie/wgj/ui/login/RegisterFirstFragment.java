@@ -350,7 +350,6 @@ public class RegisterFirstFragment extends BaseFragment {
                     btnSendCaptcha.setText(count);
                 }
             }
-
             @Override
             public void onFinish() {
                 btnSendCaptcha.setText(R.string.btn_code);

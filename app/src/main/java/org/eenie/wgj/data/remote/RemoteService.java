@@ -31,6 +31,7 @@ import org.eenie.wgj.model.response.AttendanceDay;
 import org.eenie.wgj.model.response.ShootList;
 import org.eenie.wgj.model.response.meeting.AuditMeetingRequest;
 import org.eenie.wgj.model.response.meeting.MeetingData;
+import org.eenie.wgj.model.response.message.MessageStatus;
 import org.eenie.wgj.model.response.project.QueryService;
 import org.eenie.wgj.model.response.reportpost.QueryReportPostMonth;
 
@@ -538,7 +539,7 @@ public interface RemoteService {
 
     //获取通知人员（巡检）
     @GET("management/userList")
-    Single<ApiResponse> getNoticePeopleList(@Header("token") String token,@Query("projectid")String projectId);
+    Single<ApiResponse> getNoticePeopleList(@Header("token") String token, @Query("projectid") String projectId);
 
     //开始巡检
     @POST("addPatrolRecord")
@@ -608,36 +609,42 @@ public interface RemoteService {
     //考勤提醒
     @GET("remind/AttendanceList")
     Single<ApiResponse> getAttendanceAlert(@Header("token") String token);
+
     //打开或关闭考勤提醒
     @GET("remind/AttendanceOpen")
-    Single<ApiResponse>openCloseAttendanceAlert(@Header("token")String token);
+    Single<ApiResponse> openCloseAttendanceAlert(@Header("token") String token);
+
     //添加考勤时间
     @POST("remind/AttendanceAdd")
-    Single<ApiResponse>addAttendanceTime(@Header("token")String token,
-                                         @Body AttendanceAlertRequest request);
+    Single<ApiResponse> addAttendanceTime(@Header("token") String token,
+                                          @Body AttendanceAlertRequest request);
 
     //报岗提醒
     @GET("remind/PostList")
     Single<ApiResponse> getReportAlert(@Header("token") String token);
+
     //打开或关闭报岗
     @GET("remind/PostOpen")
-    Single<ApiResponse>openClosePostAlert(@Header("token")String token);
+    Single<ApiResponse> openClosePostAlert(@Header("token") String token);
+
     //添加报岗时间
     @POST("remind/PostAdd")
-    Single<ApiResponse>addPostTime(@Header("token")String token,
-                                         @Body AttendanceAlertRequest request);
+    Single<ApiResponse> addPostTime(@Header("token") String token,
+                                    @Body AttendanceAlertRequest request);
 
 
     //巡检
     @GET("remind/InspectionList")
     Single<ApiResponse> getRoutingAlert(@Header("token") String token);
+
     //打开或关闭巡检
     @GET("remind/InspectionOpen")
-    Single<ApiResponse>openCloseInspectionAlert(@Header("token")String token);
+    Single<ApiResponse> openCloseInspectionAlert(@Header("token") String token);
+
     //添加巡检时间
     @POST("remind/InspectionAdd")
-    Single<ApiResponse>addInspectionTime(@Header("token")String token,
-                                   @Body AttendanceAlertRequest request);
+    Single<ApiResponse> addInspectionTime(@Header("token") String token,
+                                          @Body AttendanceAlertRequest request);
 
 
     //参会人员
@@ -646,70 +653,88 @@ public interface RemoteService {
 
     //添加会议
     @POST("meetingAdd")
-    Single<ApiResponse>addMeetingContent(@Header("token")String token,@Body MeetingData request);
+    Single<ApiResponse> addMeetingContent(@Header("token") String token, @Body MeetingData request);
+
     //会议室列表
     @GET("meeting_roomList")
-    Single<ApiResponse>getMeetingClassList(@Header("token")String token, @Query("start")
-            String startTime,@Query("end")String endTime);
+    Single<ApiResponse> getMeetingClassList(@Header("token") String token, @Query("start")
+            String startTime, @Query("end") String endTime);
+
     @POST("application_roomAdd")
-    Single<ApiResponse>applyMeetingClass(@Header("token")String token,@Body MeetingData request );
+    Single<ApiResponse> applyMeetingClass(@Header("token") String token, @Body MeetingData request);
+
     //获取部门
     @GET("departmentList")
-    Single<ApiResponse>getPartList(@Header("token")String token);
+    Single<ApiResponse> getPartList(@Header("token") String token);
 
 
     //会议申请反馈
     @GET("application_roomList")
-    Single<ApiResponse>getMeetingFeedbackList(@Header("token")String token);
+    Single<ApiResponse> getMeetingFeedbackList(@Header("token") String token);
+
     //详情
     @GET("application_roomList/info")
-    Single<ApiResponse>getMeetingDetailInfo(@Header("token")String token,
-                                            @Query("applicationid")String applyId);
+    Single<ApiResponse> getMeetingDetailInfo(@Header("token") String token,
+                                             @Query("applicationid") String applyId);
 
     //未开始会议
     @GET("meeting/notStart")
-    Single<ApiResponse>getUnStartMeetingList(@Header("token")String token);
+    Single<ApiResponse> getUnStartMeetingList(@Header("token") String token);
+
     //进行中
     @GET("meeting/start")
-    Single<ApiResponse>getMeetingProgressList(@Header("token")String token);
+    Single<ApiResponse> getMeetingProgressList(@Header("token") String token);
+
     //结束会议
     @GET("meeting/end")
-    Single<ApiResponse>getEndMeetingList(@Header("token")String token);
+    Single<ApiResponse> getEndMeetingList(@Header("token") String token);
+
     @GET("meeting/info")
-    Single<ApiResponse>getMeetingArrangeDetail(@Header("token")String token,@Query("id")String id);
+    Single<ApiResponse> getMeetingArrangeDetail(@Header("token") String token, @Query("id") String id);
+
     //会议签到
     @GET("meeting/checkin")
-    Single<ApiResponse>checkInMeeting(@Header("token")String token,@Query("meetingid")String meetingId);
+    Single<ApiResponse> checkInMeeting(@Header("token") String token, @Query("meetingid") String meetingId);
     //交接班模块 交接班列表
 
     @GET("handoverList")
-    Single<ApiResponse>getExchangeList(@Header("token")String token);
+    Single<ApiResponse> getExchangeList(@Header("token") String token);
+
     @GET("handoverListinfo")
-    Single<ApiResponse> getExchangeWorkDetailById(@Header("token")String token,
-                                                  @Query("precautionid")String id);
+    Single<ApiResponse> getExchangeWorkDetailById(@Header("token") String token,
+                                                  @Query("precautionid") String id);
+
     @GET("handoverSubmitter")
-    Single<ApiResponse>getExchangeWorkContact(@Header("token")String token);
+    Single<ApiResponse> getExchangeWorkContact(@Header("token") String token);
 
 
     @POST("handoverAdd")
-    Single<ApiResponse>addExchangeWorkItem(@Header("token")String token,@Body MeetingData data);
+    Single<ApiResponse> addExchangeWorkItem(@Header("token") String token, @Body MeetingData data);
+
     //会议室审核
     @POST("audit_meeting_room_apply")
-    Single<ApiResponse>auditMeeting(@Header("token")String token , @Body AuditMeetingRequest request);
+    Single<ApiResponse> auditMeeting(@Header("token") String token, @Body AuditMeetingRequest request);
 
     //查询常日班人数
     @POST("project_service_query")
-    Single<ApiResponse>queryServicePeople(@Header("token")String token,
-                                          @Body QueryService queryService);
+    Single<ApiResponse> queryServicePeople(@Header("token") String token,
+                                           @Body QueryService queryService);
+
+    //    //新增员工
+//    @GET("month/newemployees")
+//    Single<ApiResponse>queryAddPeople(@Header("token")String token,@Query("date")String date,
+//                                   @Query("projectid")String projectId);
+//通知接口
+    @GET("noticeList")
+    Single<ApiResponse> queryNewMessageNotice(@Header("token") String token, @Query("page") int page,
+                                              @Query("read") int state);
+
+    //消息已读
+    @POST("notice_hasread")
+    Single<ApiResponse> changeMessageStatus(@Header("token") String token, @Body MessageStatus request);
 
 
-
-
-
-
-
-
-            //获取个人考勤情况
+    //获取个人考勤情况
     class Creator {
 
         @Inject

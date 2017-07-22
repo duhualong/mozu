@@ -1,7 +1,6 @@
 package org.eenie.wgj.ui.message;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -90,7 +89,7 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(listApiResponse -> {
                     result = new ArrayList<>();
-                    if (listApiResponse.getResultCode() == 200) {
+                    if (listApiResponse.getCode() == 0) {
                         Gson gson = new Gson();
                         String jsonArray = gson.toJson(listApiResponse.getData());
                         List<NoticeMessage> orderList = gson.fromJson(jsonArray,
@@ -150,6 +149,7 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
                 NoticeMessage noticeMessage = meetingList.get(position);
                 holder.setItem(noticeMessage);
                 String meetingName = noticeMessage.getAlert();
+                holder.tvTitle.setText(noticeMessage.getTitle());
                 if (!TextUtils.isEmpty(meetingName)) {
                     holder.meetingContent.setText(meetingName);
                 }
@@ -157,7 +157,6 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
                 if (!TextUtils.isEmpty(applyDate)) {
                     holder.applyDate.setText(applyDate);
                 }
-
 
             }
 
@@ -183,11 +182,13 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
             private TextView meetingContent;
             private TextView meetingDetail;
             private NoticeMessage mMeetingNotice;
+            private TextView tvTitle;
 
 
             public NoticeViewHolder(View itemView) {
 
                 super(itemView);
+                tvTitle = ButterKnife.findById(itemView, R.id.item_to_do_title);
                 applyDate = ButterKnife.findById(itemView, R.id.item_apply_date);
                 meetingContent = ButterKnife.findById(itemView, R.id.item_meeting_name);
                 meetingDetail = ButterKnife.findById(itemView, R.id.item_look_detail);
@@ -201,8 +202,8 @@ public class NoticeMessageActivity extends BaseActivity implements SwipeRefreshL
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,NoticeDetailActivity.class)
-                .putExtra(NoticeDetailActivity.INFO,mMeetingNotice));
+//                startActivity(new Intent(context, NoticeDetailActivity.class)
+//                        .putExtra(NoticeDetailActivity.INFO, mMeetingNotice));
 
 
             }

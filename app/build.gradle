@@ -103,8 +103,9 @@ dependencies {
     //upload photo
 
     //compile 'com.github.yalantis:ucrop:2.2.1'
+    compile 'com.github.yalantis:ucrop:2.2.1-native'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'com.yalantis:ucrop:1.5.0'
+   // compile 'com.yalantis:ucrop:1.5.0'
     compile 'me.zhouzhuo.zzletterssidebar:zz-letters-sidebar:1.0.2'
     //压缩图片
     compile 'id.zelory:compressor:1.0.4'
@@ -132,4 +133,7 @@ dependencies {
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     compile 'top.zibin:Luban:1.1.2'
     //compile files('libs/commons-lang3-3.6.jar')
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.2'//如果使用了特殊的Header
+
 }

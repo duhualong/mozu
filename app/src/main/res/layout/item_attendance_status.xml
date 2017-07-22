@@ -18,10 +18,9 @@
           android:layout_height="1dp"
           android:layout_below="@id/item_title"
           android:background="@color/white_light"/>
-
     <TextView android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@+id/view"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/view"
               android:textColor="@color/titleColor"
               android:textSize="@dimen/text_large_size"
               android:paddingLeft="@dimen/padding_bottom"
@@ -29,6 +28,24 @@
               android:paddingRight="@dimen/padding_bottom"
               android:paddingEnd="@dimen/padding_bottom"
               android:paddingTop="@dimen/padding_bottom"
+              android:text="考勤时间  2017-12-06 12:00"
+              android:visibility="gone"
+              android:id="@id/item_date_one"/>
+
+
+
+    <TextView android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@id/item_date_one"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"
+              android:paddingLeft="@dimen/padding_bottom"
+              android:paddingStart="@dimen/padding_bottom"
+              android:paddingRight="@dimen/padding_bottom"
+              android:paddingEnd="@dimen/padding_bottom"
+              android:paddingTop="@dimen/padding_bottom"
+
+
               android:text="考勤时间  2017-12-06 12:00"
               android:id="@id/item_date"
 

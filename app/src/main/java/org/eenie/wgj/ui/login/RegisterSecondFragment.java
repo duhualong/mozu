@@ -154,7 +154,7 @@ public class RegisterSecondFragment extends BaseFragment {
             case R.id.btn_positive:
                 //startActivityForResult(new Intent(context,MyTestMain.class),111);
 
-               checkPermission(TAKE_PHOTO_REQUEST_ONE, REQUEST_CAMERA_PERMISSION);
+                checkPermission(TAKE_PHOTO_REQUEST_ONE, REQUEST_CAMERA_PERMISSION);
                 break;
 
             case R.id.btn_negative:
@@ -240,6 +240,7 @@ public class RegisterSecondFragment extends BaseFragment {
         });
 
     }
+
     private void registerInformationApply(String username, String password, String name,
                                           String gender, String birthday, String address,
                                           String number, String publisher, String validate,
@@ -289,7 +290,7 @@ public class RegisterSecondFragment extends BaseFragment {
                             if (i == 0) {
 
                                 System.out.println("打印code" + i + "set:" + set);
-                            }else {
+                            } else {
                             }
                         });
 
@@ -340,29 +341,29 @@ public class RegisterSecondFragment extends BaseFragment {
             boolean hasPermission = PermissionManager.checkCameraPermission(context)
                     && PermissionManager.checkWriteExternalStoragePermission(context);
             if (hasPermission) {
-                switch (code){
+                switch (code) {
                     case TAKE_PHOTO_REQUEST_ONE:
-                        startActivityForResult(new Intent(context,MyTestMain.class),111);
+                        startActivityForResult(new Intent(context, MyTestMain.class), 111);
                         break;
                     case TAKE_PHOTO_REQUEST_ONES:
-                        startActivityForResult(new Intent(context,MyTestMain.class),222);
+                        startActivityForResult(new Intent(context, MyTestMain.class), 222);
 
                         break;
 
                 }
 
-               // startCapturePhoto(code);
+                // startCapturePhoto(code);
 
             } else {
                 showRequestPermissionDialog(permission);
             }
         } else {
-            switch (code){
+            switch (code) {
                 case TAKE_PHOTO_REQUEST_ONE:
-                    startActivityForResult(new Intent(context,MyTestMain.class),111);
+                    startActivityForResult(new Intent(context, MyTestMain.class), 111);
                     break;
                 case TAKE_PHOTO_REQUEST_ONES:
-                    startActivityForResult(new Intent(context,MyTestMain.class),222);
+                    startActivityForResult(new Intent(context, MyTestMain.class), 222);
 
                     break;
 
@@ -417,9 +418,9 @@ public class RegisterSecondFragment extends BaseFragment {
                     }
                 }
                 if (isCanCapturePhoto) {
-                    startActivityForResult(new Intent(context,MyTestMain.class),111);
+                    startActivityForResult(new Intent(context, MyTestMain.class), 111);
 
-                   // startCapturePhoto(TAKE_PHOTO_REQUEST_ONE);
+                    // startCapturePhoto(TAKE_PHOTO_REQUEST_ONE);
                 } else {
                     Snackbar.make(rootView, "请完整的权限，以预览裁剪图片!", Snackbar.LENGTH_SHORT).show();
                 }
@@ -435,8 +436,8 @@ public class RegisterSecondFragment extends BaseFragment {
                     }
                 }
                 if (isCanCapturePhotos) {
-                   // startCapturePhoto(TAKE_PHOTO_REQUEST_ONES);
-                    startActivityForResult(new Intent(context,MyTestMain.class),222);
+                    // startCapturePhoto(TAKE_PHOTO_REQUEST_ONES);
+                    startActivityForResult(new Intent(context, MyTestMain.class), 222);
 
                 } else {
                     Snackbar.make(rootView, "请完整的权限，以预览裁剪图片!", Snackbar.LENGTH_SHORT).show();
@@ -473,20 +474,22 @@ public class RegisterSecondFragment extends BaseFragment {
                 .build()
                 .compressToFile(file);
     }
+
     public static Uri getImageContentUri(Context context, String filePath) {
         Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[] { MediaStore.Images.Media._ID }, MediaStore.Images.Media.DATA + "=? ",
-                new String[] { filePath }, null);
+                new String[]{MediaStore.Images.Media._ID}, MediaStore.Images.Media.DATA + "=? ",
+                new String[]{filePath}, null);
         if (cursor != null && cursor.moveToFirst()) {
             int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
             Uri baseUri = Uri.parse("content://media/external/images/media");
             return Uri.withAppendedPath(baseUri, "" + id);
         } else {
 
-                return null;
+            return null;
 
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -494,13 +497,13 @@ public class RegisterSecondFragment extends BaseFragment {
             switch (requestCode) {
                 case 111:
 
-                    String url= data.getStringExtra("uri");
+                    String url = data.getStringExtra("uri");
 
-                   startCropImage(Uri.parse(url),RESPONSE_CODE_POSITIVE);
+                    startCropImage(Uri.parse(url), RESPONSE_CODE_POSITIVE);
                     break;
                 case 222:
-                    String urls= data.getStringExtra("uri");
-                    startCropImage(Uri.parse(urls),RESPONSE_CODE_NEGIVITE);
+                    String urls = data.getStringExtra("uri");
+                    startCropImage(Uri.parse(urls), RESPONSE_CODE_NEGIVITE);
                     break;
                 case TAKE_PHOTO_REQUEST_ONE:
                     startCropImage(imageUri, RESPONSE_CODE_POSITIVE);

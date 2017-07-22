@@ -16,6 +16,7 @@ import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.ui.reportpost.GallerysActivity;
 import org.eenie.wgj.util.ImageUtils;
 
 import java.io.File;
@@ -55,6 +56,9 @@ public class AddTakePhotoActivity extends BaseActivity {
     private String firstPath;
     private String secondPath;
     private String thirdPath;
+    @BindView(R.id.img_delete_first)ImageView imgDeleteFirst;
+    @BindView(R.id.img_delete_second)ImageView imgDeleteSecond;
+    @BindView(R.id.img_delete_third)ImageView imgDeleteThird;
     @Override
     protected int getContentView() {
         return R.layout.activity_add_take_photo;
@@ -67,7 +71,8 @@ public class AddTakePhotoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
+    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third,R.id.img_delete_first,
+    R.id.img_delete_second,R.id.img_delete_third})
     public void onClick(View view) {
         mContent = etInputContent.getText().toString();
         mTitleName=etInputTitle.getText().toString();
@@ -75,6 +80,37 @@ public class AddTakePhotoActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.img_back:
                 onBackPressed();
+                break;
+            case R.id.img_delete_first:
+                if (!TextUtils.isEmpty(firstPath)){
+                    firstPath="";
+                    imgDeleteFirst.setVisibility(View.GONE);
+                    imgList.get(0).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(0).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(0).setBackgroundResource(R.color.white);
+                }
+
+
+                break;
+            case R.id.img_delete_second:
+                if (!TextUtils.isEmpty(secondPath)){
+                    secondPath="";
+                    imgDeleteSecond.setVisibility(View.GONE);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(1).setBackgroundResource(R.color.white);
+                }
+
+                break;
+            case R.id.img_delete_third:
+
+                if (!TextUtils.isEmpty(thirdPath)){
+                    thirdPath="";
+                    imgDeleteThird.setVisibility(View.GONE);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(2).setBackgroundResource(R.color.white);
+                }
                 break;
             case R.id.tv_save:
                 if (!TextUtils.isEmpty(mTitleName)){
@@ -105,17 +141,34 @@ public class AddTakePhotoActivity extends BaseActivity {
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+                if (TextUtils.isEmpty(firstPath)){
+                    showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
+                }
+
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+                if (TextUtils.isEmpty(secondPath)){
+                    showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
+                }
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+                if (TextUtils.isEmpty(secondPath)){
+                    showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
+                }
+
 
                 break;
         }
@@ -170,7 +223,7 @@ public class AddTakePhotoActivity extends BaseActivity {
     private void startCropImage(Uri resUri, int requestCode) {
         switch (requestCode){
             case RESPONSE_CODE_FIRST:
-                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                File cropFile = new File(context.getCacheDir(), System.currentTimeMillis()+ ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -178,14 +231,14 @@ public class AddTakePhotoActivity extends BaseActivity {
 
                 break;
             case RESPONSE_CODE_SECOND:
-                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                File cropFiles = new File(context.getCacheDir(), System.currentTimeMillis()+ ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
                         .start(AddTakePhotoActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_THIRD:
-                File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+                File mCropFiles = new File(context.getCacheDir(), System.currentTimeMillis()+ ".jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -215,7 +268,14 @@ public class AddTakePhotoActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
-                                imgList.get(1).setVisibility(View.VISIBLE);
+                                imgDeleteFirst.setVisibility(View.VISIBLE);
+                                if (TextUtils.isEmpty(secondPath)){
+                                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                                    imgList.get(1).setBackgroundResource(R.color.white);
+
+                                }
+
 
                             });
                     firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -236,13 +296,16 @@ public class AddTakePhotoActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
-                                imgList.get(2).setVisibility(View.VISIBLE);
+                                imgDeleteSecond.setVisibility(View.VISIBLE);
+                                if (TextUtils.isEmpty(secondPath)){
+                                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                                    imgList.get(2).setBackgroundResource(R.color.white);
+
+                                }
 
                             });
                     secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    //secondFile=new File(secondPath);
-
-
                     break;
 
                 case REQUEST_CAMERA_THIRD:
@@ -261,6 +324,7 @@ public class AddTakePhotoActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(2).setImageBitmap(bitmap);
+                                imgDeleteThird.setVisibility(View.VISIBLE);
 
 
                             });

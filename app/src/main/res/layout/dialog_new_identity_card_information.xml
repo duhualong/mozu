@@ -152,7 +152,7 @@
             android:layout_toEndOf="@+id/address"
             android:layout_toRightOf="@+id/address"
             android:text="上海市浦东新区浦东国际机场"
-            android:textColor="@color/black_light"
+            android:textColor="@color/titleColor"
             android:textSize="@dimen/text_large_size"/>
 
     </RelativeLayout>

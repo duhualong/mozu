@@ -2,9 +2,6 @@ package org.eenie.wgj.ui.workshow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -45,14 +42,13 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class WorkShowListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class WorkShowListActivity extends BaseActivity  {
 
     @BindView(R.id.root_view)
     View rootView;
     @BindView(R.id.rl_first_img)
     RelativeLayout rlFirstImg;
-    @BindView(R.id.swipe_refresh_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @BindView(R.id.recycler_work_show)
     RecyclerView myRecyclerView;
     @BindView(R.id.img_background)
@@ -75,20 +71,11 @@ public class WorkShowListActivity extends BaseActivity implements SwipeRefreshLa
 //
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,height);
         imgBackground.setLayoutParams(params);
-//        ImageView.s
-
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
         myAdapter = new WorkShowAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         myRecyclerView.setLayoutManager(layoutManager);
-        myRecyclerView.addItemDecoration(
-                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        myRecyclerView.setItemAnimator(new DefaultItemAnimator());
         myRecyclerView.setAdapter(myAdapter);
-
+        getWorkShowList();
     }
 
     @OnClick({R.id.img_back, R.id.img_add_show})
@@ -103,43 +90,34 @@ public class WorkShowListActivity extends BaseActivity implements SwipeRefreshLa
         }
     }
 
-    @Override
-    public void onRefresh() {
-        myAdapter.clear();
-        getWorkShowList();
-    }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        onRefresh();
-
+        getWorkShowList();
     }
 
-    private void cancelRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
+
 
     private void getWorkShowList() {
-        mSubscription = mRemoteService.getWorkShowList(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""))
+        myAdapter.clear();
+        mSubscription = mRemoteService.getWorkShowList(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
-                        cancelRefresh();
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        cancelRefresh();
                     }
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        cancelRefresh();
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
@@ -152,11 +130,11 @@ public class WorkShowListActivity extends BaseActivity implements SwipeRefreshLa
                                     Glide.with(context).load(Constant.DOMIN + mDataList.get(0).getExtra().get(0).getImage())
                                             .centerCrop().into(imgBackground);
                                 }
-
                                 if (myAdapter != null) {
                                     myAdapter.clear();
                                 }
                                 myAdapter.addAll(mDataList);
+                                myAdapter.notifyDataSetChanged();
                             } else {
                                 rlFirstImg.setVisibility(View.GONE);
 
@@ -204,29 +182,50 @@ public class WorkShowListActivity extends BaseActivity implements SwipeRefreshLa
                                 centerCrop().into(holder.itemAvatar);
                     }
                     holder.itemSortNumber.setText("第" + data.getRank() + "名");
-                    switch (data.getRank()) {
-                        case 1:
-                            holder.imgPraiseFirst.setVisibility(View.VISIBLE);
-                            holder.imgPraiseSecond.setVisibility(View.VISIBLE);
-                            holder.imgPraiseThird.setVisibility(View.VISIBLE);
+                    if (data.getRank()==1){
+                        Glide.with(context)
+                                .load(R.mipmap.ic_crown_normal)
+                                .into(holder.imgPraiseFirst);
+                        Glide.with(context)
+                                .load(R.mipmap.ic_crown_normal)
+                                .into(holder.imgPraiseSecond);
+                        Glide.with(context)
+                                .load(R.mipmap.ic_crown_normal)
+                                .into(holder.imgPraiseThird);
 
-                            break;
-                        case 2:
-                            holder.imgPraiseFirst.setVisibility(View.VISIBLE);
-                            holder.imgPraiseSecond.setVisibility(View.VISIBLE);
-                            break;
-                        case 3:
-                            holder.imgPraiseFirst.setVisibility(View.VISIBLE);
-                            break;
 
+                    }else if (data.getRank()==2){
+                        Glide.with(context)
+                                .load(R.mipmap.ic_crown_normal)
+                                .into(holder.imgPraiseFirst);
+                        Glide.with(context)
+                                .load(R.mipmap.ic_crown_normal)
+                                .into(holder.imgPraiseSecond);
+                        holder.imgPraiseSecond.setVisibility(View.GONE);
+                    }else if (data.getRank()==3){
+                        Glide.with(context)
+                                .load(R.mipmap.ic_crown_normal)
+                                .into(holder.imgPraiseFirst);
+                        holder.imgPraiseSecond.setVisibility(View.GONE);
+                        holder.imgPraiseThird.setVisibility(View.GONE);
+
+                    }else if (data.getRank()>=4){
+                        holder.imgPraiseFirst.setVisibility(View.GONE);
+                        holder.imgPraiseSecond.setVisibility(View.GONE);
+                        holder.imgPraiseThird.setVisibility(View.GONE);
                     }
+
                     holder.itemPraiseNumber.setText(String.valueOf(data.getLike()));
                     switch (data.getPraise()) {
                         case 0:
-                            holder.itemPraiseImg.setImageResource(R.mipmap.ic_praise_default);
+                            Glide.with(context)
+                                    .load(R.mipmap.ic_praise_default)
+                                    .into(holder.itemPraiseImg);
                             break;
                         case 1:
-                            holder.itemPraiseImg.setImageResource(R.mipmap.ic_work_show_praised);
+                            Glide.with(context)
+                                    .load(R.mipmap.ic_work_show_praised)
+                                    .into(holder.itemPraiseImg);
                             break;
                     }
                     if (data.getProjectname() != null) {
@@ -416,7 +415,9 @@ public class WorkShowListActivity extends BaseActivity implements SwipeRefreshLa
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Toast.makeText(context, apiResponse.getResultMessage(),
                                     Toast.LENGTH_SHORT).show();
-                            onRefresh();
+
+                            getWorkShowList();
+                            myAdapter.notifyDataSetChanged();
 
                         } else {
                             Toast.makeText(context, apiResponse.getResultMessage(),

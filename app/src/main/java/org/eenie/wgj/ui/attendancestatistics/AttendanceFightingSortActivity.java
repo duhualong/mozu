@@ -3,9 +3,6 @@ package org.eenie.wgj.ui.attendancestatistics;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,13 +37,10 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class AttendanceFightingSortActivity extends BaseActivity
-        implements SwipeRefreshLayout.OnRefreshListener {
+public class AttendanceFightingSortActivity extends BaseActivity {
 
     public static final String DATE = "date";
     public static final String PROJECT_ID = "id";
-    @BindView(R.id.swipe_refresh_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_sort)
     RecyclerView mRecyclerView;
     private String date;
@@ -62,18 +56,12 @@ public class AttendanceFightingSortActivity extends BaseActivity
     protected void updateUI() {
         projectId = getIntent().getStringExtra(PROJECT_ID);
         date = getIntent().getStringExtra(DATE);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+
         mAdapter = new ProjectAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         mRecyclerView.setAdapter(mAdapter);
+        getData(projectId, date);
 
     }
 
@@ -105,7 +93,7 @@ public class AttendanceFightingSortActivity extends BaseActivity
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        cancelRefresh();
+
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
@@ -125,23 +113,9 @@ public class AttendanceFightingSortActivity extends BaseActivity
                 });
     }
 
-    private void cancelRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        onRefresh();
-    }
 
-    @Override
-    public void onRefresh() {
-        mAdapter.clear();
-        getData(projectId, date);
-    }
+
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
         private Context context;

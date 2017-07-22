@@ -63,7 +63,6 @@ public class PersonalBaseInfoActivity extends BaseActivity {
     private static final int REQUEST_GALLERY_PHOTO = 0x102;
     private static final int RESPONSE_CODE_POSITIVE = 0x103;
     private static final String TAG = "PersonalBaseInfoActivity";
-    private static final int RESPONSE_CODE_NEGIVITE = 0x104;
     private Uri imageUri;
     private String avatarUrl;
     private String fileUrl;
@@ -296,7 +295,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), "a.jpg");
+        File cropFile = new File(context.getCacheDir(), System.currentTimeMillis()+"jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
                 .withMaxResultSize(500, 500)
@@ -309,9 +308,18 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
             switch (requestCode) {
                 case TAKE_PHOTO_REQUEST:
-                    startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
+                    if (imageUri!=null){
+                        startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
+                    }
+
 
                     break;
+                case REQUEST_GALLERY_PHOTO:
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_POSITIVE);
+                    }
+                    break;
+
                 case RESPONSE_CODE_POSITIVE:
                     Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
                             .subscribeOn(Schedulers.io())
@@ -325,25 +333,20 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                     uploadFile(fileCardFront);
 
                     break;
-                case REQUEST_GALLERY_PHOTO:
+
+//                case RESPONSE_CODE_NEGIVITE:
+//                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(bitmap -> {
+//                                avatar.setImageBitmap(bitmap);
+//                            });
+//                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+//                    File fileCardFronts = new File(avatarUrl);
+//                    uploadFile(fileCardFronts);
 
 
-                    startCropImage(data.getData(), RESPONSE_CODE_NEGIVITE);
-                    break;
-
-                case RESPONSE_CODE_NEGIVITE:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bitmap -> {
-                                avatar.setImageBitmap(bitmap);
-                            });
-                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    File fileCardFronts = new File(avatarUrl);
-                    uploadFile(fileCardFronts);
-
-
-                    break;
+                  //  break;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -1,9 +1,6 @@
 package org.eenie.wgj.ui.attendancestatistics;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,13 +37,12 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class AttendanceSortMonthActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class AttendanceSortMonthActivity extends BaseActivity  {
     public static final String DATE = "date";
     public static final String PROJECT_ID = "id";
     private String date;
     private String projectId;
-    @BindView(R.id.swipe_refresh_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @BindView(R.id.recycler_sort)
     RecyclerView mRecyclerView;
     private ProjectAdapter mAdapter;
@@ -60,19 +56,14 @@ public class AttendanceSortMonthActivity extends BaseActivity implements SwipeRe
     protected void updateUI() {
         projectId = getIntent().getStringExtra(PROJECT_ID);
         date = getIntent().getStringExtra(DATE);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+
+
         mAdapter = new ProjectAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(mAdapter);
-
+        getData(projectId, date);
 
     }
     @OnClick(R.id.img_back)public void onClick(View view){
@@ -102,7 +93,7 @@ public class AttendanceSortMonthActivity extends BaseActivity implements SwipeRe
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        cancelRefresh();
+
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
@@ -121,23 +112,9 @@ public class AttendanceSortMonthActivity extends BaseActivity implements SwipeRe
                     }
                 });
     }
-    private void cancelRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        onRefresh();
-    }
 
-    @Override
-    public void onRefresh() {
-        mAdapter.clear();
-        getData(projectId, date);
-    }
+
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
         private Context context;
@@ -164,20 +141,19 @@ public class AttendanceSortMonthActivity extends BaseActivity implements SwipeRe
                     holder.imgSort.setVisibility(View.VISIBLE);
                     switch (position) {
                         case 0:
-                            holder.imgSort.setImageResource(R.mipmap.ic_gold);
+                            holder.imgSort.setImageResource(R.mipmap.ic_new_gold_icon);
 
                             break;
                         case 1:
-                            holder.imgSort.setImageResource(R.mipmap.ic_silver);
+                            holder.imgSort.setImageResource(R.mipmap.ic_new_gold_two_icon);
                             break;
                         case 2:
-                            holder.imgSort.setImageResource(R.mipmap.ic_copper);
-
+                            holder.imgSort.setImageResource(R.mipmap.ic_new_gold_three_icon);
                             break;
                     }
                 } else {
                     holder.itemNumber.setVisibility(View.VISIBLE);
-                    holder.imgSort.setVisibility(View.INVISIBLE);
+                    holder.imgSort.setVisibility(View.GONE);
                     holder.itemNumber.setText(String.valueOf((position + 1)));
                 }
                 if (data.getId_card_head_image() != null&&!data.getId_card_head_image().isEmpty()) {

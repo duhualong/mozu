@@ -125,8 +125,6 @@ public class PersonalCenterFragment extends BaseSupportFragment {
             PermissionManager.invokeCameras(PersonalCenterFragment.this, REQUEST_CAMERA_PERMISSION);
         }
     }
-
-
     /**
      * 权限申请回调
      *
@@ -188,9 +186,8 @@ public class PersonalCenterFragment extends BaseSupportFragment {
                                                     mData.getBank_card())
                                             .apply();
                                 }
-                                if (TextUtils.isEmpty(mData.getAvatar())||mData.getAvatar()==null) {
-                                    if (mData.getId_card_head_image().startsWith(Constant.DOMIN)){
-
+                                if (TextUtils.isEmpty(mData.getAvatar()) || mData.getAvatar() == null) {
+                                    if (mData.getId_card_head_image().startsWith(Constant.DOMIN)) {
 
 
                                         Glide.with(context).load(
@@ -200,10 +197,10 @@ public class PersonalCenterFragment extends BaseSupportFragment {
                                                 putString(Constants.PERSONAL_AVATAR,
                                                         mData.getId_card_head_image())
                                                 .apply();
-                                    }else {
+                                    } else {
 
 
-                                        Glide.with(context).load(Constant.DOMIN+
+                                        Glide.with(context).load(Constant.DOMIN +
                                                 mData.getId_card_head_image()).
                                                 centerCrop().into(avatar);
                                         mPrefsHelper.getPrefs().edit().
@@ -211,22 +208,21 @@ public class PersonalCenterFragment extends BaseSupportFragment {
                                                         Constant.DOMIN + mData.getId_card_head_image())
                                                 .apply();
                                     }
-                                    Glide.with(context).load(Constant.DOMIN+
+                                    Glide.with(context).load(Constant.DOMIN +
                                             mData.getId_card_head_image()).centerCrop().into(avatar);
 
 
-
                                 } else {
-                                    if (mData.getAvatar().startsWith(Constant.DOMIN)){
+                                    if (mData.getAvatar().startsWith(Constant.DOMIN)) {
                                         Glide.with(context)
                                                 .load(mData.getAvatar())
                                                 .centerCrop()
                                                 .into(avatar);
                                         mPrefsHelper.getPrefs().edit().
                                                 putString(Constants.PERSONAL_AVATAR,
-                                                       mData.getAvatar())
+                                                        mData.getAvatar())
                                                 .apply();
-                                    }else {
+                                    } else {
                                         Glide.with(context)
                                                 .load(Constant.DOMIN + mData.getAvatar())
                                                 .centerCrop()

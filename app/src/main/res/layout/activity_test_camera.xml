@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+>
+    <org.eenie.wgj.ui.camera.CameraSurfaceView
+        android:id="@+id/cameraSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <org.eenie.wgj.ui.camera.CameraTopRectView
+        android:id="@+id/rectOnCamera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/takePic"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/take_picture_button_bg"
+
+            />
+    </RelativeLayout>
+
+</FrameLayout>

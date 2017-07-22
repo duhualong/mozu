@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.NewEmployeesResponse;
+import org.eenie.wgj.model.response.attendancestatistic.NewAddPeopleResponse;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -107,8 +108,8 @@ public class AttendanceNewEmplyeesActivity extends BaseActivity implements
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                            ArrayList<NewEmployeesResponse> data = gson.fromJson(jsonArray,
-                                    new TypeToken<ArrayList<NewEmployeesResponse>>() {
+                            ArrayList<NewAddPeopleResponse> data = gson.fromJson(jsonArray,
+                                    new TypeToken<ArrayList<NewAddPeopleResponse>>() {
                                     }.getType());
                             if (data != null) {
                                 if (mAdapter != null) {
@@ -142,9 +143,9 @@ public class AttendanceNewEmplyeesActivity extends BaseActivity implements
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
         private Context context;
-        private ArrayList<NewEmployeesResponse> projectMonth;
+        private ArrayList<NewAddPeopleResponse> projectMonth;
 
-        public ProjectAdapter(Context context, ArrayList<NewEmployeesResponse> projectMonth) {
+        public ProjectAdapter(Context context, ArrayList<NewAddPeopleResponse> projectMonth) {
             this.context = context;
             this.projectMonth = projectMonth;
         }
@@ -159,13 +160,16 @@ public class AttendanceNewEmplyeesActivity extends BaseActivity implements
         @Override
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (projectMonth != null && !projectMonth.isEmpty()) {
-                NewEmployeesResponse data = projectMonth.get(position);
+                NewAddPeopleResponse data = projectMonth.get(position);
                 if (data!=null){
                     holder.itemTitle.setText("新增人员  "+data.getName());
-                    holder.itemDate.setText("入职时间  "+data.getUpdated_at());
+                    holder.itemDate.setText("入职时间  "+data.getCreated_at());
                     holder.itemCause.setText("入职岗位  "+data.getPermissions());
                     holder.itemPost.setVisibility(View.VISIBLE);
-                    holder.itemCause.setText("入职来源  "+data.getChannel());
+                    if (!TextUtils.isEmpty(data.getChannel())){
+                        holder.itemPost.setText("入职来源  "+data.getChannel());
+                    }
+
                 }
 
 
@@ -178,7 +182,7 @@ public class AttendanceNewEmplyeesActivity extends BaseActivity implements
             return projectMonth.size();
         }
 
-        public void addAll(ArrayList<NewEmployeesResponse> projectMonth) {
+        public void addAll(ArrayList<NewAddPeopleResponse> projectMonth) {
             this.projectMonth.addAll(projectMonth);
             ProjectAdapter.this.notifyDataSetChanged();
         }

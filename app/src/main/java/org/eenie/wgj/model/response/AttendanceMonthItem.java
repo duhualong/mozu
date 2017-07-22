@@ -37,7 +37,7 @@ public class AttendanceMonthItem {
     private int overtime;
     private int practice;
     private int seconded;
-    private int turnover_rate;
+    private double turnover_rate;
     private List<MonthIntegratedBean> month_integrated;
     private List<MonthRankBean> month_rank;
     private List<MonthRefuelBean> month_refuel;
@@ -122,11 +122,11 @@ public class AttendanceMonthItem {
         this.seconded = seconded;
     }
 
-    public int getTurnover_rate() {
+    public double getTurnover_rate() {
         return turnover_rate;
     }
 
-    public void setTurnover_rate(int turnover_rate) {
+    public void setTurnover_rate(double turnover_rate) {
         this.turnover_rate = turnover_rate;
     }
 

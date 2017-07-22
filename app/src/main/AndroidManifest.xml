@@ -14,6 +14,9 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
 
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
@@ -25,7 +28,6 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     //地图包、搜索包需要的基础权限
 
@@ -79,6 +81,7 @@
         <activity android:name=".ui.login.SelectCityRegisterActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustPan"/>
+
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
@@ -677,6 +680,14 @@
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".MainTestPictureActivity"/>
+        <activity android:name=".ui.attendance.sign.MySignCameraActivity"/>
+        <activity android:name=".ui.login.camera.CameraActivity"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".ui.camera.TakeCameraTestActivity"/>
+
+        <activity android:name=".ui.train.TrainingNewPagerSettingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
 
         <!--<activity android:name=".ui.meeting.MeetingClassApplyPartActivity"-->
         <!--android:screenOrientation="portrait"-->

@@ -27,6 +27,7 @@ import org.eenie.wgj.model.response.sortclass.ArrangeServiceTotal;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +65,7 @@ public class AddPersonalClassActivity extends BaseActivity {
     @BindView(R.id.tv_alert)
     TextView tvAlert;
     private Gson gson=new Gson();
+    private   List<Integer>ids=new ArrayList<>();
 
 
     @Override
@@ -73,8 +75,29 @@ public class AddPersonalClassActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        adapter=new AddPersonalAdapter(context,new ArrayList<>());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(adapter);
         projectId = getIntent().getStringExtra(PROJECT_ID);
         data = getIntent().getParcelableArrayListExtra(INFO);
+        if (data!=null){
+
+
+            for (int i=0;i<data.size();i++){
+                if (data.get(i).getUser()!=null&&!data.get(i).getUser().isEmpty()){
+
+                    for (int j=0;j<data.get(i).getUser().size();j++){
+                        ids.add(data.get(i).getUser().get(j).getUser_id());
+                    }
+                }
+
+
+
+            }
+        }
+        Log.d("test", "updateUI: "+new Gson().toJson(data));
+        System.out.println("data大小："+data.size());
         ground = getIntent().getStringExtra(GROUND);
         date = getIntent().getStringExtra(DATE);
         serviceId=getIntent().getStringExtra(CLASS_ID);
@@ -111,34 +134,82 @@ public class AddPersonalClassActivity extends BaseActivity {
                                     new TypeToken<ArrayList<PersonalWorkDayMonthList>>() {
                                     }.getType());
                             Log.d("ssss", "data: "+gson.toJson(personalData));
-                            if (data!=null){
-                                Log.d("mData", "onNext: "+gson.toJson(data));
-                            }
+
                             if (personalData != null) {
 
-                                if (data!=null){
-                                    for (int m=0;m<personalData.size();m++){
-                                        for (int n=0;n<data.size();n++){
-                                            if (data.get(n).getUser()!=null){
-                                                for (int l=0;l<data.get(n).getUser().size();l++){
-                                                    if (personalData.get(m).getUser_id().equals
-                                                            (String.valueOf(data.get(n).getUser().
-                                                                    get(l).getUser_id()))){
-                                                        personalData.remove(m);
-                                                    }
+
+                                    if (ids.size()>0){
+                                        for (int t=0;t<ids.size();t++){
+                                            for (int q=0;q<personalData.size();q++){
+                                                if (String.valueOf(ids.get(t)).
+                                                        equals(personalData.get(q).getUser_id())) {
+                                                    personalData.remove(personalData.get(q));
                                                 }
                                             }
+
                                         }
-                                    }
-                                    if (personalData!=null){
-                                        getSchedulingList(date,personalData);
-                                    }
 
-                                Log.d("data", "personData: "+gson.toJson(personalData));
+                                        if (personalData != null) {
+                                            getSchedulingList(date, personalData);
+                                        }
+
+                                    }else {
+                                        getSchedulingList(date, personalData);
+                                    }
+//                                    for (int p = 0; p < data.size(); p++) {
+//                                        if (data.get(p).getUser() != null && !data.get(p).
+//                                                getUser().isEmpty()) {
+//                                            for (int n = 0; n < data.get(p).getUser().size(); n++) {
+//
+//                                                for (int q = 0; q < personalData.size(); q++) {
+//                                                    if (String.valueOf(data.get(p).getUser().get(n).
+//                                                            getUser_id()).
+//                                                            equals(personalData.get(q).getUser_id())) {
+//                                                        personalData.remove(personalData.get(q));
+//                                                    }
+//
+//
+//                                                }
+//
+//                                            }
+//                                        }
+//                                    }
+//                                    Log.d("data", "personData: " + gson.toJson(personalData));
+//
+//                                    if (personalData != null) {
+//                                        getSchedulingList(date, personalData);
+//                                    }
+//
+//                                } else {
+//                                    Log.d("data", "personData: " + gson.toJson(personalData));
+//
+//                                    if (personalData != null) {
+//                                        getSchedulingList(date, personalData);
+//                                    }
 
                             }
+//                                    for (int m=0;m<personalData.size();m++){
+//
+//                                        for (int n=0;n<data.size();n++){
+//                                            if (data.get(n).getUser()!=null&&
+//                                                    !data.get(n).getUser().isEmpty()){
+//                                                for (int l=0;l<data.get(n).getUser().size();l++){
+//                                                    if (personalData.get(m).getUser_id().equals
+//                                                            (String.valueOf(data.get(n).getUser().
+//                                                                    get(l).getUser_id()))){
+//                                                        personalData.remove(m);
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                if (personalData!=null){
+//                                    getSchedulingList(date,personalData);
+//                                }
 
-                            }
+
+
+                            //}
                         }
 
                     }
@@ -216,7 +287,8 @@ public class AddPersonalClassActivity extends BaseActivity {
                                                     Integer.valueOf(monthLists.get(r).getUser_id()),
                                                     monthLists.get(r).getUser_name(),
                                                     monthLists.get(r).
-                                                            getInfo().get(t).getAddDay(),Integer.valueOf(monthLists.get(r).
+                                                            getInfo().get(t).getAddDay(),
+                                                    Integer.valueOf(monthLists.get(r).
                                                     getInfo().get(t).getDay()),
                                                     monthLists.get(r).getInfo().get(t).getService().getId());
                                             if (Integer.valueOf(monthLists.get(r).
@@ -230,10 +302,11 @@ public class AddPersonalClassActivity extends BaseActivity {
                                     }
                                 }
                                 Log.d("addData", "List: "+gson.toJson(addData));
-                                adapter=new AddPersonalAdapter(context,addData);
-                                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-                                mRecyclerView.setLayoutManager(layoutManager);
-                                mRecyclerView.setAdapter(adapter);
+//                                adapter=new AddPersonalAdapter(context,addData);
+//                                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+//                                mRecyclerView.setLayoutManager(layoutManager);
+//                                mRecyclerView.setAdapter(adapter);
+                                adapter.addAll(addData);
                             }
                         }
                     }

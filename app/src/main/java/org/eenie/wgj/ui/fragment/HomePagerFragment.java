@@ -36,7 +36,7 @@ import org.eenie.wgj.ui.routinginspection.RoutingInspectionActivity;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.ui.routingstatistics.RoutingStatisticsSettingActivity;
 import org.eenie.wgj.ui.scan.ScanActivity;
-import org.eenie.wgj.ui.train.TrainStudySettingActivity;
+import org.eenie.wgj.ui.train.TrainingNewPagerSettingActivity;
 import org.eenie.wgj.ui.trainstatistic.TrainingStatisticSettingActivity;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.PermissionManager;
@@ -375,7 +375,7 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
 
                 break;
             case 4:
-                startActivity(new Intent(context, TrainStudySettingActivity.class));
+                startActivity(new Intent(context, TrainingNewPagerSettingActivity.class));
                 break;
             case 5:
                 startActivity(new Intent(context, TrainingStatisticSettingActivity.class));

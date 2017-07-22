@@ -22,13 +22,15 @@ import com.facebook.stetho.common.LogUtil;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
-
 import org.eenie.wgj.util.ToastUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 import static android.Manifest.permission.CAMERA;
 import static org.eenie.wgj.ui.mytest.PictureFragment.CROP_PICTURE;
@@ -39,7 +41,7 @@ import static org.eenie.wgj.ui.mytest.PictureFragment.CROP_PICTURE;
  * Des:
  */
 
-public class AttendanceTokePhotoActivity extends BaseActivity implements  View.OnClickListener,
+public class AttendanceTokePhotoActivity extends BaseActivity implements
         SurfaceHolder.Callback {
 
     private static final String TAG = "moubiao";
@@ -50,15 +52,14 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
 
     private int camera_flag = 1;
 
-    private FocusSurfaceView previewSFV;
-    private Button mTakeBT, mThreeFourBT, mFourThreeBT, mNineSixteenBT, mSixteenNineBT, mFitImgBT, mCircleBT, mFreeBT, mSquareBT,
-            mCircleSquareBT, mCustomBT;
+    @BindView(R.id.preview_sv)
+    FocusSurfaceView previewSFV;
+    @BindView(R.id.take_bt)
+    Button mTakeBT;
 
     private Camera mCamera;
     private SurfaceHolder mHolder;
     private boolean focus = false;
-
-
 
 
     @Override
@@ -77,7 +78,6 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
 
         initData();
         initView();
-        setListener();
     }
 
     private void initData() {
@@ -86,50 +86,26 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
     }
 
     private void initView() {
-        previewSFV = (FocusSurfaceView) findViewById(R.id.preview_sv);
         mHolder = previewSFV.getHolder();
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-        mTakeBT = (Button) findViewById(R.id.take_bt);
-        mThreeFourBT = (Button) findViewById(R.id.three_four_bt);
-        mFourThreeBT = (Button) findViewById(R.id.four_three_bt);
-        mNineSixteenBT = (Button) findViewById(R.id.nine_sixteen_bt);
-        mSixteenNineBT = (Button) findViewById(R.id.sixteen_nine_bt);
-        mFitImgBT = (Button) findViewById(R.id.fit_image_bt);
-        mCircleBT = (Button) findViewById(R.id.circle_bt);
-        mFreeBT = (Button) findViewById(R.id.free_bt);
-        mSquareBT = (Button) findViewById(R.id.square_bt);
-        mCircleSquareBT = (Button) findViewById(R.id.circle_square_bt);
-        mCustomBT = (Button) findViewById(R.id.custom_bt);
     }
 
-    private void setListener() {
-        mTakeBT.setOnClickListener(this);
-        mThreeFourBT.setOnClickListener(this);
-        mFourThreeBT.setOnClickListener(this);
-        mNineSixteenBT.setOnClickListener(this);
-        mSixteenNineBT.setOnClickListener(this);
-        mFitImgBT.setOnClickListener(this);
-        mCircleBT.setOnClickListener(this);
-        mFreeBT.setOnClickListener(this);
-        mSquareBT.setOnClickListener(this);
-        mCircleSquareBT.setOnClickListener(this);
-        mCustomBT.setOnClickListener(this);
-    }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         initCamera();
-        setCameraParams();
+        setCameraParames();
         previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_3_4);
     }
+
 
     private void initCamera() {
         if (checkPermission()) {
             try {
                 mCamera = android.hardware.Camera.open(camera_flag);//1:采集指纹的摄像头. 0:拍照的摄像头.
                 mCamera.setPreviewDisplay(mHolder);
+                mCamera.cancelAutoFocus();
             } catch (Exception e) {
                 Snackbar.make(mTakeBT, "camera open failed!", Snackbar.LENGTH_SHORT).show();
                 finish();
@@ -155,7 +131,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
                 if (grantResults.length > 0) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         initCamera();
-                        setCameraParams();
+                        setCameraParames();
                     }
                 }
 
@@ -163,13 +139,65 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
         }
     }
 
-    private void setCameraParams() {
+    private void setCameraParames() {
         if (mCamera == null) {
             return;
         }
+//
+//        try {
+//            int PreviewWidth = 0;
+//            int PreviewHeight = 0;
+//            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//获取窗口的管理器
+//            Display display = wm.getDefaultDisplay();//获得窗口里面的屏幕
+//            Camera.Parameters parameters  = mCamera.getParameters();
+//            // 选择合适的预览尺寸
+//            List<Camera.Size> sizeList = parameters.getSupportedPreviewSizes();
+//
+//            // 如果sizeList只有一个我们也没有必要做什么了，因为就他一个别无选择
+//            if (sizeList.size() > 1) {
+//                Iterator<Camera.Size> itor = sizeList.iterator();
+//                while (itor.hasNext()) {
+//                    Camera.Size cur = itor.next();
+//                    if (cur.width >= PreviewWidth
+//                            && cur.height >= PreviewHeight) {
+//                        PreviewWidth = cur.width;
+//                        PreviewHeight = cur.height;
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            int orientation = judgeScreenOrientation();
+//            if (Surface.ROTATION_0 == orientation) {
+//                mCamera.setDisplayOrientation(90);
+//                parameters.setRotation(270);
+//            } else if (Surface.ROTATION_90 == orientation) {
+//                mCamera.setDisplayOrientation(0);
+//                parameters.setRotation(0);
+//            } else if (Surface.ROTATION_180 == orientation) {
+//                mCamera.setDisplayOrientation(180);
+//                parameters.setRotation(180);
+//            } else if (Surface.ROTATION_270 == orientation) {
+//                mCamera.setDisplayOrientation(180);
+//                parameters.setRotation(180);
+//            }
+//            parameters.setPreviewSize(PreviewWidth, PreviewHeight); //获得摄像区域的大小
+//            parameters.setPreviewFrameRate(3);//每秒3帧  每秒从摄像头里面获得3个画面
+//            parameters.setPictureFormat(PixelFormat.JPEG);//设置照片输出的格式
+//            parameters.set("jpeg-quality", 85);//设置照片质量
+//            parameters.setPictureSize(PreviewWidth, PreviewHeight);//设置拍出来的屏幕大小
+//            //
+//            mCamera.setParameters(parameters);//把上面的设置 赋给摄像头
+//            mCamera.setPreviewDisplay(previewSFV.getHolder());//把摄像头获得画面显示在SurfaceView控件里面
+//            mCamera.startPreview();//开始预览
+//           // mPreviewRunning = true;
+//        } catch (IOException e) {
+//            Log.e(TAG, e.toString());
+//        }
+
+
         try {
             Camera.Parameters parameters = mCamera.getParameters();
-
 
             int w = 0;
             int h = 0;
@@ -180,28 +208,17 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
                     w = size.width;
                     h = size.height;
                 }
-//                LogUtil.e(String.format("PreviewSize w = %s h = %s", size.width, size.height));
             }
-
 
             int pw = 0;
             int ph = 0;
-
             for (Camera.Size size : parameters.getSupportedPictureSizes()) {
                 if (size.width > w) {
                     pw = size.width;
                     ph = size.height;
                 }
             }
-
-
-//            Camera.Size size = parameters.getSupportedPreviewSizes().get(0);
-
             int orientation = judgeScreenOrientation();
-
-//            System.out.println("orientation " + orientation);
-
-
             if (Surface.ROTATION_0 == orientation) {
                 mCamera.setDisplayOrientation(90);
                 parameters.setRotation(270);
@@ -215,16 +232,70 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
                 mCamera.setDisplayOrientation(180);
                 parameters.setRotation(180);
             }
-
             LogUtil.e(String.format("PreviewSize w = %s h = %s", w, h));
             parameters.setPictureSize(pw, ph);
-            parameters.setPreviewSize(w, h);
+            parameters.setPictureSize(w, h);
             mCamera.setParameters(parameters);
             mCamera.startPreview();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+//    private void setCameraParams() {
+//        if (mCamera == null) {
+//            return;
+//        }
+//        try {
+//            Camera.Parameters parameters = mCamera.getParameters();
+//            int w = 0;
+//            int h = 0;
+//            for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
+//                if (size.width > w) {
+//                    w = size.width;
+//                    h = size.height;
+//                }
+////                LogUtil.e(String.format("PreviewSize w = %s h = %s", size.width, size.height));
+//            }
+//
+//
+//            int pw = 0;
+//            int ph = 0;
+//
+//            for (Camera.Size size : parameters.getSupportedPictureSizes()) {
+//                if (size.width > w) {
+//                    pw = size.width;
+//                    ph = size.height;
+//                }
+//            }
+//
+//
+//            int orientation = judgeScreenOrientation();
+//
+//
+//            if (Surface.ROTATION_0 == orientation) {
+//                mCamera.setDisplayOrientation(90);
+//                parameters.setRotation(270);
+//            } else if (Surface.ROTATION_90 == orientation) {
+//                mCamera.setDisplayOrientation(0);
+//                parameters.setRotation(0);
+//            } else if (Surface.ROTATION_180 == orientation) {
+//                mCamera.setDisplayOrientation(180);
+//                parameters.setRotation(180);
+//            } else if (Surface.ROTATION_270 == orientation) {
+//                mCamera.setDisplayOrientation(180);
+//                parameters.setRotation(180);
+//            }
+//
+//            LogUtil.e(String.format("PreviewSize w = %s h = %s", w, h));
+//            parameters.setPictureSize(pw, ph);
+//            parameters.setPreviewSize(w, h);
+//            mCamera.setParameters(parameters);
+//            mCamera.startPreview();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -263,81 +334,65 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.take_bt:
-                if (!focus) {
-                    takePicture();
-                }
-                break;
-            case R.id.three_four_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_3_4);
-                break;
-            case R.id.four_three_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_4_3);
-                break;
-            case R.id.nine_sixteen_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_9_16);
-                break;
-            case R.id.sixteen_nine_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_16_9);
-                break;
-            case R.id.fit_image_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.FIT_IMAGE);
-                break;
-            case R.id.circle_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.CIRCLE);
-                break;
-            case R.id.free_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.FREE);
-                break;
-            case R.id.square_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.SQUARE);
-                break;
-            case R.id.circle_square_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.CIRCLE_SQUARE);
-                break;
-            case R.id.custom_bt:
-                previewSFV.setCropMode(FocusSurfaceView.CropMode.CUSTOM);
-                break;
-            default:
-                break;
-        }
+    @OnClick(R.id.take_bt)
+    public void onClick() {
+        if (mCamera == null) return;
+        mCamera.autoFocus(null);
+        takePicture();
     }
+
 
     /**
      * 拍照
      */
     private void takePicture() {
-        mCamera.autoFocus(new Camera.AutoFocusCallback() {
-            @Override
-            public void onAutoFocus(boolean success, Camera camera) {
-                focus = success;
-                if (success) {
-                    mCamera.cancelAutoFocus();
-                    mCamera.takePicture(new Camera.ShutterCallback() {
-                        @Override
-                        public void onShutter() {
-                        }
-                    }, null, null, new Camera.PictureCallback() {
-                        @Override
-                        public void onPictureTaken(byte[] data, Camera camera) {
-                            Bitmap cropBitmap = previewSFV.getPicture(data);
-                            PictureFragment pictureFragment = new PictureFragment();
-                            Bundle bundle = new Bundle();
-//                            bundle.putParcelable(ORIGIN_PICTURE, originBitmap);
-                            bundle.putParcelable(CROP_PICTURE, cropBitmap);
-                            pictureFragment.setArguments(bundle);
-                            pictureFragment.show(getFragmentManager(), null);
-                            focus = false;
-                            mCamera.startPreview();
-                        }
-                    });
-                }
+        mCamera.autoFocus((success, camera) -> {
+            focus = success;
+            if (success) {
+                mCamera.cancelAutoFocus();
+
+                mCamera.takePicture(() -> {
+                }, null, null, (data, camera1) -> {
+
+                    Bitmap cropBitmap = previewSFV.getPicture(data);
+//                    Bitmap bMap = BitmapFactory.decodeByteArray(data, 0,data.length);
+//                    Bitmap out = Bitmap.createScaledBitmap(bMap, 1024, 768, true);
+                    PictureFragment pictureFragment = new PictureFragment();
+                    Bundle bundle = new Bundle();
+//                       bundle.putParcelable(ORIGIN_PICTURE, originBitmap);
+                    bundle.putParcelable(CROP_PICTURE, cropBitmap);
+                    pictureFragment.setArguments(bundle);
+                    pictureFragment.show(getFragmentManager(), null);
+                    focus = false;
+                     mCamera.startPreview();
+                });
             }
         });
+
     }
+
+
+
+//    private void takePicture() {
+//        mCamera.autoFocus((success, camera) -> {
+//            focus = success;
+//            if (success) {
+//                mCamera.cancelAutoFocus();
+//                mCamera.takePicture(() -> {
+//                }, null, null, (data, camera1) -> {
+////                    Bitmap originBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                    Bitmap cropBitmap = previewSFV.getPicture(data);
+//                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+//                            rotateBitmap(cropBitmap, 90), null, null));
+//                    Intent intent = new Intent();
+//                    intent.putExtra("uri", uri.toString());
+//                    setResult(RESULT_OK, intent);
+//                    finish();
+//
+//                });
+//            }
+//        });
+//    }
 
     /**
      * 用来监测左横屏和右横屏切换时旋转摄像头的角度
@@ -350,15 +405,21 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
         @Override
         public void onOrientationChanged(int orientation) {
             if (260 < orientation && orientation < 290) {
-                setCameraParams();
+                setCameraParames();
             } else if (80 < orientation && orientation < 100) {
-                setCameraParams();
+                setCameraParames();
             }
         }
     }
 
 
     public void onTakePhoto(Bitmap bitmap) {
+
+
+
+
+
+
         String path = savePic(bitmap);
         if (!TextUtils.isEmpty(path)) {
             setResult(AttendanceTokePhotoActivity.RESULT_CODE, getIntent().putExtra("path", path));
@@ -370,6 +431,10 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements  View.O
 
 
     public String savePic(Bitmap bm) {
+
+
+
+
         String path = getExternalCacheDir().getAbsolutePath() + "/sign_" +
                 System.currentTimeMillis() + "_attendance.jpeg";
         File f = new File(path);

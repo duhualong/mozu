@@ -68,6 +68,47 @@
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="@dimen/padding_short"
                           android:layout_marginStart="@dimen/padding_short"
+                          android:drawableLeft="@mipmap/ic_create_company_email"
+                          android:drawablePadding="@dimen/padding_bottom"
+                          android:drawableStart="@mipmap/ic_create_company_email"
+                          android:gravity="center_vertical"
+                          android:text="您的邮箱"
+                          android:textColor="@color/titleColor"
+                          android:textSize="@dimen/text_large_size"/>
+                <EditText
+                    android:id="@id/et_my_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginBottom="@dimen/padding_short"
+                    android:layout_marginEnd="34dp"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginStart="34dp"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:background="@mipmap/bg_edit_text_light"
+                    android:lines="1"
+                    android:maxLength="20"
+                    android:paddingEnd="@dimen/padding_short"
+                    android:paddingLeft="@dimen/padding_short"
+                    android:paddingRight="@dimen/padding_short"
+                    android:paddingStart="@dimen/padding_short"
+                    android:textColor="@color/titleColor"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+            <LinearLayout android:id="@id/rl_select_city"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="1dp"
+                          android:background="@color/white"
+                          android:orientation="vertical"
+                          android:padding="@dimen/padding_short">
+
+                <TextView android:id="@id/tv_select_city"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginLeft="@dimen/padding_short"
+                          android:layout_marginStart="@dimen/padding_short"
                           android:drawableLeft="@mipmap/ic_create_company_name"
                           android:drawablePadding="@dimen/padding_bottom"
                           android:drawableStart="@mipmap/ic_create_company_name"
@@ -113,7 +154,7 @@
                           android:drawablePadding="@dimen/padding_bottom"
                           android:drawableStart="@mipmap/ic_create_company_personal"
                           android:gravity="center_vertical"
-                          android:text="您的姓名"
+                          android:text="法人代表"
                           android:textColor="@color/titleColor"
                           android:textSize="@dimen/text_large_size"/>
                 <EditText
@@ -143,20 +184,19 @@
                           android:layout_marginTop="1dp"
                           android:background="@color/white"
                           android:orientation="vertical"
-                          android:visibility="gone"
-                          android:padding="@dimen/padding_short">
+                          android:padding="@dimen/padding_short"
+                          android:visibility="visible">
 
                 <TextView android:id="@id/tv_select_city"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginLeft="@dimen/padding_short"
                           android:layout_marginStart="@dimen/padding_short"
-                          android:drawableLeft="@mipmap/ic_create_company_phone"
+                          android:drawableLeft="@mipmap/ic_phone_company_select"
                           android:drawablePadding="@dimen/padding_bottom"
-                          android:drawableStart="@mipmap/ic_create_company_phone"
+                          android:drawableStart="@mipmap/ic_phone_company_select"
                           android:gravity="center_vertical"
-                          android:text="您的电话"
-
+                          android:text="公司电话"
                           android:textColor="@color/titleColor"
                           android:textSize="@dimen/text_large_size"/>
                 <EditText
@@ -197,7 +237,7 @@
                           android:drawablePadding="@dimen/padding_bottom"
                           android:drawableStart="@mipmap/ic_create_company_email"
                           android:gravity="center_vertical"
-                          android:text="您的邮箱"
+                          android:text="公司邮箱"
 
                           android:textColor="@color/titleColor"
                           android:textSize="@dimen/text_large_size"/>
@@ -254,13 +294,13 @@
                     android:layout_marginStart="34dp"
                     android:layout_marginTop="@dimen/padding_bottom"
                     android:background="@mipmap/bg_edit_text_light"
+                    android:gravity="start"
                     android:lines="4"
                     android:maxLength="60"
                     android:paddingEnd="@dimen/padding_short"
                     android:paddingLeft="@dimen/padding_short"
                     android:paddingRight="@dimen/padding_short"
                     android:paddingStart="@dimen/padding_short"
-                    android:gravity="start"
                     android:textColor="@color/titleColor"
                     android:textSize="12sp"/>
 
@@ -281,7 +321,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 </LinearLayout>
 

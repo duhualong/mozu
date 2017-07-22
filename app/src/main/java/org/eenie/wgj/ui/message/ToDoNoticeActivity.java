@@ -1,7 +1,6 @@
 package org.eenie.wgj.ui.message;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -220,9 +219,9 @@ public class ToDoNoticeActivity extends BaseActivity implements SwipeRefreshLayo
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ApplyFeedBackActivity.class);
-                intent.putExtra(ApplyFeedBackActivity.APPLY_INFO, mMeetingNotice);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, ApplyFeedBackActivity.class);
+//                intent.putExtra(ApplyFeedBackActivity.APPLY_INFO, mMeetingNotice);
+//                context.startActivity(intent);
 
             }
         }

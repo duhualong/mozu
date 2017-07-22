@@ -52,6 +52,7 @@
   <dimen name="margin_longer">24dp</dimen>
 
 
+  <dimen name="textSize_small">14sp</dimen>
 
   <!--margin-->
   <dimen name="margin_height_distance">24dp</dimen>

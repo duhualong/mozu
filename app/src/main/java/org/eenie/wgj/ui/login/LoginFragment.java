@@ -174,6 +174,9 @@ public class LoginFragment extends BaseFragment {
                         .commit();
 
 
+                 //startActivity(new Intent(context, MySignCameraActivity.class));
+
+
                 break;
         }
 
@@ -243,6 +246,7 @@ public class LoginFragment extends BaseFragment {
                                          .putString(Constants.UID, data.getUser_id() + "")
                                          .putString(Constants.PHONE, phone)
                                          .putBoolean(Constants.IS_LOGIN, true).apply();
+                                 System.out.println("MD5："+Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
                                  Set<String> tags = new HashSet<>();
                                  tags.add(Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
                                  JPushInterface.setTags(context, tags, new TagAliasCallback() {
@@ -350,7 +354,6 @@ public class LoginFragment extends BaseFragment {
                     }
                 });
     }
-
 
     //检查输入内容（手机号码，密码）
 

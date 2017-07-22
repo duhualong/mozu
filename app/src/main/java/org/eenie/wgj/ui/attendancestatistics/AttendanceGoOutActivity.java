@@ -165,6 +165,8 @@ public class AttendanceGoOutActivity extends BaseActivity implements
             if (projectMonth != null && !projectMonth.isEmpty()) {
                 AttendanceGoOutResponse data = projectMonth.get(position);
                 if (data != null) {
+                    holder.itemDateTime.setVisibility(View.VISIBLE);
+                    holder.itemDateTime.setText("外出时间  "+data.getCreated_at());
                     if (!data.getName().isEmpty() && data.getName() != null) {
                         holder.itemTitle.setText("外出人员  " + data.getName());
                     } else {
@@ -173,8 +175,6 @@ public class AttendanceGoOutActivity extends BaseActivity implements
                     holder.itemDate.setText("外出地点  " + data.getAddress());
                     holder.itemCause.setText("外出原因  " + data.getDescription());
                 }
-
-
             }
 
         }
@@ -199,6 +199,7 @@ public class AttendanceGoOutActivity extends BaseActivity implements
             private TextView itemTitle;
             private TextView itemDate;
             private TextView itemCause;
+            private TextView itemDateTime;
 
 
             public ProjectViewHolder(View itemView) {
@@ -206,6 +207,8 @@ public class AttendanceGoOutActivity extends BaseActivity implements
                 itemTitle = ButterKnife.findById(itemView, R.id.item_title);
                 itemDate = ButterKnife.findById(itemView, R.id.item_date);
                 itemCause = ButterKnife.findById(itemView, R.id.item_cause);
+                itemDateTime=ButterKnife.findById(itemView, R.id.item_date_one);
+
 
 
             }

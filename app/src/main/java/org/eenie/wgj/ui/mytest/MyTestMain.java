@@ -48,12 +48,13 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
     private Camera mCamera;
     private SurfaceHolder mHolder;
     private boolean focus = false;
+    private Camera.AutoFocusCallback mAutoFocusCallback;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_test_main);
-       // initDefult();
+        // initDefult();
         initView();
         initData();
         setListener();
@@ -92,9 +93,6 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
     }
 
 
-
-
-
     /**
      * 根据分辨率设置预览SurfaceView的大小以防止变形
      *
@@ -116,35 +114,19 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
         mHolder.addCallback(MyTestMain.this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mTakeBT = (Button) findViewById(R.id.take_bt);
-//        mThreeFourBT = (Button) findViewById(R.id.three_four_bt);
-//        mFourThreeBT = (Button) findViewById(R.id.four_three_bt);
-//        mNineSixteenBT = (Button) findViewById(R.id.nine_sixteen_bt);
-//        mSixteenNineBT = (Button) findViewById(R.id.sixteen_nine_bt);
-//        mFitImgBT = (Button) findViewById(R.id.fit_image_bt);
-//        mCircleBT = (Button) findViewById(R.id.circle_bt);
-//        mFreeBT = (Button) findViewById(R.id.free_bt);
-//        mSquareBT = (Button) findViewById(R.id.square_bt);
-//        mCircleSquareBT = (Button) findViewById(R.id.circle_square_bt);
-//        mCustomBT = (Button) findViewById(R.id.custom_bt);
+
+
+
     }
 
     private void setListener() {
         mTakeBT.setOnClickListener(this);
-//        mThreeFourBT.setOnClickListener(this);
-//        mFourThreeBT.setOnClickListener(this);
-//        mNineSixteenBT.setOnClickListener(this);
-//        mSixteenNineBT.setOnClickListener(this);
-//        mFitImgBT.setOnClickListener(this);
-//        mCircleBT.setOnClickListener(this);
-//        mFreeBT.setOnClickListener(this);
-//        mSquareBT.setOnClickListener(this);
-//        mCircleSquareBT.setOnClickListener(this);
-//        mCustomBT.setOnClickListener(this);
+
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-       initCamera();
+        initCamera();
         setCameraParames();
     }
 
@@ -153,7 +135,14 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
             try {
                 mCamera = android.hardware.Camera.open(0);//1:采集指纹的摄像头. 0:拍照的摄像头.
                 mCamera.setPreviewDisplay(mHolder);
-                mCamera.cancelAutoFocus();
+
+//                Camera.Parameters parameters = mCamera.getParameters();
+//                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+//                mCamera.setParameters(parameters);
+//                mCamera.startPreview();
+                mCamera.cancelAutoFocus();// 2如果要实现连续的自动对焦，这一句必须加上
+//
+
             } catch (Exception e) {
                 Snackbar.make(mTakeBT, "camera open failed!", Snackbar.LENGTH_SHORT).show();
                 finish();
@@ -262,7 +251,7 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
             }
             LogUtil.e(String.format("PreviewSize w = %s h = %s", w, h));
             parameters.setPictureSize(pw, ph);
-            parameters.setPictureSize(w,h);
+            parameters.setPictureSize(w, h);
             mCamera.setParameters(parameters);
             mCamera.startPreview();
         } catch (Exception e) {
@@ -297,13 +286,13 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
     }
 
 
-
     /**
      * 按比例缩放图片
      * 作者：_SOLID
-     链接：http://www.jianshu.com/p/23caee6cad0f
-     來源：简书
-     著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     * 链接：http://www.jianshu.com/p/23caee6cad0f
+     * 來源：简书
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     *
      * @param origin 原图
      * @param ratio  比例
      * @return 新的bitmap
@@ -347,18 +336,7 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
         //实现自动对焦
         mCamera.autoFocus((success, camera) -> {
-            if (success){
-//                Camera.Parameters parameters = camera.getParameters();
-//                //parameters.setPictureSize(480, 300);//预览尺寸的长宽比，不能随便设置
-//                camera.setParameters(parameters);
-//                camera.startPreview();//开始预览
-                //initCameras();
-//                mParameters=mCamera.getParameters();
-//                mParameters.setPictureFormat(PixelFormat.JPEG);
-//                mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-//                mParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-//               // mParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-//                mCamera.setParameters(mParameters);
+            if (success) {
                 camera.cancelAutoFocus();//只有加上了这一句，才会自动对
 
             }
@@ -406,38 +384,6 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
                     takePicture();
                 }
                 break;
-//            case R.id.three_four_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_3_4);
-//                break;
-//            case R.id.four_three_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_4_3);
-//                break;
-//            case R.id.nine_sixteen_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_9_16);
-//                break;
-//            case R.id.sixteen_nine_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.RATIO_16_9);
-//                break;
-//            case R.id.fit_image_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.FIT_IMAGE);
-//                break;
-//            case R.id.circle_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.CIRCLE);
-//                break;
-//            case R.id.free_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.FREE);
-//                break;
-//            case R.id.square_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.SQUARE);
-//                break;
-//            case R.id.circle_square_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.CIRCLE_SQUARE);
-//                break;
-//            case R.id.custom_bt:
-//                previewSFV.setCropMode(FocusSurfaceView.CropMode.CUSTOM);
-//                break;
-//            default:
-//                break;
         }
     }
 

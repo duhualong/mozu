@@ -15,23 +15,23 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:text="月度综合排名"
+                  android:text="劳模榜"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"
         />
 
 
     </RelativeLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@id/swipe_refresh_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/padding_bottom"
         android:layout_marginTop="@dimen/padding_bottom">
         <android.support.v7.widget.RecyclerView
             android:id="@id/recycler_sort"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
 
 </LinearLayout>

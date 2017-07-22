@@ -1,9 +1,6 @@
 package org.eenie.wgj.ui.attendance.attendancesort;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -40,12 +37,11 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class AttendanceFightingSortMonthItemActivity extends BaseActivity  implements SwipeRefreshLayout.OnRefreshListener {
+public class AttendanceFightingSortMonthItemActivity extends BaseActivity  {
 
     public static final String DATE = "date";
     public static final String PROJECT_ID = "id";
-    @BindView(R.id.swipe_refresh_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @BindView(R.id.recycler_sort)
     RecyclerView mRecyclerView;
     private String date;
@@ -61,18 +57,12 @@ public class AttendanceFightingSortMonthItemActivity extends BaseActivity  imple
     protected void updateUI() {
         projectId = getIntent().getStringExtra(PROJECT_ID);
         date = getIntent().getStringExtra(DATE);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+
         mAdapter = new ProjectAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         mRecyclerView.setAdapter(mAdapter);
+        getData(projectId,date);
 
     }
 
@@ -104,7 +94,6 @@ public class AttendanceFightingSortMonthItemActivity extends BaseActivity  imple
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        cancelRefresh();
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
@@ -124,23 +113,7 @@ public class AttendanceFightingSortMonthItemActivity extends BaseActivity  imple
                 });
     }
 
-    private void cancelRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        onRefresh();
-    }
-
-    @Override
-    public void onRefresh() {
-        mAdapter.clear();
-        getData(projectId, date);
-    }
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
         private Context context;
@@ -150,7 +123,6 @@ public class AttendanceFightingSortMonthItemActivity extends BaseActivity  imple
             this.context = context;
             this.projectMonth = projectMonth;
         }
-
         @Override
         public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
@@ -166,7 +138,13 @@ public class AttendanceFightingSortMonthItemActivity extends BaseActivity  imple
                 if (data != null) {
 
                     int mPosition = projectMonth.size() - position;
-                    holder.itemNumber.setText(String.valueOf((mPosition)));
+                    if (mPosition<10){
+                        holder.itemNumber.setText("0"+String.valueOf((mPosition)));
+                    }else {
+                        holder.itemNumber.setText(String.valueOf((mPosition)));
+
+                    }
+
                     holder.itemName.setText(data.getName());
                     holder.itemPost.setText(data.getPermissions());
 
@@ -176,7 +154,6 @@ public class AttendanceFightingSortMonthItemActivity extends BaseActivity  imple
                         Glide.with(context).load(Constant.DOMIN + data.getId_card_head_image()).
                                 centerCrop().into(holder.imgAvatar);
                     }
-
 
 //设置显示内容
                 }

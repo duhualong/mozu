@@ -99,6 +99,7 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
     @BindView(R.id.rl_third_fighting_gold)RelativeLayout rlFightingThird;
     @BindView(R.id.tv_fighting_third_gold)TextView tvFightingThird;
     @BindView(R.id.img_avatar_fighting_third)CircleImageView avatarThirdFighting;
+    private String mDate;
 
     @Override
     protected int getContentView() {
@@ -111,10 +112,13 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
     protected void updateUI() {
         projectId = getIntent().getStringExtra(PROJECT_ID);
         date = new SimpleDateFormat("yyyy年MM月").format(Calendar.getInstance().getTime());
-        getData(projectId, date);
+        mDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+
+        getData(projectId, mDate);
         tvDateOne.setText(date);
         tvDateTwo.setText(date);
         tvDateThree.setText(date);
+
 
 
     }
@@ -154,7 +158,6 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
                                     rlFirstTeam.setVisibility(View.GONE);
                                     rlSecondTeam.setVisibility(View.GONE);
                                     rlThirdTeam.setVisibility(View.GONE);
-
                                 }
 
                                 if (data.getMonth_refuel()!=null&&!data.getMonth_refuel().isEmpty()){
@@ -384,20 +387,18 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.rl_sort_all:
                 startActivity(new Intent(context,AttendanceSortMonthActivity.class)
-                        .putExtra(AttendanceSortMonthActivity.DATE,date)
+                        .putExtra(AttendanceSortMonthActivity.DATE,mDate)
                         .putExtra(AttendanceSortMonthActivity.PROJECT_ID,projectId));
-
-
                 break;
             case R.id.rl_sort_team:
                 startActivity(new Intent(context,AttendanceSortTeamMonthItemActivity.class)
                         .putExtra(AttendanceSortTeamMonthItemActivity.PROJECT_ID,projectId)
-                        .putExtra(AttendanceSortTeamMonthItemActivity.DATE,date));
+                        .putExtra(AttendanceSortTeamMonthItemActivity.DATE,mDate));
                 break;
             case R.id.rl_fighting_team:
                 startActivity(new Intent(context,AttendanceFightingSortMonthItemActivity.class)
                         .putExtra(AttendanceFightingSortMonthItemActivity.PROJECT_ID,projectId)
-                        .putExtra(AttendanceFightingSortMonthItemActivity.DATE,date));
+                        .putExtra(AttendanceFightingSortMonthItemActivity.DATE,mDate));
                 break;
             case R.id.img_back:
                 onBackPressed();

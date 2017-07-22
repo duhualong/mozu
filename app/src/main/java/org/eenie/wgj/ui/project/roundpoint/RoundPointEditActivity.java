@@ -27,6 +27,7 @@ import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.UpdateRoundPoint;
 import org.eenie.wgj.model.response.RoundPoint;
+import org.eenie.wgj.ui.message.GalleryActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
@@ -93,8 +94,13 @@ public class RoundPointEditActivity extends BaseActivity {
     private File secondFile;
     private File thirdFile;
     List<File> files = new ArrayList<>();
-    List<String> imgPath = new ArrayList<>();
-    ArrayList<RoundPoint.ImageBean> mImageBeen = new ArrayList<>();
+
+    @BindView(R.id.img_delete_first)
+    ImageView imgFirstDelete;
+    @BindView(R.id.img_delete_second)
+    ImageView imgSecondDelete;
+    @BindView(R.id.img_delete_third)
+    ImageView imgThirdDelete;
 
     @Override
     protected int getContentView() {
@@ -116,35 +122,46 @@ public class RoundPointEditActivity extends BaseActivity {
             if (!TextUtils.isEmpty(mContent)) {
                 mInputContent.setText(mContent);
             }
-            if (lists.size() > 0) {
-                switch (lists.size()) {
-                    case 1:
-                        firstPath = lists.get(0).getImage();
+            if (lists!=null){
+                if (lists.size()==1){
+                    firstPath = lists.get(0).getImage();
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(0).getImage())
+                            .centerCrop().into(imgList.get(0));
+                    imgFirstDelete.setVisibility(View.VISIBLE);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(1).setBackgroundResource(R.color.white);
+                }else if (lists.size()==2){
+                    firstPath = lists.get(0).getImage();
+                    secondPath = lists.get(1).getImage();
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(0).getImage())
+                            .centerCrop().into(imgList.get(0));
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(1).getImage())
+                            .centerCrop().into(imgList.get(1));
+                    imgFirstDelete.setVisibility(View.VISIBLE);
+                    imgSecondDelete.setVisibility(View.VISIBLE);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(2).setBackgroundResource(R.color.white);
 
-                        break;
-                    case 2:
-                        firstPath = lists.get(0).getImage();
-                        secondPath = lists.get(1).getImage();
+                }else if (lists.size()>=3){
+                    firstPath = lists.get(0).getImage();
+                    secondPath = lists.get(1).getImage();
+                    thirdPath = lists.get(2).getImage();
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(0).getImage())
+                            .centerCrop().into(imgList.get(0));
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(1).getImage())
+                            .centerCrop().into(imgList.get(1));
+                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(2).getImage())
+                            .centerCrop().into(imgList.get(2));
+                    imgFirstDelete.setVisibility(View.VISIBLE);
+                    imgSecondDelete.setVisibility(View.VISIBLE);
+                    imgThirdDelete.setVisibility(View.VISIBLE);
 
-                        break;
-                    case 3:
-                        firstPath = lists.get(0).getImage();
-                        secondPath = lists.get(1).getImage();
-                        thirdPath = lists.get(2).getImage();
-                        break;
                 }
-                for (int i = 0; i < lists.size(); i++) {
-
-
-                    if (i <2) {
-                        imgList.get(i + 1).setVisibility(View.VISIBLE);
-                    }
-                    Glide.with(context).load(Constant.DOMIN + data.getImage().get(i).getImage())
-                            .centerCrop().into(imgList.get(i));
-
-                }
-
             }
+
+
 
 
         }
@@ -152,68 +169,124 @@ public class RoundPointEditActivity extends BaseActivity {
     }
 
 
-
-    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
+    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second,
+            R.id.img_third, R.id.img_delete_first,
+            R.id.img_delete_second, R.id.img_delete_third})
     public void onClick(View view) {
         mContent = mInputContent.getText().toString();
         mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
+            case R.id.img_delete_first:
+                if (!TextUtils.isEmpty(firstPath)) {
+                    firstFile = null;
+                    firstPath = "";
+                    imgFirstDelete.setVisibility(View.GONE);
+                    imgList.get(0).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(0).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(0).setBackgroundResource(R.color.white);
+                }
+
+
+                break;
+            case R.id.img_delete_second:
+                if (!TextUtils.isEmpty(secondPath)) {
+                    secondFile = null;
+                    secondPath = "";
+                    imgSecondDelete.setVisibility(View.GONE);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(1).setBackgroundResource(R.color.white);
+                }
+
+                break;
+
+            case R.id.img_delete_third:
+                if (!TextUtils.isEmpty(thirdPath)) {
+                    thirdFile = null;
+                    thirdPath = "";
+                    imgThirdDelete.setVisibility(View.GONE);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(2).setBackgroundResource(R.color.white);
+                }
+                break;
+
+
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.tv_save:
-                if (!TextUtils.isEmpty(mContent) && !TextUtils.isEmpty(mTitleName))
-
+                List<String> imgPath = new ArrayList<>();
+                ArrayList<RoundPoint.ImageBean> mImageBeen = new ArrayList<>();
+                if (!TextUtils.isEmpty(mContent) && !TextUtils.isEmpty(mTitleName)){
 
                     if (!TextUtils.isEmpty(firstPath)) {
-                        imgPath.add(0, firstPath);
+                        imgPath.add(firstPath);
                         RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(firstPath);
-                        mImageBeen.add(0, imageBean);
+                        mImageBeen.add(imageBean);
 
                     }
-                if (!TextUtils.isEmpty(secondPath)) {
-                    imgPath.add(1, secondPath);
-                    RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(secondPath);
-                    mImageBeen.add(1, imageBean);
-                }
-                if (!TextUtils.isEmpty(thirdPath)) {
-                    imgPath.add(2, thirdPath);
-                    RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(thirdPath);
-                    mImageBeen.add(2, imageBean);
-
-                }
-                new Thread() {
-                    public void run() {
-                        if (!TextUtils.isEmpty(mTitleName) && !TextUtils.isEmpty(mContent)) {
-
-                            UpdateRoundPoint roundPoint = new
-                                    UpdateRoundPoint(mProjectId, mTitleName, mContent, imgPath, mId);
-                            updateItem(roundPoint, mImageBeen);
-                        } else {
-                            Toast.makeText(context, "请补全内容", Toast.LENGTH_SHORT).show();
-                        }
-
+                    if (!TextUtils.isEmpty(secondPath)) {
+                        imgPath.add(secondPath);
+                        RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(secondPath);
+                        mImageBeen.add(imageBean);
+                    }
+                    if (!TextUtils.isEmpty(thirdPath)) {
+                        imgPath.add(thirdPath);
+                        RoundPoint.ImageBean imageBean = new RoundPoint.ImageBean(thirdPath);
+                        mImageBeen.add(imageBean);
 
                     }
-                }.start();
+                    if (imgPath.size()>0) {
+                        new Thread() {
+                            public void run() {
+                                UpdateRoundPoint roundPoint = new
+                                        UpdateRoundPoint(mProjectId, mTitleName, mContent, imgPath, mId);
+                                updateItem(roundPoint, mImageBeen);
+
+                            }
+                        }.start();
+                    }else {
+                        Toast.makeText(context,"请至少上传一张照片",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else {
+                    Toast.makeText(context, "请填写巡检点的名称或任务", Toast.LENGTH_SHORT).show();
+                }
+
 
 
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                if (TextUtils.isEmpty(firstPath)){
+                    showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                }else {
+                    startActivity(new Intent(context, GalleryActivity.class)
+                            .putExtra(GalleryActivity.EXTRA_IMAGE_URI, Constant.DOMIN+firstPath));
+                }
+
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
-
+                if (TextUtils.isEmpty(secondPath)) {
+                    showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                }else {
+                    startActivity(new Intent(context, GalleryActivity.class)
+                            .putExtra(GalleryActivity.EXTRA_IMAGE_URI, Constant.DOMIN+secondPath));
+                }
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
-
+                if (TextUtils.isEmpty(secondPath)) {
+                    showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                }else {
+                    startActivity(new Intent(context, GalleryActivity.class)
+                            .putExtra(GalleryActivity.EXTRA_IMAGE_URI, Constant.DOMIN+thirdPath));
+                }
                 break;
         }
     }
@@ -265,9 +338,9 @@ public class RoundPointEditActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        switch (requestCode){
+        switch (requestCode) {
             case RESPONSE_CODE_FIRST:
-                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                File cropFile = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -275,7 +348,7 @@ public class RoundPointEditActivity extends BaseActivity {
 
                 break;
             case RESPONSE_CODE_SECOND:
-                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                File cropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -284,7 +357,7 @@ public class RoundPointEditActivity extends BaseActivity {
                 break;
             case RESPONSE_CODE_THIRD:
 
-                File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+                File mCropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -314,8 +387,13 @@ public class RoundPointEditActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
-                                imgList.get(1).setVisibility(View.VISIBLE);
-                                imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                imgFirstDelete.setVisibility(View.VISIBLE);
+                                if (TextUtils.isEmpty(secondPath)){
+                                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                                    imgList.get(1).setBackgroundResource(R.color.white);
+                                }
+
 
 
                             });
@@ -339,8 +417,13 @@ public class RoundPointEditActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
-                                imgList.get(2).setVisibility(View.VISIBLE);
-                                imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                imgSecondDelete.setVisibility(View.VISIBLE);
+                                if (TextUtils.isEmpty(thirdPath)){
+                                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                                    imgList.get(2).setBackgroundResource(R.color.white);
+                                }
+
 
                             });
                     secondFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
@@ -365,7 +448,7 @@ public class RoundPointEditActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(2).setImageBitmap(bitmap);
-
+                                imgThirdDelete.setVisibility(View.VISIBLE);
 
                             });
                     thirdFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
@@ -397,7 +480,7 @@ public class RoundPointEditActivity extends BaseActivity {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                             RoundPoint roundPoint = new RoundPoint(updateRoundPoint.getId(),
                                     updateRoundPoint.getInspectionname(),
-                                    updateRoundPoint.getInspectioncontent(),imageBeanArrayList);
+                                    updateRoundPoint.getInspectioncontent(), imageBeanArrayList);
                             Intent mIntent = new Intent();
                             mIntent.putExtra("info", roundPoint);
                             // 设置结果，并进行传送
@@ -409,9 +492,9 @@ public class RoundPointEditActivity extends BaseActivity {
                                     subscribe(s -> finish()
                                     );
 
-                        }else {
-                            Toast.makeText(context,apiResponse.getResultMessage()
-                                    ,Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, apiResponse.getResultMessage()
+                                    , Toast.LENGTH_SHORT).show();
                         }
 
                     }

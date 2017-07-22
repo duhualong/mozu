@@ -21,6 +21,7 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.ExchangeWorkList;
+import org.eenie.wgj.ui.reportpost.GallerysActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
@@ -55,15 +56,15 @@ import static org.eenie.wgj.R.id.tv_camera_personal;
  */
 
 public class AddExchangeWorkActivity extends BaseActivity {
-    private static final int REQUEST_CAMERA_FIRST=11;
-    private static final int REQUEST_CAMERA_SECOND=12;
-    private static final int REQUEST_CAMERA_THIRD=13;
-    private static final int REQUEST_PHOTO_FIRST=14;
-    private static final int REQUEST_PHOTO_SECOND=15;
-    private static final int REQUEST_PHOTO_THIRD=16;
-    private static final int RESPONSE_CODE_FIRST=17;
-    private static final int RESPONSE_CODE_SECOND=18;
-    private static final int RESPONSE_CODE_THIRD=19;
+    private static final int REQUEST_CAMERA_FIRST = 11;
+    private static final int REQUEST_CAMERA_SECOND = 12;
+    private static final int REQUEST_CAMERA_THIRD = 13;
+    private static final int REQUEST_PHOTO_FIRST = 14;
+    private static final int REQUEST_PHOTO_SECOND = 15;
+    private static final int REQUEST_PHOTO_THIRD = 16;
+    private static final int RESPONSE_CODE_FIRST = 17;
+    private static final int RESPONSE_CODE_SECOND = 18;
+    private static final int RESPONSE_CODE_THIRD = 19;
     public static final String INFO = "info";
     public static final String PROJECT_ID = "id";
     @BindView(R.id.root_view)
@@ -75,9 +76,12 @@ public class AddExchangeWorkActivity extends BaseActivity {
     @BindView(R.id.et_input_exchange_work_content)
     EditText mInputContent;
 
-    @BindView(R.id.img_first)ImageView imgFist;
-    @BindView(R.id.img_second)ImageView imgSecond;
-    @BindView(R.id.img_third)ImageView imgThird;
+    @BindView(R.id.img_first)
+    ImageView imgFist;
+    @BindView(R.id.img_second)
+    ImageView imgSecond;
+    @BindView(R.id.img_third)
+    ImageView imgThird;
 
     private int mId;
     private String mProjectId;
@@ -93,6 +97,12 @@ public class AddExchangeWorkActivity extends BaseActivity {
     private File firstFile;
     private File secondFile;
     private File thirdFile;
+    @BindView(R.id.img_delete_first)
+    ImageView imgFirstDelete;
+    @BindView(R.id.img_delete_second)
+    ImageView imgSecondDelete;
+    @BindView(R.id.img_delete_third)
+    ImageView imgThirdDelete;
 
     @Override
     protected int getContentView() {
@@ -106,18 +116,56 @@ public class AddExchangeWorkActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third})
+    @OnClick({R.id.img_back, R.id.tv_save, R.id.img_first, R.id.img_second, R.id.img_third,
+            R.id.img_delete_first,R.id.img_delete_second, R.id.img_delete_third})
     public void onClick(View view) {
         mContent = mInputContent.getText().toString();
-        mTitleName=mInputTitle.getText().toString();
+        mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
+            case R.id.img_delete_first:
+                if (firstFile != null) {
+                    firstFile = null;
+                    firstPath = "";
+                    imgFirstDelete.setVisibility(View.GONE);
+                    imgFist.setScaleType(ImageView.ScaleType.CENTER);
+                    imgFist.setImageResource(R.mipmap.ic_carmer_first);
+                    imgFist.setBackgroundResource(R.color.white);
+                }
+
+
+                break;
+            case R.id.img_delete_second:
+                if (secondFile != null) {
+                    secondFile = null;
+                    secondPath = "";
+                    imgSecondDelete.setVisibility(View.GONE);
+                    imgSecond.setScaleType(ImageView.ScaleType.CENTER);
+                    imgSecond.setImageResource(R.mipmap.ic_carmer_first);
+                    imgSecond.setBackgroundResource(R.color.white);
+                }
+
+
+                break;
+
+            case R.id.img_delete_third:
+                if (thirdFile != null) {
+                    thirdFile = null;
+                    thirdPath = "";
+                    imgThirdDelete.setVisibility(View.GONE);
+                    imgThird.setScaleType(ImageView.ScaleType.CENTER);
+                    imgThird.setImageResource(R.mipmap.ic_carmer_first);
+                    imgThird.setBackgroundResource(R.color.white);
+                }
+
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.tv_save:
                 List<File> files = new ArrayList<>();
-                if (!TextUtils.isEmpty(mContent)&&!TextUtils.isEmpty(mTitleName)) {
+                if (!TextUtils.isEmpty(mContent) && !TextUtils.isEmpty(mTitleName)) {
 
 
                     if (firstFile != null) {
@@ -140,30 +188,48 @@ public class AddExchangeWorkActivity extends BaseActivity {
                     } else {
                         Toast.makeText(context, "请至少添加一张照片", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(context, "请输入交接班的名称或注意事项", Toast.LENGTH_SHORT).show();
                 }
 
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+                if (firstFile==null){
+                    showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
+                }
+
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+                if (secondFile==null){
+                    showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
+                }
+
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+                if (thirdFile==null){
+                    showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
+                }
+
 
                 break;
         }
     }
 
-    private void showUploadDialog(int camera,int photo) {
+    private void showUploadDialog(int camera, int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
@@ -173,7 +239,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
         dialog.getWindow().findViewById(tv_camera_personal).setOnClickListener(v -> {
             dialog.dismiss();
             showPhotoSelectDialog(camera);
-           // startCapturePhoto(camera);
+            // startCapturePhoto(camera);
 
 
         });
@@ -188,7 +254,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
     }
 
     private void showPhotoSelectDialog(int camera) {
-        switch (camera){
+        switch (camera) {
             case REQUEST_CAMERA_FIRST:
                 mFirstUri = createImageUri(context);
                 Intent intent = new Intent();
@@ -204,7 +270,6 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 intents.putExtra(MediaStore.EXTRA_OUTPUT, mSecondUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
                 startActivityForResult(intents, camera);
 
-
                 break;
 
             case REQUEST_CAMERA_THIRD:
@@ -216,9 +281,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 break;
 
 
-
         }
-
 
 
     }
@@ -240,16 +303,16 @@ public class AddExchangeWorkActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        switch (requestCode){
+        switch (requestCode) {
             case RESPONSE_CODE_FIRST:
-                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                File cropFile = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
                         .start(AddExchangeWorkActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_SECOND:
-                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                File cropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -257,7 +320,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
                 break;
             case RESPONSE_CODE_THIRD:
 
-                File mCropFiles = new File(context.getCacheDir(), "c.jpg");
+                File mCropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -266,9 +329,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
         }
 
 
-
     }
-
 
 
     /**
@@ -279,7 +340,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
         boolean isCanCapturePhoto = PhotoUtil.isCanCapturePhoto(context, photoFile);
         if (isCanCapturePhoto) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-           Uri mPhotoUri = Uri.fromFile(photoFile);
+            Uri mPhotoUri = Uri.fromFile(photoFile);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri);
             startActivityForResult(intent, requestCode);
         } else {
@@ -290,15 +351,21 @@ public class AddExchangeWorkActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK ) {
+        if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
                 case REQUEST_CAMERA_FIRST:
-                    startCropImage(mFirstUri, RESPONSE_CODE_FIRST);
+                    if (mFirstUri != null) {
+                        startCropImage(mFirstUri, RESPONSE_CODE_FIRST);
+                    }
+
 
                     break;
                 case REQUEST_PHOTO_FIRST:
-                    startCropImage(data.getData(), RESPONSE_CODE_FIRST);
+                    if (data.getData() != null) {
+                        startCropImage(data.getData(), RESPONSE_CODE_FIRST);
+
+                    }
                     break;
                 case RESPONSE_CODE_FIRST:
                     Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgFist))
@@ -307,19 +374,30 @@ public class AddExchangeWorkActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgFist.setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgFist.setImageBitmap(bitmap);
-                                imgSecond.setVisibility(View.VISIBLE);
+                                imgFirstDelete.setVisibility(View.VISIBLE);
+                                if (secondFile == null) {
+                                    imgSecond.setScaleType(ImageView.ScaleType.CENTER);
+                                    imgSecond.setBackgroundResource(R.color.white);
+                                    imgSecond.setImageResource(R.mipmap.ic_carmer_first);
+                                }
 
                             });
-                    firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    firstFile=new File(firstPath);
+                    firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    firstFile = new File(firstPath);
 
                     break;
                 case REQUEST_CAMERA_SECOND:
-                    startCropImage(mSecondUri, RESPONSE_CODE_SECOND);
+                    if (mSecondUri!=null){
+                        startCropImage(mSecondUri, RESPONSE_CODE_SECOND);
+                    }
+
                     break;
 
                 case REQUEST_PHOTO_SECOND:
-                    startCropImage(data.getData(), RESPONSE_CODE_SECOND);
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_SECOND);
+                    }
+
                     break;
 
                 case RESPONSE_CODE_SECOND:
@@ -330,38 +408,47 @@ public class AddExchangeWorkActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgSecond.setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgSecond.setImageBitmap(bitmap);
-                               imgThird.setVisibility(View.VISIBLE);
+                                imgSecondDelete.setVisibility(View.VISIBLE);
+                                if (thirdFile == null) {
+                                    imgThird.setScaleType(ImageView.ScaleType.CENTER);
+                                    imgThird.setBackgroundResource(R.color.white);
+                                    imgThird.setImageResource(R.mipmap.ic_carmer_first);
+
+                                }
 
                             });
 
-                    secondPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    secondFile=new File(secondPath);
+                    secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    secondFile = new File(secondPath);
 
 
                     break;
 
                 case REQUEST_CAMERA_THIRD:
-                    startCropImage(mThirdUri, RESPONSE_CODE_THIRD);
+                    if (mThirdUri!=null){
+                        startCropImage(mThirdUri, RESPONSE_CODE_THIRD);
+                    }
+
                     break;
 
                 case REQUEST_PHOTO_THIRD:
-                    startCropImage(data.getData(), RESPONSE_CODE_THIRD);
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_THIRD);
+                    }
+
                     break;
                 case RESPONSE_CODE_THIRD:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),imgThird))
+                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgThird))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(bitmap -> {
                                 imgThird.setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgThird.setImageBitmap(bitmap);
+                                imgThirdDelete.setVisibility(View.VISIBLE);
 
                             });
-                    thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    thirdFile=new File(thirdPath);
-
-
-
-//                    }
+                    thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+                    thirdFile = new File(thirdPath);
 
                     break;
             }
@@ -377,20 +464,19 @@ public class AddExchangeWorkActivity extends BaseActivity {
     }
 
 
-
-    private void addData(RequestBody body, String token){
+    private void addData(RequestBody body, String token) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FileUploadService userBiz = retrofit.create(FileUploadService.class);
 
-        Call<ApiResponse> call = userBiz.addExchangeWorkList(token,body);
+        Call<ApiResponse> call = userBiz.addExchangeWorkList(token, body);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                Log.d("tag:", "onResponse: "+response.code());
-                if (response.body().getResultCode()==200){
+                Log.d("tag:", "onResponse: " + response.code());
+                if (response.body().getResultCode() == 200) {
                     //会调数据
 
 //                ExchangeWorkListResponse list=new ExchangeWorkListResponse(mId,mContent,mTitleName,lists);
@@ -403,7 +489,7 @@ public class AddExchangeWorkActivity extends BaseActivity {
                     Single.just("").delay(1, TimeUnit.SECONDS).
                             compose(RxUtils.applySchedulers()).
                             subscribe(s ->
-                                  finish()
+                                    finish()
                             );
 
                 }
@@ -416,17 +502,18 @@ public class AddExchangeWorkActivity extends BaseActivity {
             }
         });
     }
-    public static MultipartBody getMultipartBody(List<File> files,String projectId,String title,
-                                                 String content){
-        MultipartBody.Builder builder=new MultipartBody.Builder();
-        for (int i=0;i<files.size();i++){
-            RequestBody requestBody=RequestBody.create(MediaType.parse("multipart/form-data"),files.get(i));
-            builder.addFormDataPart("image[]",files.get(i).getName(),requestBody);
+
+    public static MultipartBody getMultipartBody(List<File> files, String projectId, String title,
+                                                 String content) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        for (int i = 0; i < files.size(); i++) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), files.get(i));
+            builder.addFormDataPart("image[]", files.get(i).getName(), requestBody);
 
         }
-        builder.addFormDataPart("projectid",projectId);
-        builder.addFormDataPart("mattername",title);
-        builder.addFormDataPart("matter",content);
+        builder.addFormDataPart("projectid", projectId);
+        builder.addFormDataPart("mattername", title);
+        builder.addFormDataPart("matter", content);
         builder.setType(MultipartBody.FORM);
         return builder.build();
 

@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:visibility="visible"
+        android:layout_gravity="center"
         app:focus_crop_height="330dp"
         app:focus_crop_width="300dp"
         app:focus_frame_background="@mipmap/ic_take_photo_crop_bg"

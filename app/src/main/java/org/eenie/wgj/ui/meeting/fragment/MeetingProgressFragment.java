@@ -199,7 +199,6 @@ public class MeetingProgressFragment extends BaseSupportFragment {
                         startActivity(new Intent(context,MeetingProgressDetailActivity.class)
                                 .putExtra(MeetingProgressDetailActivity.APPLY_ID,
                                         String.valueOf(mStartMeeting.getId())));
-
                         break;
 
 

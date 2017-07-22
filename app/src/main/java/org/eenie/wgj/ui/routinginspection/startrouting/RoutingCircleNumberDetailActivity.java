@@ -427,8 +427,6 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
                                    .putExtra(RoutingPointUploadActivity.PROJECT_ID,projectId)
                                    .putExtra(RoutingPointUploadActivity.INSPECTIONDAY_ID,String.valueOf(routingId)));
 
-
-
                         break;
 
                 }

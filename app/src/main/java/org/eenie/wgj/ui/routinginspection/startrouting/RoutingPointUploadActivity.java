@@ -46,6 +46,7 @@ import org.eenie.wgj.model.response.PointNeedResponse;
 import org.eenie.wgj.model.response.UploadPointPatrol;
 import org.eenie.wgj.model.response.routing.RoutingContentResponse;
 import org.eenie.wgj.model.response.routing.StartRoutingResponse;
+import org.eenie.wgj.ui.reportpost.GallerysActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
@@ -72,8 +73,6 @@ import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static org.eenie.wgj.R.id.tv_camera_personal;
 
 /**
  * Created by Eenie on 2017/6/26 at 16:13
@@ -174,6 +173,23 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
     ArrayList<RoutingContentResponse> b = new ArrayList<>();
 
+    @BindView(R.id.img_delete_first)
+    ImageView imgDeleteFirst;
+    @BindView(R.id.img_delete_second)
+    ImageView imgDeleteSecond;
+    @BindView(R.id.img_delete_third)
+    ImageView imgDeleteThird;
+    @BindView(R.id.img_delete_one)
+    ImageView imgDeleteOne;
+    @BindView(R.id.img_delete_two)
+    ImageView imgDeleteTwo;
+    @BindView(R.id.img_delete_three)
+    ImageView imgDeleteThree;
+    private String firstPath;
+    private String secondPath;
+    private String thirdPath;
+
+
     @Override
     protected int getContentView() {
         return R.layout.activity_routing_point_upload;
@@ -233,7 +249,9 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
     @OnClick({R.id.img_back, R.id.tv_apply_ok, R.id.rl_select_notice, R.id.img_one, R.id.img_two,
             R.id.img_three, R.id.img_first, R.id.img_second, R.id.img_third,
-            R.id.checkbox_select_normal, R.id.checkbox_select_abnormal})
+            R.id.checkbox_select_normal, R.id.checkbox_select_abnormal, R.id.img_delete_one,
+            R.id.img_delete_two, R.id.img_delete_three,
+            R.id.img_delete_third, R.id.img_delete_first, R.id.img_delete_second})
     public void onClick(View view) {
         ArrayList<File> fileNortmal = new ArrayList<>();
         ArrayList<File> fileAbnormal = new ArrayList<>();
@@ -241,6 +259,42 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
         String abnormalContent = editAbnormalContent.getText().toString();
 
         switch (view.getId()) {
+            case R.id.img_delete_first:
+                if (mFirstFile != null) {
+                    mFirstFile = null;
+                    firstPath = "";
+                    imgDeleteFirst.setVisibility(View.GONE);
+                    imgFirst.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+                    imgFirst.setScaleType(ImageView.ScaleType.CENTER);
+                    imgFirst.setImageResource(R.mipmap.ic_carmer_first);
+                }
+
+
+                break;
+            case R.id.img_delete_second:
+                if (mSecondFile != null) {
+                    mSecondFile = null;
+                    secondPath = "";
+                    imgDeleteSecond.setVisibility(View.GONE);
+                    imgSecond.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+                    imgSecond.setScaleType(ImageView.ScaleType.CENTER);
+                    imgSecond.setImageResource(R.mipmap.ic_carmer_first);
+                }
+
+                break;
+
+            case R.id.img_delete_third:
+                if (mThirdFile != null) {
+                    mThirdFile = null;
+                    thirdPath = "";
+                    imgDeleteThird.setVisibility(View.GONE);
+                    imgThird.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+                    imgThird.setScaleType(ImageView.ScaleType.CENTER);
+                    imgThird.setImageResource(R.mipmap.ic_carmer_first);
+                }
+
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;
@@ -409,17 +463,36 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 showUploadDialog(REQUEST_CAMERA_THREE, REQUEST_PHOTO_THREE);
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                if (mFirstFile==null){
+                    showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
+
+                }
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                if (mSecondFile==null){
+                    showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
+
+                }
+
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                if (mThirdFile==null){
+                    showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
+
+                }
 
                 break;
 
@@ -442,9 +515,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.body().getCode() == 0) {
-
                     System.out.println("上传成功");
-
                 }
             }
 
@@ -701,9 +772,15 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                             .subscribe(bitmap -> {
                                 imgFirst.setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgFirst.setImageBitmap(bitmap);
-                                imgSecond.setVisibility(View.VISIBLE);
-
+                                imgDeleteFirst.setVisibility(View.VISIBLE);
+                                if (mSecondFile == null) {
+                                    imgSecond.setVisibility(View.VISIBLE);
+                                    imgSecond.setScaleType(ImageView.ScaleType.CENTER);
+                                    imgSecond.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+                                    imgSecond.setImageResource(R.mipmap.ic_upload_carmera);
+                                }
                             });
+                    firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     mFirstFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
 
 //                    firstPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -727,8 +804,16 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                 imgSecond.setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgSecond.setImageBitmap(bitmap);
                                 imgThird.setVisibility(View.VISIBLE);
+                                imgDeleteSecond.setVisibility(View.VISIBLE);
+                                if (mThirdFile == null) {
+                                    imgThird.setVisibility(View.VISIBLE);
+                                    imgThird.setScaleType(ImageView.ScaleType.CENTER);
+                                    imgThird.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+                                    imgThird.setImageResource(R.mipmap.ic_upload_carmera);
+                                }
 
                             });
+                    secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     mSecondFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
 
 //                    secondPath= ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -751,11 +836,13 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                             .subscribe(bitmap -> {
                                 imgThird.setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgThird.setImageBitmap(bitmap);
+                                imgDeleteThird.setVisibility(View.VISIBLE);
 
                             });
+                    thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     mThirdFile = new File(ImageUtils.getRealPath(context, UCrop.getOutput(data)));
 
-//                    thirdPath=ImageUtils.getRealPath(context, UCrop.getOutput(data));
+//
 //                    thirdFile=new File(thirdPath);
 
 
@@ -774,19 +861,21 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 .setView(view) //自定义的布局文件
                 .create();
         dialog.show();
-        dialog.getWindow().findViewById(tv_camera_personal).setOnClickListener(v -> {
+
+        dialog.getWindow().findViewById(R.id.tv_camera_personal).setOnClickListener(v -> {
             dialog.dismiss();
             showPhotoSelectDialog(camera);
             // startCapturePhoto(camera);
 
 
         });
+        dialog.getWindow().findViewById(R.id.tv_photo_personal).setVisibility(View.GONE);
 
-        dialog.getWindow().findViewById(R.id.tv_photo_personal).setOnClickListener(v -> {
-            dialog.dismiss();
-            startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"),
-                    photo);
-        });
+//        dialog.getWindow().findViewById(tv_photo_personal).setOnClickListener(v -> {
+//            dialog.dismiss();
+//            startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"),
+//                    photo);
+//        });
 
 
     }
@@ -865,7 +954,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
     private void startCropImage(Uri resUri, int requestCode) {
         switch (requestCode) {
             case RESPONSE_CODE_ONE:
-                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                File cropFile = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -873,14 +962,14 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 break;
             case RESPONSE_CODE_TWO:
 
-                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                File cropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
                         .start(RoutingPointUploadActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_THREE:
-                File mcropFiles = new File(context.getCacheDir(), "c.jpg");
+                File mcropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(mcropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -889,7 +978,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 break;
 
             case RESPONSE_CODE_FIRST:
-                File mCropFiles = new File(context.getCacheDir(), "d.jpg");
+                File mCropFiles = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFiles))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -898,7 +987,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
                 break;
             case RESPONSE_CODE_SECOND:
-                File mCropFile = new File(context.getCacheDir(), "e.jpg");
+                File mCropFile = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(mCropFile))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -907,7 +996,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
                 break;
             case RESPONSE_CODE_THIRD:
-                File CropFile = new File(context.getCacheDir(), "f.jpg");
+                File CropFile = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
                 UCrop.of(resUri, Uri.fromFile(CropFile))
                         .withAspectRatio(1, 1)
                         .withMaxResultSize(500, 500)
@@ -1059,7 +1148,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 super(itemView);
                 itemName = ButterKnife.findById(itemView, R.id.item_content_routing);
                 rlItem = ButterKnife.findById(itemView, R.id.checkbox_select_content);
-                mRelativeLayout=ButterKnife.findById(itemView,R.id.rl_select_item);
+                mRelativeLayout = ButterKnife.findById(itemView, R.id.rl_select_item);
                 mRelativeLayout.setOnClickListener(this);
 
 

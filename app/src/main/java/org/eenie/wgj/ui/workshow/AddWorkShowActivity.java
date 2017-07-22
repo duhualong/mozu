@@ -21,6 +21,7 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.AddWorkShow;
+import org.eenie.wgj.ui.reportpost.GallerysActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ImageUtils;
@@ -71,6 +72,9 @@ public class AddWorkShowActivity extends BaseActivity {
     EditText mInputTitle;
     @BindViews({R.id.img_first, R.id.img_second, R.id.img_third})
     List<ImageView> imgList;
+    @BindView(R.id.img_delete_first)ImageView imgFirstDelete;
+    @BindView(R.id.img_delete_second)ImageView imgSecondDelete;
+    @BindView(R.id.img_delete_third)ImageView imgThirdDelete;
     private String mTitleName;
 
     private Uri mImageUri;
@@ -80,7 +84,7 @@ public class AddWorkShowActivity extends BaseActivity {
     private File firstFile;
     private File secondFile;
     private File thirdFile;
-    List<File> files = new ArrayList<>();
+
 
     @Override
     protected int getContentView() {
@@ -93,15 +97,54 @@ public class AddWorkShowActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.tv_send, R.id.img_first, R.id.img_second, R.id.img_third})
+    @OnClick({R.id.img_back, R.id.tv_send, R.id.img_first, R.id.img_second, R.id.img_third,
+    R.id.img_delete_first,R.id.img_delete_second,R.id.img_delete_third})
     public void onClick(View view) {
         mTitleName = mInputTitle.getText().toString();
 
         switch (view.getId()) {
+            case R.id.img_delete_first:
+                if (firstFile!=null){
+                    firstFile=null;
+                    firstPath="";
+                    imgFirstDelete.setVisibility(View.GONE);
+                    imgList.get(0).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(0).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(0).setBackgroundResource(R.color.white);
+                }
+
+
+                break;
+            case R.id.img_delete_second:
+                if (secondFile!=null){
+                    secondFile=null;
+                    secondPath="";
+                    imgSecondDelete.setVisibility(View.GONE);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(1).setBackgroundResource(R.color.white);
+                }
+
+
+                break;
+
+            case R.id.img_delete_third:
+                if (thirdFile!=null){
+                    thirdFile=null;
+                    thirdPath="";
+                    imgThirdDelete.setVisibility(View.GONE);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                    imgList.get(2).setBackgroundResource(R.color.white);
+                }
+
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;
             case R.id.tv_send:
+                List<File> files = new ArrayList<>();
                 if (!TextUtils.isEmpty(mTitleName)) {
                     if (firstFile != null) {
                         files.add(firstFile);
@@ -112,7 +155,7 @@ public class AddWorkShowActivity extends BaseActivity {
                     if (thirdFile != null) {
                         files.add(thirdFile);
                     }
-                    if (files != null) {
+                    if (files.size()>0) {
                         new Thread() {
                             public void run() {
                                 addData(getMultipartBody(files, mTitleName),
@@ -131,21 +174,40 @@ public class AddWorkShowActivity extends BaseActivity {
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                if (firstFile==null){
+                    showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
+                }
+
 
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                if (secondFile==null){
+                    showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
+                }
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                if (thirdFile==null){
+                    showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
+                }
 
                 break;
         }
     }
+
 
     private void showUploadDialog(int camera, int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
@@ -196,21 +258,21 @@ public class AddWorkShowActivity extends BaseActivity {
     private void startCropImage(Uri resUri, int requestCode) {
         switch (requestCode) {
             case RESPONSE_CODE_FIRST:
-                File cropFile = new File(context.getCacheDir(), "a.jpg");
+                File cropFile = new File(context.getCacheDir(), System.currentTimeMillis()+".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFile))
                         .withAspectRatio(4,3)
                         .withMaxResultSize(maxWidth, 720)
                         .start(AddWorkShowActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_SECOND:
-                File cropFiles = new File(context.getCacheDir(), "b.jpg");
+                File cropFiles = new File(context.getCacheDir(), System.currentTimeMillis()+".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiles))
                         .withAspectRatio(4,3)
                         .withMaxResultSize(maxWidth, 720)
                         .start(AddWorkShowActivity.this, requestCode);
                 break;
             case RESPONSE_CODE_THIRD:
-                File cropFiless = new File(context.getCacheDir(), "c.jpg");
+                File cropFiless = new File(context.getCacheDir(), System.currentTimeMillis()+".jpg");
                 UCrop.of(resUri, Uri.fromFile(cropFiless))
                         .withAspectRatio(4,3)
                         .withMaxResultSize(maxWidth, 720)
@@ -227,11 +289,17 @@ public class AddWorkShowActivity extends BaseActivity {
 
             switch (requestCode) {
                 case REQUEST_CAMERA_FIRST:
-                    startCropImage(mImageUri, RESPONSE_CODE_FIRST);
+                    if (mImageUri!=null){
+                        startCropImage(mImageUri, RESPONSE_CODE_FIRST);
+
+                    }
 
                     break;
                 case REQUEST_PHOTO_FIRST:
-                    startCropImage(data.getData(), RESPONSE_CODE_FIRST);
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_FIRST);
+                    }
+
                     break;
                 case RESPONSE_CODE_FIRST:
                     Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgList.get(0)))
@@ -240,8 +308,14 @@ public class AddWorkShowActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
-                                imgList.get(1).setVisibility(View.VISIBLE);
-                                imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
+                                imgFirstDelete.setVisibility(View.VISIBLE);
+                                if (secondFile==null){
+                                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                                    imgList.get(1).setBackgroundResource(R.color.white);
+
+                                }
+
 
                             });
                     firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -249,11 +323,17 @@ public class AddWorkShowActivity extends BaseActivity {
 
                     break;
                 case REQUEST_CAMERA_SECOND:
-                    startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    if (mImageUri!=null){
+                        startCropImage(mImageUri, RESPONSE_CODE_SECOND);
+                    }
+
                     break;
 
                 case REQUEST_PHOTO_SECOND:
-                    startCropImage(data.getData(), RESPONSE_CODE_SECOND);
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_SECOND);
+                    }
+
                     break;
 
                 case RESPONSE_CODE_SECOND:
@@ -264,8 +344,15 @@ public class AddWorkShowActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
-                                imgList.get(2).setVisibility(View.VISIBLE);
-                                imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
+                                imgSecondDelete.setVisibility(View.VISIBLE);
+                                if (thirdFile==null){
+                                    imgList.get(2).setVisibility(View.VISIBLE);
+                                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                                    imgList.get(2).setBackgroundResource(R.color.white);
+
+                                }
+
                             });
                     secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     secondFile = new File(secondPath);
@@ -274,11 +361,17 @@ public class AddWorkShowActivity extends BaseActivity {
                     break;
 
                 case REQUEST_CAMERA_THIRD:
-                    startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+                    if (mImageUri!=null){
+                        startCropImage(mImageUri, RESPONSE_CODE_THIRD);
+                    }
+
                     break;
 
                 case REQUEST_PHOTO_THIRD:
-                    startCropImage(data.getData(), RESPONSE_CODE_THIRD);
+                    if (data.getData()!=null){
+                        startCropImage(data.getData(), RESPONSE_CODE_THIRD);
+                    }
+
                     break;
 
                 case RESPONSE_CODE_THIRD:
@@ -289,12 +382,11 @@ public class AddWorkShowActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(2).setImageBitmap(bitmap);
+                                imgThirdDelete.setVisibility(View.VISIBLE);
 
                             });
                     thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     thirdFile = new File(thirdPath);
-
-
                     break;
             }
         }
