@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,9 +26,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.cymaybe.foucsurfaceview.FocusSurfaceView;
-import com.facebook.stetho.common.LogUtil;
 
 import org.eenie.wgj.R;
+import org.eenie.wgj.ui.login.camera.AutoFocusManager;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 import static android.Manifest.permission.CAMERA;
 
@@ -43,18 +48,21 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
 
     private FocusSurfaceView previewSFV;
     private Button mTakeBT;
-
+    private AutoFocusManager autoFocusManager;
+   // private SensorControler mSensorControler;
 
     private Camera mCamera;
     private SurfaceHolder mHolder;
     private boolean focus = false;
     private Camera.AutoFocusCallback mAutoFocusCallback;
+    private Camera.Parameters mParameters = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_test_main);
         // initDefult();
+
         initView();
         initData();
         setListener();
@@ -116,7 +124,6 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
         mTakeBT = (Button) findViewById(R.id.take_bt);
 
 
-
     }
 
     private void setListener() {
@@ -126,21 +133,81 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        initCamera();
+        //initCamera();
+        initCameras();
+
         setCameraParames();
+               mCamera.autoFocus((success, camera) -> {
+            if (success) {
+              //  autoFocusManager = new AutoFocusManager(camera);
+                camera.cancelAutoFocus();// 2如果要实现连续的自动对焦，这一句必须加上
+
+            }
+        });
+
+
     }
+
+
+    /**
+     * 初始化相机
+     */
+    private void initCameras() {
+
+        if (checkPermission()) {
+            try {
+                mCamera = android.hardware.Camera.open(0);//1:采集指纹的摄像头. 0:拍照的摄像头.
+                mCamera.setPreviewDisplay(mHolder);
+               // mSensorControler = SensorControler.getInstance();
+                autoFocusManager = new AutoFocusManager(mCamera);
+                mCamera.cancelAutoFocus();
+
+                mParameters = mCamera.getParameters();
+                mParameters.setPictureFormat(PixelFormat.JPEG);
+                mCamera.setParameters(mParameters);
+
+
+                List<String> focusModes = mParameters.getSupportedFocusModes();
+
+                //设置对焦模式
+                if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO))
+                    mParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+
+                try {
+                    mCamera.setParameters(mParameters);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                Snackbar.make(mTakeBT, "camera open failed!", Snackbar.LENGTH_SHORT).show();
+                finish();
+                e.printStackTrace();
+            }
+        } else {
+            requestPermission();
+        }
+
+
+    }
+
 
     private void initCamera() {
         if (checkPermission()) {
             try {
                 mCamera = android.hardware.Camera.open(0);//1:采集指纹的摄像头. 0:拍照的摄像头.
                 mCamera.setPreviewDisplay(mHolder);
-
-//                Camera.Parameters parameters = mCamera.getParameters();
-//                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-//                mCamera.setParameters(parameters);
+              //  mSensorControler = SensorControler.getInstance();
+                Camera.Parameters parameters = mCamera.getParameters();
+//                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_FIXED);
+                mCamera.setParameters(parameters);
+                if (!focus) {
+                    mCamera.cancelAutoFocus();// 2如果要实现连续的自动对焦，这一句必须加上
+                    //autoFocusManager = new AutoFocusManager(mCamera);
+                }
 //                mCamera.startPreview();
-                mCamera.cancelAutoFocus();// 2如果要实现连续的自动对焦，这一句必须加上
+
+
 //
 
             } catch (Exception e) {
@@ -168,7 +235,7 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
             case 10000:
                 if (grantResults.length > 0) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        initCamera();
+                        initCameras();
                         setCameraParames();
                     }
                 }
@@ -208,31 +275,82 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+//    private void setCameraParames() {
+//        if (mCamera == null) {
+//            return;
+//        }
+//        try {
+//            Camera.Parameters parameters = mCamera.getParameters();
+//            int w = 0;
+//            int h = 0;
+//
+//            for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
+//                if (size.width > w) {
+//                    w = size.width;
+//                    h = size.height;
+//                }
+//            }
+//
+//            int pw = 0;
+//            int ph = 0;
+//            for (Camera.Size size : parameters.getSupportedPictureSizes()) {
+//                if (size.width > w) {
+//                    pw = size.width;
+//                    ph = size.height;
+//                }
+//            }
+//            int orientation = judgeScreenOrientation();
+//            if (Surface.ROTATION_0 == orientation) {
+//                mCamera.setDisplayOrientation(90);
+//                parameters.setRotation(270);
+//            } else if (Surface.ROTATION_90 == orientation) {
+//                mCamera.setDisplayOrientation(0);
+//                parameters.setRotation(0);
+//            } else if (Surface.ROTATION_180 == orientation) {
+//                mCamera.setDisplayOrientation(180);
+//                parameters.setRotation(180);
+//            } else if (Surface.ROTATION_270 == orientation) {
+//                mCamera.setDisplayOrientation(180);
+//                parameters.setRotation(180);
+//            }
+//            LogUtil.e(String.format("PreviewSize w = %s h = %s", w, h));
+////            parameters.setPictureSize(pw, ph);
+////            parameters.setPreviewSize(w, h);
+//
+//            parameters.setPictureSize(w, h);
+//            parameters.setPreviewSize(pw, ph);
+//            mCamera.setParameters(parameters);
+//            mCamera.startPreview();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
     private void setCameraParames() {
         if (mCamera == null) {
             return;
         }
         try {
+            int PreviewWidth = 0;
+            int PreviewHeight = 0;
+            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//获取窗口的管理器
+            Display display = wm.getDefaultDisplay();//获得窗口里面的屏幕
             Camera.Parameters parameters = mCamera.getParameters();
+            // 选择合适的预览尺寸
+            List<Camera.Size> sizeList = parameters.getSupportedPreviewSizes();
 
-            int w = 0;
-            int h = 0;
-
-
-            for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
-                if (size.width > w) {
-                    w = size.width;
-                    h = size.height;
-                }
-            }
-
-            int pw = 0;
-            int ph = 0;
-            for (Camera.Size size : parameters.getSupportedPictureSizes()) {
-                if (size.width > w) {
-                    pw = size.width;
-                    ph = size.height;
+            // 如果sizeList只有一个我们也没有必要做什么了，因为就他一个别无选择
+            if (sizeList.size() > 1) {
+                Iterator<Camera.Size> itor = sizeList.iterator();
+                while (itor.hasNext()) {
+                    Camera.Size cur = itor.next();
+                    if (cur.width >= PreviewWidth
+                            && cur.height >= PreviewHeight) {
+                        PreviewWidth = cur.width;
+                        PreviewHeight = cur.height;
+                        break;
+                    }
                 }
             }
             int orientation = judgeScreenOrientation();
@@ -249,15 +367,18 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
                 mCamera.setDisplayOrientation(180);
                 parameters.setRotation(180);
             }
-            LogUtil.e(String.format("PreviewSize w = %s h = %s", w, h));
-            parameters.setPictureSize(pw, ph);
-            parameters.setPictureSize(w, h);
-            mCamera.setParameters(parameters);
-            mCamera.startPreview();
-        } catch (Exception e) {
-            e.printStackTrace();
+            parameters.setPreviewSize(PreviewWidth, PreviewHeight); //获得摄像区域的大小
+            parameters.setPictureFormat(PixelFormat.JPEG);//设置照片输出的格式
+            parameters.setPictureSize(PreviewWidth, PreviewHeight);//设置拍出来的屏幕大小
+            //
+            mCamera.setParameters(parameters);//把上面的设置 赋给摄像头
+            mCamera.setPreviewDisplay(mHolder);//把摄像头获得画面显示在SurfaceView控件里面
+            mCamera.startPreview();//开始预览
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
         }
     }
+
     //用于根据手机方向获得相机预览画面旋转的角度
 
     private int getPreviewDegree() {
@@ -337,12 +458,14 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
         //实现自动对焦
         mCamera.autoFocus((success, camera) -> {
             if (success) {
+                // autoFocusManager = new AutoFocusManager(camera);
                 camera.cancelAutoFocus();//只有加上了这一句，才会自动对
 
             }
         });
 
     }
+
 
 //    //相机参数的初始化设置
 //    private void initCameras()
@@ -363,19 +486,24 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         releaseCamera();
+
     }
 
     private void releaseCamera() {
         if (mCamera != null) {
+            autoFocusManager.stop();
             mCamera.stopPreview();
             mCamera.release();
+            autoFocusManager = null;
             mCamera = null;
+
         }
     }
 
     @Override
     public void onClick(View view) {
         if (mCamera == null) return;
+      //  mSensorControler.lockFocus();
         mCamera.autoFocus(null);
         switch (view.getId()) {
             case R.id.take_bt:
@@ -399,8 +527,9 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
                 }, null, null, (data, camera1) -> {
 //                    Bitmap originBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     Bitmap cropBitmap = previewSFV.getPicture(data);
+
                     Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
-                            rotateBitmap(cropBitmap, 90), null, null));
+                            rotateBitmap(cropBitmap), null, null));
                     Intent intent = new Intent();
                     intent.putExtra("uri", uri.toString());
                     setResult(RESULT_OK, intent);
@@ -428,15 +557,20 @@ public class MyTestMain extends AppCompatActivity implements View.OnClickListene
         return newBM;
     }
 
-
-    private Bitmap rotateBitmap(Bitmap origin, float alpha) {
+    private Bitmap rotateBitmap(Bitmap origin) {
         if (origin == null) {
             return null;
         }
         int width = origin.getWidth();
         int height = origin.getHeight();
+
         Matrix matrix = new Matrix();
-        matrix.setRotate(alpha);
+        if (width < height) {
+
+           // matrix.setRotate(-90);
+            matrix.setRotate(getPreviewDegree());
+
+        }
         // 围绕原地进行旋转
         Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width
                 , height, matrix, false);

@@ -153,7 +153,6 @@ public class AttendanceSortTeamMonthItemActivity extends BaseActivity {
                                 break;
                             case 2:
                                 holder.imgSort.setImageResource(R.mipmap.ic_new_gold_three_icon);
-
                                 break;
                         }
                     } else {

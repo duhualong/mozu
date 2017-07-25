@@ -44,7 +44,7 @@ public class App extends MultiDexApplication {
 
     private ApplicationComponent mApplicationComponent;
     private static Stack<Activity> sActivityStack;
-    private static Application sApplicationContext;
+    public static Application sApplicationContext;
 
     private RealmConfiguration.Builder builder;
 

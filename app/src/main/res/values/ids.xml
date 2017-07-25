@@ -795,5 +795,11 @@
     <item name="rb_read" type="id"/>
     <item name="rb_unread" type="id"/>
     <item name="message_container" type="id"/>
+    <item name="outside_cause" type="id"/>
+    <item name="outside_cause_content" type="id"/>
+    <item name="sign_in" type="id"/>
+    <item name="sign_in_time" type="id"/>
+    <item name="tv_sign_back_time" type="id"/>
+    <item name="sign_back_time" type="id"/>
 
 </resources>

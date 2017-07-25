@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+    <TextView android:id="@id/title_dialog"
+              android:layout_width="match_parent"
+              android:layout_height="?android:actionBarSize"
+              android:background="@color/colorPrimary"
+              android:gravity="center"
+              android:text="考勤拍照"
+              android:textColor="@color/white"
+              android:textSize="@dimen/text_title_size"/>
+    <TextView
+        android:id="@id/tv_photo_personal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_dialog_camera"
+        android:drawablePadding="@dimen/personal_padding"
+        android:drawableStart="@mipmap/ic_dialog_camera"
+        android:gravity="start|center_vertical"
+        android:padding="@dimen/personal_margin"
+        android:text="自定义相机"
+        android:textSize="14sp"
+        android:textColor="@color/titleColor"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="#f0f0f0"/>
+
+    <TextView
+        android:id="@id/tv_camera_personal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_dialog_camera"
+        android:drawablePadding="@dimen/personal_padding"
+        android:drawableStart="@mipmap/ic_dialog_camera"
+        android:gravity="start|center_vertical"
+        android:padding="@dimen/personal_margin"
+        android:text="系统相机"
+        android:textSize="14sp"
+        android:textColor="@color/titleColor"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="#f0f0f0"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/personal_padding"
+        android:gravity="start|center_vertical"
+        android:padding="@dimen/personal_margin"
+        android:text="提示：如果自定义相机无法拍照，请选择系统相机进行拍照考勤"
+        android:textSize="12sp"
+        android:textColor="@color/black_light"/>
+</LinearLayout>

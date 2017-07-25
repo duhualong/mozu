@@ -341,33 +341,65 @@
                               android:background="@color/white_light"
                               android:orientation="horizontal"
                               android:padding="@dimen/padding_bottom">
-                    <ImageView android:id="@id/img_first"
-                               android:layout_width="80dp"
-                               android:layout_height="80dp"
-                               android:layout_marginLeft="@dimen/font_size_14sp"
-                               android:layout_marginStart="@dimen/font_size_14sp"
-                               android:background="@color/white"
-                               android:scaleType="center"
-                               android:src="@mipmap/ic_carmer_first"
-                               android:visibility="visible"/>
+                    <RelativeLayout android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:layout_marginLeft="@dimen/font_size_14sp"
+                                    android:layout_marginStart="@dimen/font_size_14sp">
+                        <ImageView android:id="@id/img_first"
+                                   android:layout_width="80dp"
+                                   android:layout_height="80dp"
+                                   android:background="@color/white"
+                                   android:scaleType="center"
+                                   android:src="@mipmap/ic_carmer_first"
+                                   android:visibility="visible"/>
+                        <ImageView android:layout_width="20dp"
+                                   android:layout_height="20dp"
+                                   android:id="@id/img_delete_first"
+                                   android:layout_alignParentEnd="true"
+                                   android:layout_alignParentRight="true"
+                                   android:visibility="gone"
+                        android:src="@mipmap/ic_delete_time"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:layout_marginLeft="@dimen/font_size_14sp"
+                                    android:layout_marginStart="@dimen/font_size_14sp">
                     <ImageView android:id="@id/img_second"
                                android:layout_width="80dp"
                                android:layout_height="80dp"
-                               android:layout_marginLeft="@dimen/font_size_14sp"
-                               android:layout_marginStart="@dimen/font_size_14sp"
-                               android:background="@color/white"
                                android:scaleType="center"
-                               android:src="@mipmap/ic_carmer_first"
                                android:visibility="invisible"/>
+                        <ImageView android:layout_width="20dp"
+                                   android:layout_height="20dp"
+                                   android:id="@id/img_delete_second"
+                                   android:layout_alignParentEnd="true"
+                                   android:layout_alignParentRight="true"
+                                   android:visibility="gone"
+                                   android:layout_marginLeft="@dimen/font_size_14sp"
+                                   android:layout_marginStart="@dimen/font_size_14sp"
+                                   android:src="@mipmap/ic_delete_time"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:layout_marginLeft="@dimen/font_size_14sp"
+                                    android:layout_marginStart="@dimen/font_size_14sp">
                     <ImageView android:id="@id/img_third"
                                android:layout_width="80dp"
                                android:layout_height="80dp"
-                               android:layout_marginLeft="@dimen/font_size_14sp"
-                               android:layout_marginStart="@dimen/font_size_14sp"
                                android:background="@color/white"
                                android:scaleType="center"
                                android:src="@mipmap/ic_carmer_first"
                                android:visibility="invisible"/>
+                        <ImageView android:layout_width="20dp"
+                                   android:layout_height="20dp"
+                                   android:id="@id/img_delete_third"
+                                   android:layout_alignParentEnd="true"
+                                   android:layout_alignParentRight="true"
+                                   android:visibility="gone"
+                                   android:src="@mipmap/ic_delete_time"/>
+                    </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

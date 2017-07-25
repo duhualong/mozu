@@ -86,6 +86,24 @@ public class AttendanceAbnormal {
         private int late;
         private String address;
         private String status;
+        private String description;
+        private String complete_time;
+
+        public String getComplete_time() {
+            return complete_time;
+        }
+
+        public void setComplete_time(String complete_time) {
+            this.complete_time = complete_time;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
 
         public int getService_id() {
             return service_id;
@@ -138,6 +156,24 @@ public class AttendanceAbnormal {
         private String status;
         private String address;
         private String image;
+        private String description;
+        private String complete_time;
+
+        public String getComplete_time() {
+            return complete_time;
+        }
+
+        public void setComplete_time(String complete_time) {
+            this.complete_time = complete_time;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
 
         public String getImage() {
             return image;

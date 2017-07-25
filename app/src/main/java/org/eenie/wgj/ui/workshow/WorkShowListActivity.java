@@ -42,7 +42,7 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class WorkShowListActivity extends BaseActivity  {
+public class WorkShowListActivity extends BaseActivity {
 
     @BindView(R.id.root_view)
     View rootView;
@@ -66,10 +66,10 @@ public class WorkShowListActivity extends BaseActivity  {
         DisplayMetrics outMetrics = new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(outMetrics);
         int width2 = outMetrics.widthPixels;
-       int height=( width2/25)*16;
+        int height = (width2 / 4) * 3;
 
 //
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,height);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
         imgBackground.setLayoutParams(params);
         myAdapter = new WorkShowAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -91,13 +91,11 @@ public class WorkShowListActivity extends BaseActivity  {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
         getWorkShowList();
     }
-
 
 
     private void getWorkShowList() {
@@ -128,7 +126,7 @@ public class WorkShowListActivity extends BaseActivity  {
                                 rlFirstImg.setVisibility(View.VISIBLE);
                                 if (mDataList.get(0).getExtra() != null && mDataList.get(0).getExtra().size() >= 1) {
                                     Glide.with(context).load(Constant.DOMIN + mDataList.get(0).getExtra().get(0).getImage())
-                                            .centerCrop().into(imgBackground);
+                                           .into(imgBackground);
                                 }
                                 if (myAdapter != null) {
                                     myAdapter.clear();
@@ -182,7 +180,10 @@ public class WorkShowListActivity extends BaseActivity  {
                                 centerCrop().into(holder.itemAvatar);
                     }
                     holder.itemSortNumber.setText("第" + data.getRank() + "名");
-                    if (data.getRank()==1){
+                    if (data.getRank() == 1) {
+                        holder.imgPraiseFirst.setVisibility(View.VISIBLE);
+                        holder.imgPraiseSecond.setVisibility(View.VISIBLE);
+                        holder.imgPraiseThird.setVisibility(View.VISIBLE);
                         Glide.with(context)
                                 .load(R.mipmap.ic_crown_normal)
                                 .into(holder.imgPraiseFirst);
@@ -194,22 +195,26 @@ public class WorkShowListActivity extends BaseActivity  {
                                 .into(holder.imgPraiseThird);
 
 
-                    }else if (data.getRank()==2){
+                    } else if (data.getRank() == 2) {
+                        holder.imgPraiseFirst.setVisibility(View.VISIBLE);
+                        holder.imgPraiseSecond.setVisibility(View.VISIBLE);
                         Glide.with(context)
                                 .load(R.mipmap.ic_crown_normal)
                                 .into(holder.imgPraiseFirst);
                         Glide.with(context)
                                 .load(R.mipmap.ic_crown_normal)
                                 .into(holder.imgPraiseSecond);
-                        holder.imgPraiseSecond.setVisibility(View.GONE);
-                    }else if (data.getRank()==3){
+                        holder.imgPraiseThird.setVisibility(View.GONE);
+
+                    } else if (data.getRank() == 3) {
+                        holder.imgPraiseFirst.setVisibility(View.VISIBLE);
                         Glide.with(context)
                                 .load(R.mipmap.ic_crown_normal)
                                 .into(holder.imgPraiseFirst);
                         holder.imgPraiseSecond.setVisibility(View.GONE);
                         holder.imgPraiseThird.setVisibility(View.GONE);
 
-                    }else if (data.getRank()>=4){
+                    } else if (data.getRank() >= 4) {
                         holder.imgPraiseFirst.setVisibility(View.GONE);
                         holder.imgPraiseSecond.setVisibility(View.GONE);
                         holder.imgPraiseThird.setVisibility(View.GONE);

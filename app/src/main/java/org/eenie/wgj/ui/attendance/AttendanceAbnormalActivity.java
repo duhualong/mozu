@@ -196,43 +196,128 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
 
 
                 if (data != null) {
-                    if (data.getService().getStarttime()!=null){
+                    if (data.getService().getStarttime() != null) {
                         holder.attendanceTimeScope.setText(data.getDate() + " " +
                                 data.getService().getStarttime() + "-" + data.getService().getEndtime());
-                    }else {
+                    } else {
                         holder.attendanceTimeScope.setText(data.getDate());
                     }
 
-                    if (data.getCheckin().getLate() == 0 && data.getSignback().getLate() == 0) {
+                    if (data.getStateDes().equals("旷工")) {
+                        holder.attendanceCheckInStatus.setVisibility(View.VISIBLE);
+                        holder.attendanceStartCause.setVisibility(View.VISIBLE);
+                        holder.attendanceCheckinAddress.setVisibility(View.VISIBLE);
+                        holder.attendanceStartAddress.setVisibility(View.VISIBLE);
+                        holder.attendanceCheckinAddress.setText("考勤地点");
+                        holder.attendanceCheckInStatus.setText("异常原因");
                         holder.attendanceStartCause.setText(data.getStateDes());
                         holder.attendanceStartAddress.setText("无");
+
                         holder.attendanceEndCause.setVisibility(View.GONE);
                         holder.attendanceEndCauseContent.setVisibility(View.GONE);
                         holder.attendanceEndAddress.setVisibility(View.GONE);
                         holder.attendanceEndAddressContent.setVisibility(View.GONE);
+                        holder.signBackTime.setVisibility(View.GONE);
+                        holder.tvSignBackTime.setVisibility(View.GONE);
+                        holder.tvSigninTime.setVisibility(View.GONE);
+                        holder.signInTime.setVisibility(View.GONE);
 
-                    } else if (data.getCheckin().getLate() == 2 && data.getSignback().getLate() == 2) {
-                        holder.attendanceStartCause.setText(data.getCheckin().getStatus());
-                        if (data.getCheckin().getAddress() != null) {
-                            holder.attendanceStartAddress.setText(data.getCheckin().getAddress());
+                    } else {
+                        if (data.getCheckin() != null) {
+//                            if (data.getCheckin().getStatus().equals("正常")){
+//                                holder.attendanceCheckInStatus.setVisibility(View.GONE);
+//                                holder.attendanceStartCause.setVisibility(View.GONE);
+//                                holder.attendanceCheckinAddress.setVisibility(View.GONE);
+//                                holder.attendanceStartAddress.setVisibility(View.GONE);
+//
+//                            }else {
+                            holder.attendanceCheckInStatus.setVisibility(View.VISIBLE);
+                            holder.attendanceStartCause.setVisibility(View.VISIBLE);
+                            holder.attendanceCheckinAddress.setVisibility(View.VISIBLE);
+                            holder.attendanceStartAddress.setVisibility(View.VISIBLE);
+                            holder.tvSigninTime.setVisibility(View.VISIBLE);
+                            holder.signInTime.setVisibility(View.VISIBLE);
+                            if (TextUtils.isEmpty(data.getCheckin().getComplete_time())){
+
+                                if (data.getCheckin().getStatus().equals("正常")){
+                                    holder.signInTime.setText("正常考勤");
+                                }else {
+                                    holder.signInTime.setText("无");
+                                }
+
+                            }else {
+                                holder.signInTime.setText(data.getCheckin().getComplete_time());
+
+                            }
+
+                            if (TextUtils.isEmpty(data.getCheckin().getDescription())){
+                                holder.attendanceStartCause.setText(data.getCheckin().getStatus());
+                            }else {
+                                holder.attendanceStartCause.setText(data.getCheckin().getStatus()+"(外出)");
+
+                            }
+                            if (!TextUtils.isEmpty(data.getCheckin().getAddress())) {
+                                holder.attendanceStartAddress.setText(data.getCheckin().getAddress());
+                            }
+//                            }
                         } else {
-                            holder.attendanceStartAddress.setText("无");
+                            holder.attendanceCheckInStatus.setVisibility(View.GONE);
+                            holder.attendanceStartCause.setVisibility(View.GONE);
+                            holder.attendanceCheckinAddress.setVisibility(View.GONE);
+                            holder.attendanceStartAddress.setVisibility(View.GONE);
+                            holder.tvSigninTime.setVisibility(View.GONE);
+                            holder.signInTime.setVisibility(View.GONE);
 
                         }
 
-                        holder.attendanceEndCause.setVisibility(View.VISIBLE);
-                        holder.attendanceEndCauseContent.setVisibility(View.VISIBLE);
-                        holder.attendanceEndCauseContent.setText(data.getSignback().getStatus());
-                        holder.attendanceEndAddress.setVisibility(View.VISIBLE);
-                        holder.attendanceEndAddressContent.setVisibility(View.VISIBLE);
-                        if (data.getSignback().getAddress() != null) {
-                            holder.attendanceEndAddressContent.setText(data.getSignback().getAddress());
-                        } else {
-                            holder.attendanceEndAddressContent.setText("无");
+                        if (data.getSignback() != null) {
+//                            if (!data.getSignback().getStatus().equals("正常")){
+//                                holder.attendanceEndCause.setVisibility(View.GONE);
+//                                holder.attendanceEndCauseContent.setVisibility(View.GONE);
+//                                holder.attendanceEndAddress.setVisibility(View.GONE);
+//                                holder.attendanceEndAddressContent.setVisibility(View.GONE);
+//                            }else {
+                            holder.attendanceEndCause.setVisibility(View.VISIBLE);
+                            holder.attendanceEndCauseContent.setVisibility(View.VISIBLE);
+                            holder.attendanceEndAddress.setVisibility(View.VISIBLE);
+                            holder.attendanceEndAddressContent.setVisibility(View.VISIBLE);
+                            if (TextUtils.isEmpty(data.getSignback().getDescription())){
+                                holder.attendanceEndCauseContent.setText(data.getSignback().getStatus());
+                            }else {
+                                holder.attendanceEndCauseContent.setText(data.getCheckin().getStatus()+"(外出)");
 
+                            }
+
+                            holder.tvSignBackTime.setVisibility(View.VISIBLE);
+                            holder.signBackTime.setVisibility(View.VISIBLE);
+                            if (TextUtils.isEmpty(data.getSignback().getComplete_time())){
+                                if (data.getSignback().getStatus().equals("正常")){
+                                    holder.signBackTime.setText("正常考勤");
+                                }else {
+                                    holder.signBackTime.setText("无");
+                                }
+
+                            }else {
+                                holder.signBackTime.setText(data.getSignback().getComplete_time());
+
+                            }
+
+
+                            if (!TextUtils.isEmpty(data.getSignback().getAddress())) {
+                                holder.attendanceEndAddressContent.setText(data.getSignback().getAddress());
+                            }
+                            // }
+
+                        } else {
+                            holder.attendanceEndCause.setVisibility(View.GONE);
+                            holder.attendanceEndCauseContent.setVisibility(View.GONE);
+                            holder.attendanceEndAddress.setVisibility(View.GONE);
+                            holder.attendanceEndAddressContent.setVisibility(View.GONE);
                         }
+
 
                     }
+
 
                 }
 
@@ -263,20 +348,41 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
             private TextView attendanceEndCauseContent;
             private TextView attendanceEndAddress;
             private TextView attendanceEndAddressContent;
+            private TextView attendanceCheckInStatus;
+            private TextView attendanceCheckinAddress;
+
+            private TextView tvSigninTime;
+            private TextView signInTime;
+            private TextView tvSignBackTime;
+            private TextView signBackTime;
 
 
             public ProjectViewHolder(View itemView) {
 
                 super(itemView);
+                attendanceCheckInStatus = ButterKnife.findById(itemView, R.id.abnormal_cause);
                 attendanceTimeScope = ButterKnife.findById(itemView, R.id.attendance_time_scope);
+
                 attendanceStartCause = ButterKnife.findById(itemView, R.id.abnormal_cause_content);
+
+                attendanceCheckinAddress = ButterKnife.findById(itemView, R.id.attendance_start_address);
+
                 attendanceStartAddress = ButterKnife.findById(itemView, R.id.attendance_address);
+
                 attendanceEndCause = ButterKnife.findById(itemView, R.id.attendance_end_cause);
                 attendanceEndCauseContent = ButterKnife.findById(itemView,
                         R.id.attendance_end_cause_content);
                 attendanceEndAddress = ButterKnife.findById(itemView, R.id.attendance_end_address);
                 attendanceEndAddressContent = ButterKnife.findById(itemView,
                         R.id.attendance_end_address_content);
+                tvSigninTime=ButterKnife.findById(itemView,
+                        R.id.sign_in);
+                signInTime=ButterKnife.findById(itemView,
+                        R.id.sign_in_time);
+                tvSignBackTime=ButterKnife.findById(itemView,
+                        R.id.tv_sign_back_time);
+                signBackTime=ButterKnife.findById(itemView,
+                        R.id.sign_back_time);
 
             }
 

@@ -1,23 +1,18 @@
-package org.eenie.wgj.ui.attendance.sign;
+package org.eenie.wgj.ui.attendance.takephoto;
 
 import android.Manifest;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +33,6 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
@@ -46,9 +40,10 @@ import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.AttendanceAddressInfo;
 import org.eenie.wgj.model.response.AttendanceListResponse;
+import org.eenie.wgj.ui.attendance.sign.AttendanceResDialog;
+import org.eenie.wgj.ui.attendance.sign.AttendanceTokePhotoActivity;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
-import org.eenie.wgj.util.ImageUtils;
 import org.eenie.wgj.util.PermissionManager;
 
 import java.io.File;
@@ -67,22 +62,17 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static org.eenie.wgj.ui.attendance.TakePhotoActivity.REQUEST_CODE_NEED_EXTRA;
-import static org.eenie.wgj.ui.attendance.TakePhotoActivity.RESULT_CODE;
-
 /**
- * Created by Eenie on 2017/6/16 at 15:19
+ * Created by Eenie on 2017/7/24 at 15:40
  * Email: 472279981@qq.com
  * Des:
  */
 
-public class AttendanceTestSignInActivity extends BaseActivity implements LocationSource,
+public class NewAttendancenSignInActivity extends BaseActivity implements LocationSource,
         AMapLocationListener,
         AMap.OnMarkerClickListener {
     public static final String INFO = "info";
     private static final int REQUEST_LOCATION_CODE = 0x101;
-    private static final int TAKE_PHOTO_REQUEST =0x103 ;
-    private static final int RESPONSE_CODE_POSITIVE =0x104 ;
     @BindView(R.id.tv_location)
     TextView tvMyLocation;
     @BindView(R.id.map_view)
@@ -117,7 +107,7 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
     private String mLat;
     private int serviceId;
 
-    Uri imageUri;
+
     //地图的UI
     UiSettings mMapUiSetting;
 
@@ -152,7 +142,9 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
                     Toast.makeText(context, "请选择班次", Toast.LENGTH_LONG).show();
                 } else {
                     if (!TextUtils.isEmpty(address)) {
-                        showSelectCamera();
+
+                        startActivityForResult(new Intent(context, AttendanceTokePhotoActivity.class),
+                                REQUEST_CODE);
 
                     } else {
                         Toast.makeText(context, "请打开定位权限，允许定位", Toast.LENGTH_SHORT).show();
@@ -171,49 +163,6 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         }
     }
 
-    private void showSelectCamera() {
-            View view = View.inflate(context, R.layout.dialog_camera_take, null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            final AlertDialog dialog = builder
-                    .setView(view) //自定义的布局文件
-                    .create();
-            dialog.show();
-            dialog.getWindow().findViewById(R.id.tv_camera_personal).setOnClickListener(v -> {
-                dialog.dismiss();
-                showPhotoSelectDialog();
-            });
-            dialog.getWindow().findViewById(R.id.tv_photo_personal).setOnClickListener(v -> {
-                dialog.dismiss();
-                startActivityForResult(new Intent(context, AttendanceTokePhotoActivity.class),
-                        REQUEST_CODE);
-
-            });
-
-
-
-
-    }
-
-    private void showPhotoSelectDialog() {
-        imageUri = createImageUri(context);
-        Intent intent = new Intent();
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
-        startActivityForResult(intent, TAKE_PHOTO_REQUEST);
-    }
-
-    private static Uri createImageUri(Context context) {
-        String name = "takePhoto" + System.currentTimeMillis();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Images.Media.TITLE, name);
-        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, name + ".jpg");
-        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-        Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-        return uri;
-    }
-
-
-
     private void showSelRankPop() {
         menu.show();
     }
@@ -222,59 +171,22 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
-            path = data.getStringExtra("path");
-
-            if (type == 2) {
-                startActivityForResult(new Intent(context, SignExtraMsgActivity.class),
-                        REQUEST_CODE_NEED_EXTRA);
-            } else {
-                // signIn(path);
-                signIn(getMultipartBody(path, mLong, mLat, type, serviceId, address, ""));
-            }
-        }
-        if (requestCode == REQUEST_CODE_NEED_EXTRA && resultCode == RESULT_CODE) {
-            extraMsg = data.getStringExtra("extra_msg");
-            signIn(getMultipartBody(path, mLong, mLat, type, serviceId, address, extraMsg));
-
-        }
-        if (requestCode==TAKE_PHOTO_REQUEST&&resultCode == RESULT_OK){
-            if (imageUri!=null){
-                startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
-            }
-        }
-        if (requestCode==RESPONSE_CODE_POSITIVE){
-
-             Uri resultUri = UCrop.getOutput(data);
-            if (resultUri!=null)
-             path = ImageUtils.getRealPath(context, resultUri);
-            if (type == 2) {
-                startActivityForResult(new Intent(context, SignExtraMsgActivity.class),
-                        REQUEST_CODE_NEED_EXTRA);
-            } else {
-                // signIn(path);
-                signIn(getMultipartBody(path, mLong, mLat, type, serviceId, address, ""));
-            }
-
-        }
+//        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
+//            path = data.getStringExtra("path");
+//
+//            if (type == 2) {
+//                startActivityForResult(new Intent(context, SignExtraMsgActivity.class),
+//                        REQUEST_CODE_NEED_EXTRA);
+//            } else {
+//                // signIn(path);
+//                signIn(getMultipartBody(path, mLong, mLat, type, serviceId, address, ""));
+//            }
+//        } else if (requestCode == REQUEST_CODE_NEED_EXTRA && resultCode == RESULT_CODE) {
+//            extraMsg = data.getStringExtra("extra_msg");
+//            signIn(getMultipartBody(path, mLong, mLat, type, serviceId, address, extraMsg));
+//
+//        }
     }
-
-
-    /**
-     * 裁剪图片
-     *
-     * @param resUri      图片uri
-     * @param requestCode 请求码
-     */
-    private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), System.currentTimeMillis()+"jpg");
-        UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(500, 500)
-                .start(AttendanceTestSignInActivity.this, requestCode);
-    }
-
-
 
     public MultipartBody getMultipartBody(String path, String mLong, String mLat, int type, int serviceId,
                                           String address, String content) {
@@ -410,8 +322,6 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
     }
 
     private void startLocation() {
-
-
         // 初始化定位Client
         mLocationClient = new AMapLocationClient(context);
         mLocationClient.setLocationListener(this);
@@ -611,7 +521,6 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
             mLocationClient.onDestroy(); // 销毁定位客户端
         }
     }
-
 
     // 请求权限后的回调
     @Override

@@ -57,7 +57,7 @@ public class PictureFragment extends DialogFragment {
 //            mOriginPicBitmap = data.getParcelable(ORIGIN_PICTURE);
             mCropPicBitmap = data.getParcelable(CROP_PICTURE);
             mCropPicBitmap = drawTextToBitmap(getActivity(), mCropPicBitmap,
-                    "摩助 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()));
+                    "摩助\n " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis()));
         }
     }
 
@@ -96,7 +96,9 @@ public class PictureFragment extends DialogFragment {
             // 计算宽高缩放率
             double x = Math.max(targetwidth / bitmap.getWidth(), targetwidth
                     / bitmap.getHeight());
-            // 缩放图片动作
+
+
+                // 缩放图片动作
             matrix.postScale((float) x, (float) x);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                     bitmap.getHeight(), matrix, true);

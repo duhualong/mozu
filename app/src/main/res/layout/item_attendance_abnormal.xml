@@ -4,8 +4,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:layout_marginBottom="@dimen/padding_bottom"
-                android:paddingBottom="@dimen/padding_bottom"
-                android:orientation="vertical">
+                android:paddingBottom="@dimen/padding_bottom">
     <TextView android:id="@id/attendance_time"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -13,7 +12,7 @@
               android:layout_marginLeft="@dimen/padding_bottom"
               android:layout_marginStart="@dimen/padding_bottom"
               android:layout_marginTop="@dimen/padding_bottom"
-              android:text="异常时间"
+              android:text="考勤时间"
               android:textColor="@color/black_light"
               android:textSize="@dimen/text_large_size"/>
     <TextView android:id="@id/attendance_time_scope"
@@ -32,49 +31,82 @@
           android:layout_height="1dp"
           android:layout_below="@id/attendance_time"
           android:background="@color/white_light"/>
+
+
+
     <TextView android:id="@id/abnormal_cause"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_below="@+id/view"
-              android:layout_marginLeft="@dimen/padding_bottom"
-              android:layout_marginStart="@dimen/padding_bottom"
-              android:layout_marginTop="@dimen/padding_short"
-              android:text="异常原因"
+              android:text="签到状态"
               android:textColor="@color/black_light"
-              android:textSize="@dimen/text_large_size"/>
+              android:textSize="@dimen/text_large_size"
+              android:layout_marginTop="6dp"
+              android:layout_below="@+id/view"
+              android:layout_alignLeft="@+id/attendance_start_address"
+              android:layout_alignStart="@+id/attendance_start_address"/>
+
+
+
+
     <TextView android:id="@id/abnormal_cause_content"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_below="@+id/view"
               android:layout_marginLeft="@dimen/padding_bottom"
               android:layout_marginStart="@dimen/padding_bottom"
-              android:layout_marginTop="@dimen/padding_short"
+              android:layout_marginTop="6dp"
               android:layout_toEndOf="@id/abnormal_cause"
               android:layout_toRightOf="@id/abnormal_cause"
-              android:text="异常原因"
+              android:text="无"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+
+    <TextView android:id="@id/sign_in"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="签到时间"
+              android:layout_below="@id/abnormal_cause"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"
+              android:layout_marginTop="6dp"
+              android:layout_alignLeft="@+id/attendance_start_address"
+              android:layout_alignStart="@+id/attendance_start_address"/>
+
+    <TextView android:id="@id/sign_in_time"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:layout_toEndOf="@id/sign_in"
+              android:layout_toRightOf="@id/sign_in"
+              android:layout_marginTop="6dp"
+              android:text="无"
+              android:layout_below="@id/abnormal_cause"
               android:textColor="@color/titleColor"
               android:textSize="@dimen/text_large_size"/>
 
     <TextView android:id="@id/attendance_start_address"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_below="@id/abnormal_cause_content"
+              android:layout_below="@id/sign_in"
               android:layout_marginLeft="@dimen/padding_bottom"
               android:layout_marginStart="@dimen/padding_bottom"
               android:layout_marginTop="@dimen/padding_short"
-              android:text="考勤地点"
+              android:text="签到地点"
               android:textColor="@color/black_light"
               android:textSize="@dimen/text_large_size"/>
     <TextView android:id="@id/attendance_address"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_below="@id/abnormal_cause_content"
+              android:layout_below="@id/sign_in"
               android:layout_marginLeft="@dimen/padding_bottom"
               android:layout_marginStart="@dimen/padding_bottom"
               android:layout_marginTop="@dimen/padding_short"
               android:layout_toEndOf="@id/abnormal_cause"
               android:layout_toRightOf="@id/abnormal_cause"
-              android:text="异常原因"
+              android:text="无"
+              android:lines="1"
+              android:ellipsize="end"
               android:textColor="@color/titleColor"
               android:textSize="@dimen/text_large_size"/>
     <TextView android:id="@id/attendance_end_cause"
@@ -84,7 +116,7 @@
               android:layout_marginLeft="@dimen/padding_bottom"
               android:layout_marginStart="@dimen/padding_bottom"
               android:layout_marginTop="@dimen/padding_short"
-              android:text="异常原因"
+              android:text="签退状态"
               android:textColor="@color/black_light"
               android:textSize="@dimen/text_large_size"/>
     <TextView
@@ -97,31 +129,54 @@
         android:layout_marginTop="@dimen/padding_short"
         android:layout_toEndOf="@id/attendance_end_cause"
         android:layout_toRightOf="@id/attendance_end_cause"
-        android:text="异常"
+        android:text="无"
+        android:textColor="@color/titleColor"
+        android:textSize="@dimen/text_large_size"/>
+    <TextView android:id="@id/tv_sign_back_time"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/attendance_end_cause"
+              android:layout_marginLeft="@dimen/padding_bottom"
+              android:layout_marginStart="@dimen/padding_bottom"
+              android:layout_marginTop="@dimen/padding_short"
+              android:text="签退时间"
+              android:textColor="@color/black_light"
+              android:textSize="@dimen/text_large_size"/>
+    <TextView
+        android:id="@id/sign_back_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attendance_end_cause"
+        android:layout_marginLeft="@dimen/padding_bottom"
+        android:layout_marginStart="@dimen/padding_bottom"
+        android:layout_marginTop="@dimen/padding_short"
+        android:layout_toEndOf="@id/attendance_end_cause"
+        android:layout_toRightOf="@id/attendance_end_cause"
+        android:text="无"
         android:textColor="@color/titleColor"
         android:textSize="@dimen/text_large_size"/>
     <TextView android:id="@id/attendance_end_address"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_below="@id/attendance_end_cause_content"
+              android:layout_below="@id/tv_sign_back_time"
               android:layout_marginLeft="@dimen/padding_bottom"
               android:layout_marginStart="@dimen/padding_bottom"
               android:layout_marginTop="@dimen/padding_short"
-              android:text="异常原因"
+              android:text="签退地点"
               android:textColor="@color/black_light"
               android:textSize="@dimen/text_large_size"/>
     <TextView
         android:id="@id/attendance_end_address_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/attendance_end_cause_content"
+        android:layout_below="@id/tv_sign_back_time"
         android:layout_marginBottom="@dimen/padding_short"
         android:layout_marginLeft="@dimen/padding_bottom"
         android:layout_marginStart="@dimen/padding_bottom"
         android:layout_marginTop="@dimen/padding_short"
         android:layout_toEndOf="@id/attendance_end_address"
         android:layout_toRightOf="@id/attendance_end_address"
-        android:text="异常"
+        android:text="无"
         android:textColor="@color/titleColor"
         android:textSize="@dimen/text_large_size"/>
 </RelativeLayout>

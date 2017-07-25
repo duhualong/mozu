@@ -3,9 +3,11 @@ package org.eenie.wgj;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -35,6 +39,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
+    private boolean isExit;
     private static final int NAVIGATOR_COUNT = 5;
     private static final String TAG = "MainActivity";
     int[] navigatorMipmapNormal = {R.mipmap.ic_home_bottom_tab_main,
@@ -114,7 +119,6 @@ public class MainActivity extends BaseActivity {
                                 mPrefsHelper.getPrefs().edit().putString(Constants.PROJECT_NAME,
                                         "").apply();
                             }
-
 
 
                         }
@@ -221,9 +225,7 @@ public class MainActivity extends BaseActivity {
                 (MainActivity.this, R.color.colorAccent));
 
 
-
     }
-
 
 
     private void setCurrentPager(int index) {
@@ -286,6 +288,30 @@ public class MainActivity extends BaseActivity {
         setCurrentPager(pageIndex);
         setCurrentNavigator(pageIndex);
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            exitByDoubleClick();
+        }
+        return false;
+    }
 
+    private void exitByDoubleClick() {
+        Timer tExit=null;
+        if(!isExit){
+            isExit=true;
+            Toast.makeText(MainActivity.this,"再按一次退出物管家",Toast.LENGTH_SHORT).show();
+            tExit=new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit=false;//取消退出
+                }
+            },2000);// 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+        }else{
+            finish();
+            System.exit(0);
+        }
+    }
 
 }

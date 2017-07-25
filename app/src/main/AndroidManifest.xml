@@ -2,6 +2,42 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.eenie.wgj">
+
+
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!-- 4.2以上的手机需要的权限 -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <!-- 访问INTERNET的权限 -->
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
+    </uses-permission>
+    <!-- 手机信息 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    </uses-permission>
+    <!-- ************************************* -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <!-- 在SD卡中创建文件与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 传感器 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 摄像头权限 -->
+    <uses-permission android:name="android.permission.CAMERA" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-permission android:name="com.meilapp.meila.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
@@ -418,7 +454,7 @@
                   android:windowSoftInputMode="adjustResize"/>
 
         <activity android:name=".ui.login.SurfaceViewActivity"/>
-        <activity android:name=".ui.mytest.MyTestMain"/>
+        <activity android:name=".ui.mytest.MyTestMain"/>/>
         <activity android:name=".ui.attendance.sign.AttendanceTestSignInActivity"/>
         <activity android:name=".ui.project.projectpersonal.ProjectPersonalSetting"
                   android:screenOrientation="portrait"
@@ -688,6 +724,7 @@
         <activity android:name=".ui.train.TrainingNewPagerSettingActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".MainTestPictureOneActivity"/>
 
         <!--<activity android:name=".ui.meeting.MeetingClassApplyPartActivity"-->
         <!--android:screenOrientation="portrait"-->

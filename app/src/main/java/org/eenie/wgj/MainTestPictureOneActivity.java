@@ -1,12 +1,12 @@
 package org.eenie.wgj;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,25 +17,31 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -44,7 +50,7 @@ import java.util.Date;
  * Des:
  */
 
-public class MainTestPictureActivity extends Activity {
+public class MainTestPictureOneActivity extends Activity {
     private static final int CAMERA_CODE = 3022;
     private static final int SD_CODE = 3020;
     private ArrayList<Shapes> shapes = new ArrayList<>();
@@ -56,29 +62,44 @@ public class MainTestPictureActivity extends Activity {
     private Bitmap srcPic;//原图
     private int color = Color.RED;//画笔颜色
     private int width = 10;//画笔大小
-    private int circle;//形状
+    private int circle = -1;//形状
     /* 用来标识请求照相功能的activity */
     private static final int CAMERA_WITH_DATA = 3023;
 
-    /* 用来标识请求gallery的activity */
-    private static final int PHOTO_PICKED_WITH_DATA = 3021;
 
     private String photoPath, camera_path, tempPhotoPath;
+    private File mCurrentPhotoFile;
     //图片保存路径
     public static final String filePath = Environment.getExternalStorageDirectory() + "/PictureTest/";
     private int screenWidth;
-    private File mCurrentPhotoFile;
     private LinearLayout ll;
-    String uri;
+    private ImageView imgJiantou;
+    private ImageView imgCircle;
+    private ImageView imgRectangle;
+    private ImageView imgReRevoke;
+    Uri mImageUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_picture_edit);
+        setContentView(R.layout.activity_photo_edit);
         ll = (LinearLayout) findViewById(R.id.ll);
         iv = (ImageView) findViewById(R.id.iv);
-       // uri=getIntent().getStringExtra("uri");
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        // 屏幕宽度（像素）
+        screenWidth = metric.widthPixels;
+        imgJiantou = (ImageView) findViewById(R.id.img_jiantou);
+        imgCircle = (ImageView) findViewById(R.id.img_circle);
+        imgRectangle = (ImageView) findViewById(R.id.img_rectangle);
+        imgReRevoke = (ImageView) findViewById(R.id.img_revoke);
+
+
+        getPictureFromCamera();
+
     }
+
 
     /**
      * 画画
@@ -97,10 +118,12 @@ public class MainTestPictureActivity extends Activity {
         iv.setImageBitmap(copyPic);
         //触摸事件
         iv.setOnTouchListener(new View.OnTouchListener() {
+
             private float endY;
             private float endX;
             private float startX;
             private float startY;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
@@ -110,6 +133,7 @@ public class MainTestPictureActivity extends Activity {
                         startY = event.getY();
                         drawGuiji();
                         break;
+
                     case MotionEvent.ACTION_MOVE:// 移动的事件类型
                         // 得到结束位置的坐标点
                         endX = event.getX();
@@ -157,6 +181,9 @@ public class MainTestPictureActivity extends Activity {
                 paint.setStyle(Paint.Style.STROKE);//设置边框
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//api21之后的方法
                     canvas.drawOval(sp.startX, sp.startY, sp.endX, sp.endY, paint);//椭圆
+                } else {
+                    RectF oval2 = new RectF(210, 100, 250, 130);
+                    canvas.drawOval(oval2, paint);
                 }
             } else if (sp.circle == 2) {
                 paint.setStyle(Paint.Style.FILL);//设置边框
@@ -183,49 +210,6 @@ public class MainTestPictureActivity extends Activity {
         canvas.drawBitmap(srcPic, matrix, paint);
     }
 
-    /**
-     * 红色按钮
-     *
-     * @param view
-     */
-    public void red(View view) {
-
-        color = Color.RED;
-    }
-
-    /**
-     * 绿色按钮
-     *
-     * @param view
-     */
-    public void green(View view) {
-        color = Color.GREEN;
-
-    }
-
-    /**
-     * 蓝色按钮
-     *
-     * @param view
-     */
-    public void blue(View view) {
-        color = Color.BLUE;
-    }
-
-    public void small(View view) {
-        //改变刷子的宽度
-        width = 1;
-    }
-
-    public void zhong(View view) {
-        //改变刷子的宽度
-        width = 5;
-    }
-
-    public void big(View view) {
-        //改变刷子的宽度
-        width = 10;
-    }
 
     /**
      * 圆形
@@ -233,6 +217,10 @@ public class MainTestPictureActivity extends Activity {
      * @param view
      */
     public void circle(View view) {
+        imgCircle.setImageResource(R.mipmap.ic_circle_edit_photo);
+        imgReRevoke.setImageResource(R.mipmap.ic_white_revoke);
+        imgRectangle.setImageResource(R.mipmap.ic_white_rectangle);
+        imgJiantou.setImageResource(R.mipmap.ic_white_jiantou);
         circle = 0;
     }
 
@@ -242,57 +230,29 @@ public class MainTestPictureActivity extends Activity {
      * @param view
      */
     public void fang(View view) {
+        imgRectangle.setImageResource(R.mipmap.ic_rectangle_edit_photo);
+        imgCircle.setImageResource(R.mipmap.ic_white_circle);
+        imgReRevoke.setImageResource(R.mipmap.ic_white_revoke);
+        imgJiantou.setImageResource(R.mipmap.ic_white_jiantou);
         circle = 1;
     }
 
     /**
-     * 矩形
+     * 箭头
      *
      * @param view
      */
     public void arrow(View view) {
+        imgJiantou.setImageResource(R.mipmap.ic_jiantou_edit_photo);
+        imgRectangle.setImageResource(R.mipmap.ic_white_rectangle);
+        imgCircle.setImageResource(R.mipmap.ic_white_circle);
+        imgReRevoke.setImageResource(R.mipmap.ic_white_revoke);
         circle = 2;
     }
 
-    /**
-     * 相册
-     *
-     * @param view
-     */
-    public void pics(View view) {
-        //申请照相机权限
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE},
-                        SD_CODE);
-            } else {
-                getPictureFromPhoto();
-            }
-        } else {
-            getPictureFromPhoto();
-        }
-    }
 
-    /**
-     * 拍照
-     *
-     * @param view
-     */
-    public void photo(View view) {
-        //申请照相机权限
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA},
-                        CAMERA_CODE);
-            } else {
-                getPictureFromCamera();
-            }
-        } else {
-            getPictureFromCamera();
-        }
+    public void back(View view) {
+        onBackPressed();
     }
 
     /**
@@ -303,19 +263,15 @@ public class MainTestPictureActivity extends Activity {
     public void one(View view) {
         int size = shapes.size();
         if (size > 0) {
+            imgReRevoke.setImageResource(R.mipmap.ic_revoke_edit_photo);
+            imgJiantou.setImageResource(R.mipmap.ic_white_jiantou);
+            imgRectangle.setImageResource(R.mipmap.ic_white_rectangle);
+            imgCircle.setImageResource(R.mipmap.ic_white_circle);
+
             shapes.remove(size - 1);
             drawGuiji();
+            circle = -1;
         }
-    }
-
-    /**
-     * 全部撤销
-     *
-     * @param view
-     */
-    public void all(View view) {
-        shapes.clear();
-        drawGuiji();
     }
 
     /**
@@ -324,7 +280,77 @@ public class MainTestPictureActivity extends Activity {
      * @param view
      */
     public void save(View view) {
-        saveBitmap(copyPic, getNewFileName());
+        if (copyPic != null) {
+            Bitmap copyPics = ImageCompressL(copyPic);
+            setResult(4,
+                    getIntent().putExtra("path", savePic(copyPics)));
+
+            finish();
+        }
+
+    }
+
+//    public Bitmap compressImage(Bitmap image) {
+//
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+//        int options = 100;
+//        while (baos.toByteArray().length / 1024 > 300) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+//            baos.reset();//重置baos即清空baos
+//            //第一个参数 ：图片格式 ，第二个参数： 图片质量，100为最高，0为最差  ，第三个参数：保存压缩后的数据的流
+//            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+//            options -= 10;//每次都减少10
+//        }
+//        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+//        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+//        bitmap = drawTextToBitmap(this, bitmap, "摩助\n " +
+//                new SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis()));
+//        return bitmap;
+//    }
+
+
+    private Bitmap ImageCompressL(Bitmap bitmap) {
+        double targetwidth = Math.sqrt(500 * 500);
+
+        if (bitmap.getWidth() > targetwidth || bitmap.getHeight() > targetwidth) {
+            // 创建操作图片用的matrix对象
+            Matrix matrix = new Matrix();
+            // 计算宽高缩放率
+            double x = Math.max(targetwidth / bitmap.getWidth(), targetwidth
+                    / bitmap.getHeight());
+
+
+            // 缩放图片动作
+            matrix.postScale((float) x, (float) x);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), matrix, true);
+            bitmap = drawTextToBitmap(this, bitmap, "摩助 " + "\n" +
+                    new SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis()));
+        }
+        return bitmap;
+    }
+
+    public String savePic(Bitmap bm) {
+
+
+        String path = getExternalCacheDir().getAbsolutePath() + "/edit_" +
+                System.currentTimeMillis() + "_photo.jpeg";
+        File f = new File(path);
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+            Log.i(TAG, "已经保存");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return path;
     }
 
     /**
@@ -374,12 +400,6 @@ public class MainTestPictureActivity extends Activity {
         canvas.drawPath(triangle, paint);
     }
 
-    /* 从相册中获取照片 */
-    private void getPictureFromPhoto() {
-        Intent openphotoIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(openphotoIntent, PHOTO_PICKED_WITH_DATA);
-    }
 
     /* 从相机中获取照片 */
     private void getPictureFromCamera() {
@@ -387,7 +407,6 @@ public class MainTestPictureActivity extends Activity {
 
         tempPhotoPath = filePath + getNewFileName()
                 + ".png";
-
         mCurrentPhotoFile = new File(tempPhotoPath);
 
         if (!mCurrentPhotoFile.exists()) {
@@ -400,7 +419,25 @@ public class MainTestPictureActivity extends Activity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT,
                 Uri.fromFile(mCurrentPhotoFile));
         startActivityForResult(intent, CAMERA_WITH_DATA);
+
+
+//        mImageUri = createImageUri(this);
+//        Intent intent = new Intent();
+//        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
+//        startActivityForResult(intent, CAMERA_WITH_DATA);
     }
+
+    private static Uri createImageUri(Context context) {
+        String name = "takePhoto" + System.currentTimeMillis();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE, name);
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, name + ".jpg");
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+        Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        return uri;
+    }
+
 
     /**
      * 根据时间戳生成文件名
@@ -455,6 +492,7 @@ public class MainTestPictureActivity extends Activity {
         opt.inPurgeable = true;
         opt.inInputShareable = true;
         Bitmap bitmap = BitmapFactory.decodeFile(filePath, opt);
+
         int layoutHeight = contentView.getHeight();
         float scale = 0f;
         int bitmapHeight = bitmap.getHeight();
@@ -467,12 +505,14 @@ public class MainTestPictureActivity extends Activity {
             int bitmapheight = bitmap.getHeight();
             int bitmapwidth = bitmap.getWidth();
             Matrix matrix = new Matrix();
+
             matrix.postScale(scale, scale); // 长和宽放大缩小的比例
             resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmapwidth,
                     bitmapheight, matrix, true);
         } else {
             resizeBmp = bitmap;
         }
+
         return resizeBmp;
     }
 
@@ -486,40 +526,126 @@ public class MainTestPictureActivity extends Activity {
             case CAMERA_WITH_DATA://拍照
                 photoPath = tempPhotoPath;
                 break;
-            case PHOTO_PICKED_WITH_DATA://相册
-                Uri selectedImage = data.getData();
-                photoPath = getImageAbsolutePath(MainTestPictureActivity.this, selectedImage);
-                break;
+
         }
         shapes.clear();//轨迹清空
+        int angle = getBitmapDegree(photoPath);
         Bitmap bitmap = compressionFiller(photoPath, ll);//图片缩放
-        camera_path = saveBitmap(bitmap, "saveTemp");
+        camera_path = saveBitmap(rotaingImageView(angle, bitmap), "saveTemp");
+
+//        if (bitmap.getWidth() > bitmap.getHeight()) {
+//            camera_path = saveBitmap(rotaingImageView(angle,bitmap), "saveTemp");
+//        } else {
+//            camera_path = saveBitmap(bitmap, "saveTemp");
+//
+//        }
         drawPic();
+
+//
+//        if (resultCode != RESULT_OK) {
+//            return;
+//        }
+//        switch (requestCode) {
+//            case CAMERA_WITH_DATA://拍照
+//                photoPath = ImageUtils.getRealPath(this, mImageUri);
+//                break;
+//        }
+//        shapes.clear();//轨迹清空
+//        Bitmap bitmap = compressionFiller(photoPath, ll);//图片缩放
+//        if (bitmap.getWidth() > bitmap.getHeight()) {
+//            camera_path = saveBitmap(rotateBitmap(bitmap), "saveTemp");
+//        } else {
+//            camera_path = saveBitmap(rotateBitmap(bitmap), "saveTemp");
+//
+//        }
+//        drawPic();
+
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 调用相机
-                getPictureFromCamera();
-            } else {
-                // 没有权限
-                Toast.makeText(MainTestPictureActivity.this, "没有权限", Toast.LENGTH_SHORT).show();
+    //    private Bitmap rotateBitmap(Bitmap origin) {
+//        if (origin == null) {
+//            return null;
+//        }
+//        int width = origin.getWidth();
+//        int height = origin.getHeight();
+//
+//        Matrix matrix = new Matrix();
+//        if (width > height) {
+//            matrix.setRotate(-90);
+//
+//        }
+//        // 围绕原地进行旋转
+//        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width
+//                , height, matrix, false);
+//        if (newBM.equals(origin)) {
+//            return newBM;
+//        }
+//        origin.recycle();
+//        return newBM;
+//    }
+    private int getBitmapDegree(String path) {
+        int degree = 0;
+        try {
+            // 从指定路径下读取图片，并获取其EXIF信息
+            ExifInterface exifInterface = new ExifInterface(path);
+            // 获取图片的旋转信息
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        if (requestCode == SD_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                // 调用相册
-                getPictureFromPhoto();
-            } else {
-                // 没有权限
-                Toast.makeText(MainTestPictureActivity.this, "没有权限", Toast.LENGTH_SHORT).show();
-            }
-        }
+        return degree;
     }
+
+    public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
+        //旋转图片 动作
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        // 创建新的图片
+        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return resizedBitmap;
+    }
+
+    public Bitmap drawTextToBitmap(Context context, Bitmap bitmap, String gText) {
+        Resources resources = context.getResources();
+        float scale = resources.getDisplayMetrics().density;
+//        bitmap = scaleWithWH(bitmap, 300 * scale, 300 * scale);
+        android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+        // set default bitmap config if none
+        if (bitmapConfig == null) {
+            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+        }
+        // resource bitmaps are imutable,
+        // so we need to convert it to mutable one
+        bitmap = bitmap.copy(bitmapConfig, true);
+        Canvas canvas = new Canvas(bitmap);
+        // new antialised Paint
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // text color - #3D3D3D
+        paint.setColor(Color.RED);
+        paint.setTextSize((int) (12 * scale));
+        paint.setDither(true); //获取跟清晰的图像采样
+        paint.setFilterBitmap(true);//过滤一些
+        Rect bounds = new Rect();
+        paint.getTextBounds(gText, 0, gText.length(), bounds);
+        int x = 30;
+        int y = 30;
+        canvas.drawText(gText, x * scale, y * scale, paint);
+        return bitmap;
+    }
+
 
     /**
      * 根据Uri获取图片绝对路径，解决Android4.4以上版本Uri转换
@@ -532,7 +658,7 @@ public class MainTestPictureActivity extends Activity {
     public String getImageAbsolutePath(Context context, Uri imageUri) {
         if (context == null || imageUri == null)
             return null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, imageUri)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, imageUri)) {
             if (isExternalStorageDocument(imageUri)) {
                 String docId = DocumentsContract.getDocumentId(imageUri);
                 String[] split = docId.split(":");

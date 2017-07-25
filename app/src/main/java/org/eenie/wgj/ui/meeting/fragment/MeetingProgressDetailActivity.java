@@ -24,6 +24,7 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.meeting.MeetingEndDetail;
+import org.eenie.wgj.ui.reportpost.GallerysActivity;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
@@ -102,6 +103,9 @@ public class MeetingProgressDetailActivity extends BaseActivity {
     private File firstFile;
     private File secondFile;
     private File thirdFile;
+    @BindView(R.id.img_delete_first)ImageView imgDeleteFirst;
+    @BindView(R.id.img_delete_second)ImageView imgDeleteSecond;
+    @BindView(R.id.img_delete_third)ImageView imgDeleteThird;
 
     @Override
     protected int getContentView() {
@@ -286,9 +290,41 @@ public class MeetingProgressDetailActivity extends BaseActivity {
     }
 
     @OnClick({R.id.rl_sign_scan, R.id.img_back, R.id.img_first, R.id.img_second, R.id.img_third,
-    R.id.tv_apply_ok})
+    R.id.tv_apply_ok,R.id.img_delete_first,R.id.img_delete_second,R.id.img_delete_third})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.img_delete_first:
+                if (firstFile!=null){
+                    firstFile=null;
+                    firstPath="";
+                    imgDeleteFirst.setVisibility(View.GONE);
+                    imgList.get(0).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(0).setBackgroundResource(R.color.white);
+                    imgList.get(0).setImageResource(R.mipmap.ic_carmer_first);
+                }
+
+
+                break;
+            case R.id.img_delete_second:
+                if (secondFile!=null){
+                    secondFile=null;
+                    secondPath="";
+                    imgDeleteSecond.setVisibility(View.GONE);
+                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(1).setBackgroundResource(R.color.white);
+                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                }
+                break;
+            case R.id.img_delete_third:
+                if (thirdFile!=null){
+                    thirdFile=null;
+                    thirdPath="";
+                    imgDeleteThird.setVisibility(View.GONE);
+                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                    imgList.get(2).setBackgroundResource(R.color.white);
+                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                }
+                break;
 
             case R.id.img_back:
                 onBackPressed();
@@ -296,7 +332,6 @@ public class MeetingProgressDetailActivity extends BaseActivity {
             case R.id.tv_apply_ok:
                 if (!TextUtils.isEmpty(editMeetingRecord.getText().toString())){
                     List<File> files = new ArrayList<>();
-
 
                     if (firstFile != null) {
                         files.add(firstFile);
@@ -312,8 +347,6 @@ public class MeetingProgressDetailActivity extends BaseActivity {
                             public void run() {
                                 addData(getMultipartBody(files,editMeetingRecord.getText().toString()),
                                         mPrefsHelper.getPrefs().getString(Constants.TOKEN,"")) ;
-
-
 
                             }
                         }.start();
@@ -333,16 +366,33 @@ public class MeetingProgressDetailActivity extends BaseActivity {
 
                 break;
             case R.id.img_first:
-                showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                if (firstFile==null){
+                    showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
+                }
+
 
                 break;
             case R.id.img_second:
-                showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                if (secondFile==null){
+                    showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
+                }
 
 
                 break;
             case R.id.img_third:
-                showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                if (thirdFile==null){
+                    showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
+                }else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
+                }
+
 
                 break;
 
@@ -416,8 +466,14 @@ public class MeetingProgressDetailActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(0).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(0).setImageBitmap(bitmap);
-                                imgList.get(1).setVisibility(View.VISIBLE);
-                                imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                imgDeleteFirst.setVisibility(View.VISIBLE);
+                                if (secondFile==null){
+                                    imgList.get(1).setVisibility(View.VISIBLE);
+                                    imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(1).setBackgroundResource(R.color.white);
+                                    imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                                }
+
 
                             });
                     firstPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
@@ -427,11 +483,9 @@ public class MeetingProgressDetailActivity extends BaseActivity {
                 case REQUEST_CAMERA_SECOND:
                     startCropImage(mImageUri, RESPONSE_CODE_SECOND);
                     break;
-
                 case REQUEST_PHOTO_SECOND:
                     startCropImage(data.getData(), RESPONSE_CODE_SECOND);
                     break;
-
                 case RESPONSE_CODE_SECOND:
                     Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),
                             imgList.get(1)))
@@ -440,23 +494,23 @@ public class MeetingProgressDetailActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(1).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(1).setImageBitmap(bitmap);
-                                imgList.get(2).setVisibility(View.VISIBLE);
-                                imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                imgDeleteSecond.setVisibility(View.VISIBLE);
+                                if (thirdFile==null){
+                                    imgList.get(2).setVisibility(View.VISIBLE);
+                                    imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                                    imgList.get(2).setBackgroundResource(R.color.white);
+                                    imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                                }
                             });
                     secondPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     secondFile = new File(secondPath);
-
-
                     break;
-
                 case REQUEST_CAMERA_THIRD:
                     startCropImage(mImageUri, RESPONSE_CODE_THIRD);
                     break;
-
                 case REQUEST_PHOTO_THIRD:
                     startCropImage(data.getData(), RESPONSE_CODE_THIRD);
                     break;
-
                 case RESPONSE_CODE_THIRD:
                     Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data),
                             imgList.get(2)))
@@ -465,7 +519,7 @@ public class MeetingProgressDetailActivity extends BaseActivity {
                             .subscribe(bitmap -> {
                                 imgList.get(2).setScaleType(ImageView.ScaleType.FIT_XY);
                                 imgList.get(2).setImageBitmap(bitmap);
-
+                                imgDeleteThird.setVisibility(View.VISIBLE);
                             });
                     thirdPath = ImageUtils.getRealPath(context, UCrop.getOutput(data));
                     thirdFile = new File(thirdPath);

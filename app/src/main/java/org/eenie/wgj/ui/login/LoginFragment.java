@@ -136,7 +136,7 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.btn_register:
 
-//
+////
                 fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
                         .replace(R.id.fragment_login_container, new RegisterFirstFragment())
@@ -146,7 +146,7 @@ public class LoginFragment extends BaseFragment {
 //                        .addToBackStack(TAG)
 //                        .replace(R.id.fragment_login_container, new RegisterSecondFragment())
 //                        .commit();
-              // startActivity(new Intent(context, TestMyActivity.class));
+//             // startActivity(new Intent(context, TestMyActivity.class));
 
                 break;
             case R.id.checkbox_password_show_state:

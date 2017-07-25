@@ -12,8 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.yalantis.ucrop.UCrop;
 
+import org.eenie.wgj.MainTestPictureActivity;
+import org.eenie.wgj.MainTestPictureOneActivity;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.ui.reportpost.GallerysActivity;
@@ -142,32 +145,52 @@ public class AddTakePhotoActivity extends BaseActivity {
                 break;
             case R.id.img_first:
                 if (TextUtils.isEmpty(firstPath)){
-                    showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+                    startActivityForResult(new Intent(context, MainTestPictureOneActivity.class),111);
                 }else {
                     startActivity(new Intent(context, GallerysActivity.class)
                             .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
                 }
 
 
+//                if (TextUtils.isEmpty(firstPath)){
+//                    showUploadDialog(REQUEST_CAMERA_FIRST,REQUEST_PHOTO_FIRST);
+//                }else {
+//                    startActivity(new Intent(context, GallerysActivity.class)
+//                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
+//                }
+
+
 
                 break;
             case R.id.img_second:
                 if (TextUtils.isEmpty(secondPath)){
-                    showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+                    startActivityForResult(new Intent(context, MainTestPictureOneActivity.class),222);
                 }else {
                     startActivity(new Intent(context, GallerysActivity.class)
                             .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
                 }
+//                if (TextUtils.isEmpty(secondPath)){
+//                    showUploadDialog(REQUEST_CAMERA_SECOND,REQUEST_PHOTO_SECOND);
+//                }else {
+//                    startActivity(new Intent(context, GallerysActivity.class)
+//                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
+//                }
 
 
                 break;
             case R.id.img_third:
-                if (TextUtils.isEmpty(secondPath)){
-                    showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+                if (TextUtils.isEmpty(thirdPath)){
+                    startActivityForResult(new Intent(context, MainTestPictureOneActivity.class),333);
                 }else {
                     startActivity(new Intent(context, GallerysActivity.class)
                             .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
                 }
+//                if (TextUtils.isEmpty(secondPath)){
+//                    showUploadDialog(REQUEST_CAMERA_THIRD,REQUEST_PHOTO_THIRD);
+//                }else {
+//                    startActivity(new Intent(context, GallerysActivity.class)
+//                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
+//                }
 
 
                 break;
@@ -251,11 +274,64 @@ public class AddTakePhotoActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode==4){
+            switch (requestCode){
+                case 111:
+                    firstPath= data.getStringExtra("path");
+                    if (!TextUtils.isEmpty(firstPath)){
+                        Glide.with(context).load(new File(firstPath)).centerCrop().into( imgList.get(0));
+                        imgDeleteFirst.setVisibility(View.VISIBLE);
+
+                        if (TextUtils.isEmpty(secondPath)){
+                            imgList.get(1).setScaleType(ImageView.ScaleType.CENTER);
+                            imgList.get(1).setImageResource(R.mipmap.ic_carmer_first);
+                            imgList.get(1).setBackgroundResource(R.color.white);
+
+                        }
+                    }
+
+
+
+
+                    break;
+                case 222:
+                    secondPath= data.getStringExtra("path");
+                    if (!TextUtils.isEmpty(secondPath)){
+                        Glide.with(context).load(new File(secondPath)).centerCrop().into( imgList.get(1));
+                        imgDeleteSecond.setVisibility(View.VISIBLE);
+
+                        if (TextUtils.isEmpty(thirdPath)){
+                            imgList.get(2).setScaleType(ImageView.ScaleType.CENTER);
+                            imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
+                            imgList.get(2).setBackgroundResource(R.color.white);
+                        }
+                    }
+
+                    break;
+                case 333:
+                    thirdPath= data.getStringExtra("path");
+                    if (!TextUtils.isEmpty(thirdPath)){
+                        Glide.with(context).load(new File(thirdPath)).centerCrop().into( imgList.get(2));
+                        imgDeleteThird.setVisibility(View.VISIBLE);
+
+
+                    }
+
+                    break;
+            }
+        }
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
+
                 case REQUEST_CAMERA_FIRST:
-                    startCropImage(mImageUri, RESPONSE_CODE_FIRST);
+                    startActivity(new Intent(context, MainTestPictureActivity.class).
+                            putExtra("uri",String.valueOf(mImageUri)));
+
+
+
+                  //  startCropImage(mImageUri, RESPONSE_CODE_FIRST);
 
                     break;
                 case REQUEST_PHOTO_FIRST:
