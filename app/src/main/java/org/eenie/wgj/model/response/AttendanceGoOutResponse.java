@@ -20,7 +20,34 @@ public class AttendanceGoOutResponse {
     private String created_at;
     private String address;
     private String description;
-    private Object user;
+    private String type;
+    private String time;
+    private String descr;
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     private String name;
 
     public String getName() {
@@ -63,11 +90,5 @@ public class AttendanceGoOutResponse {
         this.description = description;
     }
 
-    public Object getUser() {
-        return user;
-    }
 
-    public void setUser(Object user) {
-        this.user = user;
-    }
 }

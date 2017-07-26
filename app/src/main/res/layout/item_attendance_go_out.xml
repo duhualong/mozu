@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_bottom"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/padding_short"
+>
+    <TextView android:id="@id/item_title"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/padding_bottom"
+              android:text="外出人员  "
+              android:textColor="@color/black_light"
+
+              android:textSize="@dimen/text_large_size"/>
+    <View android:id="@+id/view" android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:layout_below="@id/item_title"
+          android:background="@color/white_light"/>
+    <TextView android:id="@id/item_date_one"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/view"
+              android:paddingEnd="@dimen/padding_bottom"
+              android:paddingLeft="@dimen/padding_bottom"
+              android:paddingRight="@dimen/padding_bottom"
+              android:paddingStart="@dimen/padding_bottom"
+              android:layout_marginTop="@dimen/padding_bottom"
+              android:text="外出时间  "
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+
+    <RelativeLayout android:id="@+id/rl_tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_date_one"
+                    android:layout_marginTop="@dimen/padding_bottom"
+
+    >
+        <TextView android:id="@id/text4"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingEnd="@dimen/padding_bottom"
+                  android:paddingLeft="@dimen/padding_bottom"
+                  android:paddingRight="@dimen/padding_bottom"
+                  android:paddingStart="@dimen/padding_bottom"
+                  android:text="外出地点  "
+
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"
+
+        />
+        <TextView android:id="@id/item_tv_address"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_toEndOf="@id/text4"
+                  android:layout_toRightOf="@id/text4"
+                  android:text=""
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@id/rl_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_tv_address"
+                    android:layout_marginBottom="@dimen/padding_short"
+                    android:layout_marginTop="@dimen/padding_bottom"
+    >
+
+
+        <TextView
+            android:id="@id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/padding_bottom"
+            android:paddingLeft="@dimen/padding_bottom"
+            android:paddingRight="@dimen/padding_bottom"
+            android:paddingStart="@dimen/padding_bottom"
+            android:text="外出原因  "
+            android:textColor="@color/titleColor"
+            android:textSize="@dimen/text_large_size"
+
+
+        />
+        <TextView android:id="@id/item_cause"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_toEndOf="@id/text1"
+                  android:layout_toRightOf="@id/text1"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+    </RelativeLayout>
+    <TextView android:id="@id/item_type"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/rl_tv"
+              android:layout_marginBottom="@dimen/padding_short"
+              android:paddingEnd="@dimen/padding_bottom"
+              android:paddingLeft="@dimen/padding_bottom"
+              android:paddingRight="@dimen/padding_bottom"
+              android:paddingStart="@dimen/padding_bottom"
+              android:text="考勤类型 "
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"
+              android:visibility="gone"
+
+
+    />
+</RelativeLayout>

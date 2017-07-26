@@ -1,5 +1,6 @@
 package org.eenie.wgj.ui.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import org.eenie.wgj.data.local.AppAdapter;
 import org.eenie.wgj.data.local.HomeModule;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.AttendanceListResponse;
+import org.eenie.wgj.ui.attendance.sign.AttendanceTokePhotoActivity;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.ToastUtil;
 
@@ -28,6 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.Subscriber;
@@ -103,6 +106,9 @@ public class ApplyPagerFragment extends BaseSupportFragment
         mIndexAppAdapter.setOnItemDragListener(listener);
 
         queryIndex();
+    }
+    @OnClick(R.id.tv_edit)public void onClick(){
+        startActivity(new Intent(context, AttendanceTokePhotoActivity.class));
     }
     private void initData() {
         mSubscription = mRemoteService.getAttendanceList(

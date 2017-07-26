@@ -270,6 +270,7 @@ public class AttendanceActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.rl_sign_in:
+               // startActivity(new Intent(context, AttendanceTestSignInActivity.class));
                 String todayDate =
                         new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
                 boolean select = false;

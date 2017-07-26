@@ -17,7 +17,7 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:text="考勤统计"
+                  android:text="考勤统计表"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
 
@@ -46,7 +46,7 @@
                           android:layout_marginStart="16dp"
                           android:layout_marginTop="10dp"
                           android:gravity="center"
-                          android:text="劳模榜"
+                          android:text="优秀榜"
                           android:textColor="@color/black_light"
                           android:textSize="@dimen/text_large_size"/>
                 <TextView android:id="@id/tv_date_one"

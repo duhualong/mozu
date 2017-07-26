@@ -18,7 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.AttendanceGoOutResponse;
+import org.eenie.wgj.model.response.attendancestatistic.NewAddPeopleResponse;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class AttendanceGoOutActivity extends BaseActivity implements
+public class AttendanceLeaveOutActivity extends BaseActivity implements
         SwipeRefreshLayout.OnRefreshListener {
     public static final String PROJECT_ID = "id";
     public static final String DATE = "date";
@@ -59,7 +59,7 @@ public class AttendanceGoOutActivity extends BaseActivity implements
 
     @Override
     protected void updateUI() {
-        tvTitle.setText("外出详情");
+        tvTitle.setText("离职人员");
         projectId = getIntent().getStringExtra(PROJECT_ID);
         date = getIntent().getStringExtra(DATE);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -89,8 +89,8 @@ public class AttendanceGoOutActivity extends BaseActivity implements
     }
 
     private void getData(String projectId, String date) {
-        mSubscription = mRemoteService.getOutInformation(mPrefsHelper.
-                getPrefs().getString(Constants.TOKEN, ""), date, projectId)
+        mSubscription = mRemoteService.getLeaveOutPeopleList(mPrefsHelper.
+                getPrefs().getString(Constants.TOKEN, ""), projectId,date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -110,8 +110,8 @@ public class AttendanceGoOutActivity extends BaseActivity implements
                         if (apiResponse.getCode()== 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                            ArrayList<AttendanceGoOutResponse> data = gson.fromJson(jsonArray,
-                                    new TypeToken<ArrayList<AttendanceGoOutResponse>>() {
+                            ArrayList<NewAddPeopleResponse> data = gson.fromJson(jsonArray,
+                                    new TypeToken<ArrayList<NewAddPeopleResponse>>() {
                                     }.getType());
                             if (data != null) {
                                 if (mAdapter != null) {
@@ -146,9 +146,9 @@ public class AttendanceGoOutActivity extends BaseActivity implements
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
         private Context context;
-        private ArrayList<AttendanceGoOutResponse> projectMonth;
+        private ArrayList<NewAddPeopleResponse> projectMonth;
 
-        public ProjectAdapter(Context context, ArrayList<AttendanceGoOutResponse> projectMonth) {
+        public ProjectAdapter(Context context, ArrayList<NewAddPeopleResponse> projectMonth) {
             this.context = context;
             this.projectMonth = projectMonth;
         }
@@ -156,24 +156,22 @@ public class AttendanceGoOutActivity extends BaseActivity implements
         @Override
         public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            View itemView = inflater.inflate(R.layout.item_attendance_go_out, parent, false);
+            View itemView = inflater.inflate(R.layout.item_attendance_leave_out, parent, false);
             return new ProjectViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (projectMonth != null && !projectMonth.isEmpty()) {
-                AttendanceGoOutResponse data = projectMonth.get(position);
+                NewAddPeopleResponse data = projectMonth.get(position);
                 if (data != null) {
-                    holder.itemDateTime.setVisibility(View.VISIBLE);
-                    holder.itemDateTime.setText("外出时间  "+data.getTime());
                     if (!data.getName().isEmpty() && data.getName() != null) {
-                        holder.itemTitle.setText("外出人员  " + data.getName());
+                        holder.itemTitle.setText("离职人员  "+data.getName());
                     } else {
-                        holder.itemTitle.setText("外出人员  " + "无");
+                        holder.itemTitle.setText("离职人员  " + "无");
                     }
-                    holder.itemDate.setText(data.getAddress());
-                    holder.itemCause.setText(data.getDescr());
+                    holder.itemDate.setText("离职时间  "+data.getLeave_at());
+                    holder.itemPost.setText("离职岗位  "+data.getTypename());
                 }
             }
         }
@@ -183,7 +181,7 @@ public class AttendanceGoOutActivity extends BaseActivity implements
             return projectMonth.size();
         }
 
-        public void addAll(ArrayList<AttendanceGoOutResponse> projectMonth) {
+        public void addAll(ArrayList<NewAddPeopleResponse> projectMonth) {
             this.projectMonth.addAll(projectMonth);
             ProjectAdapter.this.notifyDataSetChanged();
         }
@@ -197,16 +195,15 @@ public class AttendanceGoOutActivity extends BaseActivity implements
 
             private TextView itemTitle;
             private TextView itemDate;
-            private TextView itemCause;
-            private TextView itemDateTime;
+            private TextView itemPost;
+
 
 
             public ProjectViewHolder(View itemView) {
                 super(itemView);
                 itemTitle = ButterKnife.findById(itemView, R.id.item_title);
                 itemDate = ButterKnife.findById(itemView, R.id.item_date);
-                itemCause = ButterKnife.findById(itemView, R.id.item_cause);
-                itemDateTime=ButterKnife.findById(itemView, R.id.item_date_one);
+                itemPost = ButterKnife.findById(itemView, R.id.item_post);
 
 
 

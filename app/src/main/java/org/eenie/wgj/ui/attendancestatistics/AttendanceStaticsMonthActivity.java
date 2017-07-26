@@ -21,10 +21,11 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.AttendanceStaticsMonth;
+import org.eenie.wgj.model.response.newattendancestatistic.ProjectAttendanceStatisticMonth;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,7 +94,7 @@ public class AttendanceStaticsMonthActivity extends BaseActivity implements Swip
     }
 
     private void getProjectMonthAttendance(String projectId) {
-        mSubscription=mRemoteService.getProjectAttendanceMonth(mPrefsHelper.getPrefs().
+        mSubscription=mRemoteService.getAttendanceMonthByProjectId(mPrefsHelper.getPrefs().
                 getString(Constants.TOKEN,""),projectId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -111,15 +112,15 @@ public class AttendanceStaticsMonthActivity extends BaseActivity implements Swip
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         cancelRefresh();
-                        if (apiResponse.getResultCode()==200||apiResponse.getResultCode()==0){
+                        if (apiResponse.getCode()==0){
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                           AttendanceStaticsMonth data = gson.fromJson(jsonArray,
-                                    new TypeToken<AttendanceStaticsMonth>() {
+                           ProjectAttendanceStatisticMonth data = gson.fromJson(jsonArray,
+                                    new TypeToken<ProjectAttendanceStatisticMonth>() {
                                     }.getType());
                             if (data!=null){
                                 if (mProjectAdapter != null) {
-                                    mProjectAdapter.addAll(data.getMonth());
+                                    mProjectAdapter.addAll(data.getMonth_list());
                                 }
                             }
 
@@ -144,9 +145,9 @@ public class AttendanceStaticsMonthActivity extends BaseActivity implements Swip
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
         private Context context;
-        private ArrayList<String> projectMonth;
+        private List<String> projectMonth;
 
-        public ProjectAdapter(Context context, ArrayList<String> projectMonth) {
+        public ProjectAdapter(Context context, List<String> projectMonth) {
             this.context = context;
             this.projectMonth = projectMonth;
         }
@@ -178,7 +179,7 @@ public class AttendanceStaticsMonthActivity extends BaseActivity implements Swip
             return projectMonth.size();
         }
 
-        public void addAll(ArrayList<String> projectMonth) {
+        public void addAll(List<String> projectMonth) {
             this.projectMonth.addAll(projectMonth);
             ProjectAdapter.this.notifyDataSetChanged();
         }

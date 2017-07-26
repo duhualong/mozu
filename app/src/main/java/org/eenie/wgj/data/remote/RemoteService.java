@@ -496,10 +496,15 @@ public interface RemoteService {
     Single<ApiResponse> getEarlyInformation(@Header("token") String token, @Query("date") String date,
                                             @Query("projectid") String projectId);
 
-    //考勤外出
-    @GET("month/goout")
+//    //考勤外出
+//    @GET("month/goout")
+//    Single<ApiResponse> getOutInformation(@Header("token") String token, @Query("date") String date,
+//                                          @Query("projectid") String projectId);
+//考勤外出
+    @GET("att_month_goout_list")
     Single<ApiResponse> getOutInformation(@Header("token") String token, @Query("date") String date,
                                           @Query("projectid") String projectId);
+
 
     //考勤请假
     @GET("month/leave")
@@ -732,6 +737,54 @@ public interface RemoteService {
     //消息已读
     @POST("notice_hasread")
     Single<ApiResponse> changeMessageStatus(@Header("token") String token, @Body MessageStatus request);
+
+
+    //根据项目id获取考勤统计得月份
+
+    @GET("att_statistics_month_list")
+    Single<ApiResponse> getAttendanceMonthByProjectId(@Header("token") String token,
+                                                      @Query("projectid") String projectId);
+
+    //根据项目id和月份获取当月劳模榜的排名
+    @GET("att_statistics_rank_list")
+    Single<ApiResponse> getAttendanceStatisticRankAllMonth(@Header("token") String token,
+                                                           @Query("projectid") String projectId,
+                                                           @Query("date") String date);
+
+
+    //根据项目id月份获取当月的勤奋榜排名
+    @GET("att_statistics_first_list")
+    Single<ApiResponse> getAttendanceStatisticRankFirstMonth(@Header("token") String token,
+                                                             @Query("projectid") String projectId,
+                                                             @Query("date") String date);
+
+
+    //根据项目id月份获取当月的加油榜排名
+
+    @GET("att_statistics_refue_list")
+    Single<ApiResponse> getAttendanceStatisticRankRefue(@Header("token") String token,
+                                                        @Query("projectid") String projectId,
+                                                        @Query("date") String date);
+
+    //获取项目下当月的考勤统计数据
+    @GET("att_statistics_index")
+    Single<ApiResponse> getAttendanceStatisticTotalData(@Header("token") String token,
+                                                        @Query("projectid") String projectId,
+                                                        @Query("date") String date);
+
+    //获取项目下当月离职人员
+    @GET("att_month_resign_list")
+    Single<ApiResponse>getLeaveOutPeopleList(@Header("token") String token,
+                                             @Query("projectid") String projectId,
+                                             @Query("date") String date);
+
+    //获取项目下当月的旷工数据
+    @GET("att_month_absent_list")
+    Single<ApiResponse>getNewAbsolutePeopleList(@Header("token") String token,
+                                             @Query("projectid") String projectId,
+                                             @Query("date") String date);
+
+    //
 
 
     //获取个人考勤情况

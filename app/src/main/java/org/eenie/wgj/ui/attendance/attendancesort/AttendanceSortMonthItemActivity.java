@@ -13,8 +13,10 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.AttendanceMonthItem;
-import org.eenie.wgj.ui.attendancestatistics.AttendanceSortMonthActivity;
+import org.eenie.wgj.model.response.newattendancestatistic.AttendanceTotalDataMonth;
+import org.eenie.wgj.ui.attendancestatistics.NewAttendanceFightingActivity;
+import org.eenie.wgj.ui.attendancestatistics.NewAttendanceFirstActivity;
+import org.eenie.wgj.ui.attendancestatistics.NewAttendanceSortMonthActivity;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
@@ -124,24 +126,26 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
     }
 
     private void getData(String projectId, String date) {
-        mSubscription = mRemoteService.getMonthSortItem(mPrefsHelper.getPrefs().
+        mSubscription = mRemoteService.getAttendanceStatisticTotalData(mPrefsHelper.getPrefs().
                 getString(Constants.TOKEN, ""), projectId, date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ProgressSubscriber<ApiResponse>(context) {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200) {
+                        if (apiResponse.getCode() == 0) {
+
+
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                            AttendanceMonthItem data = gson.fromJson(jsonArray,
-                                    new TypeToken<AttendanceMonthItem>() {
+                            AttendanceTotalDataMonth data = gson.fromJson(jsonArray,
+                                    new TypeToken<AttendanceTotalDataMonth>() {
                                     }.getType());
                             if (data != null) {
 
-                                if (data.getMonth_integrated() != null &&
-                                        !data.getMonth_integrated().isEmpty()) {
-                                    initAllData(data.getMonth_integrated());
+                                if (data.getRank_list() != null &&
+                                        !data.getRank_list().isEmpty()) {
+                                    initAllData(data.getRank_list());
 
 
                                 } else {
@@ -150,8 +154,8 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
                                     rlAllThird.setVisibility(View.GONE);
                                 }
 
-                                if (data.getMonth_rank() != null && !data.getMonth_rank().isEmpty()) {
-                                    initTeamData(data.getMonth_rank());
+                                if (data.getFirst_list() != null && !data.getFirst_list().isEmpty()) {
+                                    initTeamData(data.getFirst_list());
 
 
                                 } else {
@@ -160,8 +164,8 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
                                     rlThirdTeam.setVisibility(View.GONE);
                                 }
 
-                                if (data.getMonth_refuel()!=null&&!data.getMonth_refuel().isEmpty()){
-                                    updateFightingUI(data.getMonth_refuel());
+                                if (data.getRefue_list()!=null&&!data.getRefue_list().isEmpty()){
+                                    updateFightingUI(data.getRefue_list());
                                 }else {
                                     rlFightingFirst.setVisibility(View.GONE);
                                     rlFightingSecond.setVisibility(View.GONE);
@@ -176,7 +180,7 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
                             }
 
                         } else {
-                            Toast.makeText(context, apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             rllSortAll.setVisibility(View.GONE);
                             rlTeamSort.setVisibility(View.GONE);
                             rlFightingSort.setVisibility(View.GONE);
@@ -189,7 +193,7 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
     }
 
 
-    private void updateFightingUI(List<AttendanceMonthItem.MonthRefuelBean> mData) {
+    private void updateFightingUI(List<AttendanceTotalDataMonth.ServiceBean> mData) {
         if (mData.size()==1){
             rlFightingFirst.setVisibility(View.VISIBLE);
             rlFightingSecond.setVisibility(View.INVISIBLE);
@@ -251,7 +255,7 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
     }
 
 
-    private void initTeamData(List<AttendanceMonthItem.MonthRankBean> data) {
+    private void initTeamData(List<AttendanceTotalDataMonth.ServiceBean> data) {
 
         if (data.size() == 1) {
             rlFirstTeam.setVisibility(View.VISIBLE);
@@ -315,7 +319,7 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
     }
 
 
-    private void initAllData(List<AttendanceMonthItem.MonthIntegratedBean> data) {
+    private void initAllData(List<AttendanceTotalDataMonth.ServiceBean> data) {
 
         if (data.size() == 1) {
             rlAllFirst.setVisibility(View.VISIBLE);
@@ -386,19 +390,27 @@ public class AttendanceSortMonthItemActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_sort_all:
-                startActivity(new Intent(context,AttendanceSortMonthActivity.class)
-                        .putExtra(AttendanceSortMonthActivity.DATE,mDate)
-                        .putExtra(AttendanceSortMonthActivity.PROJECT_ID,projectId));
+
+             //   startActivity(new Intent(context, AttendanceSortMonthActivity.class)
+//                        .putExtra(AttendanceSortMonthActivity.DATE, date)
+//                        .putExtra(AttendanceSortMonthActivity.PROJECT_ID, projectId));
+                        startActivity(new Intent(context, NewAttendanceSortMonthActivity.class)
+                                .putExtra(NewAttendanceSortMonthActivity.DATE, mDate)
+                                .putExtra(NewAttendanceSortMonthActivity.PROJECT_ID, projectId));
+
+//                startActivity(new Intent(context,AttendanceSortMonthActivity.class)
+//                        .putExtra(AttendanceSortMonthActivity.DATE,mDate)
+//                        .putExtra(AttendanceSortMonthActivity.PROJECT_ID,projectId));
                 break;
             case R.id.rl_sort_team:
-                startActivity(new Intent(context,AttendanceSortTeamMonthItemActivity.class)
-                        .putExtra(AttendanceSortTeamMonthItemActivity.PROJECT_ID,projectId)
-                        .putExtra(AttendanceSortTeamMonthItemActivity.DATE,mDate));
+                startActivity(new Intent(context,NewAttendanceFirstActivity.class)
+                        .putExtra(NewAttendanceFirstActivity.PROJECT_ID,projectId)
+                        .putExtra(NewAttendanceFirstActivity.DATE,mDate));
                 break;
             case R.id.rl_fighting_team:
-                startActivity(new Intent(context,AttendanceFightingSortMonthItemActivity.class)
-                        .putExtra(AttendanceFightingSortMonthItemActivity.PROJECT_ID,projectId)
-                        .putExtra(AttendanceFightingSortMonthItemActivity.DATE,mDate));
+                startActivity(new Intent(context,NewAttendanceFightingActivity.class)
+                        .putExtra(NewAttendanceFightingActivity.PROJECT_ID,projectId)
+                        .putExtra(NewAttendanceFightingActivity.DATE,mDate));
                 break;
             case R.id.img_back:
                 onBackPressed();

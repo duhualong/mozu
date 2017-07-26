@@ -801,5 +801,8 @@
     <item name="sign_in_time" type="id"/>
     <item name="tv_sign_back_time" type="id"/>
     <item name="sign_back_time" type="id"/>
+    <item name="select_rank_rl" type="id"/>
+    <item name="item_type" type="id"/>
+    <item name="tv_item_count" type="id"/>
 
 </resources>

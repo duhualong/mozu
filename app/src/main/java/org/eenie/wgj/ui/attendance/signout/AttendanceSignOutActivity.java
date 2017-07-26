@@ -153,6 +153,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
         }
         type=1;
 
+
     }
 
 
@@ -160,7 +161,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
 
 
 
-    @OnClick({R.id.img_back, R.id.btn_take_photo, R.id.tv_sel_rank})
+    @OnClick({R.id.img_back, R.id.btn_take_photo, R.id.select_rank_rl})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_take_photo:
@@ -180,7 +181,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
             case R.id.img_back:
                 onBackPressed();
                 break;
-            case R.id.tv_sel_rank:
+            case R.id.select_rank_rl:
                 showSelRankPop();
                 break;
 

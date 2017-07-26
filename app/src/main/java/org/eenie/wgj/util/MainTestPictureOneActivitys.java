@@ -1,4 +1,4 @@
-package org.eenie.wgj;
+package org.eenie.wgj.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -33,6 +33,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import org.eenie.wgj.R;
+import org.eenie.wgj.Shapes;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -50,15 +53,15 @@ import static android.content.ContentValues.TAG;
  * Des:
  */
 
-public class MainTestPictureOneActivity extends Activity {
+public class MainTestPictureOneActivitys extends Activity {
     private static final int CAMERA_CODE = 3022;
     private static final int SD_CODE = 3020;
     private ArrayList<Shapes> shapes = new ArrayList<>();
     private ImageView iv;//展示图片
     private Bitmap copyPic;//编辑图片
     private Canvas canvas;//画板
-    private Paint paint;//画笔
-    private Matrix matrix;//矩阵
+    private Paint paint=new Paint();//画笔
+    private Matrix matrix=new Matrix();//矩阵
     private Bitmap srcPic;//原图
     private int color = Color.RED;//画笔颜色
     private int width = 10;//画笔大小
@@ -78,7 +81,7 @@ public class MainTestPictureOneActivity extends Activity {
     private ImageView imgRectangle;
     private ImageView imgReRevoke;
     Uri mImageUri;
-
+    Path triangle = new Path();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +114,8 @@ public class MainTestPictureOneActivity extends Activity {
         iv.setLayoutParams(new LinearLayout.LayoutParams(
                 srcPic.getWidth(), srcPic.getHeight()));
         canvas = new Canvas(copyPic);
-        paint = new Paint();
+
+        paint.reset();
         paint.setAntiAlias(true);
         //绘制原图
         drawOld();
@@ -148,16 +152,19 @@ public class MainTestPictureOneActivity extends Activity {
                             paint.setStyle(Paint.Style.STROKE);//设置边框
                             canvas.drawRect(startX, startY, endX, endY, paint);// 正方形
                         } else if (circle == 0) {
-                            paint.setStyle(Paint.Style.STROKE);//设置边框
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                canvas.drawOval(startX, startY, endX, endY, paint);
-                            }
+//                            paint.setStyle(Paint.Style.STROKE);//设置边框
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                                canvas.drawOval(startX, startY, endX, endY, paint);
+//                            }
+                            RectF rectF=new RectF(startX, startY, endX, endY);
+                            canvas.drawOval(rectF, paint);
+
                         } else if (circle == 2) {
                             paint.setStyle(Paint.Style.FILL);//设置边框
                             drawArrow(startX, startY, endX, endY, width, paint);
-
                         }
                        // iv.setImageBitmap(copyPic);
+                        iv.invalidate();
                         break;
 
                     case MotionEvent.ACTION_UP:// 移动的事件类型
@@ -180,18 +187,19 @@ public class MainTestPictureOneActivity extends Activity {
                 canvas.drawRect(sp.startX, sp.startY, sp.endX, sp.endY, paint);// 正方形
             } else if (sp.circle == 0) {
                 paint.setStyle(Paint.Style.STROKE);//设置边框
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//api21之后的方法
-                    canvas.drawOval(sp.startX, sp.startY, sp.endX, sp.endY, paint);//椭圆
-                } else {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//api21之后的方法
+//                    canvas.drawOval(sp.startX, sp.startY, sp.endX, sp.endY, paint);//椭圆
+//                } else {
                     RectF oval2 = new RectF(sp.startX, sp.startY, sp.endX, sp.endY);
                     canvas.drawOval(oval2, paint);
-                }
+//                }
             } else if (sp.circle == 2) {
                 paint.setStyle(Paint.Style.FILL);//设置边框
                 drawArrow(sp.startX, sp.startY, sp.endX, sp.endY, sp.width, paint);//箭头
             }
         }
-        iv.setImageBitmap(copyPic);
+        iv.invalidate();
+       // iv.setImageBitmap(copyPic);
     }
 
     /**
@@ -202,7 +210,8 @@ public class MainTestPictureOneActivity extends Activity {
         paint.setColor(Color.BLACK);
 
         // 处理图形
-        matrix = new Matrix();
+
+        matrix.reset();
         // 5、使用画笔在画板上画画
         // 参看原图画画
         // srcPic 原图
@@ -325,7 +334,7 @@ public class MainTestPictureOneActivity extends Activity {
             matrix.postScale((float) x, (float) x);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
                     bitmap.getHeight(), matrix, true);
-            bitmap = drawTextToBitmap(this, bitmap, "摩助 " + "\n" +
+            bitmap = drawTextToBitmap(this, bitmap, "摩助 " +
                     new SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis()));
         }
         return bitmap;
@@ -390,7 +399,8 @@ public class MainTestPictureOneActivity extends Activity {
         float yz = zy - sy;
         double zd = xz * xz + yz * yz;
         double zr = Math.sqrt(zd);
-        Path triangle = new Path();
+
+        triangle.reset();
         triangle.moveTo(sx, sy);
         triangle.lineTo((float) (zx + size * yz / zr), (float) (zy - size * xz / zr));
         triangle.lineTo((float) (zx + size * 2 * yz / zr), (float) (zy - size * 2 * xz / zr));
@@ -404,10 +414,8 @@ public class MainTestPictureOneActivity extends Activity {
 
     /* 从相机中获取照片 */
     private void getPictureFromCamera() {
-
-
-
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+
         tempPhotoPath = filePath + getNewFileName()
                 + ".png";
         mCurrentPhotoFile = new File(tempPhotoPath);
@@ -495,28 +503,28 @@ public class MainTestPictureOneActivity extends Activity {
         opt.inPurgeable = true;
         opt.inInputShareable = true;
         Bitmap bitmap = BitmapFactory.decodeFile(filePath, opt);
+//
+//        int layoutHeight = contentView.getHeight();
+//        float scale = 0f;
+//        int bitmapHeight = bitmap.getHeight();
+//        int bitmapWidth = bitmap.getWidth();
+//        scale = bitmapHeight > bitmapWidth
+//                ? layoutHeight / (bitmapHeight * 1f)
+//                : screenWidth / (bitmapWidth * 1f);
+//        Bitmap resizeBmp;
+//        if (scale != 0) {
+//            int bitmapheight = bitmap.getHeight();
+//            int bitmapwidth = bitmap.getWidth();
+//            Matrix matrix = new Matrix();
+//
+//            matrix.postScale(scale, scale); // 长和宽放大缩小的比例
+//            resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmapwidth,
+//                    bitmapheight, matrix, true);
+//        } else {
+//            resizeBmp = bitmap;
+//        }
 
-        int layoutHeight = contentView.getHeight();
-        float scale = 0f;
-        int bitmapHeight = bitmap.getHeight();
-        int bitmapWidth = bitmap.getWidth();
-        scale = bitmapHeight > bitmapWidth
-                ? layoutHeight / (bitmapHeight * 1f)
-                : screenWidth / (bitmapWidth * 1f);
-        Bitmap resizeBmp;
-        if (scale != 0) {
-            int bitmapheight = bitmap.getHeight();
-            int bitmapwidth = bitmap.getWidth();
-            Matrix matrix = new Matrix();
-
-            matrix.postScale(scale, scale); // 长和宽放大缩小的比例
-            resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmapwidth,
-                    bitmapheight, matrix, true);
-        } else {
-            resizeBmp = bitmap;
-        }
-
-        return resizeBmp;
+        return bitmap;
     }
 
     @Override
@@ -531,7 +539,7 @@ public class MainTestPictureOneActivity extends Activity {
                 break;
 
         }
-
+        shapes.clear();//轨迹清空
         int angle = getBitmapDegree(photoPath);
         Bitmap bitmap = compressionFiller(photoPath, ll);//图片缩放
         camera_path = saveBitmap(rotaingImageView(angle, bitmap), "saveTemp");
@@ -625,10 +633,10 @@ public class MainTestPictureOneActivity extends Activity {
         Resources resources = context.getResources();
         float scale = resources.getDisplayMetrics().density;
 //        bitmap = scaleWithWH(bitmap, 300 * scale, 300 * scale);
-        android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+        Bitmap.Config bitmapConfig = bitmap.getConfig();
         // set default bitmap config if none
         if (bitmapConfig == null) {
-            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+            bitmapConfig = Bitmap.Config.ARGB_8888;
         }
         // resource bitmaps are imutable,
         // so we need to convert it to mutable one

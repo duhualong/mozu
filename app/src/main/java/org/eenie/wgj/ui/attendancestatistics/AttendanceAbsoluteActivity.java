@@ -86,8 +86,9 @@ public class AttendanceAbsoluteActivity extends BaseActivity implements
     }
 
     private void getData(String projectId, String date) {
-        mSubscription = mRemoteService.getAbsentInformation(mPrefsHelper.
-                getPrefs().getString(Constants.TOKEN, ""), date, projectId)
+
+        mSubscription = mRemoteService.getNewAbsolutePeopleList(mPrefsHelper.
+                getPrefs().getString(Constants.TOKEN, ""), projectId,date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -104,7 +105,7 @@ public class AttendanceAbsoluteActivity extends BaseActivity implements
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         cancelRefresh();
-                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                        if (apiResponse.getCode()== 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
                             ArrayList<AttendanceAbsoluteResponse> data = gson.fromJson(jsonArray,
@@ -116,7 +117,7 @@ public class AttendanceAbsoluteActivity extends BaseActivity implements
                                 }
                             }
                         }else {
-                            Toast.makeText(context,apiResponse.getResultMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,apiResponse.getMessage(),Toast.LENGTH_SHORT).show();
                         }
 
                     }

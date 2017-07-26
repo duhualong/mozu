@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,6 +94,9 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
     TextView tvSelectRank;
     @BindView(R.id.activity_map)
     View rootView;
+
+    @BindView(R.id.spinner_img)ImageView imgSpinner;
+
     AMap mAMap;
     //签到点的圈圈
     protected Circle mSignCircle;
@@ -144,7 +148,7 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
 
     }
 
-    @OnClick({R.id.img_back, R.id.btn_take_photo, R.id.tv_sel_rank})
+    @OnClick({R.id.img_back, R.id.btn_take_photo, R.id.select_rank_rl})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_take_photo:
@@ -163,8 +167,9 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
             case R.id.img_back:
                 onBackPressed();
                 break;
-            case R.id.tv_sel_rank:
+            case R.id.select_rank_rl:
                 showSelRankPop();
+
                 break;
 
 
@@ -184,7 +189,8 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
             });
             dialog.getWindow().findViewById(R.id.tv_photo_personal).setOnClickListener(v -> {
                 dialog.dismiss();
-                startActivityForResult(new Intent(context, AttendanceTokePhotoActivity.class),
+                startActivityForResult(new Intent(context, AttendanceTokePhotoActivity.class).
+                                putExtra("address",address),
                         REQUEST_CODE);
 
             });

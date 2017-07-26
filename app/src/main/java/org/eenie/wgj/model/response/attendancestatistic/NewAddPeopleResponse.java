@@ -25,6 +25,24 @@ public class NewAddPeopleResponse {
     private int type;
     private String channel;
     private String permissions;
+    private String leave_at;
+    private String typename;
+
+    public String getLeave_at() {
+        return leave_at;
+    }
+
+    public void setLeave_at(String leave_at) {
+        this.leave_at = leave_at;
+    }
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
 
     public int getId() {
         return id;

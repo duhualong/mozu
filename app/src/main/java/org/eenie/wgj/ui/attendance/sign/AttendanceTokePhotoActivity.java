@@ -54,7 +54,6 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
     public static final int REQUEST_CODE = 1010;
     public static final int REQUEST_CODE_NEED_EXTRA = 1013;
     public static final int RESULT_CODE = 1011;
-
     private int camera_flag = 1;
 
     @BindView(R.id.preview_sv)
@@ -65,6 +64,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
     private Camera mCamera;
     private SurfaceHolder mHolder;
     private boolean focus = false;
+    private String address;
 
 
     @Override
@@ -74,12 +74,14 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
 
     @Override
     protected void updateUI() {
+        address = getIntent().getStringExtra("address");
 
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         initData();
         initView();
@@ -110,7 +112,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
             try {
                 mCamera = android.hardware.Camera.open(camera_flag);//1:采集指纹的摄像头. 0:拍照的摄像头.
                 mCamera.setPreviewDisplay(mHolder);
-              mCamera.cancelAutoFocus();
+                mCamera.cancelAutoFocus();
             } catch (Exception e) {
                 Snackbar.make(mTakeBT, "camera open failed!", Snackbar.LENGTH_SHORT).show();
                 finish();
@@ -201,8 +203,6 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
 //    }
 
 
-
-
     private void setCameraParams() {
         if (mCamera == null) {
             return;
@@ -212,7 +212,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
             int PreviewHeight = 0;
             WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//获取窗口的管理器
             Display display = wm.getDefaultDisplay();//获得窗口里面的屏幕
-            Camera.Parameters parameters  = mCamera.getParameters();
+            Camera.Parameters parameters = mCamera.getParameters();
             // 选择合适的预览尺寸
             List<Camera.Size> sizeList = parameters.getSupportedPreviewSizes();
 
@@ -243,7 +243,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
                 mCamera.setDisplayOrientation(180);
                 parameters.setRotation(180);
             }
-            System.out.println("test:Height:"+PreviewHeight+"\nWidth:"+PreviewWidth);
+            System.out.println("test:Height:" + PreviewHeight + "\nWidth:" + PreviewWidth);
             parameters.setPreviewSize(PreviewWidth, PreviewHeight); //获得摄像区域的大小
             parameters.setPictureFormat(PixelFormat.JPEG);//设置照片输出的格式
             parameters.setPictureSize(PreviewWidth, PreviewHeight);//设置拍出来的屏幕大小
@@ -341,25 +341,6 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
     }
 
 
-//    public void onPause() {
-//        super.onPause();
-//        //一定要设置为空
-//        mCamera.setPreviewCallback(null);
-//        mCamera.stopPreview();
-//        mCamera.release();
-//        mCamera = null;
-//    }
-
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        if (mCamera != null) {
-//            mCamera.setPreviewCallback(null);
-//            mCamera.stopPreview();
-//            mCamera.release();
-//            mCamera = null;
-//        }
-//    }
 
     @OnClick(R.id.take_bt)
     public void onClick() {
@@ -396,6 +377,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
                         Bundle bundle = new Bundle();
 //                       bundle.putParcelable(ORIGIN_PICTURE, originBitmap);
                         bundle.putParcelable(CROP_PICTURE, returnBm);
+                        bundle.putString("address", address);
                         pictureFragment.setArguments(bundle);
                         pictureFragment.show(getFragmentManager(), null);
 
@@ -404,6 +386,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
                         Bundle bundle = new Bundle();
 //                       bundle.putParcelable(ORIGIN_PICTURE, originBitmap);
                         bundle.putParcelable(CROP_PICTURE, cropBitmap);
+                        bundle.putString("address", address);
                         pictureFragment.setArguments(bundle);
                         pictureFragment.show(getFragmentManager(), null);
                     }

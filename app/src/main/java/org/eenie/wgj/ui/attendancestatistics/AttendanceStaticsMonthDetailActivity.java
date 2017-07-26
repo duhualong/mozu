@@ -1,7 +1,6 @@
 package org.eenie.wgj.ui.attendancestatistics;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,8 +13,8 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.AttendanceMonthItem;
 import org.eenie.wgj.model.response.attendancestatistic.AttendanceMonthItemResponse;
+import org.eenie.wgj.model.response.newattendancestatistic.AttendanceTotalDataMonth;
 import org.eenie.wgj.ui.reportpoststatistics.CircularProgressBar;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
@@ -165,21 +164,22 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.rl_sort_all:
-                startActivity(new Intent(context, AttendanceSortMonthActivity.class)
-                        .putExtra(AttendanceSortMonthActivity.DATE, date)
-                        .putExtra(AttendanceSortMonthActivity.PROJECT_ID, projectId));
+       startActivity(new Intent(context, NewAttendanceSortMonthActivity.class)
+                        .putExtra(NewAttendanceSortMonthActivity.DATE, date)
+                        .putExtra(NewAttendanceSortMonthActivity.PROJECT_ID, projectId));
 
 
                 break;
             case R.id.rl_sort_team:
-                startActivity(new Intent(context, AttendanceSortTeamMonthActivity.class)
-                        .putExtra(AttendanceSortTeamMonthActivity.PROJECT_ID, projectId)
-                        .putExtra(AttendanceSortTeamMonthActivity.DATE, date));
+
+                startActivity(new Intent(context, NewAttendanceFirstActivity.class)
+                        .putExtra(NewAttendanceFirstActivity.PROJECT_ID, projectId)
+                        .putExtra(NewAttendanceFirstActivity.DATE, date));
                 break;
             case R.id.rl_fighting_team:
-                startActivity(new Intent(context, AttendanceFightingSortActivity.class)
-                        .putExtra(AttendanceFightingSortActivity.PROJECT_ID, projectId)
-                        .putExtra(AttendanceFightingSortActivity.DATE, date));
+                startActivity(new Intent(context, NewAttendanceFightingActivity.class)
+                        .putExtra(NewAttendanceFightingActivity.PROJECT_ID, projectId)
+                        .putExtra(NewAttendanceFightingActivity.DATE, date));
                 break;
             case R.id.tv_late_count:
                 startActivity(new Intent(context, AttendanceCauseActivity.class)
@@ -233,7 +233,9 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                         .putExtra(AttendancePracticeActivity.DATE, date));
                 break;
             case R.id.rl_leave_people:
-                Toast.makeText(context, "离职人员暂无数据", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(context, AttendanceLeaveOutActivity.class)
+                        .putExtra(AttendanceLeaveOutActivity.PROJECT_ID, projectId)
+                        .putExtra(AttendanceLeaveOutActivity.DATE, date));
                 break;
             case R.id.tv_overtime_count:
                 Toast.makeText(context, "加班考勤暂无数据", Toast.LENGTH_SHORT).show();
@@ -380,7 +382,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
     }
 
     private void getAttendanceData(String projectId, String date) {
-        mSubscription = mRemoteService.getMonthSortItem(mPrefsHelper.getPrefs().
+        mSubscription = mRemoteService.getAttendanceStatisticTotalData(mPrefsHelper.getPrefs().
                 getString(Constants.TOKEN, ""), projectId, date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -397,41 +399,40 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode() == 200) {
+                        if (apiResponse.getCode() == 0) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                            AttendanceMonthItem data = gson.fromJson(jsonArray,
-                                    new TypeToken<AttendanceMonthItem>() {
+                            AttendanceTotalDataMonth data = gson.fromJson(jsonArray,
+                                    new TypeToken<AttendanceTotalDataMonth>() {
                                     }.getType());
-                            Log.d("myTest", "onNext: " + gson.toJson(data));
 
                             if (data != null) {
-                                tvLateCount.setText(data.getLate() + "");
+                                tvLateCount.setText(data.getTotal_late() + "");
                                 tvLeaveEarlyCount.setText(
-                                        data.getEarly() + "");
+                                        data.getTotal_early() + "");
                                 tvOutSideCount.setText(
-                                        data.getGo_out() + "");
+                                        data.getTotal_goout() + "");
                                 tvLeaveCount.setText(
-                                        data.getLeave() + "");
-                                tvAbsentCount.setText(data.getAbsenteeism() + "");
+                                        data.getTotal_leave() + "");
+                                tvAbsentCount.setText(data.getTotal_absent() + "");
                                 tvOvertimeCount.setText(
-                                        data.getOvertime() + "");
+                                        data.getTotal_extra() + "");
                                 tvExperienceCount.setText(
-                                        data.getPractice() + "");
+                                        data.getTotal_intern() + "");
                                 tvlendCount.setText(
-                                        data.getSeconded() + "");
-                                tvLeavePeople.setText(data.getOutgoing_employee() + "人");
-                                tvAddPeople.setText(data.getNew_employees() + "人");
-                                circleProgress.setProgress((int)data.getTurnover_rate());
-                                tvRate.setText(data.getTurnover_rate()+"%");
+                                        data.getTotal_tempor() + "");
+                                tvLeavePeople.setText(data.getTotal_resign() + "人");
+                                tvAddPeople.setText(data.getNew_employee() + "人");
+                                circleProgress.setProgress((int)data.getResign_rate());
+                                tvRate.setText(data.getResign_rate()+"%");
 
 //                                    mDonutProgress.setDonut_progress(
 //                                            String.valueOf(data.getTurnover_rate()));
 //
 //                                    mDonutProgress.setProgress((int)data.getTurnover_rate());
 
-                                if (data.getMonth_rank() != null) {
-                                    updateTeamUI(data.getMonth_rank());
+                                if (data.getRank_list() != null) {
+                                    updateTeamUI(data.getRank_list());
                                 } else {
                                     rlSortTeam.setClickable(false);
                                     rlTeamFirst.setVisibility(View.GONE);
@@ -439,8 +440,8 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                     rlTeamThird.setVisibility(View.GONE);
 
                                 }
-                                if (data.getMonth_refuel() != null) {
-                                    updateFightingUI(data.getMonth_refuel());
+                                if (data.getRefue_list() != null) {
+                                    updateFightingUI(data.getRefue_list());
 
                                 } else {
                                     rlFightingSort.setClickable(false);
@@ -450,85 +451,84 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
 
                                 }
 
-                                if (data.getMonth_integrated() != null) {
-                                    Log.d("MyTest", "onNext: " +
-                                            gson.toJson(data.getMonth_integrated()));
-                                    if (data.getMonth_integrated().size() == 1) {
+                                if (data.getFirst_list() != null) {
+
+                                    if (data.getFirst_list().size() == 1) {
                                         rlAllFirst.setVisibility(View.VISIBLE);
-                                        if (data.getMonth_integrated().get(0).
+                                        if (data.getFirst_list().get(0).
                                                 getId_card_head_image() != null &&
-                                                !data.getMonth_integrated().get(0).getId_card_head_image().isEmpty()) {
+                                                !data.getFirst_list().get(0).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getMonth_integrated().get(0).
+                                                    data.getFirst_list().get(0).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarFirstAll);
                                         }
-                                        tvFirstNameAll.setText(data.getMonth_integrated().
+                                        tvFirstNameAll.setText(data.getFirst_list().
                                                 get(0).getName());
                                         rlAllSecond.setVisibility(View.GONE);
                                         rlAllThird.setVisibility(View.GONE);
-                                    } else if (data.getMonth_integrated().size() == 2) {
+                                    } else if (data.getFirst_list().size() == 2) {
                                         rlAllFirst.setVisibility(View.VISIBLE);
                                         rlAllSecond.setVisibility(View.VISIBLE);
                                         rlAllThird.setVisibility(View.GONE);
-                                        if (data.getMonth_integrated().get(0).
+                                        if (data.getFirst_list().get(0).
                                                 getId_card_head_image() != null &&
-                                                !data.getMonth_integrated().get(0).
+                                                !data.getFirst_list().get(0).
                                                         getId_card_head_image().isEmpty()) {
 
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getMonth_integrated().get(0).
+                                                    data.getFirst_list().get(0).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarFirstAll);
                                         }
-                                        tvFirstNameAll.setText(data.getMonth_integrated().
+                                        tvFirstNameAll.setText(data.getFirst_list().
                                                 get(0).getName());
-                                        if (data.getMonth_integrated().get(1).
+                                        if (data.getFirst_list().get(1).
                                                 getId_card_head_image() != null &&
-                                                !data.getMonth_integrated().get(1).getId_card_head_image().isEmpty()) {
+                                                !data.getFirst_list().get(1).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getMonth_integrated().get(1).
+                                                    data.getFirst_list().get(1).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarSecondAll);
                                         }
 
-                                        tvSecondNameAll.setText(data.getMonth_integrated().
+                                        tvSecondNameAll.setText(data.getFirst_list().
                                                 get(1).getName());
 
-                                    } else if (data.getMonth_integrated().size() >= 3) {
+                                    } else if (data.getFirst_list().size() >= 3) {
                                         rlAllFirst.setVisibility(View.VISIBLE);
                                         rlAllSecond.setVisibility(View.VISIBLE);
                                         rlAllThird.setVisibility(View.VISIBLE);
-                                        if (data.getMonth_integrated().get(0).
+                                        if (data.getFirst_list().get(0).
                                                 getId_card_head_image() != null &&
-                                                !data.getMonth_integrated().get(0).getId_card_head_image().isEmpty()) {
+                                                !data.getFirst_list().get(0).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getMonth_integrated().get(0).
+                                                    data.getFirst_list().get(0).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarFirstAll);
                                         }
-                                        tvFirstNameAll.setText(data.getMonth_integrated().
+                                        tvFirstNameAll.setText(data.getFirst_list().
                                                 get(0).getName());
-                                        if (data.getMonth_integrated().get(1).
+                                        if (data.getFirst_list().get(1).
                                                 getId_card_head_image() != null &&
-                                                !data.getMonth_integrated().get(1).getId_card_head_image().isEmpty()) {
+                                                !data.getFirst_list().get(1).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getMonth_integrated().get(1).
+                                                    data.getFirst_list().get(1).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarSecondAll);
                                         }
-                                        tvSecondNameAll.setText(data.getMonth_integrated().
+                                        tvSecondNameAll.setText(data.getFirst_list().
                                                 get(1).getName());
-                                        if (data.getMonth_integrated().get(2).
+                                        if (data.getFirst_list().get(2).
                                                 getId_card_head_image() != null &&
-                                                !data.getMonth_integrated().get(2).getId_card_head_image().isEmpty()) {
+                                                !data.getFirst_list().get(2).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getMonth_integrated().get(2).
+                                                    data.getFirst_list().get(2).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarThirdAll);
                                         }
 
-                                        tvThirdNameAll.setText(data.getMonth_integrated().
+                                        tvThirdNameAll.setText(data.getFirst_list().
                                                 get(2).getName());
                                     }
 
@@ -545,7 +545,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
 
     }
 
-    private void updateFightingUI(List<AttendanceMonthItem.MonthRefuelBean> mData) {
+    private void updateFightingUI(List<AttendanceTotalDataMonth.ServiceBean> mData) {
         if (mData.size() == 1) {
             rlFightingFirst.setVisibility(View.VISIBLE);
             rlFightingSecond.setVisibility(View.GONE);
@@ -606,7 +606,7 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
         }
     }
 
-    private void updateTeamUI(List<AttendanceMonthItem.MonthRankBean> mData) {
+    private void updateTeamUI(List<AttendanceTotalDataMonth.ServiceBean> mData) {
         if (mData.size() == 1) {
             rlTeamFirst.setVisibility(View.VISIBLE);
             rlTeamSecond.setVisibility(View.GONE);

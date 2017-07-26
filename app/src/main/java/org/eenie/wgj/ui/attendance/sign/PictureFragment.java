@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.eenie.wgj.R;
+import org.eenie.wgj.util.ImageUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -48,16 +49,24 @@ public class PictureFragment extends DialogFragment {
     @BindView(R.id.advance_edit_dialog_confirm_button)
     Button mAdvanceEditDialogConfirmButton;
     private Bitmap mCropPicBitmap;
+    private String address;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle data = getArguments();
         if (data != null) {
+            address= data.getString("address");
+            if (address==null){
+
+            }
 //            mOriginPicBitmap = data.getParcelable(ORIGIN_PICTURE);
             mCropPicBitmap = data.getParcelable(CROP_PICTURE);
-            mCropPicBitmap = drawTextToBitmap(getActivity(), mCropPicBitmap,
-                    "摩助\n " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis()));
+            mCropPicBitmap =ImageUtil.drawTextToRightBottom(getActivity(),mCropPicBitmap,
+                    new SimpleDateFormat("HH:mm").format(System.currentTimeMillis())+
+                    "\n摩助"+new SimpleDateFormat("yyyy-MM-dd EE").format(System.currentTimeMillis())+"\n"+address,12,Color.WHITE,10,10);
+//            mCropPicBitmap = drawTextToBitmap(getActivity(), mCropPicBitmap,
+//                    "摩助" + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis()));
         }
     }
 
@@ -139,7 +148,7 @@ public class PictureFragment extends DialogFragment {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         // text color - #3D3D3D
         paint.setColor(Color.RED);
-        paint.setTextSize((int) (18 * scale));
+        paint.setTextSize((int) (14 * scale));
         paint.setDither(true); //获取跟清晰的图像采样
         paint.setFilterBitmap(true);//过滤一些
         Rect bounds = new Rect();
