@@ -144,9 +144,6 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
 
 
                         } else {
-//
-//                            Toast.makeText(context, apiResponse.getResultMessage(),
-//                                    Toast.LENGTH_SHORT).show();
                             fillDatas();
 
                         }
@@ -512,6 +509,9 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
                             if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
                                 Toast.makeText(context, apiResponse.getResultMessage(),
                                        Toast.LENGTH_LONG).show();
+                                getTotalTime( new SimpleDateFormat("yyyy-MM-dd").format(mCalendar.getTime()));
+                                getSortClassList( new SimpleDateFormat("yyyy-MM-dd").format(mCalendar.getTime()));
+
 
                             } else {
                                 Toast.makeText(context, apiResponse.getResultMessage(),

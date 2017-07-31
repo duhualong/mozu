@@ -169,7 +169,13 @@ public class NewAttendanceFirstActivity extends BaseActivity {
                     }
                     holder.itemName.setText(data.getName());
                     holder.itemPost.setText(data.getTypename());
-                    holder.itemCount.setText("第一名："+data.getFirst()+"次");
+                    if (data.getFirst()<=9){
+                        holder.itemCount.setText("第一名：0"+data.getFirst()+"次");
+
+                    }else {
+                        holder.itemCount.setText("第一名："+data.getFirst()+"次");
+
+                    }
 
                 }
 //设置显示内容

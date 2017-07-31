@@ -36,6 +36,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static org.eenie.wgj.R.id.checkbox_select;
+
 /**
  * Created by Eenie on 2017/6/8 at 14:54
  * Email: 472279981@qq.com
@@ -66,6 +68,7 @@ public class AddPersonalClassActivity extends BaseActivity {
     TextView tvAlert;
     private Gson gson=new Gson();
     private   List<Integer>ids=new ArrayList<>();
+    @BindView(R.id.checkbox_select_all)CheckBox mCheckBoxAll;
 
 
     @Override
@@ -313,10 +316,42 @@ public class AddPersonalClassActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.tv_apply_ok, R.id.img_back})
+    @OnClick({R.id.tv_apply_ok, R.id.img_back,R.id.checkbox_select_all})
     public void onClick(View view) {
         int number=0;
         switch (view.getId()) {
+            case R.id.checkbox_select_all:
+                if (mCheckBoxAll.isChecked()){
+                    if (addData!=null&&!addData.isEmpty()){
+                        for (int i=0;i<addData.size();i++){
+                            addData.get(i).setChecked(true);
+
+                        }
+                        if (adapter!=null){
+                            adapter.clear();
+                            adapter.addAll(addData);
+                        }
+
+
+                    }
+                }else {
+                    if (addData!=null&&!addData.isEmpty()){
+                        for (int i=0;i<addData.size();i++){
+                            addData.get(i).setChecked(false);
+                        }
+                        if (adapter!=null){
+                            addData.clear();
+                            adapter.addAll(addData);
+                        }
+
+
+                    }
+
+                }
+
+
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;
@@ -385,6 +420,12 @@ public class AddPersonalClassActivity extends BaseActivity {
                 if (data != null) {
                     holder.personalName.setText(data.getUserName());
                     holder.tvNumber.setText(String.valueOf(data.getTotalDay()-data.getAddDay()));
+                    if (data.isChecked()){
+                        holder.checkBoxSelect.setChecked(true);
+                    }else {
+                        holder.checkBoxSelect.setChecked(false);
+
+                    }
 
 
                 }
@@ -419,7 +460,7 @@ public class AddPersonalClassActivity extends BaseActivity {
             public ProjectViewHolder(View itemView) {
 
                 super(itemView);
-                checkBoxSelect = ButterKnife.findById(itemView, R.id.checkbox_select);
+                checkBoxSelect = ButterKnife.findById(itemView, checkbox_select);
                 personalName = ButterKnife.findById(itemView, R.id.tv_personal_name);
                 tvNumber = ButterKnife.findById(itemView, R.id.tv_number);
                 rlItem=ButterKnife.findById(itemView,R.id.rl_item);
@@ -434,18 +475,7 @@ public class AddPersonalClassActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
-//                    case R.id.checkbox_select:
-//                        if (checkBoxSelect.isChecked()){
-//                            mProjectList.setChecked(true);
-//
-//                        }else {
-//                            mProjectList.setChecked(false);
-//
-//                        }
-//                        notifyDataSetChanged();
-//
-//
-//                        break;
+
                     case R.id.rl_item:
                         if (checkBoxSelect.isChecked()){
                             checkBoxSelect.setChecked(false);

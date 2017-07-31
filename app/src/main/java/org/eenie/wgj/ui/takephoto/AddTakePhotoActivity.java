@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -39,6 +40,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class AddTakePhotoActivity extends BaseActivity {
+//    private static final int CAMERA_WITH_DATA =0x301 ;
     @BindView(R.id.et_input_work_title)EditText etInputTitle;
     @BindView(R.id.et_input_work_content)EditText etInputContent;
     private static final int REQUEST_CAMERA_FIRST=0x101;
@@ -62,6 +64,11 @@ public class AddTakePhotoActivity extends BaseActivity {
     @BindView(R.id.img_delete_first)ImageView imgDeleteFirst;
     @BindView(R.id.img_delete_second)ImageView imgDeleteSecond;
     @BindView(R.id.img_delete_third)ImageView imgDeleteThird;
+    //图片保存路径
+    public static final String filePath = Environment.getExternalStorageDirectory() + "/PictureTest/";
+
+    private String tempPhotoPath;
+    private File mCurrentPhotoFile;
     @Override
     protected int getContentView() {
         return R.layout.activity_add_take_photo;
@@ -197,6 +204,47 @@ public class AddTakePhotoActivity extends BaseActivity {
         }
     }
 
+//
+//    /* 从相机中获取照片 */
+//    private void getPictureFromCamera() {
+//
+//
+//
+//        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+//        tempPhotoPath = filePath + getNewFileName()
+//                + ".png";
+//        mCurrentPhotoFile = new File(tempPhotoPath);
+//
+//        if (!mCurrentPhotoFile.exists()) {
+//            try {
+//                mCurrentPhotoFile.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+//                Uri.fromFile(mCurrentPhotoFile));
+//        startActivityForResult(intent, CAMERA_WITH_DATA);
+//
+//
+////        mImageUri = createImageUri(this);
+////        Intent intent = new Intent();
+////        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+////        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
+////        startActivityForResult(intent, CAMERA_WITH_DATA);
+//    }
+//
+//
+//    /**
+//     * 根据时间戳生成文件名
+//     *
+//     * @return
+//     */
+//    public static String getNewFileName() {
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//        Date curDate = new Date(System.currentTimeMillis());
+//        return formatter.format(curDate);
+//    }
     private void showUploadDialog(int camera,int photo) {
         View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

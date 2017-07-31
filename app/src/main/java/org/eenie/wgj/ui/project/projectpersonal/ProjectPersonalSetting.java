@@ -47,6 +47,7 @@ public class ProjectPersonalSetting extends BaseActivity implements SwipeRefresh
 
     @BindView(R.id.recycler_project_personal)
     RecyclerView mRecyclerView;
+    @BindView(R.id.project_personal_total)TextView tvTotalNumber;
     private String projectId;
     private String companyId;
     private String token;
@@ -129,22 +130,31 @@ public class ProjectPersonalSetting extends BaseActivity implements SwipeRefresh
                     public void onNext(ApiResponse apiResponse) {
                         cancelRefresh();
                         if (apiResponse.getCode() == 0) {
-                            Gson gson = new Gson();
-                            String jsonArray = gson.toJson(apiResponse.getData());
-                            ArrayList<CompanyPersonalList> data = gson.fromJson(jsonArray,
-                                    new TypeToken<ArrayList<CompanyPersonalList>>() {
-                                    }.getType());
-                            if (data != null && !data.isEmpty()) {
-                                if (mAdapter != null) {
-                                    mAdapter = new ProjectPersonalAdapter(context, data);
-                                    LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-                                    mRecyclerView.setLayoutManager(layoutManager);
-                                    mRecyclerView.addItemDecoration(
-                                            new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-                                    mRecyclerView.setAdapter(mAdapter);
+                            if (apiResponse.getData()!=null){
+                                Gson gson = new Gson();
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                ArrayList<CompanyPersonalList> data = gson.fromJson(jsonArray,
+                                        new TypeToken<ArrayList<CompanyPersonalList>>() {
+                                        }.getType());
+                                if (data != null && !data.isEmpty()) {
+                                    tvTotalNumber.setText("项目人员("+data.size()+"人)");
+                                    if (mAdapter != null) {
+                                        mAdapter = new ProjectPersonalAdapter(context, data);
+                                        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                                        mRecyclerView.setLayoutManager(layoutManager);
+                                        mRecyclerView.addItemDecoration(
+                                                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+                                        mRecyclerView.setAdapter(mAdapter);
 
+                                    }else {
+                                        tvTotalNumber.setText("项目人员(0人)");
+                                    }
                                 }
+                            }else {
+                                tvTotalNumber.setText("项目人员(0人)");
+
                             }
+
 
                         }
 
@@ -276,16 +286,24 @@ public class ProjectPersonalSetting extends BaseActivity implements SwipeRefresh
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getCode() == 0) {
-                            Gson gson = new Gson();
-                            String jsonArray = gson.toJson(apiResponse.getData());
-                            ArrayList<CompanyPersonalList> data = gson.fromJson(jsonArray,
-                                    new TypeToken<ArrayList<CompanyPersonalList>>() {
-                                    }.getType());
-                            if (data != null && !data.isEmpty()) {
-                                if (mAdapter != null) {
-                                    mAdapter.addAll(data);
+                            if (apiResponse.getData()!=null){
+                                Gson gson = new Gson();
+                                String jsonArray = gson.toJson(apiResponse.getData());
+                                ArrayList<CompanyPersonalList> data = gson.fromJson(jsonArray,
+                                        new TypeToken<ArrayList<CompanyPersonalList>>() {
+                                        }.getType());
+                                if (data != null && !data.isEmpty()) {
+                                    tvTotalNumber.setText("项目人员("+data.size()+"人)");
+                                    if (mAdapter != null) {
+                                        mAdapter.addAll(data);
+                                    }
+                                }else {
+                                    tvTotalNumber.setText("项目人员(0人)");
                                 }
+                            }else {
+                                tvTotalNumber.setText("项目人员(0人)");
                             }
+
                         }
 
                     }

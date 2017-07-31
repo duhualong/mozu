@@ -13,7 +13,7 @@
               android:layout_height="wrap_content"
               android:padding="@dimen/padding_bottom"
               android:text="离职人员  "
-              android:textColor="@color/titleColor"
+              android:textColor="@color/black_light"
               android:textSize="@dimen/text_large_size"/>
     <View android:id="@+id/view" android:layout_width="match_parent"
           android:layout_height="1dp"

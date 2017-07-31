@@ -31,7 +31,7 @@
 
             <RelativeLayout android:id="@id/rl_sort_all"
                             android:layout_width="match_parent"
-                            android:layout_height="130dp"
+                            android:layout_height="150dp"
                             android:layout_marginEnd="@dimen/padding_bottom"
                             android:layout_marginLeft="@dimen/padding_bottom"
                             android:layout_marginRight="@dimen/padding_bottom"
@@ -63,7 +63,7 @@
                           android:textSize="@dimen/text_normal_size"
                 />
                 <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="match_parent"
+                              android:layout_height="80dp"
                               android:layout_below="@+id/text"
                               android:layout_marginBottom="16dp"
                               android:layout_marginEnd="16dp"
@@ -178,20 +178,33 @@
                                   android:textSize="@dimen/text_large_size"/>
                     </RelativeLayout>
                 </LinearLayout>
-                <TextView android:layout_width="wrap_content"
+                <View android:layout_width="match_parent"
+                      android:layout_height="1dp"
+                      android:layout_above="@id/rl_detail"
+                      android:background="@color/white_light"/>
+                <TextView android:id="@id/rl_detail"
+                          android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_alignParentBottom="true"
                           android:layout_alignParentEnd="true"
                           android:layout_alignParentRight="true"
-                          android:layout_margin="10dp"
-                          android:text="@string/tv_detail"
-                          android:textColor="@color/text_blue"
+                          android:layout_marginBottom="14dp"
+                          android:layout_marginEnd="16dp"
+                          android:layout_marginLeft="16dp"
+                          android:layout_marginRight="16dp"
+                          android:layout_marginStart="16dp"
+                          android:layout_marginTop="4dp"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center_vertical"
+                          android:text="查看详细"
+                          android:textColor="@color/gray"
                           android:textSize="@dimen/text_normal_size"
                 />
             </RelativeLayout>
             <RelativeLayout android:id="@id/rl_sort_team"
                             android:layout_width="match_parent"
-                            android:layout_height="130dp"
+                            android:layout_height="150dp"
                             android:layout_marginEnd="@dimen/padding_bottom"
                             android:layout_marginLeft="@dimen/padding_bottom"
                             android:layout_marginRight="@dimen/padding_bottom"
@@ -222,7 +235,7 @@
                           android:textSize="@dimen/text_normal_size"
                 />
                 <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="match_parent"
+                              android:layout_height="80dp"
                               android:layout_below="@+id/text2"
                               android:layout_marginBottom="16dp"
                               android:layout_marginEnd="16dp"
@@ -344,20 +357,33 @@
                                   android:textSize="@dimen/text_large_size"/>
                     </RelativeLayout>
                 </LinearLayout>
-                <TextView android:layout_width="wrap_content"
+                <View android:layout_width="match_parent"
+                      android:layout_height="1dp"
+                      android:layout_above="@id/rl_detail"
+                      android:background="@color/white_light"/>
+                <TextView android:id="@id/rl_detail"
+                          android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_alignParentBottom="true"
                           android:layout_alignParentEnd="true"
                           android:layout_alignParentRight="true"
-                          android:layout_margin="10dp"
-                          android:text="@string/tv_detail"
-                          android:textColor="@color/text_blue"
+                          android:layout_marginBottom="14dp"
+                          android:layout_marginEnd="16dp"
+                          android:layout_marginLeft="16dp"
+                          android:layout_marginRight="16dp"
+                          android:layout_marginStart="16dp"
+                          android:layout_marginTop="4dp"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center_vertical"
+                          android:text="查看详细"
+                          android:textColor="@color/gray"
                           android:textSize="@dimen/text_normal_size"
                 />
             </RelativeLayout>
             <RelativeLayout android:id="@id/rl_fighting_team"
                             android:layout_width="match_parent"
-                            android:layout_height="130dp"
+                            android:layout_height="150dp"
                             android:layout_marginEnd="@dimen/padding_bottom"
                             android:layout_marginLeft="@dimen/padding_bottom"
                             android:layout_marginRight="@dimen/padding_bottom"
@@ -388,7 +414,7 @@
                           android:textSize="@dimen/text_normal_size"
                 />
                 <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="match_parent"
+                              android:layout_height="80dp"
                               android:layout_below="@+id/text3"
                               android:layout_marginBottom="16dp"
                               android:layout_marginEnd="16dp"
@@ -473,14 +499,27 @@
                                   android:textSize="@dimen/text_large_size"/>
                     </RelativeLayout>
                 </LinearLayout>
-                <TextView android:layout_width="wrap_content"
+                <View android:layout_width="match_parent"
+                      android:layout_height="1dp"
+                      android:layout_above="@id/rl_detail"
+                      android:background="@color/white_light"/>
+                <TextView android:id="@id/rl_detail"
+                          android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_alignParentBottom="true"
                           android:layout_alignParentEnd="true"
                           android:layout_alignParentRight="true"
-                          android:layout_margin="10dp"
-                          android:text="@string/tv_detail"
-                          android:textColor="@color/text_blue"
+                          android:layout_marginBottom="14dp"
+                          android:layout_marginEnd="16dp"
+                          android:layout_marginLeft="16dp"
+                          android:layout_marginRight="16dp"
+                          android:layout_marginStart="16dp"
+                          android:layout_marginTop="4dp"
+                          android:drawableEnd="@mipmap/ic_arrow_right"
+                          android:drawableRight="@mipmap/ic_arrow_right"
+                          android:gravity="center_vertical"
+                          android:text="查看详细"
+                          android:textColor="@color/gray"
                           android:textSize="@dimen/text_normal_size"
                 />
             </RelativeLayout>
@@ -807,20 +846,6 @@
                             android:textSize="@dimen/text_normal_size"/>
                     </LinearLayout>
                 </RelativeLayout>
-                <!--<com.github.lzyzsd.circleprogress.DonutProgress-->
-                <!--android:id="@id/donut_progress"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/text5"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--app:donut_finished_color="@color/text_red"-->
-                <!--app:donut_finished_stroke_width="5dp"-->
-                <!--app:donut_max="100"-->
-                <!--app:donut_text_color="@color/text_red"-->
-                <!--app:donut_text_size="@dimen/text_normal_size"-->
-                <!--app:donut_unfinished_color="@color/gray"-->
-                <!--app:donut_unfinished_stroke_width="5dp"-->
-                <!--custom:donut_progress="0"/>-->
 
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"

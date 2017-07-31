@@ -165,19 +165,25 @@ public class AttendanceGoOutActivity extends BaseActivity implements
             if (projectMonth != null && !projectMonth.isEmpty()) {
                 AttendanceGoOutResponse data = projectMonth.get(position);
                 if (data != null) {
+                    if (data.getType().equals("签到")){
+                        holder.itemOutsideType.setText("签到时间");
+
+                    }else if (data.getType().equals("签退")){
+
+                        holder.itemOutsideType.setText("签退时间");
+                    }
                     holder.itemDateTime.setVisibility(View.VISIBLE);
-                    holder.itemDateTime.setText("外出时间  "+data.getTime());
+                    holder.itemDateTime.setText(data.getTime());
                     if (!data.getName().isEmpty() && data.getName() != null) {
-                        holder.itemTitle.setText("外出人员  " + data.getName());
+                        holder.itemTitle.setText(data.getName());
                     } else {
-                        holder.itemTitle.setText("外出人员  " + "无");
+                        holder.itemTitle.setText("无");
                     }
                     holder.itemDate.setText(data.getAddress());
                     holder.itemCause.setText(data.getDescr());
                 }
             }
         }
-
         @Override
         public int getItemCount() {
             return projectMonth.size();
@@ -199,15 +205,16 @@ public class AttendanceGoOutActivity extends BaseActivity implements
             private TextView itemDate;
             private TextView itemCause;
             private TextView itemDateTime;
+            private TextView itemOutsideType;
 
 
             public ProjectViewHolder(View itemView) {
                 super(itemView);
                 itemTitle = ButterKnife.findById(itemView, R.id.item_title);
-                itemDate = ButterKnife.findById(itemView, R.id.item_date);
+                itemDate = ButterKnife.findById(itemView, R.id.item_tv_address);
                 itemCause = ButterKnife.findById(itemView, R.id.item_cause);
                 itemDateTime=ButterKnife.findById(itemView, R.id.item_date_one);
-
+                itemOutsideType=ButterKnife.findById(itemView,R.id.text5);
 
 
             }

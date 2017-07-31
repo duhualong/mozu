@@ -201,9 +201,10 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
         });
         dialog.getWindow().findViewById(R.id.tv_photo_personal).setOnClickListener(v -> {
             dialog.dismiss();
-
-            startActivityForResult(new Intent(context, AttendanceTokePhotoActivity.class),
+            startActivityForResult(new Intent(context, AttendanceTokePhotoActivity.class).
+                            putExtra("address",address),
                     REQUEST_CODE);
+
 
         });
 
@@ -275,6 +276,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
         }
         if (requestCode==TAKE_PHOTO_REQUEST&&resultCode == RESULT_OK){
             if (imageUri!=null){
+
                 startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
             }
         }
@@ -305,6 +307,7 @@ public class AttendanceSignOutActivity extends BaseActivity implements LocationS
      */
     private void startCropImage(Uri resUri, int requestCode) {
         File cropFile = new File(context.getCacheDir(), System.currentTimeMillis()+"jpg");
+
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
                 .withMaxResultSize(500, 500)

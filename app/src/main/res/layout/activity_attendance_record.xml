@@ -30,9 +30,9 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_bottom"
         android:text="Eenie | 保安经理 "
-        android:textColor="@color/titleColor"
+        android:textColor="@color/black_light"
         android:background="@color/white"
-        android:textSize="16sp"/>
+        android:textSize="@dimen/text_large_size"/>
     <org.eenie.wgj.ui.attendance.SignCalendar android:id="@id/calendar_view"
                                               android:layout_width="match_parent"
                                               android:layout_height="wrap_content"
@@ -54,7 +54,6 @@
             android:text="@string/look_error_labor"
             android:textColor="@color/titleColor"
             android:textSize="@dimen/text_large_size"
-
         />
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -63,6 +62,5 @@
                    android:src="@mipmap/ic_arrow_right"/>
 
     </RelativeLayout>
-
 
 </LinearLayout>

@@ -37,14 +37,12 @@ public class JpushMessageReceiver  extends BroadcastReceiver {
         if (intent.getAction().equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
             //收到通知栏消息
             receivingNotification(intent.getExtras(),context);
-
-
+            Log.d(TAG, "handleMessage: "+intent.getExtras().toString());
 
         } else if (intent.getAction().equals(JPushInterface.ACTION_MESSAGE_RECEIVED)) {
             //收到自定义消息
             handleMessage(intent.getStringExtra(JPushInterface.EXTRA_MESSAGE));
         }
-
 
     }
 
@@ -52,11 +50,12 @@ public class JpushMessageReceiver  extends BroadcastReceiver {
     private void handleMessage(String extra_msg) {
         try {
             Uri uri = Uri.parse(extra_msg);
-            if (uri.getScheme().equals("meet") && uri.getAuthority().equals("checkin")) {
-               // EventBus.getDefault().post(new MeetCheckInEvent());
-            } else {
-                LogUtil.e("消息不符合规范 = " + uri.toString());
-            }
+            Log.d(TAG, "handleMessage: "+uri.toString());
+//            if (uri.getScheme().equals("meet") && uri.getAuthority().equals("checkin")) {
+//               // EventBus.getDefault().post(new MeetCheckInEvent());
+//            } else {
+//                LogUtil.e("消息不符合规范 = " + uri.toString());
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             LogUtil.e("消息不符合规范 = " + extra_msg);

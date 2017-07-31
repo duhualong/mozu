@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white_light"
-                android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
                     android:background="@color/colorPrimary">
@@ -30,18 +30,58 @@
                   android:textSize="@dimen/text_title_size"/>
 
     </RelativeLayout>
+    <RelativeLayout android:id="@id/rl_select_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom"
+                    android:visibility="visible">
 
-    <android.support.v7.widget.RecyclerView android:id="@id/recycler_personal"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:layout_marginTop="?android:actionBarSize"/>
-    <TextView android:layout_width="wrap_content"
+        <CheckBox
+            android:id="@id/checkbox_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/padding_bottom"
+            android:layout_marginRight="@dimen/padding_bottom"
+            android:button="@drawable/checkbox_apply_show_state"
+            android:checked="false"
+
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/padding_bottom"
+            android:layout_marginStart="@dimen/padding_bottom"
+            android:layout_toEndOf="@id/checkbox_select_all"
+            android:layout_toRightOf="@id/checkbox_select_all"
+            android:text="全员"
+            android:textColor="@color/black_light"
+        />
+    </RelativeLayout>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_marginBottom="@dimen/padding_bottom"
+                 android:layout_marginTop="1dp">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/recycler_personal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        />
+    </FrameLayout>
+    <TextView android:id="@id/tv_alert"
+              android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_centerInParent="true"
               android:text="当前没有排班人数"
-              android:id="@id/tv_alert"
               android:textColor="@color/titleColor"
               android:textSize="@dimen/text_large_size"
               android:visibility="gone"/>
 
-</RelativeLayout>
+</LinearLayout>

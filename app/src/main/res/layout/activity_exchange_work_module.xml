@@ -21,6 +21,16 @@
                   android:text="交接班"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
+        <TextView android:id="@id/tv_history"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="历史"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
 
     </RelativeLayout>
 

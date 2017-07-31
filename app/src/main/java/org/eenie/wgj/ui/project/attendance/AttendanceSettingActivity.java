@@ -684,10 +684,10 @@ public class AttendanceSettingActivity extends BaseActivity implements AMapLocat
         //设置定位间隔,单位毫秒,默认为2000ms
         option.setInterval(10 * 1000L);
     }
-    public void onRangeChange(double radius) {
-        this.radius = radius;
-        mLocationCircle.setRadius(radius);
-    }
+//    public void onRangeChange(double radius) {
+//        this.radius = radius;
+//        mLocationCircle.setRadius(radius);
+//    }
 
     /**
      * MapView 方法必须重写

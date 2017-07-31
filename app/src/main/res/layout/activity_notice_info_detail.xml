@@ -32,10 +32,10 @@
                   android:padding="@dimen/padding_bottom"
                   android:textSize="@dimen/text_large_size"
                   android:text=""
+                  android:lineSpacingExtra="4dp"
                   android:layout_marginTop="1dp"
                   android:background="@color/white"
                   android:textColor="@color/titleColor"/>
-
 
         <TextView android:id="@id/tv_notice_time"
                   android:layout_width="match_parent"

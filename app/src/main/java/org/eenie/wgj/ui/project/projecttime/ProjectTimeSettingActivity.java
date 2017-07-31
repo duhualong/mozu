@@ -246,7 +246,6 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-
                 onBackPressed();
                 break;
             case R.id.setting_tv:
@@ -539,7 +538,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
-                            Toast.makeText(ProjectTimeSettingActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ProjectTimeSettingActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
                             mCalendarView.getSelectedCells().clear();
                             mCalendarView.upCalendarView();
                             getProjectDayTime(projectId, new SimpleDateFormat("yyyy-MM").

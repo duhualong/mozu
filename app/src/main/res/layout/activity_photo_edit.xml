@@ -22,22 +22,24 @@
                   android:layout_alignParentRight="true"
                   android:layout_centerVertical="true"
                   android:padding="@dimen/padding_bottom"
-                  android:text="保存"
+                  android:text="拍照"
                   android:onClick="save"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
+
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:adjustViewBounds="true"
         android:layout_weight="1"
         android:gravity="center">
         <ImageView
             android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:scaleType="fitXY"/>
     </LinearLayout>
 

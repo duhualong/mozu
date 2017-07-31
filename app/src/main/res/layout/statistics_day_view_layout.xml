@@ -26,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:maxLength="3"
-            android:text="常日班"
+            android:maxLength="4"
+            android:text=""
             android:textColor="@color/titleColor"
             android:textSize="@dimen/text_small_size"
             android:visibility="visible"/>

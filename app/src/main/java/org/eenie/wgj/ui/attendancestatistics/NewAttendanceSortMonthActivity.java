@@ -183,6 +183,7 @@ public class NewAttendanceSortMonthActivity extends BaseActivity {
                             holder.restTwo.setVisibility(View.GONE);
                             holder.restThree.setVisibility(View.GONE);
                             holder.restFour.setVisibility(View.GONE);
+
                             holder.restDay.setText(data.getService().get(0).getServicesname()
                                     + "\n" + data.getService().get(0).getWork_day());
 
@@ -193,6 +194,8 @@ public class NewAttendanceSortMonthActivity extends BaseActivity {
                             holder.restFour.setVisibility(View.GONE);
                             holder.restDay.setText(data.getService().get(0).getServicesname()
                                     + "\n" + data.getService().get(0).getWork_day());
+
+                            holder.restTwo.setBackgroundResource(R.color.class_day_normal);
                             holder.restTwo.setText(data.getService().get(1).getServicesname()
                                     + "\n" + data.getService().get(1).getWork_day());
 
@@ -201,6 +204,9 @@ public class NewAttendanceSortMonthActivity extends BaseActivity {
                             holder.restTwo.setVisibility(View.VISIBLE);
                             holder.restThree.setVisibility(View.VISIBLE);
                             holder.restFour.setVisibility(View.GONE);
+                            holder.restTwo.setBackgroundResource(R.color.class_day_normal);
+                            holder.restThree.setBackgroundResource(R.color.class_other);
+
                             holder.restDay.setText(data.getService().get(0).getServicesname()
                                     + "\n" + data.getService().get(0).getWork_day());
                             holder.restTwo.setText(data.getService().get(1).getServicesname()
@@ -217,7 +223,8 @@ public class NewAttendanceSortMonthActivity extends BaseActivity {
                                     + "\n" + data.getService().get(0).getWork_day());
                             holder.restTwo.setText(data.getService().get(1).getServicesname()
                                     + "\n" + data.getService().get(1).getWork_day());
-
+                            holder.restTwo.setBackgroundResource(R.color.class_day_normal);
+                            holder.restThree.setBackgroundResource(R.color.class_other);
                             holder.restThree.setText(data.getService().get(2).getServicesname()
                                     + "\n" + data.getService().get(2).getWork_day());
                             holder.restFour.setText(data.getService().get(3).getServicesname()
@@ -303,7 +310,8 @@ public class NewAttendanceSortMonthActivity extends BaseActivity {
                                 .putExtra(AttendanceRecorderMonthActivity.DATE, date)
                                 .putExtra(AttendanceRecorderMonthActivity.POST, mProjectList.getTypename())
                                 .putExtra(AttendanceRecorderMonthActivity.USER_NAME, mProjectList.getName())
-                                .putExtra(AttendanceRecorderMonthActivity.UID, mProjectList.getId() + ""));
+                                .putExtra(AttendanceRecorderMonthActivity.UID, mProjectList.getId() + "")
+                                .putExtra(AttendanceRecorderMonthActivity.PROJECT_ID, projectId));
 
 
                         break;

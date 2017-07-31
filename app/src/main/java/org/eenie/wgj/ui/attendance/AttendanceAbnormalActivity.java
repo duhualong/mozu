@@ -7,10 +7,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +20,18 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.AttendanceAbnormal;
+import org.eenie.wgj.model.response.newattendancestatistic.UserAttendanceStatisticData;
+import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -49,8 +50,10 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
     private AbnormalAdapter mAdapter;
     public static final String DATE = "date";
     public static final String UID = "uid";
+    public static final String PROJECT_ID = "id";
     private String date;
     private String uid;
+    private String projectId;
 
     @Override
     protected int getContentView() {
@@ -61,6 +64,7 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
     protected void updateUI() {
         date = getIntent().getStringExtra(DATE);
         uid = getIntent().getStringExtra(UID);
+        projectId = getIntent().getStringExtra(PROJECT_ID);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -78,66 +82,97 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
 
 
     private void getAttendanceList(String date) {
-        if (TextUtils.isEmpty(uid)) {
-            uid = mPrefsHelper.getPrefs().getString(Constants.UID, "");
-        }
 
-        mSubscription = mRemoteService.getAttendanceDayOfMonth(
-                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
-                date, uid)
+        mSubscription = mRemoteService.getUserAttendanceStatisticData(mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
+                uid, projectId, date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
+                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         cancelRefresh();
-                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+                        if (apiResponse.getCode() == 0) {
+                            Gson gson = new Gson();
+                            String jsonArray = gson.toJson(apiResponse.getData());
+                            UserAttendanceStatisticData data =
+                                    gson.fromJson(jsonArray,
+                                            new TypeToken<UserAttendanceStatisticData>() {
+                                            }.getType());
 
-                            if (apiResponse.getData() != null) {
-                                Gson gson = new Gson();
-                                String jsonArray = gson.toJson(apiResponse.getData());
-                                ArrayList<AttendanceAbnormal> data =
-                                        gson.fromJson(jsonArray,
-                                                new TypeToken<ArrayList<AttendanceAbnormal>>() {
-                                                }.getType());
-                                if (data != null) {
-
+                            if (data != null) {
+                                if (data.getException_list() != null) {
                                     if (mAdapter != null) {
-                                        ArrayList<AttendanceAbnormal>
-                                                mData = new ArrayList<>();
-                                        for (int i = 0; i < data.size(); i++) {
-                                            if (data.get(i).getStateCode() == 1) {
-                                                mData.add(data.get(i));
-                                            }
-                                        }
-                                        Log.d("test", "data: " + gson.toJson(mData));
-
-                                        mAdapter.addAll(mData);
-
+                                        mAdapter.clear();
                                     }
-
+                                    mAdapter.addAll(data.getException_list());
                                 }
 
-
                             }
-
+//
                         } else {
-                            Toast.makeText(context,
-                                    apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+
 
                     }
                 });
+
+//        mSubscription = mRemoteService.getAttendanceDayOfMonth(
+//                mPrefsHelper.getPrefs().getString(Constants.TOKEN, ""),
+//                date, uid)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<ApiResponse>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(ApiResponse apiResponse) {
+//                        cancelRefresh();
+//                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+//
+//                            if (apiResponse.getData() != null) {
+//                                Gson gson = new Gson();
+//                                String jsonArray = gson.toJson(apiResponse.getData());
+//                                ArrayList<AttendanceAbnormal> data =
+//                                        gson.fromJson(jsonArray,
+//                                                new TypeToken<ArrayList<AttendanceAbnormal>>() {
+//                                                }.getType());
+//                                if (data != null) {
+//
+//                                    if (mAdapter != null) {
+//                                        ArrayList<AttendanceAbnormal>
+//                                                mData = new ArrayList<>();
+//                                        for (int i = 0; i < data.size(); i++) {
+//                                            if (data.get(i).getStateCode() == 1) {
+//                                                mData.add(data.get(i));
+//                                            }
+//                                        }
+//                                        Log.d("test", "data: " + gson.toJson(mData));
+//
+//                                        mAdapter.addAll(mData);
+//
+//                                    }
+//
+//                                }
+//
+//
+//                            }
+//
+//                        } else {
+//                            Toast.makeText(context,
+//                                    apiResponse.getResultMessage(), Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    }
+//                });
 
 
     }
@@ -174,9 +209,9 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
 
     class AbnormalAdapter extends RecyclerView.Adapter<AbnormalAdapter.ProjectViewHolder> {
         private Context context;
-        private ArrayList<AttendanceAbnormal> abnormalList;
+        private List<UserAttendanceStatisticData.ExceptionlistBean> abnormalList;
 
-        public AbnormalAdapter(Context context, ArrayList<AttendanceAbnormal>
+        public AbnormalAdapter(Context context, List<UserAttendanceStatisticData.ExceptionlistBean>
                 projectList) {
             this.context = context;
             this.abnormalList = projectList;
@@ -185,136 +220,47 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
         @Override
         public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            View itemView = inflater.inflate(R.layout.item_attendance_abnormal, parent, false);
+            View itemView = inflater.inflate(R.layout.item_new_attendance_abnormal_detail, parent, false);
             return new ProjectViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (abnormalList != null && !abnormalList.isEmpty()) {
-                AttendanceAbnormal data = abnormalList.get(position);
+                UserAttendanceStatisticData.ExceptionlistBean data = abnormalList.get(position);
 
 
                 if (data != null) {
-                    if (data.getService().getStarttime() != null) {
-                        holder.attendanceTimeScope.setText(data.getDate() + " " +
-                                data.getService().getStarttime() + "-" + data.getService().getEndtime());
-                    } else {
-                        holder.attendanceTimeScope.setText(data.getDate());
-                    }
+                    holder.attendanceTimeScope.setText(data.getDay());
+                    holder.attendanceAbnormalCause.setText(data.getType());
+                    if (data.getType().equals("旷工")) {
+                        holder.rlAddress.setVisibility(View.GONE);
+                        holder.rlSignTime.setVisibility(View.GONE);
 
-                    if (data.getStateDes().equals("旷工")) {
-                        holder.attendanceCheckInStatus.setVisibility(View.VISIBLE);
-                        holder.attendanceStartCause.setVisibility(View.VISIBLE);
-                        holder.attendanceCheckinAddress.setVisibility(View.VISIBLE);
-                        holder.attendanceStartAddress.setVisibility(View.VISIBLE);
-                        holder.attendanceCheckinAddress.setText("考勤地点");
-                        holder.attendanceCheckInStatus.setText("异常原因");
-                        holder.attendanceStartCause.setText(data.getStateDes());
-                        holder.attendanceStartAddress.setText("无");
-
-                        holder.attendanceEndCause.setVisibility(View.GONE);
-                        holder.attendanceEndCauseContent.setVisibility(View.GONE);
-                        holder.attendanceEndAddress.setVisibility(View.GONE);
-                        holder.attendanceEndAddressContent.setVisibility(View.GONE);
-                        holder.signBackTime.setVisibility(View.GONE);
-                        holder.tvSignBackTime.setVisibility(View.GONE);
-                        holder.tvSigninTime.setVisibility(View.GONE);
-                        holder.signInTime.setVisibility(View.GONE);
 
                     } else {
-                        if (data.getCheckin() != null) {
-//                            if (data.getCheckin().getStatus().equals("正常")){
-//                                holder.attendanceCheckInStatus.setVisibility(View.GONE);
-//                                holder.attendanceStartCause.setVisibility(View.GONE);
-//                                holder.attendanceCheckinAddress.setVisibility(View.GONE);
-//                                holder.attendanceStartAddress.setVisibility(View.GONE);
-//
-//                            }else {
-                            holder.attendanceCheckInStatus.setVisibility(View.VISIBLE);
-                            holder.attendanceStartCause.setVisibility(View.VISIBLE);
-                            holder.attendanceCheckinAddress.setVisibility(View.VISIBLE);
-                            holder.attendanceStartAddress.setVisibility(View.VISIBLE);
-                            holder.tvSigninTime.setVisibility(View.VISIBLE);
-                            holder.signInTime.setVisibility(View.VISIBLE);
-                            if (TextUtils.isEmpty(data.getCheckin().getComplete_time())){
+                        if (!TextUtils.isEmpty(data.getAddress())) {
+                            holder.attendanceAbnormalAddress.setText(data.getAddress());
 
-                                if (data.getCheckin().getStatus().equals("正常")){
-                                    holder.signInTime.setText("正常考勤");
-                                }else {
-                                    holder.signInTime.setText("无");
-                                }
-
-                            }else {
-                                holder.signInTime.setText(data.getCheckin().getComplete_time());
-
-                            }
-
-                            if (TextUtils.isEmpty(data.getCheckin().getDescription())){
-                                holder.attendanceStartCause.setText(data.getCheckin().getStatus());
-                            }else {
-                                holder.attendanceStartCause.setText(data.getCheckin().getStatus()+"(外出)");
-
-                            }
-                            if (!TextUtils.isEmpty(data.getCheckin().getAddress())) {
-                                holder.attendanceStartAddress.setText(data.getCheckin().getAddress());
-                            }
-//                            }
                         } else {
-                            holder.attendanceCheckInStatus.setVisibility(View.GONE);
-                            holder.attendanceStartCause.setVisibility(View.GONE);
-                            holder.attendanceCheckinAddress.setVisibility(View.GONE);
-                            holder.attendanceStartAddress.setVisibility(View.GONE);
-                            holder.tvSigninTime.setVisibility(View.GONE);
-                            holder.signInTime.setVisibility(View.GONE);
+                            holder.attendanceAbnormalAddress.setText("无");
+
+                        }
+                        if (data.getType().equals("迟到")) {
+
+                            holder.tvSignTime.setText("签到时间");
+
+                        } else {
+                            holder.tvSignTime.setText("签退时间");
 
                         }
 
-                        if (data.getSignback() != null) {
-//                            if (!data.getSignback().getStatus().equals("正常")){
-//                                holder.attendanceEndCause.setVisibility(View.GONE);
-//                                holder.attendanceEndCauseContent.setVisibility(View.GONE);
-//                                holder.attendanceEndAddress.setVisibility(View.GONE);
-//                                holder.attendanceEndAddressContent.setVisibility(View.GONE);
-//                            }else {
-                            holder.attendanceEndCause.setVisibility(View.VISIBLE);
-                            holder.attendanceEndCauseContent.setVisibility(View.VISIBLE);
-                            holder.attendanceEndAddress.setVisibility(View.VISIBLE);
-                            holder.attendanceEndAddressContent.setVisibility(View.VISIBLE);
-                            if (TextUtils.isEmpty(data.getSignback().getDescription())){
-                                holder.attendanceEndCauseContent.setText(data.getSignback().getStatus());
-                            }else {
-                                holder.attendanceEndCauseContent.setText(data.getCheckin().getStatus()+"(外出)");
-
-                            }
-
-                            holder.tvSignBackTime.setVisibility(View.VISIBLE);
-                            holder.signBackTime.setVisibility(View.VISIBLE);
-                            if (TextUtils.isEmpty(data.getSignback().getComplete_time())){
-                                if (data.getSignback().getStatus().equals("正常")){
-                                    holder.signBackTime.setText("正常考勤");
-                                }else {
-                                    holder.signBackTime.setText("无");
-                                }
-
-                            }else {
-                                holder.signBackTime.setText(data.getSignback().getComplete_time());
-
-                            }
-
-
-                            if (!TextUtils.isEmpty(data.getSignback().getAddress())) {
-                                holder.attendanceEndAddressContent.setText(data.getSignback().getAddress());
-                            }
-                            // }
-
+                        if (!TextUtils.isEmpty(data.getTime())) {
+                            holder.signTime.setText(data.getTime());
                         } else {
-                            holder.attendanceEndCause.setVisibility(View.GONE);
-                            holder.attendanceEndCauseContent.setVisibility(View.GONE);
-                            holder.attendanceEndAddress.setVisibility(View.GONE);
-                            holder.attendanceEndAddressContent.setVisibility(View.GONE);
-                        }
+                            holder.signTime.setText("无");
 
+                        }
 
                     }
 
@@ -330,7 +276,7 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
             return abnormalList.size();
         }
 
-        public void addAll(ArrayList<AttendanceAbnormal> projectList) {
+        public void addAll(List<UserAttendanceStatisticData.ExceptionlistBean> projectList) {
             this.abnormalList.addAll(projectList);
             AbnormalAdapter.this.notifyDataSetChanged();
         }
@@ -342,47 +288,30 @@ public class AttendanceAbnormalActivity extends BaseActivity implements SwipeRef
 
         class ProjectViewHolder extends RecyclerView.ViewHolder {
             private TextView attendanceTimeScope;
-            private TextView attendanceStartCause;
-            private TextView attendanceStartAddress;
-            private TextView attendanceEndCause;
-            private TextView attendanceEndCauseContent;
-            private TextView attendanceEndAddress;
-            private TextView attendanceEndAddressContent;
-            private TextView attendanceCheckInStatus;
-            private TextView attendanceCheckinAddress;
-
-            private TextView tvSigninTime;
-            private TextView signInTime;
-            private TextView tvSignBackTime;
-            private TextView signBackTime;
+            private TextView attendanceAbnormalCause;
+            private RelativeLayout rlAddress;
+            private TextView attendanceAbnormalAddress;
+            private RelativeLayout rlSignTime;
+            private TextView tvSignTime;
+            private TextView signTime;
 
 
             public ProjectViewHolder(View itemView) {
 
                 super(itemView);
-                attendanceCheckInStatus = ButterKnife.findById(itemView, R.id.abnormal_cause);
-                attendanceTimeScope = ButterKnife.findById(itemView, R.id.attendance_time_scope);
+                attendanceTimeScope = ButterKnife.findById(itemView, R.id.item_attendance_time);
+                attendanceAbnormalCause = ButterKnife.findById(itemView,
+                        R.id.item_attendance_abnormal_cause);
+                rlAddress = ButterKnife.findById(itemView, R.id.rl_attendance_address);
+                attendanceAbnormalAddress = ButterKnife.findById(itemView,
+                        R.id.item_attendance_abnormal_address);
+                rlSignTime = ButterKnife.findById(itemView,
+                        R.id.rl_sign_time);
+                tvSignTime = ButterKnife.findById(itemView,
+                        R.id.tv_attendance_sign_time);
+                signTime = ButterKnife.findById(itemView,
+                        R.id.item_attendance_abnormal_sign_time);
 
-                attendanceStartCause = ButterKnife.findById(itemView, R.id.abnormal_cause_content);
-
-                attendanceCheckinAddress = ButterKnife.findById(itemView, R.id.attendance_start_address);
-
-                attendanceStartAddress = ButterKnife.findById(itemView, R.id.attendance_address);
-
-                attendanceEndCause = ButterKnife.findById(itemView, R.id.attendance_end_cause);
-                attendanceEndCauseContent = ButterKnife.findById(itemView,
-                        R.id.attendance_end_cause_content);
-                attendanceEndAddress = ButterKnife.findById(itemView, R.id.attendance_end_address);
-                attendanceEndAddressContent = ButterKnife.findById(itemView,
-                        R.id.attendance_end_address_content);
-                tvSigninTime=ButterKnife.findById(itemView,
-                        R.id.sign_in);
-                signInTime=ButterKnife.findById(itemView,
-                        R.id.sign_in_time);
-                tvSignBackTime=ButterKnife.findById(itemView,
-                        R.id.tv_sign_back_time);
-                signBackTime=ButterKnife.findById(itemView,
-                        R.id.sign_back_time);
 
             }
 

@@ -246,6 +246,7 @@ public class AttendanceTestSignInActivity extends BaseActivity implements Locati
         }
         if (requestCode==TAKE_PHOTO_REQUEST&&resultCode == RESULT_OK){
             if (imageUri!=null){
+
                 startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
             }
         }

@@ -17,7 +17,6 @@ public class RankItemColorAgent {
 
 
     public RankItemColorAgent() {
-
         colorMap.put("常日班", Color.parseColor("#B0D5FC"));
         colorMap.put("日班", Color.parseColor("#EFEFEF"));
         colorMap.put("休息日", Color.parseColor("#FDC3C2"));

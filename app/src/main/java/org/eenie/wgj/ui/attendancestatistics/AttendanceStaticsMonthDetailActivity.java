@@ -243,59 +243,6 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
 
         }
     }
-//    private void AttendanceData(String projectId, String date){
-//        mSubscription = mRemoteService.getMonthSortItem(mPrefsHelper.getPrefs().
-//                getString(Constants.TOKEN, ""), projectId, date)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new ProgressSubscriber<ApiResponse>(context) {
-//                    @Override
-//                    public void onNext(ApiResponse apiResponse) {
-//                        Gson gson = new Gson();
-//                        String jsonArray = gson.toJson(apiResponse.getData());
-//                        AttendanceMonthItemResponse data= gson.fromJson(jsonArray,
-//                                new TypeToken<AttendanceMonthItemResponse>() {
-//                                }.getType());
-//
-//                        if (data!=null){
-//                            tvLateCount.setText(data.getLate()+"");
-//                            tvLeaveEarlyCount.setText(
-//                                    data.getEarly()+"");
-//                            tvOutSideCount.setText(
-//                                    data.getGo_out()+"");
-//                            tvLeaveCount.setText(
-//                                    data.getLeave()+"");
-//                            tvAbsentCount.setText(data.getAbsenteeism()+"");
-//                            tvOvertimeCount.setText(
-//                                    data.getOvertime()+"");
-//                            tvExperienceCount.setText(
-//                                    data.getPractice()+"");
-//                            tvlendCount.setText(
-//                                    data.getSeconded()+"");
-//                            tvLeavePeople.setText(data.getOutgoing_employee()+"人");
-//                            tvAddPeople.setText(data.getNew_employees()+"人");
-//                            mDonutProgress.setDonut_progress(
-//                                    String.valueOf(data.getTurnover_rate()));
-//
-//                            mDonutProgress.setProgress((int)data.getTurnover_rate());
-//
-//                            if (data.getMonth_integrated()!=null&&!data.getMonth_integrated().isEmpty()){
-//                                updateAllUIs(data.getMonth_integrated());
-//
-//                            }else {
-//                                rlAll.setClickable(false);
-//                                rlAllFirst.setVisibility(View.GONE);
-//                                rlAllSecond.setVisibility(View.GONE);
-//                                rlAllThird.setVisibility(View.GONE);
-//                            }
-//
-//
-//
-//                        }
-//                    }
-//                });
-//
-//    }
 
     private void updateAllUIs(List<AttendanceMonthItemResponse.MonthIntegratedBean> monthIntegrated) {
         if (monthIntegrated.size() == 1) {
@@ -426,13 +373,9 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
                                 circleProgress.setProgress((int)data.getResign_rate());
                                 tvRate.setText(data.getResign_rate()+"%");
 
-//                                    mDonutProgress.setDonut_progress(
-//                                            String.valueOf(data.getTurnover_rate()));
-//
-//                                    mDonutProgress.setProgress((int)data.getTurnover_rate());
 
-                                if (data.getRank_list() != null) {
-                                    updateTeamUI(data.getRank_list());
+                                if (data.getFirst_list() != null) {
+                                    updateTeamUI(data.getFirst_list());
                                 } else {
                                     rlSortTeam.setClickable(false);
                                     rlTeamFirst.setVisibility(View.GONE);
@@ -451,84 +394,84 @@ public class AttendanceStaticsMonthDetailActivity extends BaseActivity {
 
                                 }
 
-                                if (data.getFirst_list() != null) {
+                                if (data.getRank_list() != null) {
 
-                                    if (data.getFirst_list().size() == 1) {
+                                    if (data.getRank_list().size() == 1) {
                                         rlAllFirst.setVisibility(View.VISIBLE);
-                                        if (data.getFirst_list().get(0).
+                                        if (data.getRank_list().get(0).
                                                 getId_card_head_image() != null &&
-                                                !data.getFirst_list().get(0).getId_card_head_image().isEmpty()) {
+                                                !data.getRank_list().get(0).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getFirst_list().get(0).
+                                                    data.getRank_list().get(0).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarFirstAll);
                                         }
-                                        tvFirstNameAll.setText(data.getFirst_list().
+                                        tvFirstNameAll.setText(data.getRank_list().
                                                 get(0).getName());
                                         rlAllSecond.setVisibility(View.GONE);
                                         rlAllThird.setVisibility(View.GONE);
-                                    } else if (data.getFirst_list().size() == 2) {
+                                    } else if (data.getRank_list().size() == 2) {
                                         rlAllFirst.setVisibility(View.VISIBLE);
                                         rlAllSecond.setVisibility(View.VISIBLE);
                                         rlAllThird.setVisibility(View.GONE);
-                                        if (data.getFirst_list().get(0).
+                                        if (data.getRank_list().get(0).
                                                 getId_card_head_image() != null &&
-                                                !data.getFirst_list().get(0).
+                                                !data.getRank_list().get(0).
                                                         getId_card_head_image().isEmpty()) {
 
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getFirst_list().get(0).
+                                                    data.getRank_list().get(0).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarFirstAll);
                                         }
-                                        tvFirstNameAll.setText(data.getFirst_list().
+                                        tvFirstNameAll.setText(data.getRank_list().
                                                 get(0).getName());
-                                        if (data.getFirst_list().get(1).
+                                        if (data.getRank_list().get(1).
                                                 getId_card_head_image() != null &&
-                                                !data.getFirst_list().get(1).getId_card_head_image().isEmpty()) {
+                                                !data.getRank_list().get(1).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getFirst_list().get(1).
+                                                    data.getRank_list().get(1).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarSecondAll);
                                         }
 
-                                        tvSecondNameAll.setText(data.getFirst_list().
+                                        tvSecondNameAll.setText(data.getRank_list().
                                                 get(1).getName());
 
-                                    } else if (data.getFirst_list().size() >= 3) {
+                                    } else if (data.getRank_list().size() >= 3) {
                                         rlAllFirst.setVisibility(View.VISIBLE);
                                         rlAllSecond.setVisibility(View.VISIBLE);
                                         rlAllThird.setVisibility(View.VISIBLE);
-                                        if (data.getFirst_list().get(0).
+                                        if (data.getRank_list().get(0).
                                                 getId_card_head_image() != null &&
-                                                !data.getFirst_list().get(0).getId_card_head_image().isEmpty()) {
+                                                !data.getRank_list().get(0).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getFirst_list().get(0).
+                                                    data.getRank_list().get(0).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarFirstAll);
                                         }
-                                        tvFirstNameAll.setText(data.getFirst_list().
+                                        tvFirstNameAll.setText(data.getRank_list().
                                                 get(0).getName());
-                                        if (data.getFirst_list().get(1).
+                                        if (data.getRank_list().get(1).
                                                 getId_card_head_image() != null &&
-                                                !data.getFirst_list().get(1).getId_card_head_image().isEmpty()) {
+                                                !data.getRank_list().get(1).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getFirst_list().get(1).
+                                                    data.getRank_list().get(1).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarSecondAll);
                                         }
-                                        tvSecondNameAll.setText(data.getFirst_list().
+                                        tvSecondNameAll.setText(data.getRank_list().
                                                 get(1).getName());
-                                        if (data.getFirst_list().get(2).
+                                        if (data.getRank_list().get(2).
                                                 getId_card_head_image() != null &&
-                                                !data.getFirst_list().get(2).getId_card_head_image().isEmpty()) {
+                                                !data.getRank_list().get(2).getId_card_head_image().isEmpty()) {
                                             Glide.with(context).load(Constant.DOMIN +
-                                                    data.getFirst_list().get(2).
+                                                    data.getRank_list().get(2).
                                                             getId_card_head_image())
                                                     .centerCrop().into(avatarThirdAll);
                                         }
 
-                                        tvThirdNameAll.setText(data.getFirst_list().
+                                        tvThirdNameAll.setText(data.getRank_list().
                                                 get(2).getName());
                                     }
 

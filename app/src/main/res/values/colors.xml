@@ -62,4 +62,13 @@
     <color name="background_rest">#FFC5C5</color>
     <color name="gray_deep">#e8e8e8</color>
 
+
+    <color name="class_day_normal">#B1D7FF</color>
+    <color name="class_day">#F1F1F1</color>
+    <color name="class_rest">#FFC5C5</color>
+    <color name="class_night">#FFC5C5</color>
+    <color name="class_practice">#D2AEE6</color>
+    <color name="class_other">#ECE177</color>
+    
+
 </resources>

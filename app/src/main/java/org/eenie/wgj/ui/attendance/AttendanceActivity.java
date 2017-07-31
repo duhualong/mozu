@@ -69,12 +69,13 @@ public class AttendanceActivity extends BaseActivity {
     @BindView(R.id.end_attendance_address)
     TextView tvEndAttendanceAddress;
 
-   @BindView(R.id.week_calendar)
-  WeekCalendar mWeekCalendar;
+    @BindView(R.id.week_calendar)
+    WeekCalendar mWeekCalendar;
 
     ArrayList<String> mList = new ArrayList<>();
     ArrayList<String> mLists = new ArrayList<>();
     private String projectId;
+
     @Override
     protected int getContentView() {
 
@@ -84,12 +85,14 @@ public class AttendanceActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        String mDate=mPrefsHelper.getPrefs().getString(Constants.DATE_LIST,"");
-        String mDateThing=mPrefsHelper.getPrefs().getString(Constants.DATE_THING_LIST,"");
+        String mDate = mPrefsHelper.getPrefs().getString(Constants.DATE_LIST, "");
+        String mDateThing = mPrefsHelper.getPrefs().getString(Constants.DATE_THING_LIST, "");
         getData();
-        if (!TextUtils.isEmpty(mDate)&& !TextUtils.isEmpty(mDateThing)){
-            mList=gson.fromJson(mDate, new TypeToken<ArrayList<String>>() {}.getType());
-            mLists=gson.fromJson(mDateThing, new TypeToken<ArrayList<String>>() {}.getType());
+        if (!TextUtils.isEmpty(mDate) && !TextUtils.isEmpty(mDateThing)) {
+            mList = gson.fromJson(mDate, new TypeToken<ArrayList<String>>() {
+            }.getType());
+            mLists = gson.fromJson(mDateThing, new TypeToken<ArrayList<String>>() {
+            }.getType());
         }
         mWeekCalendar.setSelectDates(mList, mLists);
         mWeekCalendar.showToday();
@@ -115,8 +118,8 @@ public class AttendanceActivity extends BaseActivity {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 ||
-                                apiResponse.getResultCode() == 0){
-                            if (apiResponse.getData()!=null){
+                                apiResponse.getResultCode() == 0) {
+                            if (apiResponse.getData() != null) {
                                 String jsonArray = gson.toJson(apiResponse.getData());
                                 attendanceResponse =
                                         gson.fromJson(jsonArray,
@@ -133,8 +136,6 @@ public class AttendanceActivity extends BaseActivity {
                                 }
 
 
-
-
                             }
 
                         }
@@ -143,7 +144,7 @@ public class AttendanceActivity extends BaseActivity {
                 });
 
 
-      }
+    }
 
 
     private void showAttendanceInfo(String date) {
@@ -250,7 +251,7 @@ public class AttendanceActivity extends BaseActivity {
 
 
     @OnClick({R.id.img_back, R.id.rl_sign_in, R.id.rl_sign_off, R.id.rl_work_recoder,
-            R.id.line_attendance_other, R.id.rl_attendance_info,R.id.rl_attendance_sort})
+            R.id.line_attendance_other, R.id.rl_attendance_info, R.id.rl_attendance_sort})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_attendance_info:
@@ -270,7 +271,7 @@ public class AttendanceActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.rl_sign_in:
-               // startActivity(new Intent(context, AttendanceTestSignInActivity.class));
+                // startActivity(new Intent(context, AttendanceTestSignInActivity.class));
                 String todayDate =
                         new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
                 boolean select = false;
@@ -288,12 +289,12 @@ public class AttendanceActivity extends BaseActivity {
                             Toast.makeText(context, "今日已过签到", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            if (openGPSSettings()){
+                            if (openGPSSettings()) {
                                 startActivity(new Intent(context, AttendanceTestSignInActivity.class)
                                         .putExtra(AttendanceTestSignInActivity.INFO,
                                                 attendanceResponse.get(position)));
-                            }else {
-                                Toast.makeText(context,"请打开GPS",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "请打开GPS", Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -310,10 +311,10 @@ public class AttendanceActivity extends BaseActivity {
                 break;
 
             case R.id.rl_sign_off:
-                if (openGPSSettings()){
-                   checkSignOff();
-                }else {
-                    Toast.makeText(context,"请打开GPS",Toast.LENGTH_SHORT).show();
+                if (openGPSSettings()) {
+                    checkSignOff();
+                } else {
+                    Toast.makeText(context, "请打开GPS", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -321,16 +322,18 @@ public class AttendanceActivity extends BaseActivity {
             case R.id.rl_attendance_sort:
                 //考勤排名
                 startActivity(new Intent(context, AttendanceSortMonthItemActivity.class)
-                        .putExtra(AttendanceSortMonthItemActivity.PROJECT_ID,projectId));
+                        .putExtra(AttendanceSortMonthItemActivity.PROJECT_ID, projectId));
 
                 break;
             case R.id.rl_work_recoder:
                 startActivity(new Intent(context, AttendanceRecordActivity.class).putExtra(
-                        AttendanceRecordActivity.USER_NAME, username));
+                        AttendanceRecordActivity.USER_NAME, username)
+                        .putExtra(AttendanceRecordActivity.PROJECT_ID, projectId));
 
                 break;
         }
     }
+
     private boolean openGPSSettings() {
         boolean openGPSSettings;
         LocationManager locationManager = (LocationManager) this
@@ -412,7 +415,7 @@ public class AttendanceActivity extends BaseActivity {
                         if (mData != null) {
                             username = mData.getName();
                             attendanceName.setText(username);
-                           projectId=String.valueOf(mData.getProject_id());
+                            projectId = String.valueOf(mData.getProject_id());
                         }
                     }
                 });

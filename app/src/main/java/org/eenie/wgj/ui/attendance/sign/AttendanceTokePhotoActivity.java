@@ -75,7 +75,6 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
     @Override
     protected void updateUI() {
         address = getIntent().getStringExtra("address");
-
     }
 
     @Override
@@ -405,7 +404,7 @@ public class AttendanceTokePhotoActivity extends BaseActivity implements
      * 用来监测左横屏和右横屏切换时旋转摄像头的角度
      */
     private class DetectScreenOrientation extends OrientationEventListener {
-        DetectScreenOrientation(Context context) {
+        DetectScreenOrientation(Context c0ontext) {
             super(context);
         }
 

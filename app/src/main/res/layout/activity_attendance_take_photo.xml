@@ -12,9 +12,8 @@
         android:background="@android:color/transparent"
         android:visibility="visible"
         android:layout_gravity="center"
-        app:focus_crop_height="267dp"
-        app:focus_crop_width="200dp"
-        app:focus_frame_background="@mipmap/ic_take_photo_crop_bg"
+        app:focus_crop_height="400dp"
+        app:focus_crop_width="300dp"
         app:focus_frame_can_change="false"
         app:focus_frame_color="@android:color/holo_green_dark"
         app:focus_frame_stroke_weight="1dp"
@@ -26,7 +25,8 @@
         app:focus_min_frame_size="50dp"
         app:focus_mode="ratio_3_4"
         app:focus_overlay_color="#66000000"/>
-
+<!--        app:focus_frame_background="@mipmap/ic_take_photo_crop_bg"
+-->
 
     <HorizontalScrollView
         android:visibility="gone"

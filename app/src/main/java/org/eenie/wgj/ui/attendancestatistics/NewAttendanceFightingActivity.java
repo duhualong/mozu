@@ -149,7 +149,13 @@ public class NewAttendanceFightingActivity extends BaseActivity {
                     }
                     holder.itemName.setText(data.getName());
                     holder.itemPost.setText(data.getTypename());
-                    holder.itemCount.setText("异常："+data.getExceptions()+"次");
+                    if (data.getExceptions()<=9){
+                        holder.itemCount.setText("异常：0"+data.getExceptions()+"次");
+
+                    }else {
+                        holder.itemCount.setText("异常："+data.getExceptions()+"次");
+
+                    }
 
 
 

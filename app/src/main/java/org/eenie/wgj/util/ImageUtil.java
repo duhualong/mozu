@@ -3,6 +3,7 @@ package org.eenie.wgj.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -234,6 +235,8 @@ public class ImageUtil {
     //图片上绘制文字
     private static Bitmap drawTextToBitmap(Context context, Bitmap bitmap, String text,
                                            Paint paint, Rect bounds, int paddingLeft, int paddingTop) {
+
+
         android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
 
         paint.setDither(true); // 获取跟清晰的图像采样
@@ -243,22 +246,50 @@ public class ImageUtil {
         }
         bitmap = bitmap.copy(bitmapConfig, true);
         Canvas canvas = new Canvas(bitmap);
-
        // canvas.drawText(text, paddingLeft, paddingTop, paint);
-
         TextPaint textPaint = new TextPaint();
         textPaint.setARGB(0xFF, 255, 255, 255);
-        textPaint.setTextSize(16.0F);
+        textPaint.setTextSize(30.0F);
         textPaint.setAntiAlias(true);
-        StaticLayout layout = new StaticLayout(text, textPaint, 250,
+        StaticLayout layout = new StaticLayout(text, textPaint, bitmap.getWidth()/3,
                 Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
         canvas.save();
-        canvas.translate(20, 20);//从20，20开始画
+        canvas.translate(bitmap.getWidth()/3, bitmap.getHeight()*3/4);//从20，20开始画
         layout.draw(canvas);
         canvas.restore();//别忘了restore
         return bitmap;
     }
 
+    //图片上绘制文字
+    public static Bitmap drawTextToBitmaps(Context context, Bitmap bitmap, String text) {
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(dp2px(context, 24));
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+
+        paint.setDither(true); // 获取跟清晰的图像采样
+        paint.setFilterBitmap(true);// 过滤一些
+        if (bitmapConfig == null) {
+            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+        }
+        bitmap = bitmap.copy(bitmapConfig, true);
+        Canvas canvas = new Canvas(bitmap);
+        // canvas.drawText(text, paddingLeft, paddingTop, paint);
+        TextPaint textPaint = new TextPaint();
+        textPaint.setARGB(0xFF, 255, 255, 255);
+        textPaint.setTextSize(40.0F);
+        textPaint.setAntiAlias(true);
+        StaticLayout layout = new StaticLayout(text, textPaint, bitmap.getWidth(),
+                Layout.Alignment.ALIGN_CENTER, 1.0F, 0.0F, true);
+        canvas.save();
+        canvas.translate(2, bitmap.getHeight()*3/4);//从20，20开始画
+        layout.draw(canvas);
+        canvas.restore();//别忘了restore
+        return bitmap;
+    }
     /**
      * 缩放图片
      * @param src

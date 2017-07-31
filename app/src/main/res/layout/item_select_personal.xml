@@ -17,8 +17,8 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/padding_bottom"
         android:layout_marginRight="@dimen/padding_bottom"
-        android:button="@drawable/checkbox_apply_show_state"
         android:checked="false"
+        android:button="@drawable/checkbox_apply_show_state"
     />
     <TextView android:id="@id/tv_personal_name"
               android:layout_width="wrap_content"

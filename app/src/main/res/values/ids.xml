@@ -804,5 +804,16 @@
     <item name="select_rank_rl" type="id"/>
     <item name="item_type" type="id"/>
     <item name="tv_item_count" type="id"/>
+    <item name="item_attendance_time" type="id"/>
+    <item name="item_attendance_abnormal_cause" type="id"/>
+    <item name="tv_attendance_sign_time" type="id"/>
+    <item name="item_attendance_abnormal_sign_time" type="id"/>
+    <item name="rl_sign_time" type="id"/>
+    <item name="item_attendance_abnormal_address" type="id"/>
+    <item name="rl_attendance_address" type="id"/>
+    <item name="tv_history" type="id"/>
+    <item name="item_meeting_host" type="id"/>
+    <item name="item_meeting_status" type="id"/>
+    <item name="project_personal_total" type="id"/>
 
 </resources>

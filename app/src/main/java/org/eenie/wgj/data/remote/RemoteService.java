@@ -784,7 +784,14 @@ public interface RemoteService {
                                              @Query("projectid") String projectId,
                                              @Query("date") String date);
 
-    //
+    //获取项目下某个用户当月的考勤数据和异常数据
+
+    @GET("att_statistics_by_user")
+    Single<ApiResponse>getUserAttendanceStatisticData(@Header("token") String token,
+                                                      @Query("userid")String userId,
+                                                      @Query("projectid") String projectId,
+                                                      @Query("date") String date);
+
 
 
     //获取个人考勤情况
