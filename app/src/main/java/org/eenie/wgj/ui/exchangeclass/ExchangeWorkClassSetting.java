@@ -76,10 +76,23 @@ public class ExchangeWorkClassSetting extends BaseActivity implements
 
     }
 
-    @OnClick(R.id.img_back)
-    public void onClick() {
+    @OnClick({R.id.img_back,R.id.tv_history})
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.img_back:
+                onBackPressed();
 
-        onBackPressed();
+                break;
+            case R.id.tv_history:
+                startActivity(new Intent(getApplicationContext(),
+                        ExchangeClassHistoryRecordActivity.class));
+
+
+
+                break;
+        }
+
+
 
 
     }

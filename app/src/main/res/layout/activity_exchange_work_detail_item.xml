@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+    </RelativeLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/padding_bottom">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@id/tv_class_type"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:text="交班班次"
+                          android:textColor="@color/black_light"
+
+                          android:textSize="@dimen/text_large_size"/>
+
+                <TextView android:id="@id/tv_class_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:layout_marginLeft="@dimen/padding_bottom"
+                          android:layout_marginStart="@dimen/padding_bottom"
+                          android:layout_toEndOf="@id/tv_class_type"
+                          android:layout_toRightOf="@id/tv_class_type"
+                          android:text="日班"
+                          android:textColor="@color/titleColor"
+
+                          android:textSize="@dimen/text_large_size"/>
+                <TextView android:id="@id/tv_date"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:layout_alignParentRight="true"
+                          android:layout_centerVertical="true"
+                          android:text="2017年08月01日"
+                          android:textColor="@color/titleColor"
+                          android:textSize="@dimen/text_large_size"/>
+
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/white"
+                            android:padding="@dimen/padding_bottom">
+                <TextView android:id="@id/tv_class_type_people"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="交班人员"
+                          android:textColor="@color/black_light"
+
+                          android:textSize="@dimen/text_large_size"/>
+
+                <TextView android:id="@id/tv_class_people_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginLeft="@dimen/padding_bottom"
+                          android:layout_marginStart="@dimen/padding_bottom"
+                          android:layout_toEndOf="@id/tv_class_type_people"
+                          android:layout_toRightOf="@id/tv_class_type_people"
+                          android:text="张三"
+                          android:textColor="@color/titleColor"
+                          android:textSize="@dimen/text_large_size"/>
+
+
+            </RelativeLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="1dp"
+                          android:background="@color/white"
+                          android:orientation="horizontal"
+                          android:padding="@dimen/padding_bottom">
+                <ImageView android:id="@id/img_first"
+                           android:layout_width="80dp"
+                           android:layout_height="80dp"
+                />
+                <ImageView android:id="@id/img_second"
+                           android:layout_width="80dp"
+                           android:layout_height="80dp"
+                           android:layout_marginLeft="@dimen/padding_bottom"
+                           android:layout_marginStart="@dimen/padding_bottom"
+                           android:visibility="gone"
+                />
+
+                <ImageView android:id="@id/img_third"
+                           android:layout_width="80dp"
+                           android:layout_height="80dp"
+                           android:layout_marginLeft="@dimen/padding_bottom"
+                           android:layout_marginStart="@dimen/padding_bottom"
+                           android:visibility="gone"
+                />
+            </LinearLayout>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="1dp"
+                      android:background="@color/white"
+                      android:padding="@dimen/padding_bottom"
+                      android:text="交接班注意事项内容"
+                      android:textColor="@color/black_light"
+                      android:textSize="@dimen/text_large_size"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="1dp"
+                      android:background="@color/white"
+                      android:padding="@dimen/padding_bottom"
+                      android:text="交接班注意事项内容"
+                      android:lineSpacingExtra="4dp"
+                      android:id="@id/tv_exchange_work_content"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/padding_bottom"
+                      android:background="@color/white"
+                      android:padding="@dimen/padding_bottom"
+                      android:text="交接班说明"
+                      android:textColor="@color/black_light"
+                      android:textSize="@dimen/text_large_size"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="1dp"
+                      android:background="@color/white"
+                      android:padding="@dimen/padding_bottom"
+                      android:text="交接班注意事项内容"
+                      android:lineSpacingExtra="4dp"
+                      android:id="@id/tv_exchange_work_content_illustration"
+                      android:textColor="@color/titleColor"
+                      android:textSize="@dimen/text_large_size"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

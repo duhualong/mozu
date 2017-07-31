@@ -816,5 +816,20 @@
     <item name="item_meeting_status" type="id"/>
     <item name="project_personal_total" type="id"/>
     <item name="line_edit_photo_view" type="id"/>
+    <item name="notice_title" type="id"/>
+    <item name="tv_notice_people" type="id"/>
+    <item name="rb_hand" type="id"/>
+    <item name="rb_take" type="id"/>
+    <item name="recycler_view_hand" type="id"/>
+    <item name="item_class_name" type="id"/>
+    <item name="item_class_people_type" type="id"/>
+    <item name="item_class_people_name" type="id"/>
+    <item name="item_work" type="id"/>
+    <item name="tv_class_type" type="id"/>
+    <item name="tv_class_type_people" type="id"/>
+    <item name="tv_class_people_name" type="id"/>
+    <item name="tv_exchange_work_content" type="id"/>
+    <item name="tv_exchange_work_content_illustration" type="id"/>
+    <item name="btn_map" type="id"/>
 
 </resources>

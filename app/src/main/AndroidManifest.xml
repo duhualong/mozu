@@ -4,38 +4,37 @@
           package="org.eenie.wgj">
 
 
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
     <!-- 4.2以上的手机需要的权限 -->
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
-    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
     <!-- 访问INTERNET的权限 -->
-    <uses-permission android:name="android.permission.INTERNET" >
+    <uses-permission android:name="android.permission.INTERNET">
     </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
     </uses-permission>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE">
     </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE">
     </uses-permission>
     <!-- 手机信息 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    <uses-permission android:name="android.permission.READ_PHONE_STATE">
     </uses-permission>
     <!-- ************************************* -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE">
     </uses-permission>
     <!-- 在SD卡中创建文件与删除文件权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <!-- 传感器 -->
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- 摄像头权限 -->
-    <uses-permission android:name="android.permission.CAMERA" >
+    <uses-permission android:name="android.permission.CAMERA">
     </uses-permission>
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
-    <uses-permission android:name="com.meilapp.meila.permission.MIPUSH_RECEIVE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.meilapp.meila.permission.MIPUSH_RECEIVE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -48,7 +47,6 @@
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
-
 
 
     <uses-feature android:name="android.hardware.camera"/>
@@ -100,12 +98,12 @@
             </intent-filter>
         </activity>
         <!--<activity-->
-            <!--android:name= ".LoadResActivity"-->
-            <!--android:launchMode= "singleTask"-->
-            <!--android:process= ":mini"-->
-            <!--android:alwaysRetainTaskState= "false"-->
-            <!--android:excludeFromRecents= "true"-->
-            <!--android:screenOrientation= "portrait" />-->
+        <!--android:name= ".LoadResActivity"-->
+        <!--android:launchMode= "singleTask"-->
+        <!--android:process= ":mini"-->
+        <!--android:alwaysRetainTaskState= "false"-->
+        <!--android:excludeFromRecents= "true"-->
+        <!--android:screenOrientation= "portrait" />-->
         <activity android:name=".MainActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustPan"
@@ -734,6 +732,19 @@
         <activity android:name=".ui.attendancestatistics.NewAttendanceFightingActivity"/>
         <!--离职人员-->
         <activity android:name=".ui.attendancestatistics.AttendanceLeaveOutActivity"/>
+        <!--公告的详情-->
+        <activity android:name=".ui.noticemessage.NoticeMessageDetailActivity"/>
+        <!--添加公告-->
+        <activity android:name=".ui.noticemessage.AddNoticeMessageActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan"/>
+        <!--公告推送给指定部门-->
+        <activity android:name=".ui.noticemessage.ApplyDepartmentActivity"/>
+        <!--交接班历史记录-->
+        <activity android:name=".ui.exchangeclass.ExchangeClassHistoryRecordActivity"/>
+        <!--交接班历史记录详情-->
+        <activity android:name=".ui.exchangeclass.ExchangeHistoryItemDetailActivity"/>
+
 
         <!--<activity android:name=".ui.meeting.MeetingClassApplyPartActivity"-->
         <!--android:screenOrientation="portrait"-->

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="通知"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_bottom"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:id="@id/notice_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="通知标题"
+                  android:textColor="@color/black_light"/>
+        <TextView android:id="@id/tv_date"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:text="06月20日"
+                  android:textColor="@color/titleColor"/>
+
+
+    </RelativeLayout>
+    <TextView android:id="@id/tv_content"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="1dp"
+              android:background="@color/white"
+              android:lineSpacingExtra="4dp"
+              android:padding="@dimen/padding_bottom"
+              android:text="通知内容"
+              android:textColor="@color/titleColor"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:padding="@dimen/padding_bottom">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="通知人"
+            android:textColor="@color/black_light"/>
+        <TextView android:id="@id/tv_notice_people"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:text="张三"
+                  android:textColor="@color/titleColor"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

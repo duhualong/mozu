@@ -8,5 +8,14 @@
         android:id="@id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <Button android:id="@id/btn_map"
+            android:layout_width="140dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/padding_longer"
+            android:background="@drawable/background_shape_corner_map"
+            android:text="切换标准地图"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_large_size"/>
 
 </FrameLayout>

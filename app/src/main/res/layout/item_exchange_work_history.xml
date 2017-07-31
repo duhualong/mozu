@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="1dp"
+              android:id="@id/item_work"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/text_blue"
+                    android:padding="@dimen/padding_bottom">
+        <TextView android:id="@id/item_class_name"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:text="接班班次：日班"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/item_date"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:text="2016年09月27日 08:10"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_normal_size"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@color/white"
+                  android:orientation="horizontal"
+                  android:padding="@dimen/padding_bottom">
+        <TextView android:id="@id/item_class_people_type"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="接班人员："
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+
+        <TextView android:id="@id/item_class_people_name"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="张三"
+                  android:layout_toRightOf="@id/item_class_people_type"
+                  android:layout_toEndOf="@id/item_class_people_type"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_large_size"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

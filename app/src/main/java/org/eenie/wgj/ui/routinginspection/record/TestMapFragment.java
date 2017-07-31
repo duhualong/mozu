@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.amap.api.maps.AMap;
@@ -42,6 +43,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.amap.api.maps.AMap.MAP_TYPE_NORMAL;
 import static com.amap.api.maps.AMap.MAP_TYPE_SATELLITE;
 
 /**
@@ -51,7 +53,7 @@ import static com.amap.api.maps.AMap.MAP_TYPE_SATELLITE;
  */
 
 public class TestMapFragment extends SupportMapFragment implements AMap.OnMarkerClickListener,
-        AMap.OnInfoWindowClickListener, AMap.OnMapTouchListener {
+        AMap.OnInfoWindowClickListener, AMap.OnMapTouchListener, View.OnClickListener {
     public static final String USER_NAME = "inspection_id";
     public static final String AVATAR_URL = "url";
     public static final String DATE = "date";
@@ -72,6 +74,7 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
     private View mRoot;
     private Marker curShowWindowMarker;
     Polyline mPolyline;
+    private Button btnMap;
 
     @Nullable
     @Override
@@ -79,6 +82,9 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
                              @Nullable Bundle savedInstanceState) {
         mRoot = inflater.inflate(R.layout.fragment_routing_line_map_view, container, false);
         mMapView = (MapView) mRoot.findViewById(R.id.map_view);
+        btnMap = (Button) mRoot.findViewById(R.id.btn_map);
+        btnMap.setOnClickListener(this);
+
         mMapView.onCreate(savedInstanceState);
         if (mAMap == null) {
 
@@ -143,19 +149,19 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
                                         }.getType());
                         if (mData != null && mData.size() >= 1) {
 
-                                    List<RoutingPointLatLngResponse.InfoBean> data = mData.get(0).getInfo();
-                                    if (data != null) {
-                                        List<LatLng> latLngs = new ArrayList<>();
-                                        for (int i = 0; i < data.size(); i++) {
-                                            if (data.get(i).getLongitude() > 0 && data.get(i).getLatitude() > 0) {
-                                                latLngs.add(new LatLng(data.get(i).getLatitude(),
-                                                        data.get(i).getLongitude()));
-                                            }
-                                        }
-                                        Log.d("mline:", "onResponse: " + new Gson().toJson(latLngs));
-                                        mPolyline = mAMap.addPolyline(new PolylineOptions().
-                                                addAll(latLngs).width(12).color(Color.argb(255, 23, 135, 253)));
+                            List<RoutingPointLatLngResponse.InfoBean> data = mData.get(0).getInfo();
+                            if (data != null) {
+                                List<LatLng> latLngs = new ArrayList<>();
+                                for (int i = 0; i < data.size(); i++) {
+                                    if (data.get(i).getLongitude() > 0 && data.get(i).getLatitude() > 0) {
+                                        latLngs.add(new LatLng(data.get(i).getLatitude(),
+                                                data.get(i).getLongitude()));
                                     }
+                                }
+                                Log.d("mline:", "onResponse: " + new Gson().toJson(latLngs));
+                                mPolyline = mAMap.addPolyline(new PolylineOptions().
+                                        addAll(latLngs).width(16).color(Color.argb(255, 23, 135, 253)));
+                            }
                         }
                     } else {
                         Toast.makeText(getContext(),
@@ -163,8 +169,8 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
                     }
 
                 } else {
-                    Toast.makeText(getContext(),
-                            response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),
+//                            response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -181,6 +187,9 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mAMap != null) {
+            mAMap = null;
+        }
         mMapView.onDestroy();
 
 
@@ -222,13 +231,21 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
     public void onSignCircleChange(ArrayList<MapMarkerResponse> markerResponseArrayList) {
         ArrayList<MarkerOptions> markerOptionsArrayList = new ArrayList<>();
         for (int i = 0; i < markerResponseArrayList.size(); i++) {
-
-
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(new LatLng(markerResponseArrayList.get(i).getLatitude(),
-                    markerResponseArrayList.get(i).getLongitude())).icon(
-                    BitmapDescriptorFactory.fromResource(R.mipmap.ic_routing_point));
-            markerOptions.title("");
+            if (i == 0) {
+
+                markerOptions.position(new LatLng(markerResponseArrayList.get(i).getLatitude(),
+                        markerResponseArrayList.get(i).getLongitude())).icon(
+                        BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_first_point));
+                markerOptions.title("");
+            } else {
+                markerOptions.position(new LatLng(markerResponseArrayList.get(i).getLatitude(),
+                        markerResponseArrayList.get(i).getLongitude())).icon(
+                        BitmapDescriptorFactory.fromResource(R.mipmap.ic_routing_point));
+                markerOptions.title("");
+            }
+
+
             markerOptionsArrayList.add(markerOptions);
 
         }
@@ -305,6 +322,25 @@ public class TestMapFragment extends SupportMapFragment implements AMap.OnMarker
         }
 
         return fragment;
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+           case  R.id.btn_map:
+            if (mAMap.getMapType() == MAP_TYPE_SATELLITE) {
+                mAMap.setMapType(MAP_TYPE_NORMAL);
+                btnMap.setText("切换卫星地图");
+            } else if (mAMap.getMapType() == MAP_TYPE_NORMAL) {
+                mAMap.setMapType(MAP_TYPE_SATELLITE);
+                btnMap.setText("切换平面地图");
+
+            }
+
+            break;
+        }
+
 
     }
 

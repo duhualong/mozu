@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary"
+
+    >
+        <ImageView android:id="@id/img_back"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:padding="@dimen/padding_bottom"
+                   android:src="@mipmap/ic_back"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="交接班历史记录"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
+
+    </RelativeLayout>
+    <RadioGroup
+        android:id="@+id/rg_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10">
+        <RadioButton
+            android:id="@id/rb_hand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/month_radio_selector_left"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/dp_10"
+            android:text="我的交班"
+            android:textColor="@color/radio_selector"/>
+
+        <RadioButton
+            android:id="@id/rb_take"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/month_radio_selector_right"
+            android:button="@null"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/dp_10"
+            android:text="我的接班"
+            android:textColor="@color/radio_selector"/>
+    </RadioGroup>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
