@@ -255,7 +255,8 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
                     for (int i = 0; i < mCalendarView.getSelectedCells().size(); i++) {
 
-                        Log.d("日历", "选择: " + new SimpleDateFormat("yyyy-MM-dd").format(mCalendarView.getSelectedCells().get(i).getTime()));
+                        Log.d("日历", "选择: " + new SimpleDateFormat("yyyy-MM-dd").
+                                format(mCalendarView.getSelectedCells().get(i).getTime()));
 
 
                         dates.add(new SimpleDateFormat("yyyy-MM-dd").

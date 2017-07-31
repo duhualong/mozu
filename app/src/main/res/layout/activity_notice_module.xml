@@ -21,14 +21,19 @@
                   android:textColor="@color/white"
 
                   android:textSize="@dimen/text_title_size"/>
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+        />
 
 
     </RelativeLayout>
-    <TextView android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:gravity="center"
-              android:text="正在开发中。。。"
-              android:textColor="@color/titleColor"
-              android:textSize="@dimen/text_title_size"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

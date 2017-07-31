@@ -305,10 +305,7 @@ public class AddPersonalClassActivity extends BaseActivity {
                                     }
                                 }
                                 Log.d("addData", "List: "+gson.toJson(addData));
-//                                adapter=new AddPersonalAdapter(context,addData);
-//                                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-//                                mRecyclerView.setLayoutManager(layoutManager);
-//                                mRecyclerView.setAdapter(adapter);
+
                                 adapter.addAll(addData);
                             }
                         }
@@ -330,8 +327,8 @@ public class AddPersonalClassActivity extends BaseActivity {
                         if (adapter!=null){
                             adapter.clear();
                             adapter.addAll(addData);
+                            adapter.notifyDataSetChanged();
                         }
-
 
                     }
                 }else {
@@ -340,8 +337,9 @@ public class AddPersonalClassActivity extends BaseActivity {
                             addData.get(i).setChecked(false);
                         }
                         if (adapter!=null){
-                            addData.clear();
+                            adapter.clear();
                             adapter.addAll(addData);
+                            adapter.notifyDataSetChanged();
                         }
 
 

@@ -523,8 +523,6 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
         }
 
 
-
-
     }
 
 
@@ -669,10 +667,8 @@ public class ProjectSettingPersonalTimeActivity extends BaseActivity {
                 }
 
             });
-
             return convertView;
         }
-
         public class ItemViewHolder {
             TextView itemText;
             TextView btnAdd;

@@ -242,7 +242,6 @@ public class SignInMeetingActivity extends BaseActivity implements SwipeRefreshL
                 imgSignin = ButterKnife.findById(itemView, R.id.id_index_gallery_item_image);
                 tvSignIn = ButterKnife.findById(itemView, R.id.id_index_gallery_item_text);
 
-
             }
 
 

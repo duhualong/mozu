@@ -283,6 +283,5 @@ public static String getStr(List<String> strList) {
                 break;
         }
         return week;
-
     }
 }

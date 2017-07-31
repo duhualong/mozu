@@ -107,7 +107,7 @@
     <string name="go_login">去登陆</string>
     <!--personal_center-->
     <string name="personal_name">姓名</string>
-    <string name="personal_phone">手机号：18817772486</string>
+    <string name="personal_phone">手机号：</string>
     <string name="alert_setting">提醒设置</string>
     <string name="version">版本信息</string>
     <string name="tv_personal_center">个人中心</string>

@@ -20,9 +20,9 @@
         android:layout_marginTop="10dp"
         android:id="@+id/crop_picture_img"
         android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:contentDescription="@string/app_name"/>
 
