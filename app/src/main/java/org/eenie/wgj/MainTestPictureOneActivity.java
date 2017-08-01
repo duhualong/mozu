@@ -32,6 +32,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.linchaolong.android.imagepicker.ImagePicker;
+import com.linchaolong.android.imagepicker.cropper.CropImage;
+import com.linchaolong.android.imagepicker.cropper.CropImageView;
+
 import org.eenie.wgj.base.BaseActivity;
 
 import java.io.File;
@@ -58,7 +62,7 @@ public class MainTestPictureOneActivity extends BaseActivity {
     private ImageView iv;//展示图片
     private Bitmap copyPic;//编辑图片
     private Canvas canvas;//画板
-    private Paint paint=new Paint();//画笔
+    private Paint paint = new Paint();//画笔
     private Matrix matrix;//矩阵
     private Bitmap srcPic;//原图
     private int color = Color.RED;//画笔颜色
@@ -79,6 +83,9 @@ public class MainTestPictureOneActivity extends BaseActivity {
     private ImageView imgRectangle;
     private ImageView imgReRevoke;
     private TextView takeSave;
+    private ImageView imgCrop;
+    private LinearLayout mLinearLayout;
+    private ImagePicker imagePicker = new ImagePicker();
 
 
     @Override
@@ -98,15 +105,17 @@ public class MainTestPictureOneActivity extends BaseActivity {
         imgCircle = (ImageView) findViewById(R.id.img_circle);
         imgRectangle = (ImageView) findViewById(R.id.img_rectangle);
         imgReRevoke = (ImageView) findViewById(R.id.img_revoke);
-        takeSave= (TextView) findViewById(R.id.take_bt);
+        takeSave = (TextView) findViewById(R.id.take_bt);
+        imgCrop = (ImageView) findViewById(R.id.img_crop);
+        mLinearLayout = (LinearLayout) findViewById(R.id.line_edit_photo_view);
+        imagePicker.setCropImage(true);
+
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         // 屏幕宽度（像素）
         screenWidth = metric.widthPixels;
 
     }
-
-
 
 
     /**
@@ -165,7 +174,7 @@ public class MainTestPictureOneActivity extends BaseActivity {
                             drawArrow(startX, startY, endX, endY, width, paint);
 
                         }
-                       // iv.setImageBitmap(copyPic);
+                        // iv.setImageBitmap(copyPic);
                         break;
 
                     case MotionEvent.ACTION_UP:// 移动的事件类型
@@ -220,6 +229,58 @@ public class MainTestPictureOneActivity extends BaseActivity {
     }
 
 
+//剪切
+
+    public void crop(View view) {
+
+        startChooser();
+    }
+
+
+
+
+    private void startChooser() {
+        // 启动图片选择器
+        imagePicker.startChooser(this, new ImagePicker.Callback() {
+            // 选择图片回调
+            @Override public void onPickImage(Uri imageUri) {
+
+            }
+
+            // 裁剪图片回调
+            @Override public void onCropImage(Uri imageUri) {
+                imgRectangle.setImageURI(imageUri);
+//        im
+//        draweeView.setImageURI(imageUri);
+//        draweeView.getHierarchy().setRoundingParams(RoundingParams.asCircle());
+
+
+
+            }
+
+            // 自定义裁剪配置
+            @Override public void cropConfig(CropImage.ActivityBuilder builder) {
+                builder
+                        // 是否启动多点触摸
+                        .setMultiTouchEnabled(false)
+                        // 设置网格显示模式
+                        .setGuidelines(CropImageView.Guidelines.OFF);
+                // 圆形/矩形
+//            .setCropShape(CropImageView.CropShape.RECTANGLE);
+                // 调整裁剪后的图片最终大小
+//            .setRequestedSize(960, 540);
+                // 宽高比
+                //  .setAspectRatio(16, 9);
+            }
+
+            // 用户拒绝授权回调
+            @Override public void onPermissionDenied(int requestCode, String[] permissions,
+                                                     int[] grantResults) {
+            }
+        });
+    }
+
+
 
     /**
      * 圆形
@@ -233,6 +294,7 @@ public class MainTestPictureOneActivity extends BaseActivity {
         imgJiantou.setImageResource(R.mipmap.ic_white_jiantou);
         circle = 0;
     }
+
 
     /**
      * 矩形
@@ -296,7 +358,7 @@ public class MainTestPictureOneActivity extends BaseActivity {
                     getIntent().putExtra("path", savePic(copyPics)));
 
             finish();
-        }else {
+        } else {
             getPictureFromCamera();
 
         }
@@ -405,7 +467,7 @@ public class MainTestPictureOneActivity extends BaseActivity {
         Path triangle = new Path();
         triangle.moveTo(sx, sy);
         triangle.lineTo((float) (zx + size * yz / zr), (float) (zy - size * xz / zr));
-        triangle.lineTo((float) (zx + size * 2 * yz / zr),(float) (zy - size * 2 * xz / zr));
+        triangle.lineTo((float) (zx + size * 2 * yz / zr), (float) (zy - size * 2 * xz / zr));
         triangle.lineTo(ex, ey);
         triangle.lineTo((float) (zx - size * 2 * yz / zr), (float) (zy + size * 2 * xz / zr));
         triangle.lineTo((float) (zx - size * yz / zr), (float) (zy + size * xz / zr));
@@ -416,7 +478,6 @@ public class MainTestPictureOneActivity extends BaseActivity {
 
     /* 从相机中获取照片 */
     private void getPictureFromCamera() {
-
 
 
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -538,16 +599,17 @@ public class MainTestPictureOneActivity extends BaseActivity {
         switch (requestCode) {
             case CAMERA_WITH_DATA://拍照
                 photoPath = tempPhotoPath;
+                int angle = getBitmapDegree(photoPath);
+                Bitmap bitmap = compressionFiller(photoPath, ll);//图片缩放
+                camera_path = saveBitmap(rotaingImageView(angle, bitmap), "saveTemp");
+                takeSave.setText("保存");
+                mLinearLayout.setVisibility(View.VISIBLE);
+                drawPic();
                 break;
 
         }
-        int angle = getBitmapDegree(photoPath);
-        Bitmap bitmap = compressionFiller(photoPath, ll);//图片缩放
-        camera_path = saveBitmap(rotaingImageView(angle, bitmap), "saveTemp");
-        takeSave.setText("保存");
 
-        drawPic();
-
+        imagePicker.onActivityResult(this, requestCode, resultCode, data);
 
 
     }

@@ -332,6 +332,10 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                         Integer.valueOf(inspectiondayId), mAddress, mLong, mLat, 1);
 
 
+                                if (mType.equals("last")) {
+                                    stopService(new Intent(context, MLocationService.class));
+                                }
+
                                 addData(getMultipartBody(fileNortmal, fileAbnormal,
                                         new Gson().toJson(request), 1), mPrefsHelper.getPrefs().
                                         getString(Constants.TOKEN, ""));
@@ -394,6 +398,9 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                         }
                                     }
                                     if (mchecked) {
+                                        if (mType.equals("last")) {
+                                            stopService(new Intent(getApplicationContext(), MLocationService.class));
+                                        }
                                         AddRoutingContent request = new AddRoutingContent(0,
                                                 Integer.valueOf(inspectiondayId), mAddress, mLong, mLat, erroBean, 1);
 
@@ -463,9 +470,9 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                 showUploadDialog(REQUEST_CAMERA_THREE, REQUEST_PHOTO_THREE);
                 break;
             case R.id.img_first:
-                if (mFirstFile==null){
+                if (mFirstFile == null) {
                     showUploadDialog(REQUEST_CAMERA_FIRST, REQUEST_PHOTO_FIRST);
-                }else {
+                } else {
                     startActivity(new Intent(context, GallerysActivity.class)
                             .putExtra(GallerysActivity.EXTRA_IMAGE_URI, firstPath));
 
@@ -474,21 +481,20 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
                 break;
             case R.id.img_second:
-                if (mSecondFile==null){
+                if (mSecondFile == null) {
                     showUploadDialog(REQUEST_CAMERA_SECOND, REQUEST_PHOTO_SECOND);
-                }else {
+                } else {
                     startActivity(new Intent(context, GallerysActivity.class)
                             .putExtra(GallerysActivity.EXTRA_IMAGE_URI, secondPath));
 
                 }
 
 
-
                 break;
             case R.id.img_third:
-                if (mThirdFile==null){
+                if (mThirdFile == null) {
                     showUploadDialog(REQUEST_CAMERA_THIRD, REQUEST_PHOTO_THIRD);
-                }else {
+                } else {
                     startActivity(new Intent(context, GallerysActivity.class)
                             .putExtra(GallerysActivity.EXTRA_IMAGE_URI, thirdPath));
 
@@ -550,7 +556,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                             getStartRecord();
                             break;
                         case "last":
-                            stopService(new Intent(context, MLocationService.class));
+                            //   stopService(new Intent(context, MLocationService.class));
                             break;
                     }
                     finish();

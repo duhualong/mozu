@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<declare-styleable name="TopBar">-->
-        <!--<attr name="titleSize" format="string"></attr>-->
-        <!--<attr name="titleColor" format="color"></attr>-->
-        <!--<attr name="backColor" format="color"></attr>-->
-        <!--<attr name="title" format="string"></attr>-->
-    <!--</declare-styleable>-->
+    <declare-styleable name="TopBar">
+        <attr name="titleSize" format="string"></attr>
+        <attr name="titleColor" format="color"></attr>
+        <attr name="backColor" format="color"></attr>
+        <attr name="title" format="string"></attr>
+    </declare-styleable>
 
     <declare-styleable name="MainNavigateTabBar">
         <attr name="navigateTabTextColor" format="color|reference"/>

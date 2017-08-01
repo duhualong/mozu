@@ -59,6 +59,11 @@ public class NewMessagePageFragment  extends BaseSupportFragment {
     }
 
     @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("onCreate");

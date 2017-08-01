@@ -23,6 +23,7 @@ import org.eenie.wgj.base.BaseFragment;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.CaptchaChecked;
 import org.eenie.wgj.model.response.Token;
+import org.eenie.wgj.ui.login.newcard.RegisterSecondNewFragment;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.RxUtils;
 import org.eenie.wgj.util.Utils;
@@ -322,7 +323,7 @@ public class RegisterFirstFragment extends BaseFragment {
                             fragmentMgr.beginTransaction()
                                     .addToBackStack(TAG)
                                     .replace(R.id.fragment_login_container,
-                                            RegisterSecondFragment.newInstance(mPhone, mPassword))
+                                            RegisterSecondNewFragment.newInstance(mPhone, mPassword))
                                     .commit();
                         } else {
                             Snackbar.make(rootView, value.getResultMessage(), Snackbar.LENGTH_LONG).show();

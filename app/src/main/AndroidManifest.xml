@@ -164,7 +164,11 @@
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.bean.JsonDataActivity"/>
-
+        <!--身份证剪切框-->
+        <activity android:name="me.zhouzhuo810.cameracardcrop.CropActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
 
         <!--消息-->
 
@@ -744,6 +748,11 @@
         <activity android:name=".ui.exchangeclass.ExchangeClassHistoryRecordActivity"/>
         <!--交接班历史记录详情-->
         <activity android:name=".ui.exchangeclass.ExchangeHistoryItemDetailActivity"/>
+
+        <!-- ImagePicker 相关配置 -->
+        <activity android:name="com.linchaolong.android.imagepicker.cropper.CropImageActivity"
+                  android:theme="@style/Base.Theme.AppCompat"/>
+
 
 
         <!--<activity android:name=".ui.meeting.MeetingClassApplyPartActivity"-->

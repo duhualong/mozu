@@ -2,6 +2,7 @@ package org.eenie.wgj.ui.contacts;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -72,6 +73,11 @@ public class FragmentContact extends BaseSupportFragment {
     @Override
     protected void updateUI() {
         initData();
+
+    }
+
+    @Override
+    public void getBundle(Bundle bundle) {
 
     }
 

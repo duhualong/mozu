@@ -66,6 +66,11 @@ public class RoutingLineFragment extends BaseSupportFragment {
 
     }
 
+    @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
     /**
      * 方法必须重写
      */

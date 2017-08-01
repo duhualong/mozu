@@ -2,6 +2,7 @@ package org.eenie.wgj.ui.meeting.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -54,6 +55,11 @@ public class MeetingEndFragment extends BaseSupportFragment {
         mRecyclerView.setAdapter(mAdapter);
 
         initData();
+
+    }
+
+    @Override
+    public void getBundle(Bundle bundle) {
 
     }
 

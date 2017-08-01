@@ -27,7 +27,7 @@ android {
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
         multiDexEnabled true
-      // multiDexKeepProguard file('multidex.pro')
+        // multiDexKeepProguard file('multidex.pro')
 
     }
     buildTypes {
@@ -76,7 +76,6 @@ dependencies {
 
     //    compile "com.google.dagger:dagger:${daggerVersion}"
 
-
     // Retrofit2
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     compile "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
@@ -105,7 +104,7 @@ dependencies {
     //compile 'com.github.yalantis:ucrop:2.2.1'
     compile 'com.github.yalantis:ucrop:2.2.1-native'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-   // compile 'com.yalantis:ucrop:1.5.0'
+    // compile 'com.yalantis:ucrop:1.5.0'
     compile 'me.zhouzhuo.zzletterssidebar:zz-letters-sidebar:1.0.2'
     //压缩图片
     compile 'id.zelory:compressor:1.0.4'
@@ -135,5 +134,9 @@ dependencies {
     //compile files('libs/commons-lang3-3.6.jar')
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.2'//如果使用了特殊的Header
+
+    //身份证拍照的剪切
+    compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.2'
+    compile 'com.linchaolong.android:imagepicker:1.5'
 
 }

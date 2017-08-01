@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import org.eenie.wgj.R;
@@ -28,6 +29,12 @@ public class MessagePagerFragment  extends BaseSupportFragment{
     protected void updateUI() {
 
     }
+
+    @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
     @OnClick({R.id.rl_alert_to_do,R.id.rl_alert_notice,R.id.rl_alert_birthday,
             R.id.rl_alert_abnormal})public void onClick(View view){
         switch (view.getId()){

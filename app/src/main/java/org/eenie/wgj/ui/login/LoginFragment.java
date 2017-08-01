@@ -136,15 +136,15 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.btn_register:
 
-////
-                fragmentMgr.beginTransaction()
+//////
+                              fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
                         .replace(R.id.fragment_login_container, new RegisterFirstFragment())
                         .commit();
 
 //                fragmentMgr.beginTransaction()
 //                        .addToBackStack(TAG)
-//                        .replace(R.id.fragment_login_container, new RegisterSecondFragment())
+//                     .replace(R.id.fragment_login_container, new RegisterSecondNewFragment())
 //                        .commit();
 //             // startActivity(new Intent(context, TestMyActivity.class));
 

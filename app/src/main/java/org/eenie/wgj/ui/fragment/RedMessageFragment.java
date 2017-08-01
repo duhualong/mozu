@@ -155,6 +155,12 @@ public class RedMessageFragment extends BaseSupportFragment {
             }
         });
     }
+
+    @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
     private void getDatas(int currentPage) {
 //        dataBean=new ArrayList<>();
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));

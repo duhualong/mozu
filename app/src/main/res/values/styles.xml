@@ -12,7 +12,9 @@
         <item name="android:paddingLeft">5dip</item>
         <item name="android:textSize">14sp</item>
     </style>
-
+    <style name="ToolBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="actionMenuTextColor">#ffffff</item>
+    </style>
 
 
     <style name="CropModeButtonStyle">

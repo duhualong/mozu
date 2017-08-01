@@ -7,10 +7,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,25 +20,15 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.yyydjk.library.BannerLayout;
 
-import org.eenie.wgj.MainTestPictureActivity;
 import org.eenie.wgj.R;
-import org.eenie.wgj.adapter.GridItem;
-import org.eenie.wgj.adapter.GridViewAdapter;
 import org.eenie.wgj.base.BaseSupportFragment;
+import org.eenie.wgj.data.local.HomeModule;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceListResponse;
 import org.eenie.wgj.model.response.UserInforById;
-import org.eenie.wgj.ui.attendance.AttendanceActivity;
-import org.eenie.wgj.ui.attendancestatistics.AttendanceStatisticsActivity;
-import org.eenie.wgj.ui.reportpost.ReportPostSettingUploadActivity;
-import org.eenie.wgj.ui.reportpoststatistics.ReportPostStatisticsSettingActivity;
-import org.eenie.wgj.ui.routinginspection.RoutingInspectionActivity;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
-import org.eenie.wgj.ui.routingstatistics.RoutingStatisticsSettingActivity;
 import org.eenie.wgj.ui.scan.ScanActivity;
-import org.eenie.wgj.ui.train.TrainingNewPagerSettingActivity;
-import org.eenie.wgj.ui.trainstatistic.TrainingStatisticSettingActivity;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.PermissionManager;
 
@@ -46,74 +36,115 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
+ * Created by Eenie on 2017/8/1 at 10:41
+ * Email: 472279981@qq.com
+ * Des:
  */
 
-public class HomePagerFragment extends BaseSupportFragment implements AdapterView.OnItemClickListener {
+public class HomePagerNewFragment extends BaseSupportFragment {
     private static final int REQUEST_CAMERA_PERMISSION = 0x104;
-    private GridViewAdapter mGridViewAdapter;
-    private ArrayList<GridItem> mGridData;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-    @BindView(R.id.home_root_view)
-    View rootView;
-    boolean permission = false;
-
-
-    private Integer[] localGradText = {R.string.work_attendance, R.string.work_attendance_statistics,
-            R.string.routing_inspection, R.string.routing_inspection_statistics, R.string.train,
-            R.string.train_statistics, R.string.report_job, R.string.report_job_statistics,
-
-    };
-
-    private Integer[] localGradImg = {R.mipmap.ic_home_attendance, R.mipmap.ic_home_attendance_statistics,
-            R.mipmap.ic_inspection, R.mipmap.ic_inspection_statistics,
-            R.mipmap.ic_training, R.mipmap.ic_training_statistics,
-            R.mipmap.ic_submitted_post, R.mipmap.ic_submitted_post_statistics};
-    private Integer[] ids = {R.mipmap.ic_home_banner_one, R.mipmap.ic_home_banner_two,
-            R.mipmap.ic_home_banner_three, R.mipmap.home_banner_default_bg3};
-    private Integer[] idBottom = {R.mipmap.home_banner_default_bg4, R.mipmap.home_banner_default_bg5};
     @BindView(R.id.banner_top)
     BannerLayout bannerTop;
     @BindView(R.id.banner_bottom)
     BannerLayout bannerBottom;
-    @BindView(R.id.gradView)
-    GridView mGradView;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.home_root_view)
+    View rootView;
+    @BindView(R.id.rv_module)
+    RecyclerView rvModule;
+
+    ModuleAdapter mAdapter;
+    List<HomeModule> modules = new ArrayList<>();
+
+    boolean isModuleChange = false;
+
+    boolean permission = false;
+    private Integer[] ids = {R.mipmap.ic_home_banner_one, R.mipmap.ic_home_banner_two,
+            R.mipmap.ic_home_banner_three, R.mipmap.home_banner_default_bg3};
+    private Integer[] idBottom = {R.mipmap.home_banner_default_bg4, R.mipmap.home_banner_default_bg5};
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_home_pager;
+        return R.layout.fragment_home_pager_new;
     }
 
     @Override
     protected void updateUI() {
 
-        mGradView.setSaveEnabled(false);
         initPersonalInfo();
         initData();
         initDatas();
         checkPermission();
+        rvModule.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        mAdapter = new ModuleAdapter(modules);
+        rvModule.setAdapter(mAdapter);
+        getModule();
 
+
+
+    }
+
+    private void getModule() {
+        modules.clear();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<HomeModule> results = realm.where(HomeModule.class).findAllSorted("index");
+
+        for (HomeModule m : results) {
+            if (m.isShow()) {
+                modules.add(m);
+            }
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void getBundle(Bundle bundle) {
 
+//
+////        if (modules.isEmpty() || isModuleChange) {
+////            reloadModule();
+////        }
+//        reloadModule();
+
     }
+
+
+    private void reloadModule() {
+        modules.clear();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<HomeModule> results = realm.where(HomeModule.class)
+                .equalTo("show", true)
+                .findAllSorted("index");
+        for (HomeModule m : results) {
+            if (m.isShow()) {
+                modules.add(m);
+            }
+        }
+        isModuleChange = false;
+    }
+    public void needRefresh() {
+        isModuleChange = true;
+    }
+
 
     @OnClick({R.id.img_scan, R.id.img_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_scan:
                 if (permission) {
-                    IntentIntegrator integrator = IntentIntegrator.forSupportFragment(HomePagerFragment.this);
+                    IntentIntegrator integrator = IntentIntegrator.forSupportFragment(HomePagerNewFragment.this);
                     integrator.setCaptureActivity(ScanActivity.class);
                     integrator.initiateScan();
                 } else {
@@ -121,7 +152,7 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
                 }
                 break;
             case R.id.img_search:
-                startActivity(new Intent(context, MainTestPictureActivity.class));
+              //  startActivity(new Intent(context, MainTestPictureActivity.class));
                 break;
         }
     }
@@ -143,6 +174,7 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
             permission = true;
         }
     }
+
     /**
      * 请求权限Snackbar
      */
@@ -150,11 +182,11 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
         if (this.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
             Snackbar.make(rootView, "请提供摄像头及文件权限，以拍摄和预览相机图片!", Snackbar.LENGTH_INDEFINITE)
                     .setAction("OK", v -> {
-                        PermissionManager.invokeCameras(HomePagerFragment.this, REQUEST_CAMERA_PERMISSION);
+                        PermissionManager.invokeCameras(HomePagerNewFragment.this, REQUEST_CAMERA_PERMISSION);
                     })
                     .show();
         } else {
-            PermissionManager.invokeCameras(HomePagerFragment.this, REQUEST_CAMERA_PERMISSION);
+            PermissionManager.invokeCameras(HomePagerNewFragment.this, REQUEST_CAMERA_PERMISSION);
         }
     }
 
@@ -204,7 +236,6 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
                     if (temp[1] != null) {
                         scanMeeting(temp[1]);
                     }
-
 
                 }
             }
@@ -287,16 +318,7 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
     private void initData() {
         bannerTop.setViewRes(Arrays.asList(ids));
         bannerBottom.setViewRes(Arrays.asList(idBottom));
-        mGridData = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            GridItem item = new GridItem();
-            item.setTitle(localGradText[i]);
-            item.setImage(localGradImg[i]);
-            mGridData.add(item);
-        }
-        mGridViewAdapter = new GridViewAdapter(getContext(), R.layout.grid_item_home, mGridData);
-        mGradView.setAdapter(mGridViewAdapter);
-        mGradView.setOnItemClickListener(this);
+
 
     }
 
@@ -363,36 +385,6 @@ public class HomePagerFragment extends BaseSupportFragment implements AdapterVie
                 });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
-            case 0:
-                initDatas();
-                startActivity(new Intent(context, AttendanceActivity.class));
-                break;
-            case 1:
-                startActivity(new Intent(context, AttendanceStatisticsActivity.class));
-                break;
-            case 2:
-                startActivity(new Intent(context, RoutingInspectionActivity.class));
-                break;
-            case 3:
-                startActivity(new Intent(context, RoutingStatisticsSettingActivity.class));
 
-                break;
-            case 4:
-                startActivity(new Intent(context, TrainingNewPagerSettingActivity.class));
-                break;
-            case 5:
-                startActivity(new Intent(context, TrainingStatisticSettingActivity.class));
-                break;
-            case 6:
-                startActivity(new Intent(context, ReportPostSettingUploadActivity.class));
-                break;
-            case 7:
-                startActivity(new Intent(context, ReportPostStatisticsSettingActivity.class));
-                break;
-        }
 
-    }
 }

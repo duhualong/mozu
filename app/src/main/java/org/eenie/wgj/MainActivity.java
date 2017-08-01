@@ -17,9 +17,9 @@ import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.requset.UserId;
 import org.eenie.wgj.model.response.AttendanceListResponse;
 import org.eenie.wgj.model.response.UserInforById;
+import org.eenie.wgj.ui.application.ApplicationFragment;
 import org.eenie.wgj.ui.contacts.FragmentContact;
-import org.eenie.wgj.ui.fragment.ApplyPagerFragment;
-import org.eenie.wgj.ui.fragment.HomePagerFragment;
+import org.eenie.wgj.ui.fragment.HomePagerNewFragment;
 import org.eenie.wgj.ui.fragment.NewMessagePageFragment;
 import org.eenie.wgj.ui.fragment.PersonalCenterFragment;
 import org.eenie.wgj.util.Constants;
@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity {
         setCurrentNavigator(0);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_container, new HomePagerFragment()).commit();
+                .add(R.id.main_container, new HomePagerNewFragment()).commit();
 
 
     }
@@ -232,7 +232,7 @@ public class MainActivity extends BaseActivity {
         Fragment fragment = null;
         switch (index) {
             case 0:
-                fragment = new HomePagerFragment();
+                fragment = new HomePagerNewFragment();
                 break;
             case 1:
                 fragment = new FragmentContact();
@@ -242,7 +242,7 @@ public class MainActivity extends BaseActivity {
                 fragment = new NewMessagePageFragment();
                 break;
             case 3:
-                fragment = new ApplyPagerFragment();
+                fragment = new ApplicationFragment();
                 break;
             case 4:
                 fragment = new PersonalCenterFragment();
@@ -264,9 +264,7 @@ public class MainActivity extends BaseActivity {
                 pageIndex = 0;
 
                 break;
-
             case R.id.ll_contact_pager:
-
                 pageIndex = 1;
                 break;
 
@@ -276,13 +274,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.ll_apply_pager:
                 pageIndex = 3;
-
                 break;
-
             case R.id.ll_mine_pager:
-
                 pageIndex = 4;
-
                 break;
         }
         setCurrentPager(pageIndex);
@@ -313,5 +307,6 @@ public class MainActivity extends BaseActivity {
             System.exit(0);
         }
     }
+
 
 }

@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.fragment;
 
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -56,6 +57,11 @@ public class FragmentTest extends BaseSupportFragment {
 
         //initDatas();
         initUi();
+
+    }
+
+    @Override
+    public void getBundle(Bundle bundle) {
 
     }
 

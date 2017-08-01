@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@id/root_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white"
               android:orientation="vertical"
-              android:id="@id/root_view"
 >
 
     <RelativeLayout android:layout_width="match_parent"
-                  android:layout_height="?android:actionBarSize"
-                  android:background="@color/colorPrimary">
+                    android:layout_height="?android:actionBarSize"
+                    android:background="@color/colorPrimary">
         <ImageView
             android:id="@id/img_back"
             android:layout_width="wrap_content"
@@ -18,11 +18,11 @@
             android:src="@mipmap/ic_back"/>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@string/tv_information_title"
-                  android:textSize="@dimen/text_title_size"
-                  android:textColor="@color/white"
+                  android:layout_centerHorizontal="true"
                   android:layout_centerVertical="true"
-                  android:layout_centerHorizontal="true"/>
+                  android:text="@string/tv_information_title"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
 
     </RelativeLayout>
     <ScrollView
@@ -43,7 +43,7 @@
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="190dp"
-                android:background="@mipmap/bg_shenfenzhengkuang"
+                android:background="@mipmap/ic_background_id_card"
                 android:orientation="vertical">
 
                 <TextView
@@ -51,18 +51,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:text="@string/tv_upload_positive"
+                    android:visibility="invisible"
+                    android:layout_marginTop="5dp"
                     android:textColor="@color/titleColor"
-                    android:textSize="12sp"
-                    android:text="@string/tv_upload_positive"/>
+                    android:textSize="12sp"/>
 
                 <ImageView
                     android:id="@id/img_positive"
                     android:layout_width="220dp"
                     android:layout_height="136dp"
                     android:layout_gravity="center_horizontal"
+
                     android:layout_marginTop="10dp"
-                    android:src="@mipmap/img_renxiangmian"/>
+                    android:maxHeight="136dp"
+                    android:maxWidth="220dp"
+                    android:src="@mipmap/ic_card_photo_people_front"/>
 
             </LinearLayout>
 
@@ -72,15 +76,16 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@mipmap/bg_submit_button"
-                android:text="@string/tv_camera"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"/>
+                android:text="上传身份证人像面"
+
+                android:textColor="@android:color/white"
+                android:textSize="12sp"/>
 
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="190dp"
                 android:layout_marginTop="20dp"
-                android:background="@mipmap/bg_shenfenzhengkuang"
+                android:background="@mipmap/ic_background_id_card"
                 android:orientation="vertical">
 
                 <TextView
@@ -88,11 +93,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="invisible"
+                    android:text="@string/tv_upload_negative"
                     android:textColor="@color/titleColor"
-                    android:textSize="12sp"
-
-                    android:text="@string/tv_upload_negative"/>
+                    android:textSize="12sp"/>
 
                 <ImageView
                     android:id="@id/img_negative"
@@ -100,7 +105,9 @@
                     android:layout_height="136dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:src="@mipmap/img_guohuimian"/>
+                    android:maxHeight="136dp"
+                    android:maxWidth="220dp"
+                    android:src="@mipmap/ic_card_photo_people_back"/>
 
             </LinearLayout>
 
@@ -110,20 +117,20 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@mipmap/bg_submit_button"
-                android:text="@string/tv_camera"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"/>
+                android:text="上传身份证国徽面"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"/>
 
             <Button
                 android:id="@id/btn_submitbtn"
                 android:layout_width="300dp"
                 android:layout_height="45dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@mipmap/bg_btnbukedianji"
                 android:text="@string/tv_submit"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                android:textSize="12sp"/>
 
         </LinearLayout>
     </ScrollView>

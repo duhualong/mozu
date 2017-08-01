@@ -220,4 +220,9 @@ public class UnRedMessageFragment extends BaseSupportFragment {
         });
     }
 
+    @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
 }

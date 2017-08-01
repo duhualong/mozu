@@ -11,8 +11,8 @@
                    android:layout_width="wrap_content"
                    android:layout_height="match_parent"
                    android:layout_centerVertical="true"
-                   android:padding="@dimen/padding_bottom"
                    android:onClick="back"
+                   android:padding="@dimen/padding_bottom"
                    android:src="@mipmap/ic_back"/>
 
         <TextView android:id="@id/take_bt"
@@ -21,9 +21,9 @@
                   android:layout_alignParentEnd="true"
                   android:layout_alignParentRight="true"
                   android:layout_centerVertical="true"
+                  android:onClick="save"
                   android:padding="@dimen/padding_bottom"
                   android:text="拍照"
-                  android:onClick="save"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
 
@@ -32,8 +32,8 @@
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
         android:layout_weight="1"
+        android:adjustViewBounds="true"
         android:gravity="center">
         <ImageView
             android:id="@+id/iv"
@@ -45,37 +45,45 @@
 
 
     <LinearLayout
+        android:id="@id/line_edit_photo_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_bottom"
-        android:id="@id/line_edit_photo_view"
         android:background="@color/colorPrimary"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        android:padding="@dimen/padding_bottom">
         <ImageView android:id="@+id/img_jiantou"
                    android:layout_width="0dp"
-                   android:layout_height="24dp"
+                   android:layout_height="20dp"
                    android:layout_weight="1"
                    android:onClick="arrow"
                    android:src="@mipmap/ic_white_jiantou"/>
         <ImageView android:id="@+id/img_rectangle"
                    android:layout_width="0dp"
-                   android:layout_height="24dp"
+                   android:layout_height="20dp"
                    android:layout_weight="1"
                    android:onClick="fang"
                    android:src="@mipmap/ic_white_rectangle"/>
 
         <ImageView android:id="@+id/img_circle"
                    android:layout_width="0dp"
-                   android:layout_height="24dp"
+                   android:layout_height="20dp"
                    android:layout_weight="1"
                    android:onClick="circle"
                    android:src="@mipmap/ic_white_circle"/>
         <ImageView android:id="@+id/img_revoke"
                    android:layout_width="0dp"
-                   android:layout_height="24dp"
+                   android:layout_height="20dp"
                    android:layout_weight="1"
                    android:onClick="one"
                    android:src="@mipmap/ic_white_revoke"/>
+        <ImageView android:layout_width="0dp"
+                   android:layout_height="20dp"
+                   android:layout_weight="1"
+                   android:onClick="crop"
+                   android:id="@+id/img_crop"
+                   android:visibility="gone"
+                   android:src="@mipmap/ic_crop_img_default"/>
     </LinearLayout>
 
 </LinearLayout>

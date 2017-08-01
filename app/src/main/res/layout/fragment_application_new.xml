@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+    <!--<RelativeLayout android:layout_width="match_parent"-->
+                    <!--android:layout_height="?android:actionBarSize"-->
+                    <!--android:background="@color/colorPrimary">-->
+        <!--<TextView android:id="@id/tv_title"-->
+                  <!--android:layout_width="wrap_content"-->
+                  <!--android:layout_height="wrap_content"-->
+                  <!--android:layout_centerInParent="true"-->
+                  <!--android:text="应用"-->
+                  <!--android:textColor="@color/white"-->
+                  <!--android:textSize="@dimen/text_title_size"/>-->
+        <!--<TextView android:id="@id/tv_edit"-->
+                  <!--android:layout_width="wrap_content"-->
+                  <!--android:layout_height="match_parent"-->
+                  <!--android:layout_alignParentEnd="true"-->
+                  <!--android:layout_alignParentRight="true"-->
+                  <!--android:layout_centerVertical="true"-->
+                  <!--android:gravity="center"-->
+                  <!--android:padding="@dimen/padding_bottom"-->
+                  <!--android:text="编辑"-->
+                  <!--android:textColor="@color/white"-->
+                  <!--android:textSize="@dimen/text_title_size"-->
+        <!--/>-->
+
+    <!--</RelativeLayout>-->
+    <include layout="@layout/top_menu_layout"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:padding="5dp"
+            android:text="首页应用"
+            android:textColor="#333333"/>
+        <TextView
+            android:id="@+id/tv_drag_hint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:gravity="right"
+            android:padding="5dp"
+            android:textSize="@dimen/font_size_12sp"
+        />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_index_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="#fff"
+        android:overScrollMode="never">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="#fff"
+        android:padding="5dp"
+        android:text="其他应用"
+        android:textColor="#333333"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_other_app"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:background="#fff"
+        android:overScrollMode="never">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

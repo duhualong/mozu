@@ -1,6 +1,7 @@
 package org.eenie.wgj.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -107,6 +108,12 @@ public class ApplyPagerFragment extends BaseSupportFragment
 
         queryIndex();
     }
+
+    @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
     @OnClick(R.id.tv_edit)public void onClick(){
         startActivity(new Intent(context, AttendanceTokePhotoActivity.class));
     }

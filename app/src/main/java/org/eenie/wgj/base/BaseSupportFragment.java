@@ -65,11 +65,12 @@ public abstract class BaseSupportFragment extends Fragment {
             App.get(getActivity()).getApplicationComponent().inject(this);
 
             updateUI();
-
             return mainView;
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+
 
     @Override public void onDestroyView() {
         super.onDestroyView();
@@ -94,6 +95,16 @@ public abstract class BaseSupportFragment extends Fragment {
         unSubscribe();
     }
 
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        getBundle(getArguments());
+        super.onViewCreated(view, savedInstanceState);
+    }
+    /**
+     * 得到Activity传进来的值
+     */
+    public abstract void getBundle(Bundle bundle);
     /**
      * Back press action in fragment
      */

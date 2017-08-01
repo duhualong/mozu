@@ -86,6 +86,11 @@ public class AbnormalRoutingRecordFragment extends BaseSupportFragment {
         }
     }
 
+    @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
     public static AbnormalRoutingRecordFragment newInstance(RecordRoutingResponse.InfoBean data) {
 
         AbnormalRoutingRecordFragment fragment = new AbnormalRoutingRecordFragment();

@@ -1,5 +1,6 @@
 package org.eenie.wgj.ui.fragment;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ListView;
 
@@ -39,6 +40,11 @@ public class ContactsPagerFragment extends BaseSupportFragment {
         // initData();
        // initDatas();
 
+
+    }
+
+    @Override
+    public void getBundle(Bundle bundle) {
 
     }
 

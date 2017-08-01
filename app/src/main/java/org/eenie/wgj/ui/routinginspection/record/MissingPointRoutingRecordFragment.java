@@ -79,6 +79,11 @@ public class MissingPointRoutingRecordFragment extends BaseSupportFragment {
         }
     }
 
+    @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
     public static MissingPointRoutingRecordFragment newInstance(RecordRoutingResponse.InfoBean data) {
 
         MissingPointRoutingRecordFragment fragment = new MissingPointRoutingRecordFragment();

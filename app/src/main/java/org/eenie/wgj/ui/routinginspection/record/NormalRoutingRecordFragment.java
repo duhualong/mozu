@@ -85,6 +85,11 @@ public class NormalRoutingRecordFragment extends BaseSupportFragment {
         }
     }
 
+    @Override
+    public void getBundle(Bundle bundle) {
+
+    }
+
     public static NormalRoutingRecordFragment newInstance(RecordRoutingResponse.InfoBean data) {
 
         NormalRoutingRecordFragment fragment = new NormalRoutingRecordFragment();
