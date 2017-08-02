@@ -217,7 +217,7 @@
         <!--项目设置-->
         <activity android:name=".ui.project.ProjectSettingActivity"
                   android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustResize"/>
+                  android:windowSoftInputMode="adjustPan"/>
         <!--项目新建-->
         <activity android:name=".ui.project.NewBuildProjectActivity"
                   android:screenOrientation="portrait"
@@ -479,7 +479,7 @@
         <!--考勤统计-->
         <activity android:name=".ui.attendancestatistics.AttendanceStatisticsActivity"
                   android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustResize"/>
+                  android:windowSoftInputMode="adjustPan"/>
         <!--项目下每月考勤情况-->
         <activity android:name=".ui.attendancestatistics.AttendanceStaticsMonthActivity"
                   android:screenOrientation="portrait"
@@ -568,7 +568,7 @@
         <!--巡检统计-->
         <activity android:name=".ui.routingstatistics.RoutingStatisticsSettingActivity"
                   android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustResize"/>
+                  android:windowSoftInputMode="adjustPan"/>
         <!--筛选巡检统计-->
         <activity android:name=".ui.routingstatistics.RoutingStaticsItemDetailActivity"
                   android:screenOrientation="portrait"
@@ -603,7 +603,7 @@
         <!--报岗统计-->
         <activity android:name=".ui.reportpoststatistics.ReportPostStatisticsSettingActivity"
                   android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustResize"/>
+                  android:windowSoftInputMode="adjustPan"/>
         <!--上报点位-->
         <activity android:name=".ui.reportpost.UploadReportPostInfoActivity"
                   android:screenOrientation="portrait"
@@ -647,7 +647,7 @@
         <!--培训统计-->
         <activity android:name=".ui.trainstatistic.TrainingStatisticSettingActivity"
                   android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustResize"/>
+                  android:windowSoftInputMode="adjustPan"/>
 
         <activity android:name=".ui.trainstatistic.TrainingStatisticProjectActivity"
                   android:screenOrientation="portrait"
@@ -752,7 +752,6 @@
         <!-- ImagePicker 相关配置 -->
         <activity android:name="com.linchaolong.android.imagepicker.cropper.CropImageActivity"
                   android:theme="@style/Base.Theme.AppCompat"/>
-
 
 
         <!--<activity android:name=".ui.meeting.MeetingClassApplyPartActivity"-->

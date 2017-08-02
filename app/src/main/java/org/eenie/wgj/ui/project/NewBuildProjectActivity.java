@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.linchaolong.android.imagepicker.ImagePicker;
+import com.linchaolong.android.imagepicker.cropper.CropImage;
+import com.linchaolong.android.imagepicker.cropper.CropImageView;
 import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
@@ -54,19 +57,25 @@ import rx.schedulers.Schedulers;
  */
 
 public class NewBuildProjectActivity extends BaseActivity {
-    private static final int TAKE_PHOTO_REQUEST =0x101 ;
-    private static final int RESPONSE_CODE_POSITIVE =0x102 ;
-    private static final int REQUEST_GALLERY_PHOTO =0x103 ;
-    private static final int RESPONSE_CODE_NEGIVITE =0x104 ;
-    @BindView(R.id.root_view)View rootView;
-    @BindView(R.id.et_project_name)EditText etProjectName;
-    @BindView(R.id.img_project)ImageView imgProject;
-    @BindView(R.id.img_delete)ImageView imgDelete;
-    @BindView(R.id.img_project_background)ImageView imgBackground;
+    private static final int TAKE_PHOTO_REQUEST = 0x101;
+    private static final int RESPONSE_CODE_POSITIVE = 0x102;
+    private static final int REQUEST_GALLERY_PHOTO = 0x103;
+    private static final int RESPONSE_CODE_NEGIVITE = 0x104;
+    @BindView(R.id.root_view)
+    View rootView;
+    @BindView(R.id.et_project_name)
+    EditText etProjectName;
+    @BindView(R.id.img_project)
+    ImageView imgProject;
+    @BindView(R.id.img_delete)
+    ImageView imgDelete;
+    @BindView(R.id.img_project_background)
+    ImageView imgBackground;
 
     private String avatarUrl;
     private String fileUrl;
     private Uri imageUri;
+    ImagePicker imagePicker = new ImagePicker();
 
     @Override
     protected int getContentView() {
@@ -75,15 +84,34 @@ public class NewBuildProjectActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        imagePicker.setTitle("添加图片");
+// 设置是否裁剪图片
+        imagePicker.setCropImage(true);
 
     }
-    @OnClick({R.id.img_back,R.id.rl_upload,R.id.button_project_cancel,R.id.button_project_ok})
-    public void onClick(View view){
-        String projectName=etProjectName.getText().toString();
 
-        switch (view.getId()){
+    @OnClick({R.id.img_back, R.id.rl_upload, R.id.button_project_cancel, R.id.button_project_ok, R.id.img_delete})
+    public void onClick(View view) {
+        String projectName = etProjectName.getText().toString();
+
+        switch (view.getId()) {
+            case R.id.img_delete:
+                if (!TextUtils.isEmpty(fileUrl)) {
+                    imgProject.setScaleType(ImageView.ScaleType.CENTER);
+                    imgProject.setImageResource(R.mipmap.ic_carmer_first);
+                    imgDelete.setVisibility(View.GONE);
+                    avatarUrl = "";
+                    fileUrl = "";
+
+                }
+
+                break;
             case R.id.rl_upload:
-                showUploadDialogDialog();
+                // showUploadDialogDialog();
+                if (TextUtils.isEmpty(fileUrl)){
+                    startChooser();
+                }
+
                 break;
             case R.id.img_back:
                 onBackPressed();
@@ -92,23 +120,79 @@ public class NewBuildProjectActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.button_project_ok:
-                if (!TextUtils.isEmpty(projectName)){
-                    rebulidNewProject(projectName);
+                if (!TextUtils.isEmpty(projectName)) {
+                    if (!TextUtils.isEmpty(fileUrl)) {
+                        rebulidNewProject(projectName);
+                    } else {
+                        Toast.makeText(context, "请上传一张图片", Toast.LENGTH_SHORT).show();
+                    }
 
-                }else {
-                    Snackbar.make(rootView,"请填写项目名称",Snackbar.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(context, "请填写项目名称", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
         }
 
+
     }
 
+
+    private void startChooser() {
+        // 启动图片选择器
+        imagePicker.startChooser(this, new ImagePicker.Callback() {
+            // 选择图片回调
+            @Override
+            public void onPickImage(Uri imageUri) {
+
+            }
+
+            // 裁剪图片回调
+            @Override
+            public void onCropImage(Uri imageUri) {
+                imgProject.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                imgProject.setImageURI(imageUri);
+                imgDelete.setVisibility(View.VISIBLE);
+                avatarUrl = ImageUtils.getRealPath(context, imageUri);
+                File fileCardFronts = new File(avatarUrl);
+                uploadFile(fileCardFronts);
+
+
+            }
+
+            // 自定义裁剪配置
+            @Override
+            public void cropConfig(CropImage.ActivityBuilder builder) {
+                builder
+                        // 是否启动多点触摸
+                        .setMultiTouchEnabled(false)
+                        // 设置网格显示模式
+                        .setGuidelines(CropImageView.Guidelines.OFF)
+                        .setRequestedSize(320, 240);
+                // 圆形/矩形
+//            .setCropShape(CropImageView.CropShape.RECTANGLE);
+                // 调整裁剪后的图片最终大小
+//            .setRequestedSize(960, 540);
+                // 宽高比
+                //  .setAspectRatio(16, 9);
+            }
+
+            // 用户拒绝授权回调
+            @Override
+            public void onPermissionDenied(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+            }
+        });
+    }
+
+
     private void rebulidNewProject(String projectName) {
-        String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
-        BuildNewProject mProject=new BuildNewProject(projectName,fileUrl);
-        if (!TextUtils.isEmpty(token)){
-            mSubscription=mRemoteService.newProject(token,mProject)
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
+        BuildNewProject mProject = new BuildNewProject(projectName, fileUrl);
+        if (!TextUtils.isEmpty(token)) {
+            mSubscription = mRemoteService.newProject(token, mProject)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<ApiResponse>() {
@@ -124,15 +208,15 @@ public class NewBuildProjectActivity extends BaseActivity {
 
                         @Override
                         public void onNext(ApiResponse apiResponse) {
-                            if (apiResponse.getResultCode()==200){
-                                Snackbar.make(rootView,apiResponse.getResultMessage(),
+                            if (apiResponse.getResultCode() == 200) {
+                                Snackbar.make(rootView, apiResponse.getResultMessage(),
                                         Snackbar.LENGTH_SHORT).show();
                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-                                        subscribe(s ->finish()
+                                        subscribe(s -> finish()
                                         );
 
-                            }else {
-                                Snackbar.make(rootView,apiResponse.getResultMessage(),
+                            } else {
+                                Snackbar.make(rootView, apiResponse.getResultMessage(),
                                         Snackbar.LENGTH_SHORT).show();
                             }
 
@@ -140,7 +224,6 @@ public class NewBuildProjectActivity extends BaseActivity {
                     });
 
         }
-
 
 
     }
@@ -166,6 +249,7 @@ public class NewBuildProjectActivity extends BaseActivity {
 
 
     }
+
     private void showPhotoSelectDialog() {
         imageUri = createImageUri(context);
         Intent intent = new Intent();
@@ -191,63 +275,66 @@ public class NewBuildProjectActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), "a.jpg");
+        File cropFile = new File(context.getCacheDir(), System.currentTimeMillis() + ".jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
-                .withMaxResultSize(100, 100)
+                .withMaxResultSize(200, 200)
                 .start(NewBuildProjectActivity.this, requestCode);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-
-            switch (requestCode) {
-                case TAKE_PHOTO_REQUEST:
-                    startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
-
-                    break;
-                case RESPONSE_CODE_POSITIVE:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgProject))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bitmap -> {
-                                imgBackground.setVisibility(View.GONE);
-                                imgProject.setImageBitmap(bitmap);
-                                imgDelete.setVisibility(View.VISIBLE);
-                            });
-
-                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
-
-                    File fileCardFront = new File(avatarUrl);
-                    uploadFile(fileCardFront);
-
-                    break;
-                case REQUEST_GALLERY_PHOTO:
-
-
-                    startCropImage(data.getData(), RESPONSE_CODE_NEGIVITE);
-                    break;
-
-                case RESPONSE_CODE_NEGIVITE:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgProject))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bitmap -> {
-                                imgBackground.setVisibility(View.GONE);
-                                imgProject.setImageBitmap(bitmap);
-                                imgDelete.setVisibility(View.VISIBLE);
-                            });
-                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    File fileCardFronts = new File(avatarUrl);
-                    uploadFile(fileCardFronts);
-
-
-                    break;
-            }
-        }
+//        if (resultCode == RESULT_OK) {
+//
+//            switch (requestCode) {
+//                case TAKE_PHOTO_REQUEST:
+//                    startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
+//
+//                    break;
+//                case RESPONSE_CODE_POSITIVE:
+//                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgProject))
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(bitmap -> {
+//                                imgBackground.setVisibility(View.GONE);
+//                                imgProject.setImageBitmap(bitmap);
+//                                imgDelete.setVisibility(View.VISIBLE);
+//                            });
+//
+//                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+//
+//                    File fileCardFront = new File(avatarUrl);
+//                    uploadFile(fileCardFront);
+//
+//                    break;
+//                case REQUEST_GALLERY_PHOTO:
+//
+//
+//                    startCropImage(data.getData(), RESPONSE_CODE_NEGIVITE);
+//                    break;
+//
+//                case RESPONSE_CODE_NEGIVITE:
+//                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), imgProject))
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(bitmap -> {
+//                                imgBackground.setVisibility(View.GONE);
+//                                imgProject.setImageBitmap(bitmap);
+//                                imgDelete.setVisibility(View.VISIBLE);
+//                            });
+//                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+//                    File fileCardFronts = new File(avatarUrl);
+//                    uploadFile(fileCardFronts);
+//
+//
+//                    break;
+//            }
+//        }
         super.onActivityResult(requestCode, resultCode, data);
+        imagePicker.onActivityResult(this, requestCode, resultCode, data);
+
     }
+
     private void uploadFile(File file) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://118.178.88.132:8000/api/")

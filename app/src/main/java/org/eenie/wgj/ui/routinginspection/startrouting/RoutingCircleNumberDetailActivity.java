@@ -125,7 +125,6 @@ public class RoutingCircleNumberDetailActivity extends BaseActivity
     }
 
 
-
     //根据自己的需求而定
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

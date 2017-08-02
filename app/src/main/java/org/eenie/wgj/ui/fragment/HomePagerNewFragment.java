@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -87,11 +86,14 @@ public class HomePagerNewFragment extends BaseSupportFragment {
         initData();
         initDatas();
         checkPermission();
-        rvModule.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        MyGridLayoutManager gridLayoutManager = new
+                MyGridLayoutManager(getContext(), 4);//两列
+        gridLayoutManager.setScrollEnabled(false);
+
+        rvModule.setLayoutManager(gridLayoutManager);
         mAdapter = new ModuleAdapter(modules);
         rvModule.setAdapter(mAdapter);
         getModule();
-
 
 
     }
@@ -134,6 +136,7 @@ public class HomePagerNewFragment extends BaseSupportFragment {
         }
         isModuleChange = false;
     }
+
     public void needRefresh() {
         isModuleChange = true;
     }
@@ -152,7 +155,7 @@ public class HomePagerNewFragment extends BaseSupportFragment {
                 }
                 break;
             case R.id.img_search:
-              //  startActivity(new Intent(context, MainTestPictureActivity.class));
+                //  startActivity(new Intent(context, MainTestPictureActivity.class));
                 break;
         }
     }
@@ -384,7 +387,6 @@ public class HomePagerNewFragment extends BaseSupportFragment {
                     }
                 });
     }
-
 
 
 }

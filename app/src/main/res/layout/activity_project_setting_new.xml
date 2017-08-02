@@ -8,11 +8,11 @@
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="?android:actionBarSize"
                     android:background="@color/colorPrimary">
-        <TextView android:layout_width="wrap_content"
+        <TextView android:id="@id/tv_title"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="项目"
-                  android:id="@id/tv_title"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
         <ImageView android:id="@id/img_back"
@@ -26,19 +26,19 @@
                   android:layout_alignParentEnd="true"
                   android:layout_alignParentRight="true"
                   android:layout_centerVertical="true"
-                  android:text="新建"
-                  android:padding="@dimen/padding_bottom"
                   android:gravity="center"
+                  android:padding="@dimen/padding_bottom"
+                  android:text="新建"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
 
 
     </RelativeLayout>
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:id="@+id/line_search"
-                  android:visibility="gone"
-                  android:background="@color/white">
+                  android:background="@color/white"
+                >
         <org.eenie.wgj.search.ClearEditText
             android:id="@+id/filter_edit"
             android:layout_width="match_parent"
@@ -49,30 +49,28 @@
             android:layout_marginRight="@dimen/padding_longer"
             android:layout_marginStart="@dimen/padding_longer"
             android:layout_marginTop="@dimen/padding_bottom"
-            android:padding="5dp"
             android:background="#E8E8E8"
             android:drawableLeft="@drawable/search_bar_icon_normal"
-            android:drawableStart="@drawable/search_bar_icon_normal"
             android:drawablePadding="@dimen/padding_short"
+            android:drawableStart="@drawable/search_bar_icon_normal"
             android:hint="项目名称"
-            android:textColorHint="@color/gray"
             android:lines="1"
+            android:padding="5dp"
             android:textColor="@color/titleColor"
-            android:textSize="@dimen/text_large_size" />
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/text_large_size"/>
     </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@id/notice_swipe_refresh_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_marginBottom="@dimen/padding_bottom"
+                 android:layout_marginTop="@dimen/padding_bottom">
 
-    >
 
         <android.support.v7.widget.RecyclerView
             android:id="@id/recycler_project"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
         />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
 </LinearLayout>

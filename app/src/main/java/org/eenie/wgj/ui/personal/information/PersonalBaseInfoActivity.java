@@ -12,12 +12,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.linchaolong.android.imagepicker.ImagePicker;
 import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
@@ -46,11 +48,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Single;
 import rx.SingleSubscriber;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static org.eenie.wgj.R.id.tv_photo_personal;
 
 /**
  * Created by Eenie on 2017/4/25 at 10:53
@@ -78,6 +81,9 @@ public class PersonalBaseInfoActivity extends BaseActivity {
     TextView security;
     private String mBankCard;
     private String mSecurityCard;
+
+    private ImagePicker imagePicker = new ImagePicker();
+    private ImageView imageView;
 
 
     @Override
@@ -110,6 +116,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                     (context, R.color.titleColor));
 
         }
+        // 设置是否裁剪图片
+        imagePicker.setCropImage(true);
 
     }
 
@@ -126,7 +134,9 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                 startActivity(new Intent(context, PersonalBarcodeActivity.class));
                 break;
             case R.id.rl_avatar_img:
-                showAvatarDialog();
+
+                startCameraOrGallery();
+               // showAvatarDialog();
 
                 break;
 
@@ -158,6 +168,66 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                 break;
 
         }
+    }
+
+
+    private void startCameraOrGallery() {
+        View view = View.inflate(context, R.layout.dialog_personal_avatar, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .create();
+        dialog.show();
+
+        ImagePicker.Callback callback = new ImagePicker.Callback() {
+            @Override public void onPickImage(Uri imageUri1) {
+            }
+
+            @Override public void onCropImage(Uri imageUri1) {
+                avatar.setImageURI(imageUri1);
+                File fileCardFront = new File(ImageUtils.getRealPath(context, imageUri1));
+                uploadFile(fileCardFront);
+            }
+        };
+
+        dialog.getWindow().findViewById(R.id.tv_camera_personal).setOnClickListener(v -> {
+            dialog.dismiss();
+            imagePicker.startCamera(PersonalBaseInfoActivity.this, callback);
+
+        });
+        dialog.getWindow().findViewById(tv_photo_personal).setOnClickListener(v -> {
+            dialog.dismiss();
+            imagePicker.startGallery(PersonalBaseInfoActivity.this, callback);
+
+
+        });
+
+
+
+//        new AlertDialog.Builder(context).setTitle("上传头像")
+//                .setItems(new String[] { "从相册中选取图片", "拍照" }, (dialog, which) -> {
+//                    // 回调
+//                    ImagePicker.Callback callback = new ImagePicker.Callback() {
+//                        @Override public void onPickImage(Uri imageUri1) {
+//                        }
+//
+//                        @Override public void onCropImage(Uri imageUri1) {
+//                            avatar.setImageURI(imageUri1);
+//                            File fileCardFront = new File(ImageUtils.getRealPath(context, imageUri1));
+//                            uploadFile(fileCardFront);
+//                        }
+//                    };
+//                    if (which == 0) {
+//                        // 从相册中选取图片
+//                        imagePicker.startGallery(PersonalBaseInfoActivity.this, callback);
+//                    } else {
+//                        // 拍照
+//                        imagePicker.startCamera(PersonalBaseInfoActivity.this, callback);
+//                    }
+//                })
+//                .show()
+//                .getWindow()
+//                .setGravity(Gravity.CENTER);
     }
 
     //身份证信息
@@ -260,7 +330,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
 
         });
-        dialog.getWindow().findViewById(R.id.tv_photo_personal).setOnClickListener(v -> {
+        dialog.getWindow().findViewById(tv_photo_personal).setOnClickListener(v -> {
             dialog.dismiss();
             startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"),
                     REQUEST_GALLERY_PHOTO);
@@ -304,37 +374,25 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
+        imagePicker.onActivityResult(this, requestCode, resultCode, data);
 
-            switch (requestCode) {
-                case TAKE_PHOTO_REQUEST:
-                    if (imageUri!=null){
-                        startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
-                    }
-
-
-                    break;
-                case REQUEST_GALLERY_PHOTO:
-                    if (data.getData()!=null){
-                        startCropImage(data.getData(), RESPONSE_CODE_POSITIVE);
-                    }
-                    break;
-
-                case RESPONSE_CODE_POSITIVE:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bitmap -> {
-                                avatar.setImageBitmap(bitmap);
-                            });
-                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
-
-                    File fileCardFront = new File(avatarUrl);
-                    uploadFile(fileCardFront);
-
-                    break;
-
-//                case RESPONSE_CODE_NEGIVITE:
+//        if (resultCode == RESULT_OK) {
+//
+//            switch (requestCode) {
+//                case TAKE_PHOTO_REQUEST:
+//                    if (imageUri!=null){
+//                        startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
+//                    }
+//
+//
+//                    break;
+//                case REQUEST_GALLERY_PHOTO:
+//                    if (data.getData()!=null){
+//                        startCropImage(data.getData(), RESPONSE_CODE_POSITIVE);
+//                    }
+//                    break;
+//
+//                case RESPONSE_CODE_POSITIVE:
 //                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
 //                            .subscribeOn(Schedulers.io())
 //                            .observeOn(AndroidSchedulers.mainThread())
@@ -342,13 +400,27 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 //                                avatar.setImageBitmap(bitmap);
 //                            });
 //                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
-//                    File fileCardFronts = new File(avatarUrl);
-//                    uploadFile(fileCardFronts);
-
-
-                  //  break;
-            }
-        }
+//
+//                    File fileCardFront = new File(avatarUrl);
+//                    uploadFile(fileCardFront);
+//
+//                    break;
+//
+////                case RESPONSE_CODE_NEGIVITE:
+////                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
+////                            .subscribeOn(Schedulers.io())
+////                            .observeOn(AndroidSchedulers.mainThread())
+////                            .subscribe(bitmap -> {
+////                                avatar.setImageBitmap(bitmap);
+////                            });
+////                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+////                    File fileCardFronts = new File(avatarUrl);
+////                    uploadFile(fileCardFronts);
+//
+//
+//                  //  break;
+//            }
+//        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 

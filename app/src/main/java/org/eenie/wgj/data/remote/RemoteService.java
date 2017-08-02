@@ -496,7 +496,7 @@ public interface RemoteService {
     Single<ApiResponse> getEarlyInformation(@Header("token") String token, @Query("date") String date,
                                             @Query("projectid") String projectId);
 
-//    //考勤外出
+    //    //考勤外出
 //    @GET("month/goout")
 //    Single<ApiResponse> getOutInformation(@Header("token") String token, @Query("date") String date,
 //                                          @Query("projectid") String projectId);
@@ -774,24 +774,31 @@ public interface RemoteService {
 
     //获取项目下当月离职人员
     @GET("att_month_resign_list")
-    Single<ApiResponse>getLeaveOutPeopleList(@Header("token") String token,
-                                             @Query("projectid") String projectId,
-                                             @Query("date") String date);
+    Single<ApiResponse> getLeaveOutPeopleList(@Header("token") String token,
+                                              @Query("projectid") String projectId,
+                                              @Query("date") String date);
 
     //获取项目下当月的旷工数据
     @GET("att_month_absent_list")
-    Single<ApiResponse>getNewAbsolutePeopleList(@Header("token") String token,
-                                             @Query("projectid") String projectId,
-                                             @Query("date") String date);
+    Single<ApiResponse> getNewAbsolutePeopleList(@Header("token") String token,
+                                                 @Query("projectid") String projectId,
+                                                 @Query("date") String date);
 
     //获取项目下某个用户当月的考勤数据和异常数据
 
     @GET("att_statistics_by_user")
-    Single<ApiResponse>getUserAttendanceStatisticData(@Header("token") String token,
-                                                      @Query("userid")String userId,
-                                                      @Query("projectid") String projectId,
-                                                      @Query("date") String date);
+    Single<ApiResponse> getUserAttendanceStatisticData(@Header("token") String token,
+                                                       @Query("userid") String userId,
+                                                       @Query("projectid") String projectId,
+                                                       @Query("date") String date);
 
+    //我的交班
+    @GET("handover_sent")
+    Single<ApiResponse> getHandOverClass(@Header("token") String token);
+
+    //我的接班
+    @GET("handover_received")
+    Single<ApiResponse> getReceiveClass(@Header("token") String token);
 
 
     //获取个人考勤情况

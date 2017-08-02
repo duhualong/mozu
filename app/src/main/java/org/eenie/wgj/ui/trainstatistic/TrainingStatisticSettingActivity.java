@@ -9,12 +9,11 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,8 @@ import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.ProjectList;
+import org.eenie.wgj.search.CharacterParser;
+import org.eenie.wgj.search.ClearEditText;
 import org.eenie.wgj.util.Constant;
 import org.eenie.wgj.util.Constants;
 import org.eenie.wgj.util.PermissionManager;
@@ -50,13 +51,11 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class TrainingStatisticSettingActivity  extends BaseActivity
-        implements SwipeRefreshLayout.OnRefreshListener {
+public class TrainingStatisticSettingActivity extends BaseActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 0x101;
     @BindView(R.id.root_view)
     View rootView;
-    @BindView(R.id.notice_swipe_refresh_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+
     private ProjectAdapter mProjectAdapter;
     @BindView(R.id.recycler_project)
     RecyclerView mRecyclerView;
@@ -65,30 +64,27 @@ public class TrainingStatisticSettingActivity  extends BaseActivity
     TextView tvTitle;
     @BindView(R.id.tv_new_rebuild)
     TextView tvNewBuild;
-
+    @BindView(R.id.filter_edit)
+    ClearEditText mClearEditText;
+    private CharacterParser characterParser;
+    List<ProjectList> projectLists = new ArrayList<>();
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_project_setting;
+        return R.layout.activity_project_setting_new;
     }
 
     @Override
     protected void updateUI() {
         tvNewBuild.setVisibility(View.GONE);
         tvTitle.setText("培训统计");
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+
         mProjectAdapter = new ProjectAdapter(context, new ArrayList<>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         mRecyclerView.setAdapter(mProjectAdapter);
         checkPermission();
+        onRefreshes();
 
     }
 
@@ -173,8 +169,7 @@ public class TrainingStatisticSettingActivity  extends BaseActivity
     }
 
 
-    @Override
-    public void onRefresh() {
+    public void onRefreshes() {
         mProjectAdapter.clear();
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
         mSubscription = mRemoteService.getProjectList(token)
@@ -196,13 +191,13 @@ public class TrainingStatisticSettingActivity  extends BaseActivity
                         if (apiResponse.getResultCode() == 200) {
                             Gson gson = new Gson();
                             String jsonArray = gson.toJson(apiResponse.getData());
-                            List<ProjectList> projectLists = gson.fromJson(jsonArray,
+                            projectLists = gson.fromJson(jsonArray,
                                     new TypeToken<List<ProjectList>>() {
                                     }.getType());
-                            cancelRefresh();
+
                             if (projectLists != null && !projectLists.isEmpty()) {
                                 if (mProjectAdapter != null) {
-                                    mProjectAdapter.addAll(projectLists);
+                                    mProjectAdapter.updateListView(projectLists);
                                 }
                             }
                         } else {
@@ -216,16 +211,55 @@ public class TrainingStatisticSettingActivity  extends BaseActivity
     }
 
 
-    private void cancelRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        onRefresh();
+        initFilter();
+    }
+
+    private void initFilter() {
+
+
+        mClearEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterData(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+    }
+
+    private void filterData(String inputContent) {
+        characterParser = CharacterParser.getInstance();
+
+        List<ProjectList> filterDateList = new ArrayList<>();
+
+        if (TextUtils.isEmpty(inputContent)) {
+            filterDateList = projectLists;
+        } else {
+            filterDateList.clear();
+            for (ProjectList sortModel : projectLists) {
+                String name = sortModel.getProjectname();
+                if (name.indexOf(inputContent) != -1 ||
+                        characterParser.getSelling(name).startsWith(inputContent)) {
+                    filterDateList.add(sortModel);
+                }
+            }
+        }
+
+        mProjectAdapter.updateListView(filterDateList);
+
     }
 
     class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
@@ -296,9 +330,13 @@ public class TrainingStatisticSettingActivity  extends BaseActivity
             return projectList.size();
         }
 
-        public void addAll(List<ProjectList> projectList) {
-            this.projectList.addAll(projectList);
-            ProjectAdapter.this.notifyDataSetChanged();
+        //        public void addAll(List<ProjectList> projectList) {
+//            this.projectList.addAll(projectList);
+//            ProjectAdapter.this.notifyDataSetChanged();
+//        }
+        public void updateListView(List<ProjectList> list) {
+            this.projectList = list;
+            notifyDataSetChanged();
         }
 
         public void clear() {
@@ -339,7 +377,7 @@ public class TrainingStatisticSettingActivity  extends BaseActivity
                                 TrainingStatisticProjectActivity.class).putExtra(
                                 TrainingStatisticProjectActivity.PROJECT_ID,
                                 String.valueOf(mProjectList.getId()))
-                        .putExtra(TrainingStatisticProjectActivity.PROJECT_NAME,mProjectList.getProjectname()));
+                                .putExtra(TrainingStatisticProjectActivity.PROJECT_NAME, mProjectList.getProjectname()));
 
                         break;
                 }

@@ -36,13 +36,13 @@
             android:layout_marginStart="@dimen/personal_padding"
             android:src="@mipmap/ic_default_header"
         />
-        <LinearLayout android:layout_width="wrap_content"
+        <LinearLayout android:id="@+id/linearLayout"
+                      android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:layout_toEndOf="@id/img_avatar"
-                      android:layout_toRightOf="@id/img_avatar"
 
-                      android:orientation="vertical">
+                      android:layout_toRightOf="@id/img_avatar" android:orientation="vertical">
             <TextView
                 android:id="@id/personal_name"
                 android:layout_width="wrap_content"
@@ -60,14 +60,15 @@
         </LinearLayout>
         <ImageView
             android:id="@id/img_scan"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/personal_padding"
-            android:layout_marginRight="@dimen/personal_padding"
-            android:src="@mipmap/ic_patrol_item_qrcode"/>
+            android:layout_marginEnd="@dimen/padding_bottom"
+            android:layout_marginRight="@dimen/padding_bottom"
+            android:layout_alignTop="@+id/linearLayout"
+            android:src="@mipmap/ic_qrcode"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@id/rl_alert_setting"
@@ -75,17 +76,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/personal_margin"
         android:background="@color/white"
-        android:padding="@dimen/personal_padding">
+        android:padding="@dimen/padding_bottom">
         <ImageView
             android:id="@id/img_setting"
-            android:layout_width="@dimen/personal_size"
-            android:layout_height="@dimen/personal_size"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/personal_margin"
             android:layout_marginLeft="@dimen/personal_padding"
             android:layout_marginRight="@dimen/personal_margin"
             android:layout_marginStart="@dimen/personal_padding"
-            android:src="@mipmap/ic_item_setting"
+            android:src="@mipmap/ic_item_setting_new"
         />
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -104,17 +105,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/personal_margin"
         android:background="@color/white"
-        android:padding="@dimen/personal_padding">
+        android:padding="@dimen/padding_bottom">
         <ImageView
             android:id="@id/img_setting"
-            android:layout_width="@dimen/personal_size"
-            android:layout_height="@dimen/personal_size"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/personal_margin"
             android:layout_marginLeft="@dimen/personal_padding"
             android:layout_marginRight="@dimen/personal_margin"
             android:layout_marginStart="@dimen/personal_padding"
-            android:src="@mipmap/ic_item_version"
+            android:src="@mipmap/ic_vision_new"
         />
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"

@@ -332,10 +332,6 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                         Integer.valueOf(inspectiondayId), mAddress, mLong, mLat, 1);
 
 
-                                if (mType.equals("last")) {
-                                    stopService(new Intent(context, MLocationService.class));
-                                }
-
                                 addData(getMultipartBody(fileNortmal, fileAbnormal,
                                         new Gson().toJson(request), 1), mPrefsHelper.getPrefs().
                                         getString(Constants.TOKEN, ""));
@@ -398,9 +394,6 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                                         }
                                     }
                                     if (mchecked) {
-                                        if (mType.equals("last")) {
-                                            stopService(new Intent(getApplicationContext(), MLocationService.class));
-                                        }
                                         AddRoutingContent request = new AddRoutingContent(0,
                                                 Integer.valueOf(inspectiondayId), mAddress, mLong, mLat, erroBean, 1);
 
@@ -534,6 +527,17 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
 
     private void addData(RequestBody body, String token) {
+        switch (mType) {
+            case "one_point":
+                getStartRecord();
+                break;
+            case "first":
+                getStartRecord();
+                break;
+            case "last":
+                stopService(new Intent(context, MLocationService.class));
+                break;
+        }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.DOMIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -548,17 +552,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                     // showRegisterDialog();
                     Toast.makeText(context, response.body().getResultMessage(), Toast.LENGTH_SHORT).show();
                     System.out.println("上传成功");
-                    switch (mType) {
-                        case "one_point":
-                            getStartRecord();
-                            break;
-                        case "first":
-                            getStartRecord();
-                            break;
-                        case "last":
-                            //   stopService(new Intent(context, MLocationService.class));
-                            break;
-                    }
+
                     finish();
 
                 } else {

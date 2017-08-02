@@ -23,7 +23,7 @@
                   android:layout_centerVertical="true"
                   android:onClick="save"
                   android:padding="@dimen/padding_bottom"
-                  android:text="拍照"
+                  android:text="保存"
                   android:textColor="@color/white"
                   android:textSize="@dimen/text_title_size"/>
 

@@ -11,13 +11,13 @@ import java.util.List;
  * Des:
  */
 
-public class ExchangeWorkHistoryResponse implements Parcelable {
+public class ExchangeWorkHistoryTakeResponse implements Parcelable {
 
     /**
      * explanation : 周五下班前打扫办公室
      * mattername : 常日班
      * matter : 1.每天值日生必须提前20分钟到公司打扫卫生
-     2.包括卫生间水池也需要打扫
+     * 2.包括卫生间水池也需要打扫
      * created_at : 2017-07-28 11:52:37
      */
 
@@ -27,23 +27,46 @@ public class ExchangeWorkHistoryResponse implements Parcelable {
     private String created_at;
     private List<ImageBean> image;
     private List<ToBean> to;
-    private List<ToBean> from;
+    private ToBean from;
 
-    public List<ToBean> getFrom() {
+    public ToBean getFrom() {
         return from;
     }
 
-    public void setFrom(List<ToBean> from) {
+    public void setFrom(ToBean from) {
         this.from = from;
     }
 
-    public List<ToBean> getTo() {
-        return to;
+    public String getExplanation() {
+        return explanation;
     }
 
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
 
-    public void setTo(List<ToBean> to) {
-        this.to = to;
+    public String getMattername() {
+        return mattername;
+    }
+
+    public void setMattername(String mattername) {
+        this.mattername = mattername;
+    }
+
+    public String getMatter() {
+        return matter;
+    }
+
+    public void setMatter(String matter) {
+        this.matter = matter;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
     public List<ImageBean> getImage() {
@@ -54,12 +77,19 @@ public class ExchangeWorkHistoryResponse implements Parcelable {
         this.image = image;
     }
 
+    public List<ToBean> getTo() {
+        return to;
+    }
+
+    public void setTo(List<ToBean> to) {
+        this.to = to;
+    }
+
 
 
     public static class ToBean implements Parcelable {
         private int user_id;
         private String name;
-
 
         public int getUser_id() {
             return user_id;
@@ -108,38 +138,10 @@ public class ExchangeWorkHistoryResponse implements Parcelable {
             }
         };
     }
-    public String getExplanation() {
-        return explanation;
-    }
 
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
 
-    public String getMattername() {
-        return mattername;
-    }
-
-    public void setMattername(String mattername) {
-        this.mattername = mattername;
-    }
-
-    public String getMatter() {
-        return matter;
-    }
-
-    public void setMatter(String matter) {
-        this.matter = matter;
-    }
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
     public static class ImageBean implements Parcelable {
+
         private String image;
 
 
@@ -181,6 +183,7 @@ public class ExchangeWorkHistoryResponse implements Parcelable {
         };
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -194,31 +197,31 @@ public class ExchangeWorkHistoryResponse implements Parcelable {
         dest.writeString(this.created_at);
         dest.writeTypedList(this.image);
         dest.writeTypedList(this.to);
-        dest.writeTypedList(this.from);
+        dest.writeParcelable(this.from, flags);
     }
 
-    public ExchangeWorkHistoryResponse() {
+    public ExchangeWorkHistoryTakeResponse() {
     }
 
-    protected ExchangeWorkHistoryResponse(Parcel in) {
+    protected ExchangeWorkHistoryTakeResponse(Parcel in) {
         this.explanation = in.readString();
         this.mattername = in.readString();
         this.matter = in.readString();
         this.created_at = in.readString();
         this.image = in.createTypedArrayList(ImageBean.CREATOR);
         this.to = in.createTypedArrayList(ToBean.CREATOR);
-        this.from = in.createTypedArrayList(ToBean.CREATOR);
+        this.from = in.readParcelable(ToBean.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<ExchangeWorkHistoryResponse> CREATOR = new Parcelable.Creator<ExchangeWorkHistoryResponse>() {
+    public static final Parcelable.Creator<ExchangeWorkHistoryTakeResponse> CREATOR = new Parcelable.Creator<ExchangeWorkHistoryTakeResponse>() {
         @Override
-        public ExchangeWorkHistoryResponse createFromParcel(Parcel source) {
-            return new ExchangeWorkHistoryResponse(source);
+        public ExchangeWorkHistoryTakeResponse createFromParcel(Parcel source) {
+            return new ExchangeWorkHistoryTakeResponse(source);
         }
 
         @Override
-        public ExchangeWorkHistoryResponse[] newArray(int size) {
-            return new ExchangeWorkHistoryResponse[size];
+        public ExchangeWorkHistoryTakeResponse[] newArray(int size) {
+            return new ExchangeWorkHistoryTakeResponse[size];
         }
     };
 }

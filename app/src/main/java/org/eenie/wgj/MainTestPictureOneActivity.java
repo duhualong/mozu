@@ -37,6 +37,7 @@ import com.linchaolong.android.imagepicker.cropper.CropImage;
 import com.linchaolong.android.imagepicker.cropper.CropImageView;
 
 import org.eenie.wgj.base.BaseActivity;
+import org.eenie.wgj.util.ImageUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -114,6 +115,8 @@ public class MainTestPictureOneActivity extends BaseActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         // 屏幕宽度（像素）
         screenWidth = metric.widthPixels;
+        startChooser();
+
 
     }
 
@@ -237,29 +240,40 @@ public class MainTestPictureOneActivity extends BaseActivity {
     }
 
 
-
-
     private void startChooser() {
         // 启动图片选择器
         imagePicker.startChooser(this, new ImagePicker.Callback() {
             // 选择图片回调
-            @Override public void onPickImage(Uri imageUri) {
+            @Override
+            public void onPickImage(Uri imageUri) {
 
             }
 
             // 裁剪图片回调
-            @Override public void onCropImage(Uri imageUri) {
-                imgRectangle.setImageURI(imageUri);
-//        im
-//        draweeView.setImageURI(imageUri);
-//        draweeView.getHierarchy().setRoundingParams(RoundingParams.asCircle());
-
+            @Override
+            public void onCropImage(Uri imageUri) {
+                tempPhotoPath = ImageUtils.getRealPath(context, imageUri);
+                mCurrentPhotoFile = new File(tempPhotoPath);
+                if (!mCurrentPhotoFile.exists()) {
+                    try {
+                        mCurrentPhotoFile.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                photoPath = tempPhotoPath;
+                int angle = getBitmapDegree(photoPath);
+                Bitmap bitmap = compressionFiller(photoPath, ll);//图片缩放
+                camera_path = saveBitmap(rotaingImageView(angle, bitmap), "saveTemp");
+                mLinearLayout.setVisibility(View.VISIBLE);
+                drawPic();
 
 
             }
 
             // 自定义裁剪配置
-            @Override public void cropConfig(CropImage.ActivityBuilder builder) {
+            @Override
+            public void cropConfig(CropImage.ActivityBuilder builder) {
                 builder
                         // 是否启动多点触摸
                         .setMultiTouchEnabled(false)
@@ -274,12 +288,12 @@ public class MainTestPictureOneActivity extends BaseActivity {
             }
 
             // 用户拒绝授权回调
-            @Override public void onPermissionDenied(int requestCode, String[] permissions,
-                                                     int[] grantResults) {
+            @Override
+            public void onPermissionDenied(int requestCode, String[] permissions,
+                                           int[] grantResults) {
             }
         });
     }
-
 
 
     /**
@@ -359,11 +373,15 @@ public class MainTestPictureOneActivity extends BaseActivity {
 
             finish();
         } else {
-            getPictureFromCamera();
+            // getPictureFromCamera();
+//            startCameraOrGallery();
+            // startChooser();
+
 
         }
 
     }
+
 
 //    public Bitmap compressImage(Bitmap image) {
 //
@@ -497,11 +515,6 @@ public class MainTestPictureOneActivity extends BaseActivity {
         startActivityForResult(intent, CAMERA_WITH_DATA);
 
 
-//        mImageUri = createImageUri(this);
-//        Intent intent = new Intent();
-//        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);//如果不设置EXTRA_OUTPUT getData()  获取的是bitmap数据  是压缩后的
-//        startActivityForResult(intent, CAMERA_WITH_DATA);
     }
 
     private static Uri createImageUri(Context context) {
@@ -593,21 +606,21 @@ public class MainTestPictureOneActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        switch (requestCode) {
-            case CAMERA_WITH_DATA://拍照
-                photoPath = tempPhotoPath;
-                int angle = getBitmapDegree(photoPath);
-                Bitmap bitmap = compressionFiller(photoPath, ll);//图片缩放
-                camera_path = saveBitmap(rotaingImageView(angle, bitmap), "saveTemp");
-                takeSave.setText("保存");
-                mLinearLayout.setVisibility(View.VISIBLE);
-                drawPic();
-                break;
-
-        }
+//        if (resultCode != RESULT_OK) {
+//            return;
+//        }
+//        switch (requestCode) {
+//            case CAMERA_WITH_DATA://拍照
+//                photoPath = tempPhotoPath;
+//                int angle = getBitmapDegree(photoPath);
+//                Bitmap bitmap = compressionFiller(photoPath, ll);//图片缩放
+//                camera_path = saveBitmap(rotaingImageView(angle, bitmap), "saveTemp");
+//                takeSave.setText("保存");
+//                mLinearLayout.setVisibility(View.VISIBLE);
+//                drawPic();
+//                break;
+//
+//        }
 
         imagePicker.onActivityResult(this, requestCode, resultCode, data);
 

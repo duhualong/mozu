@@ -72,14 +72,14 @@
             android:textColor="@color/titleColor"/>
         <ImageView
             android:id="@id/img_scan"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:src="@mipmap/ic_patrol_item_qrcode"/>
+            android:src="@mipmap/ic_qrcode"/>
 
     </RelativeLayout>
     <RelativeLayout

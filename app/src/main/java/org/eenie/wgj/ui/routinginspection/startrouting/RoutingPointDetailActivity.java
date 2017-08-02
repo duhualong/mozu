@@ -195,37 +195,69 @@ public class RoutingPointDetailActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.img_first:
-                if (data.getImage()!=null){
-                    if (data.getImage().size()>=1){
+                if (type.equals("1")){
+                    if (data.getImage()!=null){
+                        if (data.getImage().size()>=1){
+                            startActivity(new Intent(context, GalleryActivity.class)
+                                    .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN + data.getImage().get(0).getImage()));
+                        }
+
+                    }
+                }else {
+                    if (data.getInspection().getImage().size()>=1){
                         startActivity(new Intent(context, GalleryActivity.class)
                                 .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
-                                        Constant.DOMIN + data.getImage().get(0).getImage()));
+                                        Constant.DOMIN + data.getInspection().getImage()
+                                                .get(0).getImage()));
                     }
 
+
+
                 }
+
 
 
                 break;
 
             case R.id.img_second:
-                if (data.getImage()!=null){
-                    if (data.getImage().size()>=2){
+                if (type.equals("1")){
+                    if (data.getImage()!=null){
+                        if (data.getImage().size()>=2){
+                            startActivity(new Intent(context, GalleryActivity.class)
+                                    .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN + data.getImage().get(1).getImage()));
+                        }
+
+                    }
+                }else {
+                    if (data.getInspection().getImage().size()>=2){
                         startActivity(new Intent(context, GalleryActivity.class)
                                 .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
-                                        Constant.DOMIN + data.getImage().get(1).getImage()));
+                                        Constant.DOMIN + data.getInspection().getImage()
+                                                .get(1).getImage()));
                     }
-
                 }
+
 
                 break;
             case R.id.img_third:
-                if (data.getImage()!=null){
-                    if (data.getImage().size()>=3){
+                if (type.equals("1")) {
+                    if (data.getImage() != null) {
+                        if (data.getImage().size() >= 3) {
+                            startActivity(new Intent(context, GalleryActivity.class)
+                                    .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
+                                            Constant.DOMIN + data.getImage().get(2).getImage()));
+                        }
+
+                    }
+                }else {
+                    if (data.getInspection().getImage().size()>=3){
                         startActivity(new Intent(context, GalleryActivity.class)
                                 .putExtra(GalleryActivity.EXTRA_IMAGE_URI,
-                                        Constant.DOMIN + data.getImage().get(2).getImage()));
+                                        Constant.DOMIN + data.getInspection().getImage()
+                                                .get(2).getImage()));
                     }
-
                 }
 
                 break;

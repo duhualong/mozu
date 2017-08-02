@@ -69,7 +69,8 @@
                        android:layout_height="match_parent"
                        android:layout_centerInParent="true"
                        android:background="@color/white"
-                       android:scaleType="centerCrop"
+                       android:scaleType="center"
+                       android:src="@mipmap/ic_carmer_first"
             />
             <ImageView android:id="@id/img_project_background"
                        android:layout_width="36dp"
@@ -78,14 +79,15 @@
                        android:background="@color/white"
                        android:scaleType="centerCrop"
                        android:src="@mipmap/ic_carmer_first"
+                       android:visibility="gone"
             />
             <ImageView android:id="@id/img_delete"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
+                       android:layout_width="24dp"
+                       android:layout_height="24dp"
                        android:layout_alignParentEnd="true"
                        android:layout_alignParentRight="true"
-                       android:padding="@dimen/padding_short"
-                       android:src="@mipmap/ic_photo_delete"
+                       android:layout_margin="4dp"
+                       android:src="@mipmap/ic_delete_time"
                        android:visibility="invisible"/>
 
         </RelativeLayout>
