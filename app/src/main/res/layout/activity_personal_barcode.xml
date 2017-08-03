@@ -19,7 +19,8 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:text="@string/qr_code"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_title_size"/>
 
     </RelativeLayout>
     <RelativeLayout
@@ -51,8 +52,8 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/personal_margin"
                     android:text="Eenie"
-                    android:textColor="#333"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/black_light"
+                    android:textSize="@dimen/text_large_size"/>
 
             </LinearLayout>
 
@@ -71,16 +72,16 @@
                         android:id="@id/img_barcode"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:layout_marginTop="20dp"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
                         android:background="@mipmap/ic_patrol_item_qrcode"/>
                     <ImageView
                         android:id="@id/img_avatar_barcode"
                         android:layout_width="@dimen/personal_size"
                         android:layout_height="@dimen/personal_size"
-                        android:visibility="gone"
                         android:layout_centerInParent="true"
-                        android:src="@mipmap/ic_default_header"/>
+                        android:src="@mipmap/ic_default_header"
+                        android:visibility="gone"/>
                 </RelativeLayout>
                 <TextView
                     android:layout_width="wrap_content"

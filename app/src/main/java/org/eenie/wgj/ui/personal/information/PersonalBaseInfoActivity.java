@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +21,8 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.linchaolong.android.imagepicker.ImagePicker;
+import com.linchaolong.android.imagepicker.cropper.CropImage;
+import com.linchaolong.android.imagepicker.cropper.CropImageView;
 import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
@@ -136,7 +139,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
             case R.id.rl_avatar_img:
 
                 startCameraOrGallery();
-               // showAvatarDialog();
+                // showAvatarDialog();
 
                 break;
 
@@ -180,13 +183,25 @@ public class PersonalBaseInfoActivity extends BaseActivity {
         dialog.show();
 
         ImagePicker.Callback callback = new ImagePicker.Callback() {
-            @Override public void onPickImage(Uri imageUri1) {
+            @Override
+            public void onPickImage(Uri imageUri1) {
             }
 
-            @Override public void onCropImage(Uri imageUri1) {
+            @Override
+            public void onCropImage(Uri imageUri1) {
                 avatar.setImageURI(imageUri1);
                 File fileCardFront = new File(ImageUtils.getRealPath(context, imageUri1));
                 uploadFile(fileCardFront);
+            }
+            /**
+             * 图片裁剪配置
+             */
+            public void cropConfig(CropImage.ActivityBuilder builder){
+                // 默认配置
+                builder.setMultiTouchEnabled(false)
+                        .setCropShape(CropImageView.CropShape.OVAL)
+                        .setRequestedSize(300, 300)
+                        .setAspectRatio(1, 1);
             }
         };
 
@@ -198,10 +213,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
         dialog.getWindow().findViewById(tv_photo_personal).setOnClickListener(v -> {
             dialog.dismiss();
             imagePicker.startGallery(PersonalBaseInfoActivity.this, callback);
-
-
         });
-
 
 
 //        new AlertDialog.Builder(context).setTitle("上传头像")
@@ -273,8 +285,8 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                                         (R.id.tv_sign_office);
                                 TextView mDeadline = (TextView) view.findViewById
                                         (R.id.tv_date_deadline);
-                                if (!TextUtils.isEmpty(mData.getId_card_head_image())&&
-                                        mData.getId_card_head_image()!=null){
+                                if (!TextUtils.isEmpty(mData.getId_card_head_image()) &&
+                                        mData.getId_card_head_image() != null) {
                                     Glide.with(context)
                                             .load(Constant.DOMIN + mData.getId_card_head_image())
                                             .centerCrop()
@@ -365,7 +377,7 @@ public class PersonalBaseInfoActivity extends BaseActivity {
      * @param requestCode 请求码
      */
     private void startCropImage(Uri resUri, int requestCode) {
-        File cropFile = new File(context.getCacheDir(), System.currentTimeMillis()+"jpg");
+        File cropFile = new File(context.getCacheDir(), System.currentTimeMillis() + "jpg");
         UCrop.of(resUri, Uri.fromFile(cropFile))
                 .withAspectRatio(1, 1)
                 .withMaxResultSize(500, 500)
@@ -374,7 +386,6 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        imagePicker.onActivityResult(this, requestCode, resultCode, data);
 
 //        if (resultCode == RESULT_OK) {
 //
@@ -422,6 +433,16 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 //            }
 //        }
         super.onActivityResult(requestCode, resultCode, data);
+        imagePicker.onActivityResult(this, requestCode, resultCode, data);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        imagePicker.onRequestPermissionsResult(PersonalBaseInfoActivity.this,
+                requestCode, permissions, grantResults);
     }
 
     private void uploadFile(File file) {
@@ -440,14 +461,14 @@ public class PersonalBaseInfoActivity extends BaseActivity {
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getResultCode() == 200) {
-                        System.out.println("图片路径："+response.body().getData());
+                        System.out.println("图片路径：" + response.body().getData());
 
                         Gson gson = new Gson();
                         String jsonArray = gson.toJson(response.body().getData());
                         fileUrl = gson.fromJson(jsonArray,
                                 new TypeToken<String>() {
                                 }.getType());
-                        modifyInformation(fileUrl,mBankCard,mSecurityCard);
+                        modifyInformation(fileUrl, mBankCard, mSecurityCard);
 
                     } else {
                         Toast.makeText(context, response.body().getResultMessage(),
@@ -469,9 +490,10 @@ public class PersonalBaseInfoActivity extends BaseActivity {
 
 
     }
-    private void  modifyInformation(String avatarUrl,String bankCard,String securityCard){
-        ModifyInfo info=new ModifyInfo(avatarUrl,bankCard,securityCard);
-        String token=mPrefsHelper.getPrefs().getString(Constants.TOKEN,"");
+
+    private void modifyInformation(String avatarUrl, String bankCard, String securityCard) {
+        ModifyInfo info = new ModifyInfo(avatarUrl, bankCard, securityCard);
+        String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
         mSubscription = mRemoteService.modifyInforById(token, info)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -489,14 +511,13 @@ public class PersonalBaseInfoActivity extends BaseActivity {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200) {
-                            Snackbar.make(rootView,"修改成功！",Snackbar.LENGTH_LONG).show();
-                            if (!TextUtils.isEmpty(avatarUrl)){
+                            Snackbar.make(rootView, "修改成功！", Snackbar.LENGTH_LONG).show();
+                            if (!TextUtils.isEmpty(avatarUrl)) {
                                 mPrefsHelper.getPrefs().edit().putString
-                                        (Constants.PERSONAL_AVATAR, Constant.DOMIN+avatarUrl)
+                                        (Constants.PERSONAL_AVATAR, Constant.DOMIN + avatarUrl)
                                         .apply();
 
                             }
-
 
 
                         } else {
@@ -543,11 +564,11 @@ public class PersonalBaseInfoActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mBankCard!=null){
-            mBankCard=null;
+        if (mBankCard != null) {
+            mBankCard = null;
         }
-        if (mSecurityCard!=null){
-            mSecurityCard=null;
+        if (mSecurityCard != null) {
+            mSecurityCard = null;
         }
     }
 }

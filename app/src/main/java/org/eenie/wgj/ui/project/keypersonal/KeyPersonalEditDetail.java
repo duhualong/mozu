@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +23,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.linchaolong.android.imagepicker.ImagePicker;
+import com.linchaolong.android.imagepicker.cropper.CropImage;
+import com.linchaolong.android.imagepicker.cropper.CropImageView;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
@@ -57,6 +61,8 @@ import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static org.eenie.wgj.R.id.tv_photo_personal;
 
 /**
  * Created by Eenie on 2017/5/18 at 9:41
@@ -117,6 +123,7 @@ public class KeyPersonalEditDetail extends BaseActivity {
     private int mId;
     private String projectId;
 
+    private ImagePicker imagePicker = new ImagePicker();
 
     @Override
     protected int getContentView() {
@@ -125,6 +132,7 @@ public class KeyPersonalEditDetail extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        imagePicker.setCropImage(true);
         projectId = getIntent().getStringExtra(PROJECT_ID);
 
         data = getIntent().getParcelableExtra(INFO);
@@ -374,7 +382,7 @@ public class KeyPersonalEditDetail extends BaseActivity {
         TextView dialogTitle = (TextView) view.findViewById(R.id.title_dialog);
         EditText etDialog = (EditText) view.findViewById(R.id.et_input_content);
         etDialog.setHint("请输入车牌号");
-        etDialog.setTransformationMethod((new AllCapTransformationMethod ()));
+        etDialog.setTransformationMethod((new AllCapTransformationMethod()));
         dialogTitle.setText("设置车牌号");
         if (!TextUtils.isEmpty(mCarNumber)) {
             etDialog.setText(mCarNumber);
@@ -434,7 +442,7 @@ public class KeyPersonalEditDetail extends BaseActivity {
         dialog.getWindow().findViewById(R.id.button_project_ok).setOnClickListener(v -> {
             if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime)) {
                 dialog.dismiss();
-                mWorkTime=startTime+"-"+endTime;
+                mWorkTime = startTime + "-" + endTime;
                 tvWorkTime.setText(startTime + "-" + endTime);
                 tvWorkTime.setTextColor(ContextCompat.getColor
                         (context, R.color.titleColor));
@@ -732,6 +740,33 @@ public class KeyPersonalEditDetail extends BaseActivity {
                 .setCancelable(true)
                 .create();
         dialog.show();
+        ImagePicker.Callback callback = new ImagePicker.Callback() {
+            @Override
+            public void onPickImage(Uri imageUri1) {
+            }
+
+            @Override
+            public void onCropImage(Uri imageUri1) {
+                avatar.setImageURI(imageUri1);
+                File fileCardFront = new File(ImageUtils.getRealPath(context, imageUri1));
+                uploadFile(fileCardFront);
+
+            }
+        };
+
+        dialog.getWindow().findViewById(R.id.tv_camera_personal).setOnClickListener(v -> {
+            dialog.dismiss();
+            imagePicker.startCamera(KeyPersonalEditDetail.this, callback);
+
+        });
+        dialog.getWindow().findViewById(tv_photo_personal).setOnClickListener(v -> {
+            dialog.dismiss();
+            imagePicker.startGallery(KeyPersonalEditDetail.this, callback);
+
+
+        });
+
+
         dialog.getWindow().findViewById(R.id.button_project_cancel).setOnClickListener(v -> {
             dialog.dismiss();
         });
@@ -758,19 +793,66 @@ public class KeyPersonalEditDetail extends BaseActivity {
                 .setView(view) //自定义的布局文件
                 .create();
         dialog.show();
+
+        ImagePicker.Callback callback = new ImagePicker.Callback() {
+            @Override
+            public void onPickImage(Uri imageUri1) {
+            }
+
+            @Override
+            public void onCropImage(Uri imageUri1) {
+                avatar.setImageURI(imageUri1);
+                File fileCardFront = new File(ImageUtils.getRealPath(context, imageUri1));
+                uploadFile(fileCardFront);
+
+            }
+            /**
+             * 图片裁剪配置
+             */
+            public void cropConfig(CropImage.ActivityBuilder builder){
+                // 默认配置
+                builder.setMultiTouchEnabled(false)
+                        .setCropShape(CropImageView.CropShape.OVAL)
+                        .setRequestedSize(300, 300)
+                        .setAspectRatio(1, 1);
+            }
+
+        };
+
         dialog.getWindow().findViewById(R.id.tv_camera_personal).setOnClickListener(v -> {
             dialog.dismiss();
-            showPhotoSelectDialog();
-
+            imagePicker.startCamera(KeyPersonalEditDetail.this, callback);
 
         });
-        dialog.getWindow().findViewById(R.id.tv_photo_personal).setOnClickListener(v -> {
+        dialog.getWindow().findViewById(tv_photo_personal).setOnClickListener(v -> {
             dialog.dismiss();
-            startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"),
-                    REQUEST_GALLERY_PHOTO);
+            imagePicker.startGallery(KeyPersonalEditDetail.this, callback);
+
+
         });
 
 
+//        dialog.getWindow().findViewById(R.id.tv_camera_personal).setOnClickListener(v -> {
+//            dialog.dismiss();
+//            showPhotoSelectDialog();
+//
+//
+//        });
+//        dialog.getWindow().findViewById(tv_photo_personal).setOnClickListener(v -> {
+//            dialog.dismiss();
+//            startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"),
+//                    REQUEST_GALLERY_PHOTO);
+//        });
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        imagePicker.onRequestPermissionsResult(KeyPersonalEditDetail.this,
+                requestCode, permissions, grantResults);
     }
 
     private void showPhotoSelectDialog() {
@@ -804,57 +886,59 @@ public class KeyPersonalEditDetail extends BaseActivity {
 
 
         UCrop.of(resUri, Uri.fromFile(cropFile))
-                .withAspectRatio(1,1)
+                .withAspectRatio(1, 1)
                 .withMaxResultSize(100, 100)
                 .start(KeyPersonalEditDetail.this, requestCode);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-
-            switch (requestCode) {
-                case TAKE_PHOTO_REQUEST:
-                    startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
-
-                    break;
-                case RESPONSE_CODE_POSITIVE:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bitmap -> {
-                                avatar.setImageBitmap(bitmap);
-
-                            });
-
-                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
-
-                    mAvatarFile = new File(avatarUrl);
-                    uploadFile(mAvatarFile);
-
-
-                    break;
-                case REQUEST_GALLERY_PHOTO:
-
-                    startCropImage(data.getData(), RESPONSE_CODE_NEGIVITE);
-                    break;
-
-                case RESPONSE_CODE_NEGIVITE:
-                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bitmap -> {
-                                avatar.setImageBitmap(bitmap);
-
-                            });
-                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
-                    mAvatarFile = new File(avatarUrl);
-                    uploadFile(mAvatarFile);
-
-                    break;
-            }
-        }
+//        if (resultCode == RESULT_OK) {
+//
+//            switch (requestCode) {
+//                case TAKE_PHOTO_REQUEST:
+//                    startCropImage(imageUri, RESPONSE_CODE_POSITIVE);
+//
+//                    break;
+//                case RESPONSE_CODE_POSITIVE:
+//                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(bitmap -> {
+//                                avatar.setImageBitmap(bitmap);
+//
+//                            });
+//
+//                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+//
+//                    mAvatarFile = new File(avatarUrl);
+//                    uploadFile(mAvatarFile);
+//
+//
+//                    break;
+//                case REQUEST_GALLERY_PHOTO:
+//
+//                    startCropImage(data.getData(), RESPONSE_CODE_NEGIVITE);
+//                    break;
+//
+//                case RESPONSE_CODE_NEGIVITE:
+//                    Single.just(ImageUtils.getScaledBitmap(context, UCrop.getOutput(data), avatar))
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(bitmap -> {
+//                                avatar.setImageBitmap(bitmap);
+//
+//                            });
+//                    avatarUrl = ImageUtils.getRealPath(context, UCrop.getOutput(data));
+//                    mAvatarFile = new File(avatarUrl);
+//                    uploadFile(mAvatarFile);
+//
+//                    break;
+//            }
+//        }
         super.onActivityResult(requestCode, resultCode, data);
+        imagePicker.onActivityResult(this, requestCode, resultCode, data);
+
     }
 
     private void updatePersonalInformation(String img, String token, String age, String height, int id, String job,
@@ -890,7 +974,7 @@ public class KeyPersonalEditDetail extends BaseActivity {
                             Intent mIntent = new Intent();
                             mIntent.putExtra("info", list);
                             // 设置结果，并进行传送
-                            setResult(4,mIntent);
+                            setResult(4, mIntent);
                             Toast.makeText(context, "修改成功", Toast.LENGTH_SHORT).show();
 
                             Single.just("").delay(1, TimeUnit.SECONDS).
@@ -967,7 +1051,6 @@ public class KeyPersonalEditDetail extends BaseActivity {
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
 
-
             }
         });
 
@@ -991,13 +1074,13 @@ public class KeyPersonalEditDetail extends BaseActivity {
 
         @Override
         protected char[] getOriginal() {
-            char[] aa = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+            char[] aa = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
             return aa;
         }
 
         @Override
         protected char[] getReplacement() {
-            char[] cc = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
+            char[] cc = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
             return cc;
         }
 

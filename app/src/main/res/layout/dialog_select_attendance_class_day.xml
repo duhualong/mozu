@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_light"
+              android:orientation="vertical">
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="?android:actionBarSize"
+              android:background="@color/colorPrimary"
+              android:gravity="center"
+              android:text="选择"
+              android:textColor="@color/white"
+              android:textSize="@dimen/text_title_size"
+    />
+
+
+    <ListView
+        android:id="@id/dialog_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

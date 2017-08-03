@@ -729,15 +729,25 @@
         <activity android:name=".MainTestPictureOneActivity"/>
 
         <!--勤奋榜-->
-        <activity android:name=".ui.attendancestatistics.NewAttendanceFirstActivity"/>
+        <activity android:name=".ui.attendancestatistics.NewAttendanceFirstActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--优秀榜-->
-        <activity android:name=".ui.attendancestatistics.NewAttendanceSortMonthActivity"/>
+        <activity android:name=".ui.attendancestatistics.NewAttendanceSortMonthActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--加油榜-->
-        <activity android:name=".ui.attendancestatistics.NewAttendanceFightingActivity"/>
+        <activity android:name=".ui.attendancestatistics.NewAttendanceFightingActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--离职人员-->
-        <activity android:name=".ui.attendancestatistics.AttendanceLeaveOutActivity"/>
+        <activity android:name=".ui.attendancestatistics.AttendanceLeaveOutActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--公告的详情-->
-        <activity android:name=".ui.noticemessage.NoticeMessageDetailActivity"/>
+        <activity android:name=".ui.noticemessage.NoticeMessageDetailActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
         <!--添加公告-->
         <activity android:name=".ui.noticemessage.AddNoticeMessageActivity"
                   android:screenOrientation="portrait"
@@ -752,6 +762,11 @@
         <!-- ImagePicker 相关配置 -->
         <activity android:name="com.linchaolong.android.imagepicker.cropper.CropImageActivity"
                   android:theme="@style/Base.Theme.AppCompat"/>
+        <!--个人项目工时设置（新）-->
+        <activity android:name=".ui.project.projecttime.ProjectSettingPersonalTimeNewActivity"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"/>
+
 
 
         <!--<activity android:name=".ui.meeting.MeetingClassApplyPartActivity"-->

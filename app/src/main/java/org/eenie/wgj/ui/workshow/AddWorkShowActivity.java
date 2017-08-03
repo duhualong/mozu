@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.linchaolong.android.imagepicker.ImagePicker;
 import com.yalantis.ucrop.UCrop;
 
 import org.eenie.wgj.R;
@@ -84,7 +85,7 @@ public class AddWorkShowActivity extends BaseActivity {
     private File firstFile;
     private File secondFile;
     private File thirdFile;
-
+    private ImagePicker imagePicker = new ImagePicker();
 
     @Override
     protected int getContentView() {
@@ -93,7 +94,7 @@ public class AddWorkShowActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-
+        imagePicker.setCropImage(true);
 
     }
 
@@ -125,7 +126,6 @@ public class AddWorkShowActivity extends BaseActivity {
                     imgList.get(1).setBackgroundResource(R.color.white);
                 }
 
-
                 break;
 
             case R.id.img_delete_third:
@@ -137,7 +137,6 @@ public class AddWorkShowActivity extends BaseActivity {
                     imgList.get(2).setImageResource(R.mipmap.ic_carmer_first);
                     imgList.get(2).setBackgroundResource(R.color.white);
                 }
-
 
                 break;
             case R.id.img_back:
@@ -166,11 +165,9 @@ public class AddWorkShowActivity extends BaseActivity {
                         Toast.makeText(context, "请至少选择一张图片", Toast.LENGTH_LONG).show();
                     }
 
-
                 } else {
                     Toast.makeText(context, "请输入工作秀主题", Toast.LENGTH_LONG).show();
                 }
-
 
                 break;
             case R.id.img_first:

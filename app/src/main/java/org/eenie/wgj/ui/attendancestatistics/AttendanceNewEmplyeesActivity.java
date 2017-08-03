@@ -168,6 +168,9 @@ public class AttendanceNewEmplyeesActivity extends BaseActivity implements
                     holder.itemPost.setVisibility(View.VISIBLE);
                     if (!TextUtils.isEmpty(data.getChannel())){
                         holder.itemPost.setText("入职来源  "+data.getChannel());
+                    }else {
+                        holder.itemPost.setText("入职来源  "+"无");
+
                     }
 
                 }

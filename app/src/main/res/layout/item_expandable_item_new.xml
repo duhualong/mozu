@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:id="@id/rl_expend_item"
+                android:padding="@dimen/padding_bottom">
+    <TextView android:id="@id/expand_item_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="5dp"
+              android:layout_marginStart="5dp"
+              android:text="日班"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+
+
+    <TextView android:id="@id/et_input_day"
+              android:layout_width="40dp"
+              android:layout_height="30dp"
+              android:layout_alignParentEnd="true"
+              android:layout_alignParentRight="true"
+              android:layout_centerVertical="true"
+              android:layout_marginEnd="@dimen/padding_bottom"
+              android:layout_marginRight="@dimen/padding_bottom"
+              android:gravity="center"
+              android:text="0天"
+              android:textColor="@color/titleColor"
+              android:textSize="@dimen/text_large_size"/>
+
+</RelativeLayout>

@@ -36,8 +36,8 @@ public class ProjectTotalTimeSettingActivity extends BaseActivity {
 //                Intent intents=new Intent(context,ProjectTimePersonalSettingActivity.class);
 //                intents.putExtra(ProjectTimePersonalSettingActivity.PROJECT_ID,projectId);
 //                startActivity(intents);
-                Intent intents=new Intent(context,ProjectSettingPersonalTimeActivity.class);
-                intents.putExtra(ProjectSettingPersonalTimeActivity.PROJECT_ID,projectId);
+                Intent intents=new Intent(context,ProjectSettingPersonalTimeNewActivity.class);
+                intents.putExtra(ProjectSettingPersonalTimeNewActivity.PROJECT_ID,projectId);
                 startActivity(intents);
 
                 break;

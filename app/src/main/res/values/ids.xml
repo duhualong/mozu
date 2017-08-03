@@ -831,5 +831,9 @@
     <item name="tv_exchange_work_content" type="id"/>
     <item name="tv_exchange_work_content_illustration" type="id"/>
     <item name="btn_map" type="id"/>
+    <item name="dialog_recycler_view" type="id"/>
+    <item name="rl_expend_item" type="id"/>
+    <item name="rl_bottom" type="id"/>
+    <item name="line_text" type="id"/>
 
 </resources>
