@@ -60,6 +60,7 @@ public class ExchangeHistoryItemDetailActivity extends BaseActivity {
         type = getIntent().getStringExtra(TYPE);
 
 
+
         if (mData != null) {
             tvClassName.setText(mData.getMattername());
 
