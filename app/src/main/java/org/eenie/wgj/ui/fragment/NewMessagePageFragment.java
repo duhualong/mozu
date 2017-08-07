@@ -35,7 +35,7 @@ public class NewMessagePageFragment  extends BaseSupportFragment {
     protected void updateUI() {
 
         mFragments.add(new UnRedMessageFragment());
-        mFragments.add(new UnRedMessageFragment());
+        mFragments.add(new RedMessageFragment());
         getFragmentManager().beginTransaction()
                 .add(R.id.message_container, new UnRedMessageFragment()).commit();
 //        mPageError.setAdapter(new ErrorPageAdapter(getFragmentManager()));
@@ -52,9 +52,6 @@ public class NewMessagePageFragment  extends BaseSupportFragment {
                             .commit();                                break;
             }
         });
-
-
-
 
     }
 

@@ -2,6 +2,7 @@ package org.eenie.wgj.ui.project.classmeeting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -212,6 +213,11 @@ public class ClassMeetingSettingActivity extends BaseActivity implements
                 if (data != null) {
                     if (!TextUtils.isEmpty(data.getServicesname())) {
                         holder.contactsName.setText(data.getServicesname());
+                        if (data.getServicesname().equals("常日班")){
+                            holder.contactsName.setTextColor(ContextCompat.getColor
+                                    (context, R.color.text_red));
+                        }
+
                     }
                     if (!TextUtils.isEmpty(data.getStarttime())&&!TextUtils.isEmpty(data.getEndtime())){
                         holder.timeClass.setText(data.getStarttime()+"-"+data.getEndtime());

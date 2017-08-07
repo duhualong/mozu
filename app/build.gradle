@@ -138,5 +138,8 @@ dependencies {
     //身份证拍照的剪切
     compile 'me.zhouzhuo810.cameracardcrop:camera-card-crop:1.0.2'
     compile 'com.linchaolong.android:imagepicker:1.5'
+    compile 'com.zhy:percent-support-extends:1.0.1'
+//recyclerview 侧滑
+    compile 'com.gxz:swapmenurecyclerview:1.0'
 
 }

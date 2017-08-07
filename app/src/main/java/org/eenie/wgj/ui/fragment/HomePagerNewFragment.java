@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -76,7 +77,7 @@ public class HomePagerNewFragment extends BaseSupportFragment {
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_home_pager_new;
+        return R.layout.fragment_new_home_pager;
     }
 
     @Override
@@ -86,11 +87,12 @@ public class HomePagerNewFragment extends BaseSupportFragment {
         initData();
         initDatas();
         checkPermission();
-        MyGridLayoutManager gridLayoutManager = new
-                MyGridLayoutManager(getContext(), 4);//两列
-        gridLayoutManager.setScrollEnabled(false);
+        //禁止滑动
+//        MyGridLayoutManager gridLayoutManager = new
+//                MyGridLayoutManager(getContext(), 4);//两列
+//        gridLayoutManager.setScrollEnabled(false);
 
-        rvModule.setLayoutManager(gridLayoutManager);
+        rvModule.setLayoutManager(new GridLayoutManager(getContext(), 4));
         mAdapter = new ModuleAdapter(modules);
         rvModule.setAdapter(mAdapter);
         getModule();
@@ -244,7 +246,6 @@ public class HomePagerNewFragment extends BaseSupportFragment {
             }
         }
 
-
     }
 
     private void scanMeeting(String id) {
@@ -308,11 +309,9 @@ public class HomePagerNewFragment extends BaseSupportFragment {
                                         "").apply();
                             }
 
-
                         }
                     }
                 });
-
 
     }
 
@@ -321,7 +320,6 @@ public class HomePagerNewFragment extends BaseSupportFragment {
     private void initData() {
         bannerTop.setViewRes(Arrays.asList(ids));
         bannerBottom.setViewRes(Arrays.asList(idBottom));
-
 
     }
 
@@ -387,6 +385,5 @@ public class HomePagerNewFragment extends BaseSupportFragment {
                     }
                 });
     }
-
 
 }

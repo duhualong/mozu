@@ -125,7 +125,7 @@ public class AttendanceStaticsMonthActivity extends BaseActivity implements Swip
                             }
 
                         }else {
-                            Toast.makeText(context,apiResponse.getResultMessage(),
+                            Toast.makeText(context,apiResponse.getMessage(),
                                     Toast.LENGTH_SHORT).show();
 
                         }

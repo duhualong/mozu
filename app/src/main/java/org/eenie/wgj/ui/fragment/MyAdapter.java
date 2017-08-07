@@ -30,7 +30,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> imp
     private List<MessageRequestData.DataBean> mList;
     private Context mContext;
 
-    MyAdapter(Context context, List<MessageRequestData.DataBean> list) {
+    public MyAdapter(Context context, List<MessageRequestData.DataBean> list) {
         this.mContext = context;
         this.mList = list;
     }

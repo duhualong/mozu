@@ -72,6 +72,8 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
     RelativeLayout mRelativeLayout;
     @BindView(R.id.tv_class_people)
     TextView tvSelectPeople;
+    @BindView(R.id.tv_class_name)TextView tvClassName;
+    @BindView(R.id.line_input_class)LinearLayout lineClass;
 
 
     @Override
@@ -88,7 +90,11 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
             tvSave.setVisibility(View.GONE);
             if (data.getServicesname().equals("常日班")) {
                 mLinearLayout.setVisibility(View.VISIBLE);
+                tvClassName.setVisibility(View.VISIBLE);
+                lineClass.setVisibility(View.GONE);
+
                 queryServiceDay();
+
             }
 
             if (!TextUtils.isEmpty(data.getEndtime())) {
@@ -151,7 +157,17 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
     @OnClick({R.id.img_back, R.id.tv_save, R.id.button_save, R.id.button_delete, R.id.ly_start_time,
             R.id.ly_end_time, R.id.rl_select_people})
     public void onClick(View view) {
-        mTitle = etTitle.getText().toString();
+        if (data==null){
+            mTitle = etTitle.getText().toString();
+        }else {
+            if (data.getServicesname().equals("常日班")){
+                mTitle="常日班";
+            }else {
+                mTitle = etTitle.getText().toString();
+
+            }
+        }
+
         String token = mPrefsHelper.getPrefs().getString(Constants.TOKEN, "");
         switch (view.getId()) {
             case R.id.rl_select_people:
@@ -187,6 +203,7 @@ public class ClassMeetingItemDetailActivity extends BaseActivity {
 
                 break;
             case R.id.button_save:
+
                 if (!TextUtils.isEmpty(mTitle)) {
                     if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime)) {
                         ClassMeetingRequest request = new ClassMeetingRequest(projectId, mTitle,

@@ -515,6 +515,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).isChecked() && data.get(i).getService_people() > 0) {
                 ids.add(data.get(i).getId());
+
                 people.add(data.get(i).getService_people());
 
 
@@ -610,7 +611,10 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 if (data != null) {
                     if (data.getServicesname().equals("常日班")){
                         checked=true;
-                        data.setService_people(servicePeople);
+                        if (data.getService_people()==0){
+                            data.setService_people(servicePeople);
+                        }
+//                        data.setService_people(data.get);
                         holder.etNumber.setClickable(false);
                         holder.etNumber.setEnabled(false);
 

@@ -40,7 +40,7 @@
             android:background="#fff"
             android:padding="5dp"
             android:text="首页应用"
-            android:textColor="#333333"/>
+            android:textColor="@color/black_light"/>
         <TextView
             android:id="@+id/tv_drag_hint"
             android:layout_width="match_parent"
@@ -65,18 +65,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
-        android:background="#fff"
+        android:layout_marginBottom="1dp"
+        android:background="@color/white"
         android:padding="5dp"
         android:text="其他应用"
-        android:textColor="#333333"/>
+        android:textColor="@color/black_light"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_other_app"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="1dp"
-        android:background="#fff"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
         android:overScrollMode="never">
 
     </android.support.v7.widget.RecyclerView>
+
 
 </LinearLayout>

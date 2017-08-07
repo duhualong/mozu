@@ -31,6 +31,7 @@ import org.eenie.wgj.model.response.AttendanceDay;
 import org.eenie.wgj.model.response.ShootList;
 import org.eenie.wgj.model.response.meeting.AuditMeetingRequest;
 import org.eenie.wgj.model.response.meeting.MeetingData;
+import org.eenie.wgj.model.response.message.DeleteMessage;
 import org.eenie.wgj.model.response.message.MessageStatus;
 import org.eenie.wgj.model.response.project.QueryService;
 import org.eenie.wgj.model.response.reportpost.QueryReportPostMonth;
@@ -799,6 +800,11 @@ public interface RemoteService {
     //我的接班
     @GET("handover_received")
     Single<ApiResponse> getReceiveClass(@Header("token") String token);
+
+    //删除消息
+    @POST("notice_delete")
+    Single<ApiResponse> deleteMessageNotice(@Header("token") String token,
+                                            @Body DeleteMessage request);
 
 
     //获取个人考勤情况

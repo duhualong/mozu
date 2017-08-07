@@ -835,5 +835,6 @@
     <item name="rl_expend_item" type="id"/>
     <item name="rl_bottom" type="id"/>
     <item name="line_text" type="id"/>
+    <item name="line_input_class" type="id"/>
 
 </resources>
