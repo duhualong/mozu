@@ -30,10 +30,12 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yalantis.ucrop.UCrop;
 
+import org.eenie.wgj.MainTestPictureOneActivity;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.data.remote.FileUploadService;
@@ -188,6 +190,9 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
     private String firstPath;
     private String secondPath;
     private String thirdPath;
+    private String onePath;
+    private String twoPath;
+    private String threePath;
 
 
     @Override
@@ -259,6 +264,39 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
         String abnormalContent = editAbnormalContent.getText().toString();
 
         switch (view.getId()) {
+            case R.id.img_delete_one:
+                if (mOneFile!=null){
+                    mOneFile=null;
+                    onePath="";
+                    imgDeleteOne.setVisibility(View.GONE);
+                    imgOne.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+                    imgOne.setScaleType(ImageView.ScaleType.CENTER);
+                    imgOne.setImageResource(R.mipmap.ic_carmer_first);
+                }
+
+                break;
+            case R.id.img_delete_two:
+                if (mTwoFile!=null){
+                    mTwoFile=null;
+                    twoPath="";
+                    imgDeleteTwo.setVisibility(View.GONE);
+                    imgTwo.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+                    imgTwo.setScaleType(ImageView.ScaleType.CENTER);
+                    imgTwo.setImageResource(R.mipmap.ic_carmer_first);
+                }
+
+                break;
+            case R.id.img_delete_three:
+                if (mThreeFile!=null){
+                    mThreeFile=null;
+                    threePath="";
+                    imgDeleteThree.setVisibility(View.GONE);
+                    imgThree.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+                    imgThree.setScaleType(ImageView.ScaleType.CENTER);
+                    imgThree.setImageResource(R.mipmap.ic_carmer_first);
+                }
+
+                break;
             case R.id.img_delete_first:
                 if (mFirstFile != null) {
                     mFirstFile = null;
@@ -268,7 +306,6 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                     imgFirst.setScaleType(ImageView.ScaleType.CENTER);
                     imgFirst.setImageResource(R.mipmap.ic_carmer_first);
                 }
-
 
                 break;
             case R.id.img_delete_second:
@@ -280,7 +317,6 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
                     imgSecond.setScaleType(ImageView.ScaleType.CENTER);
                     imgSecond.setImageResource(R.mipmap.ic_carmer_first);
                 }
-
                 break;
 
             case R.id.img_delete_third:
@@ -452,15 +488,35 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
                 break;
             case R.id.img_one:
-                showUploadDialog(REQUEST_CAMERA_ONE, REQUEST_PHOTO_ONE);
+
+
+                //showUploadDialog(REQUEST_CAMERA_ONE, REQUEST_PHOTO_ONE);
+                if (mOneFile == null) {
+                    startActivityForResult(new Intent(context, MainTestPictureOneActivity.class), 111);
+                } else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                         .putExtra(GallerysActivity.EXTRA_IMAGE_URI, onePath));
+                }
 
                 break;
             case R.id.img_two:
-                showUploadDialog(REQUEST_CAMERA_TWO, REQUEST_PHOTO_TWO);
+                if (mTwoFile == null) {
+                    startActivityForResult(new Intent(context, MainTestPictureOneActivity.class), 222);
+                } else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, twoPath));
+                }
+                // showUploadDialog(REQUEST_CAMERA_TWO, REQUEST_PHOTO_TWO);
 
                 break;
             case R.id.img_three:
-                showUploadDialog(REQUEST_CAMERA_THREE, REQUEST_PHOTO_THREE);
+              //  showUploadDialog(REQUEST_CAMERA_THREE, REQUEST_PHOTO_THREE);
+                if (mTwoFile == null) {
+                    startActivityForResult(new Intent(context, MainTestPictureOneActivity.class), 333);
+                } else {
+                    startActivity(new Intent(context, GallerysActivity.class)
+                            .putExtra(GallerysActivity.EXTRA_IMAGE_URI, threePath));
+                }
                 break;
             case R.id.img_first:
                 if (mFirstFile == null) {
@@ -653,6 +709,7 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
+
                 case REQUEST_PEOPLE:
                     ArrayList<ManagerPeopleResponse> mList =
                             data.getParcelableArrayListExtra("mData");
@@ -848,6 +905,57 @@ public class RoutingPointUploadActivity extends BaseActivity implements AMapLoca
 
 //                    }
 
+                    break;
+            }
+        }
+        if (resultCode==4){
+            switch (requestCode){
+                case 111:
+                    onePath= data.getStringExtra("path");
+                    if (!TextUtils.isEmpty(onePath)){
+                        mOneFile=new File(onePath);
+                        Glide.with(context).load(new File(onePath)).centerCrop().into( imgOne);
+                        imgDeleteOne.setVisibility(View.VISIBLE);
+                        imgOne.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                        if (TextUtils.isEmpty(twoPath)){
+                            imgTwo.setScaleType(ImageView.ScaleType.CENTER);
+                            imgTwo.setImageResource(R.mipmap.ic_carmer_first);
+                            imgTwo.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+
+                        }
+                    }
+
+
+
+
+                    break;
+                case 222:
+                    twoPath= data.getStringExtra("path");
+                    if (!TextUtils.isEmpty(twoPath)){
+                        mTwoFile=new File(twoPath);
+                        Glide.with(context).load(new File(twoPath)).centerCrop().into( imgTwo);
+                        imgDeleteTwo.setVisibility(View.VISIBLE);
+                        imgTwo.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                        if (TextUtils.isEmpty(threePath)){
+                            imgThree.setScaleType(ImageView.ScaleType.CENTER);
+                            imgThree.setImageResource(R.mipmap.ic_carmer_first);
+                            imgThree.setBackgroundResource(R.drawable.bg_rectangle_line_gray);
+
+                        }
+                    }
+
+                    break;
+                case 333:
+                    threePath= data.getStringExtra("path");
+                    if (!TextUtils.isEmpty(threePath)) {
+                        mThreeFile=new File(threePath);
+                        Glide.with(context).load(new File(threePath)).centerCrop().into(imgThree);
+                        imgDeleteThree.setVisibility(View.VISIBLE);
+                        imgThree.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                    }
                     break;
             }
         }

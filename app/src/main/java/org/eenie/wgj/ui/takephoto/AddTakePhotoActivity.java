@@ -126,12 +126,12 @@ public class AddTakePhotoActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(mTitleName)){
                     if (!TextUtils.isEmpty(mContent)){
                         if (!TextUtils.isEmpty(firstPath)){
-                            Intent intent =new Intent(context,SelectReportPeopleActivity.class);
-                            intent.putExtra(SelectReportPeopleActivity.TITLE,mTitleName);
-                            intent.putExtra(SelectReportPeopleActivity.CONTENT,mContent);
-                            intent.putExtra(SelectReportPeopleActivity.FIRST_URL,firstPath);
-                            intent.putExtra(SelectReportPeopleActivity.SECOND_URL,secondPath);
-                            intent.putExtra(SelectReportPeopleActivity.THIRD_URL,thirdPath);
+                            Intent intent =new Intent(context,SelectProjectTakephotoActivity.class);
+                            intent.putExtra(SelectProjectTakephotoActivity.TITLE,mTitleName);
+                            intent.putExtra(SelectProjectTakephotoActivity.CONTENT,mContent);
+                            intent.putExtra(SelectProjectTakephotoActivity.FIRST_URL,firstPath);
+                            intent.putExtra(SelectProjectTakephotoActivity.SECOND_URL,secondPath);
+                            intent.putExtra(SelectProjectTakephotoActivity.THIRD_URL,thirdPath);
                             startActivityForResult(intent,1);
 
                         }else {

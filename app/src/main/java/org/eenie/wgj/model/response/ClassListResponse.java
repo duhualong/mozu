@@ -1,5 +1,7 @@
 package org.eenie.wgj.model.response;
 
+import java.util.List;
+
 /**
  * Created by Eenie on 2017/5/31 at 17:54
  * Email: 472279981@qq.com
@@ -16,7 +18,64 @@ public class ClassListResponse {
     private String endtime;
     private double time;
     private int service_people;
+    private int persons;
+    private String date;
+    private List<ServiceBean> services;
 
+    public ClassListResponse(String date, List<ServiceBean> services) {
+        this.date = date;
+        this.services = services;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public List<ServiceBean> getServices() {
+        return services;
+    }
+
+    public void setServices(List<ServiceBean> services) {
+        this.services = services;
+    }
+
+    public static class ServiceBean{
+        private int id;
+        private int persons;
+
+        public ServiceBean(int id, int persons) {
+            this.id = id;
+            this.persons = persons;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getPersons() {
+            return persons;
+        }
+
+        public void setPersons(int persons) {
+            this.persons = persons;
+        }
+    }
+
+    public int getPersons() {
+        return persons;
+    }
+
+    public void setPersons(int persons) {
+        this.persons = persons;
+    }
 
     public boolean isChecked() {
         return checked;

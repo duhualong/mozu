@@ -15,6 +15,13 @@
                   android:textSize="@dimen/text_title_size"/>
 
     </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:padding="@dimen/dp_10"
+    >
+
+    </LinearLayout>
     <RadioGroup
         android:id="@+id/rg_group"
         android:layout_width="match_parent"
@@ -46,17 +53,15 @@
             android:text="已读"
             android:textColor="@color/radio_selector"/>
     </RadioGroup>
-
     <FrameLayout
         android:id="@id/message_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
     />
     <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@id/page_message"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+    <!--android:id="@id/page_message"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
     <!--</android.support.v4.view.ViewPager>-->
 
 </LinearLayout>

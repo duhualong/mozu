@@ -18,7 +18,7 @@ public class DayMonthTime {
 
     private int id;
     private String date;
-    private List<ServiceBeanX> service;
+    private List<ServiceBeanX> services;
 
     public int getId() {
         return id;
@@ -36,12 +36,12 @@ public class DayMonthTime {
         this.date = date;
     }
 
-    public List<ServiceBeanX> getService() {
-        return service;
+    public List<ServiceBeanX> getServices() {
+        return services;
     }
 
-    public void setService(List<ServiceBeanX> service) {
-        this.service = service;
+    public void setServices(List<ServiceBeanX> services) {
+        this.services = services;
     }
 
     public static class ServiceBeanX {
@@ -57,6 +57,24 @@ public class DayMonthTime {
         private String endtime;
         private double time;
         private String service_people;
+        private int persons;
+        private int id;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getPersons() {
+            return persons;
+        }
+
+        public void setPersons(int persons) {
+            this.persons = persons;
+        }
 
         public int getService_id() {
             return service_id;

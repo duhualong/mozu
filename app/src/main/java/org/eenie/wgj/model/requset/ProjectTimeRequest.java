@@ -13,6 +13,12 @@ public class ProjectTimeRequest {
     private ArrayList<Integer> serviceid;
     private ArrayList<Integer> servicepeople;
     private String projectid;
+    private String data;
+
+    public ProjectTimeRequest(String projectid, String data) {
+        this.projectid = projectid;
+        this.data = data;
+    }
 
     public ProjectTimeRequest(String date, ArrayList<Integer> serviceid, ArrayList<Integer> servicepeople, String projectid) {
         this.date = date;

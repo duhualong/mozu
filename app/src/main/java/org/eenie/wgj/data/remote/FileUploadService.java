@@ -131,6 +131,10 @@ public interface FileUploadService {
 
     @POST("register/user")
     Call<MApi> applyInformation(@Body RequestBody body);
+    @GET("noticeList")
+    Call<ApiResponse> queryNewMessageNotice(@Header("token") String token, @Query("page") int page,
+                                              @Query("read") int state);
+
 
     @POST("login")
     Call<ApiResponse> login(@Body RequestBody body);

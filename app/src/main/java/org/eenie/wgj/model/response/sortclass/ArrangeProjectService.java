@@ -23,6 +23,24 @@ public class ArrangeProjectService {
     private String starttime;
     private String endtime;
     private String service_people;
+    private int persons;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPersons() {
+        return persons;
+    }
+
+    public void setPersons(int persons) {
+        this.persons = persons;
+    }
 
     public int getService_id() {
         return service_id;

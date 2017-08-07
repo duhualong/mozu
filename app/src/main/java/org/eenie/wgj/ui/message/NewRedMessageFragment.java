@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,13 +30,13 @@ import org.eenie.wgj.base.BaseSupportFragment;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.message.DeleteMessage;
 import org.eenie.wgj.model.response.message.MessageRequestData;
-import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -50,7 +49,7 @@ import rx.schedulers.Schedulers;
 public class NewRedMessageFragment extends BaseSupportFragment implements SwipeMenuBuilder {
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.recyclerview)
+    @BindView(R.id.id_rv)
     SwapRecyclerView mRecyclerView;
     private int page = 1;
     private RecyclerAdapter adapter;
@@ -66,8 +65,9 @@ public class NewRedMessageFragment extends BaseSupportFragment implements SwipeM
 
     @Override
     protected void updateUI() {
-        getData(page);
 
+
+        getData(page);
 
     }
 
@@ -80,7 +80,17 @@ public class NewRedMessageFragment extends BaseSupportFragment implements SwipeM
 
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new ProgressSubscriber<ApiResponse>(getActivity()) {
+                    .subscribe(new Subscriber<ApiResponse>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
                         @Override
                         public void onNext(ApiResponse apiResponse) {
                             if (apiResponse.getCode() == 0) {
@@ -95,14 +105,9 @@ public class NewRedMessageFragment extends BaseSupportFragment implements SwipeM
                                     for (int i = 0; i < data.getData().size(); i++) {
                                         dataBean.add(data.getData().get(i));
                                     }
-
-
-                                    adapter = new RecyclerAdapter(dataBean, getContext());
-                                    mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
-                                            LinearLayoutManager.VERTICAL, false));
-                                    mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                                            DividerItemDecoration.VERTICAL_LIST));
-                                    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                                    adapter = new RecyclerAdapter( dataBean,context);
+                                    LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                                    mRecyclerView.setLayoutManager(layoutManager);
                                     mRecyclerView.setAdapter(adapter);
 
                                     mRecyclerView.setOnSwipeListener(new SwapRecyclerView.OnSwipeListener() {
@@ -137,13 +142,15 @@ public class NewRedMessageFragment extends BaseSupportFragment implements SwipeM
                                         }
 
                                     });
+
+
                                 }
 
 
                             }
-
                         }
                     });
+
         }
     }
 
@@ -200,7 +207,17 @@ public class NewRedMessageFragment extends BaseSupportFragment implements SwipeM
 
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new ProgressSubscriber<ApiResponse>(getActivity()) {
+                    .subscribe(new Subscriber<ApiResponse>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
                         @Override
                         public void onNext(ApiResponse apiResponse) {
                             if (apiResponse.getCode() == 0) {
@@ -214,7 +231,40 @@ public class NewRedMessageFragment extends BaseSupportFragment implements SwipeM
                                     for (int i = 0; i < data.getData().size(); i++) {
                                         dataBean.add(data.getData().get(i));
                                     }
+                                    adapter.addAll(dataBean);
+                                    mRecyclerView.setOnSwipeListener(new SwapRecyclerView.OnSwipeListener() {
+                                        @Override
+                                        public void onSwipeStart(int position) {
+//                Toast.makeText(MainActivity.this,"onSwipeStart-"+position,Toast.LENGTH_SHORT).show();
+                                        }
 
+                                        @Override
+                                        public void onSwipeEnd(int position) {
+//                Toast.makeText(MainActivity.this, "onSwipeEnd-" + position, Toast.LENGTH_SHORT).show();
+                                            pos = position;
+                                        }
+                                    });
+
+                                    adapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(View view, RecyclerView.ViewHolder holder, Object o, int position) {
+                                            if (dataBean.get(position).getKey() == 1101 || dataBean.get(position).getKey() == 2201) {
+                                                Intent intent = new Intent(context, ApplyFeedBackActivity.class);
+                                                intent.putExtra(ApplyFeedBackActivity.APPLY_INFO, dataBean.get(position));
+                                                startActivity(intent);
+                                            } else {
+                                                startActivity(new Intent(context, NoticeDetailActivity.class)
+                                                        .putExtra(NoticeDetailActivity.INFO, dataBean.get(position)));
+                                            }
+                                        }
+
+                                        @Override
+                                        public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, Object o, int position) {
+//                Toast.makeText(MainActivity.this, "onItemLongClick-->>>"+list.get(position), Toast.LENGTH_LONG).show();
+                                            return true;//!!!!!!!!!!!!
+                                        }
+
+                                    });
                                 }
 
 
@@ -223,48 +273,10 @@ public class NewRedMessageFragment extends BaseSupportFragment implements SwipeM
                         }
                     });
         }
-        adapter = new RecyclerAdapter(dataBean, getContext());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL_LIST));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
-        mRecyclerView.setOnSwipeListener(new SwapRecyclerView.OnSwipeListener() {
-            @Override
-            public void onSwipeStart(int position) {
-//                Toast.makeText(MainActivity.this,"onSwipeStart-"+position,Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onSwipeEnd(int position) {
-//                Toast.makeText(MainActivity.this, "onSwipeEnd-" + position, Toast.LENGTH_SHORT).show();
-                pos = position;
-            }
-        });
 
-        adapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, RecyclerView.ViewHolder holder, Object o, int position) {
-                if (dataBean.get(position).getKey() == 1101 || dataBean.get(position).getKey() == 2201) {
-                    Intent intent = new Intent(context, ApplyFeedBackActivity.class);
-                    intent.putExtra(ApplyFeedBackActivity.APPLY_INFO, dataBean.get(position));
-                    startActivity(intent);
-                } else {
-                    startActivity(new Intent(context, NoticeDetailActivity.class)
-                            .putExtra(NoticeDetailActivity.INFO, dataBean.get(position)));
-                }
-            }
 
-            @Override
-            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, Object o, int position) {
-//                Toast.makeText(MainActivity.this, "onItemLongClick-->>>"+list.get(position), Toast.LENGTH_LONG).show();
-                return true;//!!!!!!!!!!!!
-            }
-
-        });
 
     }
 
@@ -309,13 +321,23 @@ public class NewRedMessageFragment extends BaseSupportFragment implements SwipeM
                         request)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new ProgressSubscriber<ApiResponse>(context) {
+                        .subscribe(new Subscriber<ApiResponse>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
                             @Override
                             public void onNext(ApiResponse apiResponse) {
                                 Toast.makeText(context, apiResponse.getMessage(),
                                         Toast.LENGTH_SHORT).show();
+
                             }
                         });
+
 
 
             }

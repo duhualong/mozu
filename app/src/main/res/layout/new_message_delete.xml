@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.eenie.wgj.util.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="@dimen/padding_bottom"
+                                    android:background="@color/white"
+                                    android:layout_height="80dp">
+    <RelativeLayout android:id="@+id/main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/personal_padding">
+        <ImageView
+            android:id="@id/img_setting"
+            android:layout_width="@dimen/personal_size"
+            android:layout_height="@dimen/personal_size"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/personal_margin"
+            android:layout_marginLeft="@dimen/personal_padding"
+            android:layout_marginRight="@dimen/personal_margin"
+            android:layout_marginStart="@dimen/personal_padding"
+            android:src="@mipmap/ic_notice"
+
+        />
+        <TextView android:id="@id/tv_content"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/item_to_do_title"
+                  android:layout_marginEnd="@dimen/padding_bottom"
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginRight="@dimen/padding_bottom"
+                  android:layout_marginStart="5dp"
+                  android:layout_marginTop="10dp"
+                  android:layout_toEndOf="@id/img_setting"
+                  android:layout_toRightOf="@id/img_setting"
+                  android:ellipsize="end"
+                  android:lines="1"
+                  android:text="@string/item_date_apply"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_normal_size"
+        />
+        <TextView android:id="@id/item_to_do_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginStart="5dp"
+                  android:layout_marginTop="10dp"
+                  android:layout_toEndOf="@id/img_setting"
+                  android:layout_toRightOf="@id/img_setting"
+                  android:text="@string/item_title"
+                  android:textColor="@color/black_light"
+                  android:textSize="@dimen/text_large_size"/>
+        <TextView android:id="@id/item_apply_date"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_marginTop="10dp"
+                  android:text="@string/item_date_apply"
+                  android:textColor="@color/titleColor"
+                  android:textSize="@dimen/text_normal_size"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/delete"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@color/text_red"
+            android:text="删除"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+</org.eenie.wgj.util.SwipeItemLayout>

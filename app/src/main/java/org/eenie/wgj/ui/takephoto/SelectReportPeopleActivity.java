@@ -55,11 +55,13 @@ public class SelectReportPeopleActivity extends BaseActivity {
     public static final String FIRST_URL = "first_url";
     public static final String SECOND_URL = "second_url";
     public static final String THIRD_URL = "third_url";
+    public static final String PROJECT_ID="id";
     private String title;
     private String content;
     private String firstUrl;
     private String secondUrl;
     private String thirdUrl;
+    String projectId;
     private ArrayList<File> mFiles = new ArrayList<>();
     @BindView(checkbox_select_all)
     CheckBox checkboxSelectAll;
@@ -77,6 +79,7 @@ public class SelectReportPeopleActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
+        projectId=getIntent().getStringExtra(PROJECT_ID);
         getData();
         title = getIntent().getStringExtra(TITLE);
         content = getIntent().getStringExtra(CONTENT);
@@ -177,7 +180,7 @@ public class SelectReportPeopleActivity extends BaseActivity {
             dialog.dismiss();
 
             Intent mIntent = new Intent();
-                setResult(4,mIntent);
+                setResult(6,mIntent);
             Single.just("").delay(1, TimeUnit.SECONDS).
                     compose(RxUtils.applySchedulers()).
                     subscribe(s ->
@@ -247,7 +250,6 @@ public class SelectReportPeopleActivity extends BaseActivity {
                                 addReportNumber.get(i).getInfo().get(j).setCheckInfo(true);
                             }
                         }
-                        Log.d("呵呵", "数组数据: " + gson.toJson(addReportNumber));
                     }
                 } else {
                     if (addReportNumber != null) {
@@ -257,7 +259,6 @@ public class SelectReportPeopleActivity extends BaseActivity {
                                 addReportNumber.get(i).getInfo().get(j).setCheckInfo(false);
                             }
                         }
-                        Log.d("呵呵", "数组数据: " + gson.toJson(addReportNumber));
                     }
 
                 }

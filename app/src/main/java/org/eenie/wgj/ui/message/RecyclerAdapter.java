@@ -38,7 +38,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
     public RecyclerAdapter(List<MessageRequestData.DataBean> mData, Context context) {
         this.mData = mData;
         this.mContext = context;
-        swipeMenuBuilder = (SwipeMenuBuilder)mContext;
+        swipeMenuBuilder = (SwipeMenuBuilder)this.mContext;
     }
 
     @Override
@@ -157,6 +157,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
 
 
         }
+    }
+    public  void addAll(List<MessageRequestData.DataBean> data){
+        mData=data;
+        notifyDataSetChanged();
     }
 
     @Override

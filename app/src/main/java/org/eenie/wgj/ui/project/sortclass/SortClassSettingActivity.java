@@ -113,7 +113,7 @@ public class SortClassSettingActivity extends BaseActivity {
                                     }.getType());
                             if (arrangeProjectDates != null) {
                                 if (arrangeProjectDates.size() > 0 &&
-                                        arrangeProjectDates.get(0).getService() != null) {
+                                        arrangeProjectDates.get(0).getServices() != null) {
 
                                     Log.d("sss:", "onNext: " + gson.toJson(arrangeProjectDates));
                                     getArrangeDates(date, arrangeProjectDates);
@@ -174,11 +174,11 @@ public class SortClassSettingActivity extends BaseActivity {
                             ArrayList<ArrangeProjectDateTotal> mData = new ArrayList<>();
                             for (int a = 0; a < dateArrayList.size(); a++) {
                                 ArrayList<ArrangeServiceTotal> mServiceList = new ArrayList<>();
-                                for (int b = 0; b < dateArrayList.get(a).getService().size(); b++) {
+                                for (int b = 0; b < dateArrayList.get(a).getServices().size(); b++) {
                                     ArrangeServiceTotal arrangeServiceTotal = new ArrangeServiceTotal(
-                                            dateArrayList.get(a).getService().get(b).getService_id(),
-                                            dateArrayList.get(a).getService().get(b).getServicesname(),
-                                            dateArrayList.get(a).getService().get(b).getService_people(), null);
+                                            dateArrayList.get(a).getServices().get(b).getId(),
+                                            dateArrayList.get(a).getServices().get(b).getServicesname(),
+                                            String.valueOf(dateArrayList.get(a).getServices().get(b).getPersons()), null);
                                     mServiceList.add(arrangeServiceTotal);
 
                                 }

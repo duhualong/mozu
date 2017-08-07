@@ -46,6 +46,7 @@ public class AddManagerExchangeClassPeopleActivity extends BaseActivity
     @BindView(R.id.swipe_refresh_list)SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_view)RecyclerView mRecyclerView;
     @BindView(R.id.tv_apply_ok)TextView tvApply;
+    @BindView(R.id.checkbox_select_all)CheckBox mCheckBoxAll;
 
     private AddPersonalAdapter mAdapter;
     private ArrayList<ExchangeWorkContactResponse> data=new ArrayList<>();
@@ -77,11 +78,43 @@ public class AddManagerExchangeClassPeopleActivity extends BaseActivity
 
 
 
-    @OnClick({R.id.img_back,R.id.tv_apply_ok})public  void onClick(View view){
+    @OnClick({R.id.img_back,R.id.tv_apply_ok,R.id.checkbox_select_all})public  void onClick(View view){
         int number=0;
         switch (view.getId()){
             case R.id.img_back:
                 onBackPressed();
+                break;
+            case R.id.checkbox_select_all:
+                if (mCheckBoxAll.isChecked()){
+                    if (data!=null&&!data.isEmpty()){
+                        for (int i=0;i<data.size();i++){
+                            data.get(i).setChecked(true);
+
+                        }
+                        if (mAdapter!=null){
+                            mAdapter.clear();
+                            mAdapter.addAll(data);
+                            mAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+                }else {
+                    if (data!=null&&!data.isEmpty()){
+                        for (int i=0;i<data.size();i++){
+                            data.get(i).setChecked(false);
+                        }
+                        if (mAdapter!=null){
+                            mAdapter.clear();
+                            mAdapter.addAll(data);
+                            mAdapter.notifyDataSetChanged();
+                        }
+
+
+                    }
+
+                }
+
+
                 break;
 
             case R.id.tv_apply_ok:

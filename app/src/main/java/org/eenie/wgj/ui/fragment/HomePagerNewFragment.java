@@ -157,7 +157,7 @@ public class HomePagerNewFragment extends BaseSupportFragment {
                 }
                 break;
             case R.id.img_search:
-                //  startActivity(new Intent(context, MainTestPictureActivity.class));
+                  //startActivity(new Intent(context, RoutingPointUploadActivity.class));
                 break;
         }
     }

@@ -677,14 +677,13 @@ public class ProjectSettingPersonalTimeNewActivity extends BaseActivity {
                                     if (arrangeProjectDates != null) {
                                         int mCount=0;
                                         for (int i = 0; i < arrangeProjectDates.size(); i++) {
-                                            for (int k = 0; k < arrangeProjectDates.get(i).getService().size(); k++) {
-                                                if (arrangeProjectDates.get(i).getService().get(k).getService_id() ==
+                                            for (int k = 0; k < arrangeProjectDates.get(i).getServices().size(); k++) {
+                                                if (arrangeProjectDates.get(i).getServices().get(k).getId() ==
                                                         mData.get(groupPosition).getInfo().get(childPosition).getService().getId()) {
-                                                    mCount = mCount + Integer.valueOf(arrangeProjectDates.get(i).
-                                                            getService().get(k).getService_people());
+                                                    mCount = mCount + arrangeProjectDates.get(i).
+                                                            getServices().get(k).getPersons();
 
                                                 }
-
 
                                             }
                                         }
@@ -759,11 +758,6 @@ public class ProjectSettingPersonalTimeNewActivity extends BaseActivity {
 
                             }
                         });
-
-
-
-
-
 
 
             });

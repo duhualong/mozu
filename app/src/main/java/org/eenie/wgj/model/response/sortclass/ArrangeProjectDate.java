@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ArrangeProjectDate {
     private int id;
     private String date;
-    private ArrayList<ArrangeProjectService> service;
+    private ArrayList<ArrangeProjectService> services;
 
     public int getId() {
         return id;
@@ -29,11 +29,11 @@ public class ArrangeProjectDate {
         this.date = date;
     }
 
-    public ArrayList<ArrangeProjectService> getService() {
-        return service;
+    public ArrayList<ArrangeProjectService> getServices() {
+        return services;
     }
 
-    public void setService(ArrayList<ArrangeProjectService> service) {
-        this.service = service;
+    public void setServices(ArrayList<ArrangeProjectService> services) {
+        this.services = services;
     }
 }

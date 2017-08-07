@@ -31,6 +31,7 @@ import org.eenie.wgj.model.response.DayMonthTime;
 import org.eenie.wgj.model.response.TotalTimeProject;
 import org.eenie.wgj.model.response.project.QueryService;
 import org.eenie.wgj.model.response.project.ServiceClassPeople;
+import org.eenie.wgj.model.response.projectworktime.NewProjectTime;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 
@@ -296,7 +297,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (dt1.getTime() >= dt2.getTime()) {
+        if (dt1.getTime() > dt2.getTime()) {
             isBigger = true;
         } else if (dt1.getTime() < dt2.getTime()) {
             isBigger = false;
@@ -368,14 +369,18 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
 
         dialog.getWindow().findViewById(R.id.btn_save).setOnClickListener(v -> {
+            boolean checkDate=true;
             for (int i = 0; i < date.size(); i++) {
-
-                boolean checkDate = isDateOneBigger(date.get(i), new SimpleDateFormat("yyyy-MM-dd").
+//
+           boolean  checkDates  = isDateOneBigger(date.get(i), new SimpleDateFormat("yyyy-MM-dd").
                         format(Calendar.getInstance().getTime()));
-                if (checkDate) {
-                    addProjectTime(data, date.get(i));
+                if (!checkDates){
+                    checkDate=false;
                 }
 
+            }
+            if (checkDate){
+                addProjectTime(data,date);
             }
 
             dialog.dismiss();
@@ -422,18 +427,18 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                                         if (mDayMonthTimes.get(i).getDate().equals(mDate.trim())) {
                                             serviceId = mDayMonthTimes.get(i).getId();
 
-                                            for (int m = 0; m < mDayMonthTimes.get(i).getService().size(); m++) {
+                                            for (int m = 0; m < mDayMonthTimes.get(i).getServices().size(); m++) {
                                                 for (int j = 0; j < exchangeWorkLists.size(); j++) {
-                                                    if (mDayMonthTimes.get(i).getService().
-                                                            get(m).getService_id() ==
+                                                    if (mDayMonthTimes.get(i).getServices().
+                                                            get(m).getId() ==
                                                             exchangeWorkLists.get(j).getId()) {
                                                         exchangeWorkLists.get(j).setChecked(true);
-                                                        exchangeWorkLists.get(j).setService_people(
-                                                                Integer.parseInt(mDayMonthTimes.
-                                                                        get(i).getService().
-                                                                        get(m).getService_people()));
+                                                        exchangeWorkLists.get(j).setPersons(
+                                                                mDayMonthTimes.
+                                                                        get(i).getServices().
+                                                                        get(m).getPersons());
                                                         exchangeWorkLists.get(j).setTime(
-                                                                mDayMonthTimes.get(i).getService().
+                                                                mDayMonthTimes.get(i).getServices().
                                                                         get(m).getTime());
 
                                                     }
@@ -443,7 +448,9 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                                         }
 
                                     }
-                                    showDateDialog(mDate, exchangeWorkLists, serviceId);
+                                    ArrayList<String> mdate=new ArrayList<>();
+                                    mdate.add(mDate);
+                                    showDateDialog(mdate, exchangeWorkLists, serviceId);
                                 }
                             }
                         }
@@ -454,11 +461,11 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
     }
 
 
-    private void showDateDialog(String date, ArrayList<ClassListResponse> data, int serviceId) {
+    private void showDateDialog(ArrayList<String> date, ArrayList<ClassListResponse> data, int serviceId) {
         View view = View.inflate(context, R.layout.dialog_show_arrange_time, null);
         TextView dialogTitle = (TextView) view.findViewById(R.id.tv_title);
 
-        dialogTitle.setText(date);
+        dialogTitle.setText(date.get(0));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder
@@ -479,11 +486,11 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         dialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
         dialog.getWindow().findViewById(R.id.btn_delete).setOnClickListener(v -> {
-            boolean checkDate = isDateOneBigger(date, new SimpleDateFormat("yyyy-MM-dd").
+            boolean checkDate = isDateOneBigger(date.get(0), new SimpleDateFormat("yyyy-MM-dd").
                     format(Calendar.getInstance().getTime()));
 
             if (checkDate) {
-                deleteProjectTime(serviceId);
+                deleteProjectTime(date.get(0));
             } else {
                 Toast.makeText(context, "过去的日期不能删除工时", Toast.LENGTH_SHORT).show();
 
@@ -494,7 +501,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
         dialog.getWindow().findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean checkDate = isDateOneBigger(date, new SimpleDateFormat("yyyy-MM-dd").
+                boolean checkDate = isDateOneBigger(date.get(0), new SimpleDateFormat("yyyy-MM-dd").
                         format(Calendar.getInstance().getTime()));
                 if (checkDate) {
                     addProjectTime(data, date);
@@ -509,19 +516,30 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
     }
 
-    private void addProjectTime(ArrayList<ClassListResponse> data, String date) {
+    private void addProjectTime(ArrayList<ClassListResponse> data, ArrayList<String> date) {
         ArrayList<Integer> ids = new ArrayList<>();
         ArrayList<Integer> people = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).isChecked() && data.get(i).getService_people() > 0) {
-                ids.add(data.get(i).getId());
+        List<NewProjectTime> newProjectTimes=new ArrayList<>();
 
-                people.add(data.get(i).getService_people());
-
+        for (int i=0;i<date.size();i++){
+            List<NewProjectTime.serviceBean> mServiceBean=new ArrayList<>();
+            for (int j=0;j<data.size();j++){
+                mServiceBean.add(new NewProjectTime.serviceBean(data.get(j).getId(),data.get(j).getPersons()));
 
             }
+            newProjectTimes.add(new NewProjectTime(date.get(i),mServiceBean));
+
         }
-        ProjectTimeRequest request = new ProjectTimeRequest(date, ids, people, projectId);
+//        for (int i = 0; i < data.size(); i++) {
+//            if (data.get(i).isChecked() && data.get(i).getPersons() > 0) {
+//                ids.add(data.get(i).getId());
+//
+//                people.add(data.get(i).getPersons());
+//
+//
+//            }
+//        }
+        ProjectTimeRequest request = new ProjectTimeRequest(projectId,new Gson().toJson(newProjectTimes));
         mSubscription = mRemoteService.addMonthDay(mPrefsHelper.getPrefs().
                 getString(Constants.TOKEN, ""), request)
                 .subscribeOn(Schedulers.io())
@@ -554,9 +572,18 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
     }
 
-    private void deleteProjectTime(int serviceId) {
-        mSubscription = mRemoteService.deleteMonthDay(mPrefsHelper.getPrefs().
-                getString(Constants.TOKEN, ""), serviceId)
+    private void deleteProjectTime(String date) {
+
+        List<NewProjectTime> newProjectTimes=new ArrayList<>();
+
+            List<NewProjectTime.serviceBean> mServiceBean=new ArrayList<>();
+
+            newProjectTimes.add(new NewProjectTime(date,mServiceBean));
+
+
+        ProjectTimeRequest request = new ProjectTimeRequest(projectId,new Gson().toJson(newProjectTimes));
+        mSubscription = mRemoteService.addMonthDay(mPrefsHelper.getPrefs().
+                getString(Constants.TOKEN, ""), request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
@@ -573,7 +600,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
-                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ProjectTimeSettingActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
                             getProjectTime(projectId, new SimpleDateFormat("yyyy-MM").
                                     format(mCalendarView.getDate()) + "");
                             getProjectDayTime(projectId, new SimpleDateFormat("yyyy-MM").
@@ -582,6 +609,34 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
                     }
                 });
+
+//        mSubscription = mRemoteService.deleteMonthDay(mPrefsHelper.getPrefs().
+//                getString(Constants.TOKEN, ""), serviceId)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<ApiResponse>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(ApiResponse apiResponse) {
+//                        if (apiResponse.getResultCode() == 200 || apiResponse.getResultCode() == 0) {
+//                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+//                            getProjectTime(projectId, new SimpleDateFormat("yyyy-MM").
+//                                    format(mCalendarView.getDate()) + "");
+//                            getProjectDayTime(projectId, new SimpleDateFormat("yyyy-MM").
+//                                    format(mCalendarView.getDate()) + "");
+//                        }
+//
+//                    }
+//                });
 
 
     }
@@ -611,8 +666,8 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                 if (data != null) {
                     if (data.getServicesname().equals("常日班")){
                         checked=true;
-                        if (data.getService_people()==0){
-                            data.setService_people(servicePeople);
+                        if (data.getPersons()==0){
+                            data.setPersons(servicePeople);
                         }
 //                        data.setService_people(data.get);
                         holder.etNumber.setClickable(false);
@@ -634,8 +689,8 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                     } else {
                         holder.mCheckBox.setChecked(false);
                     }
-                    if (data.getService_people() > 0) {
-                        holder.etNumber.setText(String.valueOf(data.getService_people()));
+                    if (data.getPersons() > 0) {
+                        holder.etNumber.setText(String.valueOf(data.getPersons()));
                     }
                     holder.etNumber.addTextChangedListener(new TextWatcher() {
                         @Override
@@ -653,11 +708,11 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                             if (!TextUtils.isEmpty(s.toString())) {
                                 if (Integer.parseInt(
                                         holder.etNumber.getText().toString()) > 0) {
-                                    data.setService_people(Integer.parseInt(
+                                    data.setPersons(Integer.parseInt(
                                             holder.etNumber.getText().toString()));
                                 }
                             } else {
-                                data.setService_people(0);
+                                data.setPersons(0);
 
                             }
 
