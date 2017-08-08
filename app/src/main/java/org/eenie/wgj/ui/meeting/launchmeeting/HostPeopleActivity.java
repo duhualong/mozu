@@ -2,15 +2,13 @@ package org.eenie.wgj.ui.meeting.launchmeeting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -19,15 +17,13 @@ import com.google.gson.reflect.TypeToken;
 import org.eenie.wgj.R;
 import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
-import org.eenie.wgj.model.response.meeting.MeetingPeople;
+import org.eenie.wgj.model.response.meeting.MeetingPeopleNew;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -38,17 +34,15 @@ import rx.schedulers.Schedulers;
  * Des:
  */
 
-public class HostPeopleActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class HostPeopleActivity extends BaseActivity {
 
-    public static final String TYPE="type";
-    @BindView(R.id.swipe_refresh_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    private ProjectAdapter mProjectAdapter;
-    @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    public static final String TYPE = "type";
+    private SelectHostAdapter adapter;
+    @BindView(R.id.expand_list)
+    ExpandableListView mExpandableListView;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-String mTitle;
+    String mTitle;
 
     @Override
     protected int getContentView() {
@@ -57,8 +51,9 @@ String mTitle;
 
     @Override
     protected void updateUI() {
-        mTitle=getIntent().getStringExtra(TYPE);
-        switch (mTitle){
+        mExpandableListView.setOnChildClickListener(adapter);
+        mTitle = getIntent().getStringExtra(TYPE);
+        switch (mTitle) {
             case "host":
                 tvTitle.setText("主持人");
 
@@ -68,19 +63,7 @@ String mTitle;
                 tvTitle.setText("记录人");
                 break;
         }
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mProjectAdapter = new ProjectAdapter(context, new ArrayList<>());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        mRecyclerView.setAdapter(mProjectAdapter);
-
+        initData();
     }
 
     @OnClick(R.id.img_back)
@@ -91,24 +74,8 @@ String mTitle;
 
 
     @Override
-    public void onRefresh() {
-        mProjectAdapter.clear();
-        initData();
-
-    }
-
-
-    private void cancelRefresh() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        onRefresh();
-
 
 
     }
@@ -123,22 +90,21 @@ String mTitle;
                 .subscribe(new ProgressSubscriber<ApiResponse>(context) {
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        cancelRefresh();
+
 
                         if (apiResponse.getResultCode() == 200 ||
                                 apiResponse.getResultCode() == 0) {
                             if (apiResponse.getData() != null) {
                                 Gson gson = new Gson();
                                 String jsonArray = gson.toJson(apiResponse.getData());
-                                List<MeetingPeople> mData =
+                                ArrayList<MeetingPeopleNew> mData =
                                         gson.fromJson(jsonArray,
-                                                new TypeToken<List<MeetingPeople>>() {
+                                                new TypeToken<ArrayList<MeetingPeopleNew>>() {
                                                 }.getType());
-                                if (mData!=null){
-                                    if (mProjectAdapter!=null){
-                                        mProjectAdapter.clear();
-                                    }
-                                    mProjectAdapter.addAll(mData);
+                                if (mData != null) {
+                                    adapter = new SelectHostAdapter(context, mData);
+                                    mExpandableListView.setAdapter(adapter);
+
                                 }
 
 
@@ -149,86 +115,222 @@ String mTitle;
 
     }
 
-    class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
+//    class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
+//        private Context context;
+//        private List<MeetingPeople> projectList;
+//
+//        public ProjectAdapter(Context context, List<MeetingPeople> projectList) {
+//            this.context = context;
+//            this.projectList = projectList;
+//        }
+//
+//        @Override
+//        public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//            LayoutInflater inflater = LayoutInflater.from(context);
+//            View itemView = inflater.inflate(R.layout.item_behavior, parent, false);
+//            return new ProjectViewHolder(itemView);
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(ProjectViewHolder holder, int position) {
+//            if (projectList != null && !projectList.isEmpty()) {
+//                MeetingPeople data = projectList.get(position);
+//                holder.setItem(data);
+//                if (data != null) {
+//                    holder.itemText.setText(data.getName());
+//
+//                }
+////设置显示内容
+//
+//            }
+//
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return projectList.size();
+//        }
+//
+//        public void addAll(List<MeetingPeople> projectList) {
+//            this.projectList.addAll(projectList);
+//            ProjectAdapter.this.notifyDataSetChanged();
+//        }
+//
+//        public void clear() {
+//            this.projectList.clear();
+//            ProjectAdapter.this.notifyDataSetChanged();
+//        }
+//
+//        class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+//            private TextView itemText;
+//            private MeetingPeople mMeetingPeople;
+//            private LinearLayout mLinearLayout;
+//
+//
+//            public ProjectViewHolder(View itemView) {
+//
+//                super(itemView);
+//                itemText = ButterKnife.findById(itemView, R.id.text_item);
+//                mLinearLayout = ButterKnife.findById(itemView, R.id.line_item);
+//                mLinearLayout.setOnClickListener(this);
+//
+//            }
+//
+//            public void setItem(MeetingPeople projectList) {
+//                mMeetingPeople = projectList;
+//            }
+//
+//            @Override
+//            public void onClick(View v) {
+//                switch (v.getId()) {
+//                    case R.id.line_item:
+//                        Intent mIntent = new Intent();
+//                        mIntent.putExtra("mData", mMeetingPeople);
+//                        // 设置结果，并进行传送
+//                        setResult(RESULT_OK, mIntent);
+//                        finish();
+//                        break;
+//
+//                }
+//
+//
+//            }
+//        }
+//    }
+
+    class SelectHostAdapter extends BaseExpandableListAdapter implements ExpandableListView.OnChildClickListener {
         private Context context;
-        private List<MeetingPeople> projectList;
 
-        public ProjectAdapter(Context context, List<MeetingPeople> projectList) {
+        private ArrayList<MeetingPeopleNew> mData;
+
+
+        public SelectHostAdapter(Context context, ArrayList<MeetingPeopleNew> data) {
             this.context = context;
-            this.projectList = projectList;
+            mData = data;
         }
 
         @Override
-        public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View itemView = inflater.inflate(R.layout.item_behavior, parent, false);
-            return new ProjectViewHolder(itemView);
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            GroupViewHolder gvh;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_expend_list_view_host, null);
+                gvh = new GroupViewHolder();
+                gvh.groupText = (TextView) convertView.findViewById(R.id.item_department);
+                gvh.imgExpend = (ImageView) convertView.findViewById(R.id.item_img_expend);
+                convertView.setTag(gvh);
+
+            } else {
+                gvh = (GroupViewHolder) convertView.getTag();
+            }
+            gvh.groupText.setText(mData.get(groupPosition).getName());
+
+
+            if (isExpanded) {
+
+                gvh.imgExpend.setImageResource(R.mipmap.ic_expand);
+            } else {
+
+                gvh.imgExpend.setImageResource(R.mipmap.ic_collapse);
+            }
+            return convertView;
+        }
+
+
+        public class GroupViewHolder {
+            TextView groupText;
+            ImageView imgExpend;
+
+        }
+
+
+        @Override
+        public int getGroupCount() {
+            return mData.size();
         }
 
         @Override
-        public void onBindViewHolder(ProjectViewHolder holder, int position) {
-            if (projectList != null && !projectList.isEmpty()) {
-                MeetingPeople data = projectList.get(position);
-                holder.setItem(data);
-                if (data != null) {
-                    holder.itemText.setText(data.getName());
+        public int getChildrenCount(int groupPosition) {
+            return mData.get(groupPosition).getUsers().size();
+        }
 
+        @Override
+        public Object getGroup(int groupPosition) {
+            return mData.get(groupPosition);
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            return mData.get(groupPosition).getUsers().get(childPosition);
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
+
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
+                                 View convertView, ViewGroup parent) {
+            ItemViewHolder ivh;
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).
+                        inflate(R.layout.item_expend_item_host, null);
+                ivh = new ItemViewHolder();
+                ivh.itemText = (TextView) convertView.findViewById(R.id.item_host_name);
+                ivh.rlItemHost = (RelativeLayout) convertView.findViewById(R.id.rl_item_host);
+                convertView.setTag(ivh);
+            } else {
+                ivh = (ItemViewHolder) convertView.getTag();
+            }
+            if (mData.get(groupPosition).getUsers()!=null)
+            ivh.itemText.setText(mData.get(groupPosition).getUsers().
+                    get(childPosition).getName());
+            ivh.rlItemHost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent mIntent = new Intent();
+                    if (mData.get(groupPosition).getUsers().get(childPosition)!=null){
+                        mIntent.putExtra("mData", mData.get(groupPosition).getUsers().get(childPosition));
+                    }
+                    // 设置结果，并进行传送
+                    setResult(RESULT_OK, mIntent);
+                    finish();
                 }
-//设置显示内容
+            });
+            return convertView;
+        }
 
-            }
+
+        public class ItemViewHolder {
+            TextView itemText;
+            RelativeLayout rlItemHost;
 
         }
 
         @Override
-        public int getItemCount() {
-            return projectList.size();
+        public boolean onChildClick(ExpandableListView parent, View v,
+                                    int groupPosition, int childPosition, long id) {
+            return true;
         }
 
-        public void addAll(List<MeetingPeople> projectList) {
-            this.projectList.addAll(projectList);
-            ProjectAdapter.this.notifyDataSetChanged();
-        }
-
-        public void clear() {
-            this.projectList.clear();
-            ProjectAdapter.this.notifyDataSetChanged();
-        }
-
-        class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private TextView itemText;
-            private MeetingPeople mMeetingPeople;
-            private LinearLayout mLinearLayout;
-
-
-            public ProjectViewHolder(View itemView) {
-
-                super(itemView);
-                itemText = ButterKnife.findById(itemView, R.id.text_item);
-                mLinearLayout = ButterKnife.findById(itemView, R.id.line_item);
-                mLinearLayout.setOnClickListener(this);
-
-            }
-
-            public void setItem(MeetingPeople projectList) {
-                mMeetingPeople = projectList;
-            }
-
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.line_item:
-                        Intent mIntent = new Intent();
-                        mIntent.putExtra("mData", mMeetingPeople);
-                        // 设置结果，并进行传送
-                        setResult(RESULT_OK, mIntent);
-                        finish();
-                        break;
-
-                }
-
-
-            }
-        }
     }
+
+
 }

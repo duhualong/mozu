@@ -113,7 +113,7 @@ public class App extends MultiDexApplication {
         //mModules.add(new HomeModule("ic_home_module_form_up", "表单上传", false, 4, true));
         //mModules.add(new HomeModule("ic_visitor_pass", "访客通行", false, 5, true));
         mModules.add(new HomeModule(MeetingSettingActivity.class, "ic_meeting", "会议", false, 5, true));
-        mModules.add(new HomeModule(NoticeMessageActivity.class,"ic_notice_module", "通告", false, 6, true));
+        mModules.add(new HomeModule(NoticeMessageActivity.class,"ic_notice_module", "通知", false, 6, true));
         mModules.add(new HomeModule(ProjectSettingActivity.class, "ic_project_setting",
                 "项目设置", false, 7, true));
         //mModules.add(new HomeModule("ic_repair", "维修", false, 10, false));

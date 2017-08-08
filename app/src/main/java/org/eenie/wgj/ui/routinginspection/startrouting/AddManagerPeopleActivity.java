@@ -48,6 +48,7 @@ public class AddManagerPeopleActivity extends BaseActivity
     private AddPersonalAdapter mAdapter;
     private    ArrayList<ManagerPeopleResponse> data=new ArrayList<>();
     String projectId;
+    @BindView(R.id.checkbox_select_all)CheckBox mCheckBox;
     @Override
     protected int getContentView() {
         return R.layout.activity_management_people;
@@ -74,9 +75,42 @@ public class AddManagerPeopleActivity extends BaseActivity
 
 
 
-    @OnClick({R.id.img_back,R.id.tv_apply_ok})public  void onClick(View view){
+    @OnClick({R.id.img_back,R.id.tv_apply_ok,R.id.rl_select_all})public  void onClick(View view){
         int number=0;
         switch (view.getId()){
+            case R.id.rl_select_all:
+                if (mCheckBox.isChecked()){
+                    mCheckBox.setChecked(false);
+                    if (data!=null&&!data.isEmpty()){
+                        for (int i=0;i<data.size();i++){
+                            data.get(i).setChecked(false);
+                        }
+                        if (mAdapter!=null){
+                            mAdapter.clear();
+                            mAdapter.addAll(data);
+                            mAdapter.notifyDataSetChanged();
+                        }
+
+
+                    }
+                }else {
+                    mCheckBox.setChecked(true);
+                    if (data!=null&&!data.isEmpty()){
+                        for (int i=0;i<data.size();i++){
+                            data.get(i).setChecked(true);
+
+                        }
+                        if (mAdapter!=null){
+                            mAdapter.clear();
+                            mAdapter.addAll(data);
+                            mAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+
+                }
+
+                break;
             case R.id.img_back:
                 onBackPressed();
                 break;

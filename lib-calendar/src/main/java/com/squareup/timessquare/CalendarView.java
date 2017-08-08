@@ -189,7 +189,6 @@ public class CalendarView extends FrameLayout implements MonthView.Listener {
         if (mOnCalendarChangeListener != null) {
             mOnCalendarChangeListener.onChange(mMonthDescriptor.getDate());
         }
-
     }
 
     public void prevMonth() {
@@ -339,10 +338,10 @@ public class CalendarView extends FrameLayout implements MonthView.Listener {
                 weekCells.add(new MonthCellDescriptor(
                         date,
                         isCurrentMonth,
-                        isSelectable,
-                        isSelected,
+                        isSelectable,//isSelectable
+                        isSelected,//isSelected
                         isToday,
-                        isHighlighted,
+                        isHighlighted,//isHighlighted
                         false,
                         value,
                         null));

@@ -388,7 +388,7 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
 
 
     }
-
+//
     @Override
     public void onHeightDateClick(Date date) {
 
@@ -505,14 +505,12 @@ public class ProjectTimeSettingActivity extends BaseActivity implements Calendar
                         format(Calendar.getInstance().getTime()));
                 if (checkDate) {
                     addProjectTime(data, date);
-
                 } else {
                     Toast.makeText(context, "过去的日期不能修改工时", Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             }
         });
-
 
     }
 

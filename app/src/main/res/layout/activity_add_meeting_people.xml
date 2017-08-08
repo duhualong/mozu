@@ -34,6 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:background="@color/white"
+                    android:id="@id/rl_item"
                     android:padding="@dimen/padding_bottom">
         <CheckBox
             android:id="@id/checkbox_select_all"
@@ -45,6 +46,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/padding_bottom"
             android:layout_marginRight="@dimen/padding_bottom"
+            android:clickable="false"
             android:button="@drawable/checkbox_apply_show_state"
             android:checked="false"
         />
@@ -62,10 +64,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/padding_bottom">
-        <android.support.v7.widget.RecyclerView
-            android:id="@id/recycler_view_meeting"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <ExpandableListView android:id="@id/expand_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
 
     </FrameLayout>
 

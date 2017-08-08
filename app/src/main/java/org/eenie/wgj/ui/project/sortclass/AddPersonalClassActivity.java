@@ -313,12 +313,13 @@ public class AddPersonalClassActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.tv_apply_ok, R.id.img_back,R.id.checkbox_select_all})
+    @OnClick({R.id.tv_apply_ok, R.id.img_back,R.id.rl_select_all})
     public void onClick(View view) {
         int number=0;
         switch (view.getId()) {
-            case R.id.checkbox_select_all:
-                if (mCheckBoxAll.isChecked()){
+            case R.id.rl_select_all:
+                if (!mCheckBoxAll.isChecked()){
+                    mCheckBoxAll.setChecked(true);
                     if (addData!=null&&!addData.isEmpty()){
                         for (int i=0;i<addData.size();i++){
                             addData.get(i).setChecked(true);
@@ -332,6 +333,7 @@ public class AddPersonalClassActivity extends BaseActivity {
 
                     }
                 }else {
+                    mCheckBoxAll.setChecked(false);
                     if (addData!=null&&!addData.isEmpty()){
                         for (int i=0;i<addData.size();i++){
                             addData.get(i).setChecked(false);
@@ -342,11 +344,9 @@ public class AddPersonalClassActivity extends BaseActivity {
                             adapter.notifyDataSetChanged();
                         }
 
-
                     }
 
                 }
-
 
 
                 break;

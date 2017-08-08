@@ -207,7 +207,7 @@ public class SelectReportPeopleActivity extends BaseActivity {
         return builder.build();
 
     }
-    @OnClick({R.id.img_back, R.id.tv_apply_ok, R.id.checkbox_select_all})
+    @OnClick({R.id.img_back, R.id.tv_apply_ok, R.id.rl_select_all})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -241,8 +241,9 @@ public class SelectReportPeopleActivity extends BaseActivity {
                 }
                 break;
 
-            case R.id.checkbox_select_all:
-                if (checkboxSelectAll.isChecked()) {
+            case R.id.rl_select_all:
+                if (!checkboxSelectAll.isChecked()) {
+                    checkboxSelectAll.setChecked(true);
                     if (addReportNumber != null) {
                         for (int i = 0; i < addReportNumber.size(); i++) {
                             addReportNumber.get(i).setCheckReport(true);
@@ -252,6 +253,8 @@ public class SelectReportPeopleActivity extends BaseActivity {
                         }
                     }
                 } else {
+                    checkboxSelectAll.setChecked(false);
+
                     if (addReportNumber != null) {
                         for (int i = 0; i < addReportNumber.size(); i++) {
                             addReportNumber.get(i).setCheckReport(false);

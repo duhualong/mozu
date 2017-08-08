@@ -65,14 +65,14 @@ public class NoticeMessageActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_back, R.id.img_add})
+    @OnClick({R.id.img_back, R.id.tv_add})
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.img_back:
                 onBackPressed();
                 break;
-            case R.id.img_add:
+            case R.id.tv_add:
                 startActivity(new Intent(getApplicationContext(),AddNoticeMessageActivity.class));
 
 

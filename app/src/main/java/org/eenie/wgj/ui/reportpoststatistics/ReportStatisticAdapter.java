@@ -50,14 +50,14 @@ public class ReportStatisticAdapter extends BaseQuickAdapter<ReportStatisticEnti
         }
 
 
-        holder.getView(R.id.tv_report_none).setOnClickListener(v -> {
+        holder.getView(R.id.line_not_report_post).setOnClickListener(v -> {
 
             Intent intent = new Intent(mContext, ReportNoDayStatisticActivity.class);
             intent.putExtra(ReportNoDayStatisticActivity.PROJECT_ID, projectId);
             intent.putExtra(ReportNoDayStatisticActivity.DATE, entity.getDate());
             mContext.startActivity(intent);
         });
-        holder.getView(R.id.tv_report_fact).setOnClickListener(v -> {
+        holder.getView(R.id.line_actual_post).setOnClickListener(v -> {
 
             Intent intent = new Intent(mContext, ReportDayStatisticActivity.class);
             intent.putExtra(ReportDayStatisticActivity.PROJECT_ID, projectId);

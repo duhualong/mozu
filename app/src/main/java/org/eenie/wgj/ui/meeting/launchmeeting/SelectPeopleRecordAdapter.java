@@ -1,4 +1,4 @@
-package org.eenie.wgj.ui.takephoto;
+package org.eenie.wgj.ui.meeting.launchmeeting;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.eenie.wgj.R;
-import org.eenie.wgj.model.response.AddReportNumber;
+import org.eenie.wgj.model.response.meeting.MeetingPeopleNew;
 
 import java.util.ArrayList;
 
@@ -22,13 +22,13 @@ import java.util.ArrayList;
  * Des:
  */
 
-public class SelectAdapter extends BaseExpandableListAdapter implements ExpandableListView.OnChildClickListener {
+public class SelectPeopleRecordAdapter extends BaseExpandableListAdapter implements ExpandableListView.OnChildClickListener {
     private Context context;
 
-    private ArrayList<AddReportNumber> mData;
+    private ArrayList<MeetingPeopleNew> mData;
 
 
-    public SelectAdapter(Context context, ArrayList<AddReportNumber> data) {
+    public SelectPeopleRecordAdapter(Context context, ArrayList<MeetingPeopleNew> data) {
         this.context = context;
         mData = data;
     }
@@ -48,7 +48,7 @@ public class SelectAdapter extends BaseExpandableListAdapter implements Expandab
             gvh = (GroupViewHolder) convertView.getTag();
         }
         gvh.groupText.setText(mData.get(groupPosition).getName());
-        if (mData.get(groupPosition).isCheckReport()) {
+        if (mData.get(groupPosition).isChecked()) {
             gvh.itemCheckAll.setChecked(true);
 
         } else {
@@ -79,10 +79,10 @@ public class SelectAdapter extends BaseExpandableListAdapter implements Expandab
         public void onClick(View v) {
             mData.get(groupPosition).toggle();
             // 將 Children 的 isChecked 全面設成跟 Group 一樣
-            int childrenCount = mData.get(groupPosition).getInfo().size();
-            boolean groupIsChecked = mData.get(groupPosition).isCheckReport();
+            int childrenCount = mData.get(groupPosition).getUsers().size();
+            boolean groupIsChecked = mData.get(groupPosition).isChecked();
             for (int i = 0; i < childrenCount; i++)
-                mData.get(groupPosition).getInfo().get(i).setCheckInfo(groupIsChecked);
+                mData.get(groupPosition).getUsers().get(i).setCheck(groupIsChecked);
 
             notifyDataSetChanged();
         }
@@ -102,7 +102,7 @@ public class SelectAdapter extends BaseExpandableListAdapter implements Expandab
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return mData.get(groupPosition).getInfo().size();
+        return mData.get(groupPosition).getUsers().size();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class SelectAdapter extends BaseExpandableListAdapter implements Expandab
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return mData.get(groupPosition).getInfo().get(childPosition);
+        return mData.get(groupPosition).getUsers().get(childPosition);
     }
 
     @Override
@@ -148,14 +148,14 @@ public class SelectAdapter extends BaseExpandableListAdapter implements Expandab
             ivh = new ItemViewHolder();
             ivh.itemText = (TextView) convertView.findViewById(R.id.item_report_name);
             ivh.itemCheckBox = (CheckBox) convertView.findViewById(R.id.item_checkbox_select_item);
-            ivh.mRelativeLayout=(RelativeLayout)convertView.findViewById(R.id.rl_item_expend_item);
+            ivh.mRelativeLayout=(RelativeLayout) convertView.findViewById(R.id.rl_item_expend_item);
             convertView.setTag(ivh);
         } else {
             ivh = (ItemViewHolder) convertView.getTag();
         }
-        ivh.itemText.setText(mData.get(groupPosition).getInfo().
+        ivh.itemText.setText(mData.get(groupPosition).getUsers().
                 get(childPosition).getName());
-        if (mData.get(groupPosition).getInfo().get(childPosition).isCheckInfo()) {
+        if (mData.get(groupPosition).getUsers().get(childPosition).isCheck()) {
             ivh.itemCheckBox.setChecked(true);
         } else {
             ivh.itemCheckBox.setChecked(false);
@@ -184,17 +184,17 @@ public class SelectAdapter extends BaseExpandableListAdapter implements Expandab
     }
 
     public void handleClick(int childPosition, int groupPosition) {
-        mData.get(groupPosition).getInfo().get(childPosition).toggle();
+        mData.get(groupPosition).getUsers().get(childPosition).toggle();
 
         // 檢查 Child CheckBox 是否有全部勾選，以控制 Group CheckBox
-        int childrenCount = mData.get(groupPosition).getInfo().size();
+        int childrenCount = mData.get(groupPosition).getUsers().size();
         boolean childrenAllIsChecked = true;
         for (int i = 0; i < childrenCount; i++) {
-            if (!mData.get(groupPosition).getInfo().get(i).isCheckInfo())
+            if (!mData.get(groupPosition).getUsers().get(i).isCheck())
                 childrenAllIsChecked = false;
         }
 
-        mData.get(groupPosition).setCheckReport(childrenAllIsChecked);
+        mData.get(groupPosition).setChecked(childrenAllIsChecked);
         notifyDataSetChanged();
     }
 

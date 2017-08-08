@@ -17,19 +17,22 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
-                  android:text="通告"
+                  android:text="通知"
                   android:textColor="@color/white"
 
                   android:textSize="@dimen/text_title_size"/>
-        <ImageView android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
+        <TextView android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
                    android:layout_alignParentEnd="true"
                    android:layout_alignParentRight="true"
                    android:layout_centerVertical="true"
                    android:padding="@dimen/padding_bottom"
-                   android:id="@id/img_add"
-                   android:src="@mipmap/ic_casual_plus"/>
-
+                   android:id="@id/tv_add"
+                  android:textColor="@color/white"
+                  android:text="添加"
+                  android:gravity="center"
+                  android:textSize="@dimen/text_title_size"
+                />
 
     </RelativeLayout>
 

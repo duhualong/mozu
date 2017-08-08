@@ -53,6 +53,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/padding_bottom"
             android:layout_marginRight="@dimen/padding_bottom"
+            android:clickable="false"
             android:button="@drawable/checkbox_apply_show_state"
             android:checked="false"
 

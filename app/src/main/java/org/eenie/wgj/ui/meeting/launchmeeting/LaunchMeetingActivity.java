@@ -28,7 +28,7 @@ import org.eenie.wgj.base.BaseActivity;
 import org.eenie.wgj.model.ApiResponse;
 import org.eenie.wgj.model.response.meeting.AddMeetingRequest;
 import org.eenie.wgj.model.response.meeting.MeetingData;
-import org.eenie.wgj.model.response.meeting.MeetingPeople;
+import org.eenie.wgj.model.response.meeting.MeetingPeopleNew;
 import org.eenie.wgj.ui.routinginspection.api.ProgressSubscriber;
 import org.eenie.wgj.util.Constants;
 
@@ -88,7 +88,7 @@ public class LaunchMeetingActivity extends BaseActivity {
     private String hostId;
     private String recordId;
     private AddPersonalAdapter mAdapter;
-    private ArrayList<MeetingPeople> mData = new ArrayList<>();
+    private ArrayList<MeetingPeopleNew.UserBean> mData = new ArrayList<>();
 
     @Override
     protected int getContentView() {
@@ -97,7 +97,7 @@ public class LaunchMeetingActivity extends BaseActivity {
 
     @Override
     protected void updateUI() {
-        controlKeyboardLayout(mScrollView,LaunchMeetingActivity.this);
+        //controlKeyboardLayout(mScrollView,LaunchMeetingActivity.this);
     }
 
     private void controlKeyboardLayout(final ScrollView root, final Activity context) {
@@ -193,7 +193,6 @@ public class LaunchMeetingActivity extends BaseActivity {
                     Toast.makeText(context, "请先选择会议时间", Toast.LENGTH_SHORT).show();
                 }
 
-
                 break;
             case R.id.tv_end_time:
                 //结束时间
@@ -218,12 +217,10 @@ public class LaunchMeetingActivity extends BaseActivity {
                 startActivityForResult(new Intent(context, HostPeopleActivity.class).
                         putExtra(HostPeopleActivity.TYPE, "record"), REQUEST_RECORD);
 
-
                 break;
             case R.id.img_add:
                 //添加参会人员
                 startActivityForResult(new Intent(context, AddPeopleSelectActivity.class), REQUEST_JOIN);
-
 
                 break;
         }
@@ -316,7 +313,7 @@ public class LaunchMeetingActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_HOST:
-                    MeetingPeople mDataHost = data.getParcelableExtra("mData");
+                    MeetingPeopleNew.UserBean mDataHost = data.getParcelableExtra("mData");
                     if (mDataHost != null) {
                         tvMaster.setText(mDataHost.getName());
                         hostId = String.valueOf(mDataHost.getId());
@@ -326,7 +323,7 @@ public class LaunchMeetingActivity extends BaseActivity {
 
                     break;
                 case REQUEST_RECORD:
-                    MeetingPeople mDataRecord = data.getParcelableExtra("mData");
+                    MeetingPeopleNew.UserBean mDataRecord = data.getParcelableExtra("mData");
                     if (mDataRecord != null) {
                         tvRecord.setText(mDataRecord.getName());
                         recordId = String.valueOf(mDataRecord.getId());
@@ -335,7 +332,7 @@ public class LaunchMeetingActivity extends BaseActivity {
                     }
                     break;
                 case REQUEST_JOIN:
-                    ArrayList<MeetingPeople> mList =
+                    ArrayList<MeetingPeopleNew.UserBean> mList =
                             data.getParcelableArrayListExtra("mData");
                     Gson gson = new Gson();
                     Log.d("arraylist", "onActivityResult: " + gson.toJson(mList));
@@ -379,9 +376,9 @@ public class LaunchMeetingActivity extends BaseActivity {
 
     class AddPersonalAdapter extends RecyclerView.Adapter<AddPersonalAdapter.ProjectViewHolder> {
         private Context context;
-        private ArrayList<MeetingPeople> addPersonalClass;
+        private ArrayList<MeetingPeopleNew.UserBean> addPersonalClass;
 
-        public AddPersonalAdapter(Context context, ArrayList<MeetingPeople> addPersonalClass) {
+        public AddPersonalAdapter(Context context, ArrayList<MeetingPeopleNew.UserBean> addPersonalClass) {
             this.context = context;
             this.addPersonalClass = addPersonalClass;
         }
@@ -396,7 +393,7 @@ public class LaunchMeetingActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ProjectViewHolder holder, int position) {
             if (addPersonalClass != null && !addPersonalClass.isEmpty()) {
-                MeetingPeople data = addPersonalClass.get(position);
+                MeetingPeopleNew.UserBean data = addPersonalClass.get(position);
                 holder.setItem(data);
 
                 if (data != null) {
@@ -413,7 +410,7 @@ public class LaunchMeetingActivity extends BaseActivity {
             return addPersonalClass.size();
         }
 
-        public void addAll(ArrayList<MeetingPeople> projectList) {
+        public void addAll(ArrayList<MeetingPeopleNew.UserBean> projectList) {
             this.addPersonalClass.addAll(projectList);
             AddPersonalAdapter.this.notifyDataSetChanged();
         }
@@ -426,7 +423,7 @@ public class LaunchMeetingActivity extends BaseActivity {
         class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
-            private MeetingPeople mProjectList;
+            private MeetingPeopleNew.UserBean mProjectList;
             private TextView itemName;
             private RelativeLayout rlItem;
 
@@ -440,7 +437,7 @@ public class LaunchMeetingActivity extends BaseActivity {
 
             }
 
-            public void setItem(MeetingPeople projectList) {
+            public void setItem(MeetingPeopleNew.UserBean projectList) {
                 mProjectList = projectList;
             }
 

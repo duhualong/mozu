@@ -836,5 +836,11 @@
     <item name="rl_bottom" type="id"/>
     <item name="line_text" type="id"/>
     <item name="line_input_class" type="id"/>
+    <item name="line_actual_post" type="id"/>
+    <item name="line_not_report_post" type="id"/>
+    <item name="item_department" type="id"/>
+    <item name="item_host_name" type="id"/>
+    <item name="rl_item_host" type="id"/>
+    <item name="rl_item_expend_item" type="id"/>
 
 </resources>

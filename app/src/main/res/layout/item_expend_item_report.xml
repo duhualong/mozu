@@ -4,6 +4,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:padding="@dimen/padding_bottom"
+                android:id="@id/rl_item_expend_item"
 >
     <CheckBox
         android:id="@id/item_checkbox_select_item"

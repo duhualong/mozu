@@ -51,6 +51,9 @@ public class PictureFragment extends DialogFragment {
         Bundle data = getArguments();
         if (data != null) {
             address= data.getString("address");
+            if (address==null){
+                address="";
+            }
 
 //            mOriginPicBitmap = data.getParcelable(ORIGIN_PICTURE);
             mCropPicBitmap = data.getParcelable(CROP_PICTURE);
