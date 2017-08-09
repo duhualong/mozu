@@ -58,7 +58,6 @@
                   android:text="全员"
                   android:textColor="@color/black_light"
                   android:textSize="@dimen/text_large_size"/>
-
     </RelativeLayout>
     <FrameLayout
         android:layout_width="match_parent"

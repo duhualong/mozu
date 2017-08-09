@@ -3,14 +3,15 @@ package org.eenie.wgj.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -137,7 +138,7 @@ public class LoginFragment extends BaseFragment {
             case R.id.btn_register:
 
 //////
-                              fragmentMgr.beginTransaction()
+                fragmentMgr.beginTransaction()
                         .addToBackStack(TAG)
                         .replace(R.id.fragment_login_container, new RegisterFirstFragment())
                         .commit();
@@ -174,7 +175,7 @@ public class LoginFragment extends BaseFragment {
                         .commit();
 
 
-                 //startActivity(new Intent(context, MySignCameraActivity.class));
+                //startActivity(new Intent(context, MySignCameraActivity.class));
 
 
                 break;
@@ -226,8 +227,8 @@ public class LoginFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
+
                     @Override
                     public void onNext(ApiResponse testLoginApiResponse) {
                         if (testLoginApiResponse.getResultCode() == 200) {
@@ -236,53 +237,41 @@ public class LoginFragment extends BaseFragment {
                             LoginData data = gson.fromJson(jsonArray,
                                     new TypeToken<LoginData>() {
                                     }.getType());
-                             if (data.getType()<=0){
+                            if (data.getType() <= 0) {
+                                checkCompanyState(data.getToken(), phone, password, data.getUser_id());
+                            } else {
+                                mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
+                                        .putString(Constants.UID, data.getUser_id() + "")
+                                        .putString(Constants.PHONE, phone)
+                                        .putBoolean(Constants.IS_LOGIN, true).apply();
+                                System.out.println("MD5：" + Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
+                                Set<String> tags = new HashSet<>();
+                                tags.add(Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
+                                JPushInterface.setTags(context, tags, new TagAliasCallback() {
+                                    @Override
+                                    public void gotResult(int i, String s, Set<String> set) {
+                                        if (i == 0) {
+
+                                        } else {
+                                            System.out.println("tag:" + tags);
+
+                                        }
+                                    }
+                                });
+                                System.out.println("uid" + data.getToken() + "\n" + data.getUser_id());
+                                if (isLogin) {
+                                    mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, password)
+                                            .apply();
+                                } else {
+                                    mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, "")
+                                            .apply();
+                                }
+                                Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
+                                startActivity(new Intent(context, MainActivity.class));
+                                getActivity().finish();
 
 
-
-                                 Toast.makeText(context,"账号正在审核。。。",Toast.LENGTH_LONG).show();
-                             }else {
-                                 mPrefsHelper.getPrefs().edit().putString(Constants.TOKEN, data.getToken())
-                                         .putString(Constants.UID, data.getUser_id() + "")
-                                         .putString(Constants.PHONE, phone)
-                                         .putBoolean(Constants.IS_LOGIN, true).apply();
-                                 System.out.println("MD5："+Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
-                                 Set<String> tags = new HashSet<>();
-                                 tags.add(Utils.md5(Utils.md5(String.valueOf(data.getUser_id()))));
-                                 JPushInterface.setTags(context, tags, new TagAliasCallback() {
-                                     @Override
-                                     public void gotResult(int i, String s, Set<String> set) {
-                                         if (i == 0) {
-
-                                         }else {
-                                                 System.out.println("tag:"+tags);
-
-                                         }
-                                     }
-                                 });
-                                 System.out.println("uid" + data.getToken() + "\n" + data.getUser_id());
-                                 if (isLogin) {
-                                     mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, password)
-                                             .apply();
-                                 } else {
-                                     mPrefsHelper.getPrefs().edit().putString(Constants.PASSWORD, "")
-                                             .apply();
-                                 }
-                                 Snackbar.make(rootView, "登陆成功，即将进入首页！", Snackbar.LENGTH_SHORT).show();
-                                 startActivity(new Intent(context, MainActivity.class));
-                                 getActivity().finish();
-
-//                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-//                                         subscribe(s ->
-//                                                 checkCompanyState(data.getToken())
-//                                         );
-
-//                                 Single.just("").delay(1, TimeUnit.SECONDS).compose(RxUtils.applySchedulers()).
-//                                         subscribe(s ->
-//                                                 startActivity(new Intent(context, MainActivity.class))
-//                                         );
-
-                             }
+                            }
                         } else {
                             Snackbar.make(rootView, testLoginApiResponse.getResultMessage(),
                                     Snackbar.LENGTH_SHORT).show();
@@ -292,32 +281,54 @@ public class LoginFragment extends BaseFragment {
                 });
     }
 
-    private void checkCompanyState(String token) {
+    private void checkCompanyState(String token, String phone, String password, int userId) {
         mSubscription = mRemoteService.joinCompanyState(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override
                     public void onNext(ApiResponse apiResponse) {
-                        if (apiResponse.getResultCode()==200){
-                            System.out.println("code:"+apiResponse.getResultCode());
+                        if (apiResponse.getResultCode() == 200) {
+                            registerSuccessDialog();
 
-                            Log.d(TAG, "onNext: "+apiResponse.getResultMessage());
+
+                        } else {
+                            fragmentMgr.beginTransaction()
+                                    .addToBackStack(TAG)
+                                    .replace(R.id.fragment_login_container,
+                                            SelectCompanyWayFragment.newInstance
+                                                    (phone, password,
+                                                            userId,
+                                                            token)).commit();
                         }
 
                     }
                 });
 
+
+    }
+
+
+    private void registerSuccessDialog() {
+        View view = View.inflate(context, R.layout.dialog_success_register, null);
+        TextView tvTitle = (TextView) view.findViewById(R.id.title_dialog);
+        Button btnOk = (Button) view.findViewById(R.id.btn_ok);
+        btnOk.setVisibility(View.GONE);
+        tvTitle.setVisibility(View.GONE);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog dialog = builder
+                .setView(view) //自定义的布局文件
+                .create();
+        dialog.show();
 
     }
 
@@ -336,6 +347,7 @@ public class LoginFragment extends BaseFragment {
                         System.out.println("ERROR:" + e);
                         Snackbar.make(rootView, "错误请求！", Snackbar.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void onNext(ApiResponse apiResponse) {
                         if (apiResponse.getResultCode() == 200) {
